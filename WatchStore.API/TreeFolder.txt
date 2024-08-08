@@ -1,81 +1,44 @@
 ﻿WatchStore
-│
-├── WatchStore.API (Web API layer)
+├── WatchStore.API
+│   ├── Program.cs
 │   ├── Controllers
-│   │   ├── WatchController.cs
-│   │   ├── CustomerController.cs
-│   │   └── OrderController.cs
-│   ├── Models
-│   │   ├── WatchModel.cs
-│   │   ├── CustomerModel.cs
-│   │   └── OrderModel.cs
-│   ├── Startup.cs
-│   └── Program.cs
-│
-├── WatchStore.Application (Application layer)
-│   ├── Interfaces
-│   │   ├── IWatchService.cs
-│   │   ├── ICustomerService.cs
-│   │   └── IOrderService.cs
-│   ├── Services
-│   │   ├── WatchService.cs
-│   │   ├── CustomerService.cs
-│   │   └── OrderService.cs
-│   ├── DTOs
-│   │   ├── WatchDto.cs
-│   │   ├── CustomerDto.cs
-│   │   └── OrderDto.cs
-│   │── Exceptions
-│   │   ├── EntityNotFoundException.cs
-│   └── Mappings
-│       ├── WatchMappingProfile.cs
-│       ├── CustomerMappingProfile.cs
-│       └── OrderMappingProfile.cs
-│
-├── WatchStore.Domain (Domain layer)
-│   ├── Entities
-│   │   ├── Watch.cs
-│   │   ├── Customer.cs
-│   │   └── Order.cs
-│   ├── ValueObjects
-│   │   ├── Price.cs
-│   │   └── Address.cs
-│   ├── Enums
-│   │   ├── WatchType.cs
-│   │   └── OrderStatus.cs
-│   └── Events
-│       ├── WatchAddedEvent.cs
-│       ├── CustomerCreatedEvent.cs
-│       └── OrderPlacedEvent.cs
-│
-├── WatchStore.Infrastructure (Infrastructure layer)
+│   │   └── CustomerController.cs
+│   └── Properties
+│       └── launchSettings.json
+├── WatchStore.Application
+│   ├── Common
+│   │   ├── DTOs
+│   │   │   └── CustomerDto.cs
+│   │   ├── Interfaces
+│   │   │   ├── IApplicationMarker.cs
+│   │   │   ├── ICustomerRepository.cs
+│   │   │   ├── ICustomerService.cs
+│   │   │   └── IValidatorMarker.cs
+│   │   └── Mappings
+│   │       └── CustomerMappingProfile.cs
+│   ├── Customers
+│   │   ├── Commands
+│   │   │   └── CreateCustomer
+│   │   │       ├── CreateCustomerCommand.cs
+│   │   │       ├── CreateCustomerCommandHandler.cs
+│   │   │       └── CreateCustomerCommandValidator.cs
+│   │   └── Queries
+│   │       └── GetAllCustomers
+│   │           └── GetAllCustomersQuery.cs
+│   └── Services
+│       └── CustomerService.cs
+├── WatchStore.Domain
+│   └── Entities
+│       └── Customer.cs
+├── WatchStore.Infrastructure
+│   ├── Configurations
+│   │   └── CustomerConfiguration.cs
 │   ├── Data
-│   │   ├── WatchStoreDbContext.cs
-│   │   ├── WatchRepository.cs
-│   │   ├── CustomerRepository.cs
-│   │   └── OrderRepository.cs
-│   ├── Migrations
-│   ├── Repositories
-│   │   ├── IWatchRepository.cs
-│   │   ├── ICustomerRepository.cs
-│   │   └── IOrderRepository.cs
-│   ├── Services
-│   │   ├── EmailService.cs
-│   │   └── PaymentService.cs
-│   └── Configurations
-│       ├── WatchConfiguration.cs
-│       ├── CustomerConfiguration.cs
-│       └── OrderConfiguration.cs
-│
-└── WatchStore.Tests (Test project)
-    ├── UnitTests
-    │   ├── WatchServiceTests.cs
-    │   ├── CustomerServiceTests.cs
-    │   └── OrderServiceTests.cs
-    ├── IntegrationTests
-    │   ├── WatchControllerTests.cs
-    │   ├── CustomerControllerTests.cs
-    │   └── OrderControllerTests.cs
-    └── TestHelpers
-        ├── TestDatabaseHelper.cs
-        └── TestDataSeeder.cs
+│   │   └── DesignTimeDbContextFactory.cs
+│   └── Repositories
+│       └── CustomerRepository.cs
+└── WatchStore.Tests
+    ├── Services
+    │   └── CustomerServiceTests.cs
+    └── Handlers
+        └── CreateCustomerCommandHandlerTests.cs

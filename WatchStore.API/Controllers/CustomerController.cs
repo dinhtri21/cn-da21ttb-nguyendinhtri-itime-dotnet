@@ -1,31 +1,66 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WatchStore.Application.Interfaces;
-using WatchStore.Application.DTOs;
+using BaseControll = Microsoft.AspNetCore.Mvc;
+using MediatR;
+using WatchStore.Application.Customers.Commands.CreateCustomer;
+using FluentValidation;
+using WatchStore.Application.Customers.Queries.GetAllCustomers;
 
 namespace WatchStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class CustomerController : BaseControll.ControllerBase
     {
-        private readonly ICustomerService _customerService;
-        public CustomerController(ICustomerService customerService)
+        private readonly IMediator _mediator;
+
+        public CustomerController(IMediator mediator)
+
         {
-            _customerService = customerService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCustomer()
+        public async Task<IActionResult> GetAllCustomers()
         {
-            var customers = await _customerService.GetAllCustomerAsync();
-            return Ok(customers);
+            try
+            {
+                var query = new GetAllCustomersQuery();
+                var customers = await _mediator.Send(query);
+                if (customers == null)
+                {
+                    return BadRequest(new { message = "Không có khách hàng nào!" });
+                }
+                return Ok(customers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
+
         [HttpPost]
-        public async Task<IActionResult> AddCustomer(CustomerDto customer)
+        public async Task<IActionResult> AddCustomer(CreateCustomerCommand command)
         {
-            await _customerService.CreateCustomerAsync(customer);
-            return StatusCode(StatusCodes.Status201Created);
+            try
+            {
+                var customerId = await _mediator.Send(command);
+                if (customerId == null)
+                {
+                    return BadRequest(new { message = "Thêm khách hàng không thành công!" });
+                }
+                return Ok(new { message = "Thêm khách hàng thành công!" });
+
+
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
     }

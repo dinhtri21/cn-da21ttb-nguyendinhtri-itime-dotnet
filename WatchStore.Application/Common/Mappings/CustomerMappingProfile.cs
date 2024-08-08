@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WatchStore.Application.DTOs;
+using WatchStore.Application.Common.DTOs;
 using WatchStore.Domain.Entities;
 
-namespace WatchStore.Application.Mappings
+namespace WatchStore.Application.Common.Mappings
 {
-    internal class CustomerMappingProfile : Profile
+    public class CustomerMappingProfile : Profile
     {
         public CustomerMappingProfile()
         {

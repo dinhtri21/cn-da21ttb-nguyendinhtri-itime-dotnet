@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WatchStore.Application.Interfaces;
+using WatchStore.Application.Common.Interfaces;
 using WatchStore.Domain.Entities;
 using WatchStore.Infrastructure.Data;
 

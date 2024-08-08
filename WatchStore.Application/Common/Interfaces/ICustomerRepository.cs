@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WatchStore.Domain.Entities;
 
-namespace WatchStore.Application.Interfaces
+namespace WatchStore.Application.Common.Interfaces
 {
     public interface ICustomerRepository
     {

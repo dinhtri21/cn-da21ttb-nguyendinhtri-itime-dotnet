@@ -16,9 +16,9 @@ namespace WatchStore.Infrastructure.Configurations
             builder.ToTable("Customers");
             builder.HasKey(c => c.CustomerId);
             builder.Property(c => c.CustomerId).HasColumnName("customerId").IsRequired().ValueGeneratedOnAdd();
-            builder.Property(c => c.FullName).HasColumnName("fullName").HasMaxLength(255);
-            builder.Property(c => c.PhoneNumber).HasColumnName("phoneNumber").HasMaxLength(255);
-            builder.Property(c => c.Email).HasColumnName("email").HasMaxLength(255);
+            builder.Property(c => c.FullName).HasColumnName("fullName").IsRequired().HasMaxLength(255).HasDefaultValue("Unknown");
+            builder.Property(c => c.PhoneNumber).HasColumnName("phoneNumber").HasMaxLength(20);
+            builder.Property(c => c.Email).HasColumnName("email").HasMaxLength(255).HasDefaultValue("Unknown");
             builder.Property(c => c.Address).HasColumnName("address").HasMaxLength(255);
         }
     }
