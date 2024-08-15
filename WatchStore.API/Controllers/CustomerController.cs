@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using BaseControll = Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using WatchStore.Application.Customers.Commands.CreateCustomer;
 using FluentValidation;
@@ -10,7 +10,7 @@ namespace WatchStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : BaseControll.ControllerBase
+    public class CustomerController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -27,7 +27,7 @@ namespace WatchStore.API.Controllers
             {
                 var query = new GetAllCustomersQuery();
                 var customers = await _mediator.Send(query);
-                if (customers == null)
+                if (customers.Count() == 0)
                 {
                     return BadRequest(new { message = "Không có khách hàng nào!" });
                 }

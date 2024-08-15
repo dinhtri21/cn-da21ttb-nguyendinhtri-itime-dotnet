@@ -24,8 +24,6 @@
     <Folder Include="Shipping\" />
     <Folder Include="Payments\" />
     <Folder Include="Orders\" />
-    <Folder Include="Products\Commands\" />
-    <Folder Include="Products\Queries\" />
   </ItemGroup>
 
 </Project>

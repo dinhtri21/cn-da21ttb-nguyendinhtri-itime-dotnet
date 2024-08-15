@@ -8,5 +8,6 @@ namespace WatchStore.Application.Common.Interfaces
 {
     public interface IValidatorMarker
     {
+
     }
 }
