@@ -20,37 +20,27 @@ namespace WatchStore.Infrastructure.Repositories
 
         public async Task AddProductAsync(Product product)
         {
-            _context.Product.Add(product);
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteProductAsync(int productId)
         {
-            var product = await  _context.Product
-                                         .Include(p => p.ProductImage)
+            var product = await  _context.Products
+                                         .Include(p => p.ProductImages)
                                          .FirstOrDefaultAsync(p => p.ProductId == productId);
             if (product == null)
             {
                 return false; 
             }
-            _context.Product.Remove(product);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return true;          
         }
-
-        public async Task<IEnumerable<Product>> GetAllProductAsync(int pageNumber, int pageSize)
-        {
-            var products = await _context.Product
-                                         .Include(p => p.ProductImage)
-                                         .Skip((pageNumber - 1)* pageSize)
-                                         .Take(pageSize)
-                                         .ToListAsync();
-
-            return products;
-        }
+    
         public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int pageNumber, int pageSize)
         {
-            var query = _context.Product.Include(p => p.ProductImage).AsQueryable();
+            var query = _context.Products.Include(p => p.ProductImages).AsQueryable();
 
             if (brandIds != null && brandIds.Any())
             {
@@ -68,27 +58,27 @@ namespace WatchStore.Infrastructure.Repositories
         }
         public async Task<Product> GetProductByIdAsync(int productId)
         {
-            var product = await _context.Product
-                                  .Include(p => p.ProductImage)
+            var product = await _context.Products
+                                  .Include(p => p.ProductImages)
                                   .FirstOrDefaultAsync(p => p.ProductId == productId);
             return product;
         }
 
         public async Task<bool> UpdateProductAsync(Product product)
         {
-            _context.Product.Update(product);
+            _context.Products.Update(product);
             await _context.SaveChangesAsync();
             return true;
         }
 
         public async Task<bool> IsBrandExistsAsync(int brandId)
         {
-            return await _context.Brand.AnyAsync(b => b.BrandId == brandId);
+            return await _context.Brands.AnyAsync(b => b.BrandId == brandId);
         }
 
         public async Task<bool> IsMaterialExistsAsync(int materialId)
         {
-            return await _context.Material.AnyAsync(m => m.MaterialId == materialId);
+            return await _context.Materials.AnyAsync(m => m.MaterialId == materialId);
         }
 
        

@@ -12,7 +12,11 @@ namespace WatchStore.Domain.Entities
         public string BrandName { get; set; }
         public string BrandDescription { get; set; }
 
-        public ICollection<Product> Product { get; set; }
-
+        // Navigation properties
+        public ICollection<Product> Products { get; set; }
+        public Brand()
+        {
+            Products = new HashSet<Product>();
+        }
     }
 }

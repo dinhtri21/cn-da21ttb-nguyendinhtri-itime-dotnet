@@ -32,7 +32,7 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
             }
 
             var product = _mapper.Map<Product>(request);
-            product.ProductImage = request.ImageUrls.Select(url => new ProductImage { ImageUrl = url }).ToList();
+            product.ProductImages = request.ImageUrls.Select(url => new ProductImage { ImageUrl = url }).ToList();
 
             await _productRepository.AddProductAsync(product);
             return product.ProductId;

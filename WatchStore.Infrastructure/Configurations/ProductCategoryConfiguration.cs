@@ -13,34 +13,37 @@ namespace WatchStore.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductCategory> builder)
         {
-            // Cấu hình tên bảng
+            // Create table
             builder.ToTable("ProductCategory");
 
-            // Cấu hình khóa chính
+            // Primary key
             builder.HasKey(pc => pc.ProductCategoryId);        
 
-            // Cấu hình các thuộc tính
+            // Configure properties
             builder.Property(pc => pc.ProductCategoryId)
-                   .HasColumnName("productCategoryId")
+                   .HasColumnName("ProductCategoryId")
                    .IsRequired()
                    .ValueGeneratedOnAdd();
-
+                   
             builder.Property(pc => pc.ProductId)
-                   .HasColumnName("productId")
+                   .HasColumnName("ProductId")
                    .IsRequired();
 
             builder.Property(pc => pc.CategoryId)
-                   .HasColumnName("categoryId")
+                   .HasColumnName("CategoryId")
                    .IsRequired();
-
-            // Cấu hình các khóa ngoại
-            builder.HasOne(pc => pc.Product)          // Một nhiều với product
-                   .WithMany(p => p.ProductCategory) // assuming Product has ICollection<ProductCategory> ProductCategory
+            
+            // 1 - n : Product - ProductCategory
+            builder.HasOne(pc => pc.Product)        
+                   .WithMany(p => p.ProductCategories) 
                    .HasForeignKey(pc => pc.ProductId)
+                   .HasConstraintName("FK_ProductCategory_Product")
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(pc => pc.Category)         // Một nhiều với category
-                   .WithMany(c => c.ProductCategory) // assuming Category has ICollection<ProductCategory> ProductCategory
+            // 1 - n : Category - ProductCategory
+            builder.HasOne(pc => pc.Category)         
+                   .WithMany(c => c.ProductCategories)
+                   .HasConstraintName("FK_ProductCategory_Category")
                    .HasForeignKey(pc => pc.CategoryId)
                    .OnDelete(DeleteBehavior.Cascade);
         }

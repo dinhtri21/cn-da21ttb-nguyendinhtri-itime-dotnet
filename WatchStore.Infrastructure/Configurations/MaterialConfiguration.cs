@@ -13,19 +13,21 @@ namespace WatchStore.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Material> builder)
         {
-            // Tạo bảng
+            // Create table
             builder.ToTable("Material");
 
-            // Khóa chính
+            // Primary key
             builder.HasKey(m => m.MaterialId);
 
-            // Cấu hình các thuộc tính
+            // Configure properties
             builder.Property(m => m.MaterialId)
-                   .HasColumnName("materialId")
+                   .HasColumnName("MaterialId")
                    .IsRequired()
                    .ValueGeneratedOnAdd();
 
             builder.Property(m => m.MaterialName)
+                   .HasColumnName("MaterialName")
+                   .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255)
                    .IsRequired();
         }

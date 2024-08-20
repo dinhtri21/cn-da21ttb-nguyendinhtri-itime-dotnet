@@ -12,7 +12,11 @@ namespace WatchStore.Domain.Entities
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
 
-        // Thuộc tính điều hướng để thiết lập mối quan hệ nhiều-nhiều với Product
-        public ICollection<ProductCategory> ProductCategory { get; set; }
+        // Navigation properties
+        public ICollection<ProductCategory> ProductCategories { get; set; }
+        public Category()
+        {
+            ProductCategories = new HashSet<ProductCategory>();
+        }
     }
 }

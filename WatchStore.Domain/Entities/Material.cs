@@ -10,5 +10,8 @@ namespace WatchStore.Domain.Entities
     {
         public int MaterialId { get; set; }
         public string MaterialName { get; set; }
+
+        // Navigation properties
+        public ICollection<Product> Products { get; set; }
     }
 }

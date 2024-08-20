@@ -9,32 +9,27 @@ using WatchStore.Domain.Entities;
 
 namespace WatchStore.Infrastructure.Configurations
 {
-    internal class BrandConfiguration : IEntityTypeConfiguration<Brand>
+    internal class PaymentConfiguration : IEntityTypeConfiguration<Payment>
     {
-        public void Configure(EntityTypeBuilder<Brand> builder)
+        public void Configure(EntityTypeBuilder<Payment> builder)
         {
             // Create table
-            builder.ToTable("Brand");
+            builder.ToTable("Payment");
+
             // Primary key
-            builder.HasKey(b => b.BrandId);
+            builder.HasKey(p => p.PaymentId);
 
             // Configure properties
-            builder.Property(b=> b.BrandId)
-                   .HasColumnName("BrandId")
+            builder.Property(p => p.PaymentId)
+                   .HasColumnName("PaymentId")
                    .IsRequired()
                    .ValueGeneratedOnAdd();
 
-            builder.Property(b => b.BrandName)
-                   .HasColumnName("BrandName")
+            builder.Property(p => p.PaymentName)
+                   .HasColumnName("PaymentName")
                    .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255)
                    .IsRequired();
-
-            builder.Property(b => b.BrandDescription)
-                   .HasColumnName("BrandDescription")
-                   .HasColumnType("nvarchar(255)")
-                   .HasMaxLength(255);
-
         }
     }
 }

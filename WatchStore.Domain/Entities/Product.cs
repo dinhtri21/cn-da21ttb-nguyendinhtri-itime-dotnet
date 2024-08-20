@@ -14,15 +14,22 @@ namespace WatchStore.Domain.Entities
         public string ProductDescription { get; set; }
         public int QuantityInStock { get; set; }
         public int BrandId { get; set; }
-
         public int MaterialId { get; set; }
 
-        // Các thuộc tính điều hướng cho các mối quan hệ
+        // Navigation properties
         public Brand Brand { get; set; }
         public Material Material { get; set; }
 
-        public ICollection<ProductImage> ProductImage { get; set; } 
-        public ICollection<ProductCategory> ProductCategory { get; set; } 
+        public ICollection<ProductImage> ProductImages { get; set; } 
+        public ICollection<ProductCategory> ProductCategories { get; set; } 
+        public ICollection<OrderDetail> OrderDetails { get; set; }
+
+        public Product()
+        {
+            ProductImages = new HashSet<ProductImage>();
+            ProductCategories = new HashSet<ProductCategory>();
+            OrderDetails = new HashSet<OrderDetail>();
+        }
 
     }
 }

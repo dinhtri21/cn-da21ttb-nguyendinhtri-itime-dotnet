@@ -24,7 +24,7 @@ namespace WatchStore.Application.Common.Mappings
                .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.QuantityInStock))
                .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.BrandId))
                .ForMember(dest => dest.MaterialId, opt => opt.MapFrom(src => src.MaterialId))
-               .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ProductImage.Select(pi => pi.ImageUrl)));
+               .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ProductImages.Select(pi => pi.ImageUrl)));
 
             CreateMap<ProductDto, Product>()
                 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
@@ -42,7 +42,7 @@ namespace WatchStore.Application.Common.Mappings
                 .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.QuantityInStock))
                 .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.BrandId))
                 .ForMember(dest => dest.MaterialId, opt => opt.MapFrom(src => src.MaterialId))
-                .ForMember(dest => dest.ProductImage, opt => opt.Ignore());
+                .ForMember(dest => dest.ProductImages, opt => opt.Ignore());
 
             CreateMap<UpdateProductCommand, Product>()
                 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
@@ -52,7 +52,7 @@ namespace WatchStore.Application.Common.Mappings
                 .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.QuantityInStock))
                 .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.BrandId))
                 .ForMember(dest => dest.MaterialId, opt => opt.MapFrom(src => src.MaterialId))
-                .ForMember(dest => dest.ProductImage, opt => opt.Ignore());
+                .ForMember(dest => dest.ProductImages, opt => opt.Ignore());
         }
     }
 }

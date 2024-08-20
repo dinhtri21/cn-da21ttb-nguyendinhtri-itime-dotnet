@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using WatchStore.Application.Products.Commands.CreateProduct;
 using WatchStore.Application.Products.Commands.DeleteProduct;
 using WatchStore.Application.Products.Commands.UpdateProduct;
-using WatchStore.Application.Products.Queries.GetAllProducts;
 using WatchStore.Application.Products.Queries.GetProducts;
 
 namespace WatchStore.API.Controllers
@@ -21,27 +20,6 @@ namespace WatchStore.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllProduct([FromQuery] int pageNumber = 1)
-        {
-            try
-            {
-                var products = await _mediator.Send(new GetAllProductsQuery(pageNumber));
-                if (products.Count() == 0)
-                {
-                    return BadRequest(new { message = "Không có sản phẩm nào!" });
-                }
-                return Ok(products);
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-        [HttpGet("filter")]
         public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds, [FromQuery] int pageNumber = 1)
         {
             try {

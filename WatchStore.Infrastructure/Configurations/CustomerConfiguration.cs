@@ -13,13 +13,39 @@ namespace WatchStore.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.ToTable("Customers");
+            // Create table
+            builder.ToTable("Customer");
+
+            // Primary key
             builder.HasKey(c => c.CustomerId);
-            builder.Property(c => c.CustomerId).HasColumnName("customerId").IsRequired().ValueGeneratedOnAdd();
-            builder.Property(c => c.FullName).HasColumnName("fullName").IsRequired().HasMaxLength(255).HasDefaultValue("Unknown");
-            builder.Property(c => c.PhoneNumber).HasColumnName("phoneNumber").HasMaxLength(20);
-            builder.Property(c => c.Email).HasColumnName("email").HasMaxLength(255).HasDefaultValue("Unknown");
-            builder.Property(c => c.Address).HasColumnName("address").HasMaxLength(255);
+
+            // Configure properties
+            builder.Property(c => c.CustomerId)
+                   .HasColumnName("CustomerId")
+                   .IsRequired()
+                   .ValueGeneratedOnAdd();
+
+            builder.Property(c => c.FullName)
+                   .HasColumnName("FullName")
+                   .HasColumnType("nvarchar(255)")
+                   .IsRequired()
+                   .HasMaxLength(255);
+
+            builder.Property(c => c.PhoneNumber)
+                   .IsRequired()
+                   .HasColumnName("PhoneNumber")
+                   .HasMaxLength(20);
+
+            builder.Property(c => c.Email)
+                   .IsRequired()
+                   .HasColumnName("Email")
+                   .HasMaxLength(255);
+
+            builder.Property(c => c.Address)
+                   .HasColumnName("Address")
+                   .HasColumnType("nvarchar(255)")
+                   .IsRequired()
+                   .HasMaxLength(255);    
         }
     }
 }

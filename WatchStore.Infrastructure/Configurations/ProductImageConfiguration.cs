@@ -13,29 +13,30 @@ namespace WatchStore.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductImage> builder)
         {
-            builder.ToTable("productImage");
+            // Create table
+            builder.ToTable("ProductImage");
 
-            // Khóa chính
+            // Primary key
             builder.HasKey(pi => pi.ProductImageId);
 
-            // Cấu hình các thuộc tính
+            // Configure properties
             builder.Property(pi => pi.ProductImageId)
-                   .HasColumnName("productImageId")
+                   .HasColumnName("ProductImageId")
                    .IsRequired()
                    .ValueGeneratedOnAdd();
 
             builder.Property(pi => pi.ImageUrl)
-                   .HasColumnName("imageUrl")
+                   .HasColumnName("ImageUrl")
                    .HasMaxLength(255)
                    .IsRequired();
 
            builder.Property(pi => pi.ProductId)
-                   .HasColumnName("productId")
+                   .HasColumnName("ProductId")
                    .IsRequired();
 
-            // Cấu hình mối quan hệ với Product
+            // 1 - n : Product - ProductImage
             builder.HasOne(pi => pi.Product)
-                   .WithMany(p => p.ProductImage)
+                   .WithMany(p => p.ProductImages)
                    .HasForeignKey(pi => pi.ProductId)
                    .OnDelete(DeleteBehavior.Cascade);
         }

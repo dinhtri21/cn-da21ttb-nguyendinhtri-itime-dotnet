@@ -12,7 +12,7 @@ namespace WatchStore.Domain.Entities
         public string ImageUrl { get; set; }
         public int ProductId { get; set; }
 
-        //Giúp EF Core nhận diện mối quan hệ với Product
+        // Navigation properties
         public Product Product { get; set; }
     }
 }

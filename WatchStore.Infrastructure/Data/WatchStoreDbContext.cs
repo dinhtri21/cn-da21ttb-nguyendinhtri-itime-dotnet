@@ -21,17 +21,21 @@ namespace WatchStore.Infrastructure.Data
 
         }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Product> Product { get; set; }
-        public DbSet<Brand> Brand { get; set; }
-        public DbSet<Category> Categorie { get; set; }
-        public DbSet<Material> Material { get; set; }
-        public DbSet<ProductImage> ProductImage { get; set; }
-        public DbSet<ProductCategory> ProductCategory { get; set; }
-      
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Cấu hình API Fluent
+            // Configure using Fluent API
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
@@ -39,6 +43,10 @@ namespace WatchStore.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new MaterialConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
             modelBuilder.ApplyConfiguration(new ProductCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new AdminConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
         }
 
         internal async Task ToListAsync()

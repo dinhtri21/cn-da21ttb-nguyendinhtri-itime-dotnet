@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace WatchStore.Domain.Entities
 {
-    public class ProductCategory
+    public class OrderDetail
     {
-        public int ProductCategoryId { get; set; }
-        public int CategoryId { get; set; }
+        public int OrderDetailId { get; set; }
+        public int OrderId { get; set; }
         public int ProductId { get; set; }
-        // Navigation properties
-        public Product Product { get; set; }
-        public Category Category { get; set; }
 
+        // Navigation properties
+        public Order Order { get; set; }
+        public Product Product { get; set; }
     }
 }

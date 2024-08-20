@@ -39,7 +39,7 @@ namespace WatchStore.Application.Products.Commands.UpdateProduct
             }
 
             _mapper.Map(request, product);
-            product.ProductImage = request.ImageUrls
+            product.ProductImages = request.ImageUrls
                                           .Select(url => new ProductImage { ImageUrl = url, ProductId = request.ProductId }).ToList();
 
             await _productRepository.UpdateProductAsync(product);

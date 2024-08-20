@@ -13,25 +13,27 @@ namespace WatchStore.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            // Tên bảng 
+            // Create table
             builder.ToTable("Category");
             
-            // Khóa chính
+            // Primary key
             builder.HasKey(c => c.CategoryId);
             
-            // Cấu hình các thuộc tính
+            // Configure properties
             builder.Property(c => c.CategoryId)
-                   .HasColumnName("categoryId")
+                   .HasColumnName("CategoryId")
                    .IsRequired()
                    .ValueGeneratedOnAdd();
 
             builder.Property(c => c.CategoryName)
-                   .HasColumnName("categoryName")
-                   .HasMaxLength(255)
-                   .IsRequired();
+                   .HasColumnName("CategoryName")
+                   .HasColumnType("nvarchar(255)")
+                   .IsRequired()
+                   .HasMaxLength(255);
 
             builder.Property(c => c.CategoryDescription)
-                   .HasColumnName("categoryDescription")
+                   .HasColumnName("CategoryDescription")
+                   .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255);
         }
 

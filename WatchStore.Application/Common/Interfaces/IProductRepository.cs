@@ -9,7 +9,6 @@ namespace WatchStore.Application.Common.Interfaces
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetAllProductAsync(int pageNumber, int pageSize);
         Task AddProductAsync(Product product);
         Task<bool> IsBrandExistsAsync(int brandId);
         Task<bool> IsMaterialExistsAsync(int materialId);

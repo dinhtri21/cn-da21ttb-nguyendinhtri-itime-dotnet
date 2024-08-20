@@ -13,73 +13,66 @@ namespace WatchStore.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            // Tạo bảng
-            builder.ToTable("product");
-            // Khóa chính
+            // Create table
+            builder.ToTable("Product");
+            // Primary key
             builder.HasKey(p => p.ProductId);
             
-            // Cấu hình các thuộc tính
+            // Configure properties
             builder.Property(p => p.ProductId)
-                   .HasColumnName("productId")
+                   .HasColumnName("ProductId")
                    .IsRequired()
                    .ValueGeneratedOnAdd();
 
             builder.Property(p => p.ProductName)
-                   .HasColumnName("productName")
+                   .HasColumnName("ProductName")
+                   .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255)
                    .IsRequired();
 
             builder.Property(p => p.ProductPrice)
-                   .HasColumnName("productPrice")
+                   .HasColumnName("ProductPrice")
                    .HasColumnType("decimal(18,2)")
                    .IsRequired();
 
             builder.Property(p => p.QuantityInStock)
-                   .HasColumnName("quantityInStock")
+                   .HasColumnName("QuantityInStock")
                    .IsRequired();
 
             builder.Property(p => p.ProductDescription)
-                   .HasColumnName("productDescription")
+                   .HasColumnName("ProductDescription")
+                   .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255);
 
             builder.Property(p => p.BrandId)
-                   .HasColumnName("brandId")
+                   .HasColumnName("BrandId")
                    .IsRequired();
 
             builder.Property(p => p.MaterialId)
-                   .HasColumnName("materialId")
+                   .HasColumnName("MaterialId")
                    .IsRequired();
 
-            // Cấu hình mối quan hệ với Brand
+            // 1 - n : Brand - Product
             builder.HasOne(p => p.Brand)
-                   .WithMany(b => b.Product)
+                   .WithMany(b => b.Products)
                    .HasForeignKey(p => p.BrandId)
                    .OnDelete(DeleteBehavior.Restrict)
                    .HasConstraintName("FK_Product_Brand");
 
 
-            // Cấu hình mối quan hệ với Material
+            // 1 - n : Material - Product
             builder.HasOne(p => p.Material)
-                   .WithMany()
+                   .WithMany(m => m.Products)
                    .HasForeignKey(p => p.MaterialId)
                    .OnDelete(DeleteBehavior.Restrict)
                    .HasConstraintName("FK_Product_Material");
 
-            // Cấu hình mối quan hệ với ProductImage
-            builder.HasMany(p => p.ProductImage)
+            // 1 - n : Product - ProductImage
+            builder.HasMany(p => p.ProductImages)
                    .WithOne(pi => pi.Product)
                    .HasForeignKey(pi => pi.ProductId)
-                   .OnDelete(DeleteBehavior.Cascade) // Khi xoá sản phẩm thì các ảnh liên quan id cũng bị xoá
+                   .OnDelete(DeleteBehavior.Cascade) 
                    .HasConstraintName("FK_Product_ProductImage");
-
-            // Cấu hình mối quan hệ với ProductCategory (nhiều-nhiều)
-            builder.HasMany(p => p.ProductCategory)
-                   .WithOne(pc => pc.Product)
-                   .HasForeignKey(pc => pc.ProductId)
-                   .OnDelete(DeleteBehavior.Cascade)
-                   .HasConstraintName("FK_Product_ProductCategory");
         }
-
-    
     }
 }

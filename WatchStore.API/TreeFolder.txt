@@ -42,3 +42,8 @@
     │   └── CustomerServiceTests.cs
     └── Handlers
         └── CreateCustomerCommandHandlerTests.cs
+
+
+dotnet ef migrations add Initialization --project WatchStore.Infrastructure --startup-project WatchStore.API
+
+dotnet ef database update --project WatchStore.Infrastructure --startup-project WatchStore.API
