@@ -18,4 +18,5 @@ namespace WatchStore.Application.Common.DTOs
         public int MaterialId { get; set; }
         public IEnumerable<string> ImageUrls { get; set; }
     }
+
 }

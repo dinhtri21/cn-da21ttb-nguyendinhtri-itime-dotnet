@@ -33,6 +33,16 @@ namespace WatchStore.Infrastructure.Configurations
                   .HasColumnName("ProductId")
                   .IsRequired();
 
+           builder.Property(od => od.Quantity)
+                  .HasColumnName("Quantity")
+                  .IsRequired();
+
+           builder.Property(od => od.UnitPrice)
+                  .HasColumnName("UnitPrice")
+                  .HasColumnType("decimal(18,2)")
+                  .IsRequired();
+           
+
            // 1 - n: Order - OrderDetail
            builder.HasOne(od => od.Order)
                   .WithMany(o => o.OrderDetails)

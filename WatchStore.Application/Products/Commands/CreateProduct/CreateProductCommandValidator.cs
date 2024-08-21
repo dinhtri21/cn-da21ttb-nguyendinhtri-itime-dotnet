@@ -46,5 +46,6 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
                 .WithMessage("Image Urls phải có ít nhất 1 ảnh");
 
         }
+
     }
 }

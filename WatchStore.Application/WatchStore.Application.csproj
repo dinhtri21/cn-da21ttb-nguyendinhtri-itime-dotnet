@@ -21,9 +21,11 @@
     <Folder Include="Customers\Commands\UpdateCustomer\" />
     <Folder Include="Customers\Queries\GetCustomerById\" />
     <Folder Include="Inventory\" />
+    <Folder Include="Orders\Commands\DeleteOrder\" />
+    <Folder Include="Orders\Commands\UpdateOrder\" />
+    <Folder Include="Orders\Queries\" />
     <Folder Include="Shipping\" />
     <Folder Include="Payments\" />
-    <Folder Include="Orders\" />
   </ItemGroup>
 
 </Project>

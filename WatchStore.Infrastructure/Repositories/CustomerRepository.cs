@@ -10,16 +10,15 @@ using WatchStore.Infrastructure.Data;
 
 namespace WatchStore.Infrastructure.Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : BaseRepository, ICustomerRepository
     {
         private readonly WatchStoreDbContext _context;
-        public CustomerRepository(WatchStoreDbContext context) {
+        public CustomerRepository(WatchStoreDbContext context) : base(context) {
             _context = context;
         }
         public async Task AddCustomerAsync(Customer customer)
         {
             await _context.Customers.AddAsync(customer);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Customer>> GetAllCustomerAsync()

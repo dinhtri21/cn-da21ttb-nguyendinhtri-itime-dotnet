@@ -7,9 +7,8 @@ using WatchStore.Domain.Entities;
 
 namespace WatchStore.Application.Common.Interfaces
 {
-    public interface ICustomerRepository : IBaseRepository
+    public interface IOrderDetailRepository : IBaseRepository
     {
-        Task AddCustomerAsync(Customer customer);
-        Task<IEnumerable<Customer>> GetAllCustomerAsync();
+        Task AddOrderDetailsAsync(OrderDetail orderDetail);
     }
 }
