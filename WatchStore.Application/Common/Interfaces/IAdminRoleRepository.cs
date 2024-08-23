@@ -7,8 +7,8 @@ using WatchStore.Domain.Entities;
 
 namespace WatchStore.Application.Common.Interfaces
 {
-    public interface IOrderDetailRepository
+    public interface IAdminRoleRepository
     {
-        Task AddOrderDetailsAsync(OrderDetail orderDetail);
+        Task CreateAdminRoleAsync(AdminRole adminRole);
     }
 }

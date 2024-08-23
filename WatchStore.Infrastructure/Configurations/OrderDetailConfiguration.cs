@@ -47,7 +47,7 @@ namespace WatchStore.Infrastructure.Configurations
            builder.HasOne(od => od.Order)
                   .WithMany(o => o.OrderDetails)
                   .HasForeignKey(od => od.OrderId)
-                  .OnDelete(DeleteBehavior.Restrict)
+                  .OnDelete(DeleteBehavior.Cascade)
                   .HasConstraintName("FK_OrderDetail_Order");
 
             // 1 - n: Product - OrderDetail

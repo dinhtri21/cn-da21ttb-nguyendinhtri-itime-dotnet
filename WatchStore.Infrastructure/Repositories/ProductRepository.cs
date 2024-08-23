@@ -10,10 +10,10 @@ using WatchStore.Infrastructure.Data;
 
 namespace WatchStore.Infrastructure.Repositories
 {
-    public class ProductRepository : BaseRepository, IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly WatchStoreDbContext _context;
-        public ProductRepository(WatchStoreDbContext context) : base(context)
+        public ProductRepository(WatchStoreDbContext context) 
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace WatchStore.Infrastructure.Repositories
         public async Task AddProductAsync(Product product)
         {
             _context.Products.Add(product);
-            await SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteProductAsync(int productId)
@@ -34,7 +34,7 @@ namespace WatchStore.Infrastructure.Repositories
                 return false; 
             }
             _context.Products.Remove(product);
-            await SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return true;          
         }
     
@@ -67,7 +67,7 @@ namespace WatchStore.Infrastructure.Repositories
         public async Task<bool> UpdateProductAsync(Product product)
         {
             _context.Products.Update(product);
-            await SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return true;
         }
 

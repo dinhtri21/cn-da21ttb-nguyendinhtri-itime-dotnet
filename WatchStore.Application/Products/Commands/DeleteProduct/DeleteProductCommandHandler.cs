@@ -20,8 +20,5 @@ namespace WatchStore.Application.Products.Commands.DeleteProduct
         {
             return _productRepository.DeleteProductAsync(request.ProductId);
         }
-
-      
-        
     }
 }

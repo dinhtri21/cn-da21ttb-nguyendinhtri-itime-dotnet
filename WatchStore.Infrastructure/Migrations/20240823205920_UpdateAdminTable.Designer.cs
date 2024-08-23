@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchStore.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WatchStore.Infrastructure.Data;
 namespace WatchStore.Infrastructure.Migrations
 {
     [DbContext(typeof(WatchStoreDbContext))]
-    partial class WatchStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240823205920_UpdateAdminTable")]
+    partial class UpdateAdminTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +57,16 @@ namespace WatchStore.Infrastructure.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("AdminPhone");
 
+                    b.Property<string>("AdminUsername")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("AdminUsername");
+
                     b.HasKey("AdminId");
+
+                    b.HasIndex("AdminUsername")
+                        .IsUnique();
 
                     b.ToTable("Admin", (string)null);
                 });

@@ -1,24 +1,18 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WatchStore.Domain.Entities
+namespace WatchStore.Application.Admins.Commands.CreateAdmin
 {
-    public class Admin
+    public class CreateAdminCommand : IRequest<int>
     {
-        public int AdminId { get; set; }
         public string AdminName { get; set; }
         public string AdminPhone { get; set; }
         public string AdminEmail { get; set; }
         public string AdminPassword { get; set; }
-
-        // Navigation properties
-        public ICollection<AdminRole> AdminRoles { get; set; }
-        public Admin()
-        {
-            AdminRoles = new HashSet<AdminRole>();
-        }
+        public List<int> RoleIds { get; set; }
     }
 }

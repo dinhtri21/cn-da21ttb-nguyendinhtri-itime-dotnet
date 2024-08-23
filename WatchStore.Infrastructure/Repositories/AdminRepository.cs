@@ -10,22 +10,23 @@ using WatchStore.Infrastructure.Data;
 
 namespace WatchStore.Infrastructure.Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    public class AdminRepository : IAdminRepository
     {
         private readonly WatchStoreDbContext _context;
-        public CustomerRepository(WatchStoreDbContext context) {
+        public AdminRepository(WatchStoreDbContext context)
+        {
             _context = context;
         }
-        public async Task AddCustomerAsync(Customer customer)
+        public async Task CreateAdminAsync(Admin admin)
         {
-            await _context.Customers.AddAsync(customer);
+            await _context.Admins.AddAsync(admin);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Customer>> GetAllCustomerAsync()
+        public async Task<Admin> GetAdminByEmailAsync(string email)
         {
-            return await _context.Customers.ToListAsync();
+           var admin = await _context.Admins.FirstOrDefaultAsync(a => a.AdminEmail == email);
+           return admin;
         }
     }
-
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchStore.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WatchStore.Infrastructure.Data;
 namespace WatchStore.Infrastructure.Migrations
 {
     [DbContext(typeof(WatchStoreDbContext))]
-    partial class WatchStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240823123253_ConfigureCascadeDelete")]
+    partial class ConfigureCascadeDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,23 +60,6 @@ namespace WatchStore.Infrastructure.Migrations
                     b.HasKey("AdminId");
 
                     b.ToTable("Admin", (string)null);
-                });
-
-            modelBuilder.Entity("WatchStore.Domain.Entities.AdminRole", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int")
-                        .HasColumnName("RoleId");
-
-                    b.Property<int>("AdminId")
-                        .HasColumnType("int")
-                        .HasColumnName("AdminId");
-
-                    b.HasKey("RoleId", "AdminId");
-
-                    b.HasIndex("AdminId");
-
-                    b.ToTable("AdminRole", (string)null);
                 });
 
             modelBuilder.Entity("WatchStore.Domain.Entities.Brand", b =>
@@ -382,44 +368,6 @@ namespace WatchStore.Infrastructure.Migrations
                     b.ToTable("ProductImage", (string)null);
                 });
 
-            modelBuilder.Entity("WatchStore.Domain.Entities.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("RoleId");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("RoleName");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role", (string)null);
-                });
-
-            modelBuilder.Entity("WatchStore.Domain.Entities.AdminRole", b =>
-                {
-                    b.HasOne("WatchStore.Domain.Entities.Admin", "Admin")
-                        .WithMany("AdminRoles")
-                        .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WatchStore.Domain.Entities.Role", "Role")
-                        .WithMany("AdminRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Admin");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("WatchStore.Domain.Entities.Order", b =>
                 {
                     b.HasOne("WatchStore.Domain.Entities.Customer", "Customer")
@@ -516,11 +464,6 @@ namespace WatchStore.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WatchStore.Domain.Entities.Admin", b =>
-                {
-                    b.Navigation("AdminRoles");
-                });
-
             modelBuilder.Entity("WatchStore.Domain.Entities.Brand", b =>
                 {
                     b.Navigation("Products");
@@ -558,11 +501,6 @@ namespace WatchStore.Infrastructure.Migrations
                     b.Navigation("ProductCategories");
 
                     b.Navigation("ProductImages");
-                });
-
-            modelBuilder.Entity("WatchStore.Domain.Entities.Role", b =>
-                {
-                    b.Navigation("AdminRoles");
                 });
 #pragma warning restore 612, 618
         }

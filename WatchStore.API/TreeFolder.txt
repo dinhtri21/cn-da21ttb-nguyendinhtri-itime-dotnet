@@ -43,6 +43,7 @@
     └── Handlers
         └── CreateCustomerCommandHandlerTests.cs
 
+Clean Architecture + CQRS
 
 dotnet ef migrations add Initialization --project WatchStore.Infrastructure --startup-project WatchStore.API
 

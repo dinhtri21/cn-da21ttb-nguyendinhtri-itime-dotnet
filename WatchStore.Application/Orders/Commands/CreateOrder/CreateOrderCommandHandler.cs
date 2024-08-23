@@ -10,19 +10,21 @@ using WatchStore.Domain.Entities;
 
 namespace WatchStore.Application.Orders.Commands.CreateOrder
 {
-    public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>, IApplicationMarker
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, int>, IApplicationMarker
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IBaseRepository _baseRepository;
 
-        public CreateOrderHandler(IOrderRepository orderRepository,
+        public CreateOrderCommandHandler(IOrderRepository orderRepository,
             IProductRepository productRepository,
             ICustomerRepository customerRepository,
             IOrderDetailRepository orderDetailRepository,
-            IPaymentRepository paymentRepository
+            IPaymentRepository paymentRepository,
+            IBaseRepository baseRepository
             )
         {
             _orderRepository = orderRepository;
@@ -30,11 +32,12 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
             _customerRepository = customerRepository;
             _orderDetailRepository = orderDetailRepository;
             _paymentRepository = paymentRepository;
+            _baseRepository = baseRepository;
         }
         public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             // Begin transaction
-            await _customerRepository.BeginTransactionAsync();
+            await _baseRepository.BeginTransactionAsync();
             try
             {
                 if (request.CustomerId != null)
@@ -52,7 +55,6 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                 };
 
                 await _customerRepository.AddCustomerAsync(customer);
-                await _customerRepository.SaveChangesAsync();
 
                 // Add order
                 if (!await _paymentRepository.IsPaymentExitAsync(request.PaymentId))
@@ -86,29 +88,27 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
 
                 order.Total = orderDetails.Sum(od => od.UnitPrice);
                 await _orderRepository.AddOrderAsync(order);
-                await _orderRepository.SaveChangesAsync();
 
                 // Add order details
                 foreach (var orderDetail in orderDetails)
                 {
                     orderDetail.OrderId = order.OrderId;
                     await _orderDetailRepository.AddOrderDetailsAsync(orderDetail);
-                    await _orderDetailRepository.SaveChangesAsync();
                 }
 
                 // Commit transaction
-                await _customerRepository.CommitTransactionAsync();
+                await _baseRepository.CommitTransactionAsync();
 
                 return order.OrderId;
             }
             catch (ValidationException valEx)
             {
-                await _customerRepository.RollbackTransactionAsync();
+                await _baseRepository.RollbackTransactionAsync();
                 throw;
             }
             catch (Exception ex)
             {
-                await _customerRepository.RollbackTransactionAsync();
+                await _baseRepository.RollbackTransactionAsync();
                 throw;
             }
 

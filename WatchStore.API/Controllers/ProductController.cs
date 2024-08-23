@@ -10,7 +10,7 @@ using WatchStore.Application.Products.Queries.GetProducts;
 namespace WatchStore.API.Controllers
 {
     //[Route("api/[controller]")]
-    [Route("api/product")]
+    [Route("api/products")]
     [ApiController]
     public class ProductController : ControllerBase
     {

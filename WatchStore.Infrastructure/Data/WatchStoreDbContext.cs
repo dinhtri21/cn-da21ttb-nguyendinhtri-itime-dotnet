@@ -31,6 +31,8 @@ namespace WatchStore.Infrastructure.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<AdminRole> AdminRoles { get; set; }
+        public DbSet<Role> Roles { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +49,8 @@ namespace WatchStore.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentConfiguration());
+            modelBuilder.ApplyConfiguration(new AdminRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
 
         internal async Task ToListAsync()

@@ -9,16 +9,16 @@ using WatchStore.Infrastructure.Data;
 
 namespace WatchStore.Infrastructure.Repositories
 {
-    public class OrderDetailRepository :IOrderDetailRepository
+    public class AdminRoleRepository : IAdminRoleRepository
     {
         private readonly WatchStoreDbContext _context;
-        public OrderDetailRepository(WatchStoreDbContext context )  { 
+        public AdminRoleRepository(WatchStoreDbContext context)
+        {
             _context = context;
         }
-
-        public async Task AddOrderDetailsAsync(OrderDetail orderDetail)
+        public async Task CreateAdminRoleAsync(AdminRole adminRole)
         {
-            await _context.OrderDetails.AddAsync(orderDetail);
+            await _context.AdminRoles.AddAsync(adminRole);
             await _context.SaveChangesAsync();
         }
     }

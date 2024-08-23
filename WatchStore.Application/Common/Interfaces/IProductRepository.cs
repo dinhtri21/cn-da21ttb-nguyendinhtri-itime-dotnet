@@ -7,7 +7,7 @@ using WatchStore.Domain.Entities;
 
 namespace WatchStore.Application.Common.Interfaces
 {
-    public interface IProductRepository : IBaseRepository
+    public interface IProductRepository 
     {
         Task AddProductAsync(Product product);
         Task<bool> IsBrandExistsAsync(int brandId);
