@@ -20,15 +20,15 @@ namespace WatchStore.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds, [FromQuery] int pageNumber = 1)
+        public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 9)
         {
             try {
-                var products = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, pageNumber));
-                if (products.Count() == 0)
+                var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, pageNumber, pageSize));
+                if (productListDto.Products.Count() == 0)
                 {
                     return BadRequest(new { message = "Không có sản phẩm nào!" });
                 }
-                return Ok(products);
+                return Ok(productListDto);
             }
             catch (ValidationException ex)
             {

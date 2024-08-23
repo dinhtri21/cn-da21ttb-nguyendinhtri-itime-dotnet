@@ -56,6 +56,23 @@ namespace WatchStore.Infrastructure.Repositories
                               .Take(pageSize)
                               .ToListAsync();
         }
+
+        public async Task<int> GetTotalProductCountAsync(List<int> brandIds, List<int> materialIds)
+        {
+            var query = _context.Products.AsQueryable();
+
+            if (brandIds != null && brandIds.Any())
+            {
+                query = query.Where(p => brandIds.Contains(p.BrandId));
+            }
+
+            if (materialIds != null && materialIds.Any())
+            {
+                query = query.Where(p => materialIds.Contains(p.MaterialId));
+            }
+
+            return await query.CountAsync();
+        }
         public async Task<Product> GetProductByIdAsync(int productId)
         {
             var product = await _context.Products

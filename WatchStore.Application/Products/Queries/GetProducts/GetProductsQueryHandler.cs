@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Common.Interfaces;
+using WatchStore.Domain.Entities;
 
 namespace WatchStore.Application.Products.Queries.GetProducts
 {
-    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumerable<ProductDto>>, IApplicationMarker
+    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, ProductListDto>, IApplicationMarker
     {
         readonly IProductRepository _productRepository;
         readonly IMapper _mapper;
@@ -19,10 +20,19 @@ namespace WatchStore.Application.Products.Queries.GetProducts
             _productRepository = productRepository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+        public async Task<ProductListDto> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
           var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.PageNumber, request.PageSize);
-          return _mapper.Map<IEnumerable<ProductDto>>(Products);       
+          
+          int totalCount = await _productRepository.GetTotalProductCountAsync(request.BrandIds, request.MaterialIds);
+          int totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
+
+            return new ProductListDto
+            {
+                Products = _mapper.Map<IEnumerable<ProductDto>>(Products),
+                TotalCount = totalCount,
+                TotalPages = totalPages
+            };
         }
     }
 }
