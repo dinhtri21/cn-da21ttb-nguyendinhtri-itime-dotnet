@@ -8,7 +8,7 @@ using WatchStore.Application.Common.DTOs;
 
 namespace WatchStore.Application.Orders.Queries.GetOrder
 {
-    public class GetOrdersQuery : IRequest<IEnumerable<OrderDto>>
+    public class GetOrdersQuery : IRequest<OrderListDto>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }

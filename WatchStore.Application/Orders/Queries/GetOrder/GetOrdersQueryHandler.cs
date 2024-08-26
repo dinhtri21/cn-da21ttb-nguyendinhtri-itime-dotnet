@@ -10,7 +10,7 @@ using WatchStore.Application.Common.Interfaces;
 
 namespace WatchStore.Application.Orders.Queries.GetOrder
 {
-    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IEnumerable<OrderDto>>
+    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, OrderListDto>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
@@ -20,10 +20,22 @@ namespace WatchStore.Application.Orders.Queries.GetOrder
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<OrderDto>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
+        public async Task<OrderListDto> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
             var orders = await _orderRepository.GetOrdersAsync(request.PageNumber, request.PageSize);
-            return _mapper.Map<IEnumerable<OrderDto>>(orders);
+
+            int totalCount = await _orderRepository.GetTotalOrderCountAsync(request.PageNumber, request.PageSize);
+
+            int totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
+
+            return new OrderListDto
+            {
+                Orders = _mapper.Map<IEnumerable<OrderDto>>(orders),
+                TotalCount = totalCount,
+                TotalPages = totalPages
+            };
+
+            
         }
     }
 }

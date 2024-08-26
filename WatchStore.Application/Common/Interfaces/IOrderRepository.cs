@@ -12,5 +12,6 @@ namespace WatchStore.Application.Common.Interfaces
         Task<IEnumerable<Order>> GetOrdersAsync(int pageNumber, int pageSize);
         Task AddOrderAsync(Order order);
         Task<bool> DeleteOrderAsync(int orderId);
+        Task<int> GetTotalOrderCountAsync(int pageNumber, int pageSize);
     }
 }

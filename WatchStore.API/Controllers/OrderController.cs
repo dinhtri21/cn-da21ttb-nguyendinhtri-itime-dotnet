@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -17,18 +18,24 @@ namespace WatchStore.API.Controllers
         public OrderController(IMediator mediator) { 
             _mediator = mediator;
         }
+
+        [Authorize(Policy = "AdminPolicy")]
         [HttpGet]
         public async Task<IActionResult> GetOrders([FromQuery] int? pageNumber, [FromQuery] int? pageSize)
         {
             try {
                 int currentPageNumber = pageNumber ?? 1; 
                 int currentPageSize = pageSize ?? 9;
-                var orders = await _mediator.Send(new GetOrdersQuery(currentPageNumber, currentPageSize));
-                if (orders.Count() == 0)
+                var listOrders = await _mediator.Send(new GetOrdersQuery(currentPageNumber, currentPageSize));
+                if (listOrders.Orders.Count() == 0)
                 {
                     return BadRequest(new { message = "Không có đơn hàng nào!" });
                 }
-                return Ok(orders);
+                return Ok(listOrders);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
             }
             catch (ValidationException ex) {
                 return BadRequest(ex.Message);
@@ -38,6 +45,7 @@ namespace WatchStore.API.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
         {
@@ -49,6 +57,10 @@ namespace WatchStore.API.Controllers
                 }
                 return Ok(new { message = "Đặt hàng thành công!", orderId });
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
             catch (ValidationException ex) {
                 return BadRequest(ex.Message);
             }
@@ -57,6 +69,8 @@ namespace WatchStore.API.Controllers
             }
           
         }
+
+        [Authorize(Policy = "ManagerPolicy")]
         [HttpDelete("{orderId}")]
         public async Task<IActionResult> DeleteOrder(int orderId)
         {
@@ -67,6 +81,10 @@ namespace WatchStore.API.Controllers
                     return BadRequest(new { message = "Xóa đơn hàng không thành công!" });
                 }
                 return Ok(new { message = $"Xóa đơn hàng Id = {orderId}  thành công!" });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
             }
             catch (ValidationException ex) {
                 return BadRequest(ex.Message);

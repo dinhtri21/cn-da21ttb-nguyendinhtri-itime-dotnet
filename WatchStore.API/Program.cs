@@ -4,6 +4,8 @@ using WatchStore.Infrastructure.Repositories;
 using WatchStore.Application.Common.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using WatchStore.API.Configuration.Authentication;
+using WatchStore.API.Configuration.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Authentication
+builder.Services.AddJwtAuthentication(builder.Configuration["Jwt:key"]);
+// Authorization
+builder.Services.AddAuthorizationPolicy();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,7 +48,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication(); // Xác thực
+
+app.UseAuthorization(); // Phân quyền
 
 app.MapControllers();
 

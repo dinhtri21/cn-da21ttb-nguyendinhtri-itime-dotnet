@@ -44,5 +44,15 @@ namespace WatchStore.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<int> GetTotalOrderCountAsync(int pageNumber,int pageSize)
+        {
+            int TotalCount = await _context.Orders
+                                      .Skip((pageNumber - 1) * pageSize)
+                                      .Take(pageSize)
+                                      .CountAsync();
+
+            return TotalCount;
+        }
     }
 }

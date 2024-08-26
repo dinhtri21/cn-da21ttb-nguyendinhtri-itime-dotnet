@@ -25,7 +25,11 @@ namespace WatchStore.Infrastructure.Repositories
 
         public async Task<Admin> GetAdminByEmailAsync(string email)
         {
-           var admin = await _context.Admins.FirstOrDefaultAsync(a => a.AdminEmail == email);
+            var admin = await _context.Admins
+                                      .Include(a => a.AdminRoles)
+                                      .ThenInclude(ar => ar.Role)
+                                      .FirstOrDefaultAsync(a => a.AdminEmail == email);
+                                     
            return admin;
         }
     }

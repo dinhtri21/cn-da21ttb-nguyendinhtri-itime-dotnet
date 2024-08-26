@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,8 @@ namespace WatchStore.API.Controllers
         {
             _mediator = mediator;
         }
+
+        [Authorize(Policy = "ManagerPolicy")]
         [HttpPost]
         public async Task<IActionResult> CreateAdmin([FromBody] CreateAdminCommand command)
         {
@@ -27,6 +30,11 @@ namespace WatchStore.API.Controllers
                     return BadRequest(new { message = "Tạo tài khoản admin không thành công!" });
                 }
                 return Ok(new { message = "Tạo tài khoản admin thành công!", adminId });
+            }
+
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ex.Message);
             }
             catch (ValidationException ex)
             {
@@ -43,8 +51,19 @@ namespace WatchStore.API.Controllers
         {
             try
             {
-                var message = await _mediator.Send(query);
-                return Ok(new { message });
+                var token = await _mediator.Send(query);
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true, // Chỉ sử dụng trên HTTPS
+                    Expires = DateTime.UtcNow.AddHours(1)
+                };
+                Response.Cookies.Append("accessToken", token, cookieOptions);
+                return Ok(new { message = "Đăng nhập thành công!" });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
             }
             catch (ValidationException ex)
             {
