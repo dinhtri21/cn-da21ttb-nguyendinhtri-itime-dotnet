@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchStore.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WatchStore.Infrastructure.Data;
 namespace WatchStore.Infrastructure.Migrations
 {
     [DbContext(typeof(WatchStoreDbContext))]
-    partial class WatchStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240828131744_AddCartTable")]
+    partial class AddCartTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,12 +191,6 @@ namespace WatchStore.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("FullName");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("Password");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()

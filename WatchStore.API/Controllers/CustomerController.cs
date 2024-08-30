@@ -5,10 +5,11 @@ using MediatR;
 using WatchStore.Application.Customers.Commands.CreateCustomer;
 using FluentValidation;
 using WatchStore.Application.Customers.Queries.GetAllCustomers;
+using WatchStore.Application.Customers.Commands.UpdateCustomer;
 
 namespace WatchStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/customers")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -49,9 +50,37 @@ namespace WatchStore.API.Controllers
                 {
                     return BadRequest(new { message = "Thêm khách hàng không thành công!" });
                 }
-                return Ok(new { message = "Thêm khách hàng thành công!" });
+                return Ok(new { message = "Thêm khách hàng thành công!", customerId });
 
 
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCustomer(int id, UpdateCustomerCommand command)
+        {
+            try
+            {
+                if(id != command.CustomerId)
+                {
+                    return BadRequest(new { message = "Id không khớp!" });
+                }
+
+                var result = await _mediator.Send(command);
+
+                if (!result)
+                {
+                    return BadRequest(new { message = "Cập nhật thông tin khách hàng không thành công!" });
+                }
+                return Ok(new { message = "Cập nhật thông tin khách hàng thành công!" });
             }
             catch (ValidationException ex)
             {

@@ -71,16 +71,16 @@ namespace WatchStore.API.Controllers
         }
 
         [Authorize(Policy = "ManagerPolicy")]
-        [HttpDelete("{orderId}")]
-        public async Task<IActionResult> DeleteOrder(int orderId)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(int id)
         {
             try {
-                var result = await _mediator.Send(new DeleteOrderCommand(orderId));
+                var result = await _mediator.Send(new DeleteOrderCommand(id));
                 if (!result)
                 {
                     return BadRequest(new { message = "Xóa đơn hàng không thành công!" });
                 }
-                return Ok(new { message = $"Xóa đơn hàng Id = {orderId}  thành công!" });
+                return Ok(new { message = $"Xóa đơn hàng Id = {id}  thành công!" });
             }
             catch (UnauthorizedAccessException ex)
             {

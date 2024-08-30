@@ -38,6 +38,12 @@ namespace WatchStore.Application.Customers.Commands.CreateCustomer
                 .WithMessage("Email không được vượt quá 200 ký tự.")
                 .EmailAddress()
                 .WithMessage("Email không hợp lệ.");
+
+            RuleFor(v => v.Password)
+                .NotEmpty()
+                .WithMessage("Password là bắt buộc.")
+                .MaximumLength(255)
+                .WithMessage("Password không được vượt quá 255 ký tự.");
         }
     }
 }

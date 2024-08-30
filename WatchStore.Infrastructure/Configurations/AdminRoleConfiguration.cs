@@ -39,8 +39,6 @@ namespace WatchStore.Infrastructure.Configurations
                    .WithMany(a => a.AdminRoles)
                    .HasForeignKey(ar => ar.AdminId)
                    .OnDelete(DeleteBehavior.Cascade);
-
-
         }
     }
 }

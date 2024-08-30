@@ -13,13 +13,16 @@ namespace WatchStore.Domain.Entities
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
 
         // Navigation properties
         public ICollection<Order> Orders { get; set; }
+        public ICollection<Cart> Carts { get; set; }
 
         public Customer()
         {
             Orders = new HashSet<Order>();
+            Carts = new HashSet<Cart>();
         }
     }
 }

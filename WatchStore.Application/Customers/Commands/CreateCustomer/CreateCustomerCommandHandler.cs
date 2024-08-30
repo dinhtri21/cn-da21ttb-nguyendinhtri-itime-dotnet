@@ -24,19 +24,17 @@ namespace WatchStore.Application.Customers.Commands.CreateCustomer
 
         public async Task<int> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            // Chuyển đổi CreateCustomerCommand thành Customer entity
             var customer = new Customer
             {
                 FullName = request.FullName,
                 PhoneNumber = request.PhoneNumber,
                 Address = request.Address,
-                Email = request.Email
+                Email = request.Email,
+                Password = request.Password
             };
 
-            // Thêm khách hàng vào repository
             await _customerRepository.AddCustomerAsync(customer);
 
-            // Trả về ID của khách hàng mới tạo nếu có
             return customer.CustomerId;
         }
     }
