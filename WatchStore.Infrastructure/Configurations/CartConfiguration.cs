@@ -15,10 +15,10 @@ namespace WatchStore.Infrastructure.Configurations
         {
             // Create table
             builder.ToTable("Cart");
-            
+
             // Primary key
-            builder.HasKey(x => x.CartId);
-            
+            builder.HasKey(c => c.CartId);
+
             // Configure properties
             builder.Property(c => c.CartId)
                    .HasColumnName("CartId")
@@ -29,33 +29,21 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnName("CustomerId")
                    .IsRequired();
 
-            builder.Property(c => c.ProductId)
-                   .HasColumnName("ProductId")
-                   .IsRequired();
+            builder.HasIndex(c => c.CustomerId)
+                   .IsUnique()
+                   .HasDatabaseName("IX_Cart_CustomerId");
 
-            builder.Property(c => c.Quantity)
-                   .HasColumnName("Quantity")
-                   .IsRequired();
-
-            builder.Property(c => c.UnitPrice)
-                   .HasColumnName("UnitPrice")
-                   .HasColumnType("decimal(18,2)")
+            builder.Property(c => c.CreatedDate)
+                   .HasColumnName("CreatedDate")
+                   .HasColumnType("datetime")
                    .IsRequired();
 
             // Configure relationships
             // 1 - n : Customer - Cart
             builder.HasOne(c => c.Customer)
                    .WithMany(c => c.Carts)
-                   .HasConstraintName("FK_Cart_Customer")
-                   .OnDelete(DeleteBehavior.Cascade)
+                   .HasConstraintName("FK_Customer_Cart")
                    .HasForeignKey(c => c.CustomerId);
-
-            // 1 - n : Product - Cart
-            builder.HasOne(c => c.Product)
-                   .WithMany(p => p.Carts)
-                   .HasConstraintName("FK_Cart_Product")
-                   .OnDelete(DeleteBehavior.Cascade)
-                   .HasForeignKey(c => c.ProductId);
         }
     }
 }

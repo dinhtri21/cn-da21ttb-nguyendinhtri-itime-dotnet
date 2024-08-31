@@ -64,11 +64,12 @@ namespace WatchStore.API.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct([FromRoute] DeleteProductCommand command)
         {
             try
             {
-                var result = await _mediator.Send(new DeleteProductCommand(id));
+                var result = await _mediator.Send(command);
+
                 if (!result)
                 {
                     return BadRequest(new { message = "Xóa sản phẩm không thành công!" });

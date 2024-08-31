@@ -23,13 +23,14 @@ namespace WatchStore.Domain.Entities
         public ICollection<ProductImage> ProductImages { get; set; } 
         public ICollection<ProductCategory> ProductCategories { get; set; } 
         public ICollection<OrderDetail> OrderDetails { get; set; }
-        public ICollection<Cart> Carts { get; set; }
+        public ICollection<CartItem> Carts { get; set; }
 
         public Product()
         {
             ProductImages = new HashSet<ProductImage>();
             ProductCategories = new HashSet<ProductCategory>();
             OrderDetails = new HashSet<OrderDetail>();
+            Carts = new HashSet<CartItem>();
         }
 
     }

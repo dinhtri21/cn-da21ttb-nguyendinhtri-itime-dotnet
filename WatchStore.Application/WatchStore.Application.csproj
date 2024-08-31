@@ -21,6 +21,9 @@
 
   <ItemGroup>
     <Folder Include="Admins\Commands\UpdateAdmin\" />
+    <Folder Include="Carts\Commands\DeleteCart\" />
+    <Folder Include="Carts\Commands\UpdateCart\" />
+    <Folder Include="Carts\Queries\" />
     <Folder Include="Customers\Commands\DeleteCustomer\" />
     <Folder Include="Customers\Queries\GetCustomerById\" />
     <Folder Include="Inventory\" />
