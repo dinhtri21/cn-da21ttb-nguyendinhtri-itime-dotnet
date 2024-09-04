@@ -6,6 +6,9 @@ using WatchStore.Application.Customers.Commands.CreateCustomer;
 using FluentValidation;
 using WatchStore.Application.Customers.Queries.GetAllCustomers;
 using WatchStore.Application.Customers.Commands.UpdateCustomer;
+using WatchStore.Application.Customers.Queries.LoginCustomer;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace WatchStore.API.Controllers
 {
@@ -14,13 +17,16 @@ namespace WatchStore.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IAuthorizationService _authorizationService;
 
-        public CustomerController(IMediator mediator)
+        public CustomerController(IMediator mediator, IAuthorizationService authorizationService)
 
         {
             _mediator = mediator;
+            _authorizationService = authorizationService;
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpGet]
         public async Task<IActionResult> GetAllCustomers()
         {
@@ -39,6 +45,7 @@ namespace WatchStore.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> AddCustomer(CreateCustomerCommand command)
@@ -65,11 +72,19 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> UpdateCustomer(int id, UpdateCustomerCommand command)
         {
             try
             {
-                if(id != command.CustomerId)
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+
+                if (userId != id.ToString())
+                {
+                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+                }
+
+                if (id != command.CustomerId)
                 {
                     return BadRequest(new { message = "Id không khớp!" });
                 }
@@ -92,5 +107,33 @@ namespace WatchStore.API.Controllers
             }
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> AdminLogin([FromBody] LoginCustomerQuery query) 
+        {
+            try
+            {
+                var token = await _mediator.Send(query);
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Expires = DateTime.UtcNow.AddMinutes(3)
+                };
+                Response.Cookies.Append("accessToken", token, cookieOptions);
+                return Ok(new { message = "Đăng nhập thành công!" });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

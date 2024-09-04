@@ -24,13 +24,15 @@ namespace WatchStore.Application.Customers.Commands.CreateCustomer
 
         public async Task<int> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
             var customer = new Customer
             {
                 FullName = request.FullName,
                 PhoneNumber = request.PhoneNumber,
                 Address = request.Address,
                 Email = request.Email,
-                Password = request.Password
+                Password = hashedPassword
             };
 
             await _customerRepository.AddCustomerAsync(customer);

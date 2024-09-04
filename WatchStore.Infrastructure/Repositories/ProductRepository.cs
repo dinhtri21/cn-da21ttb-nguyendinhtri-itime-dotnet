@@ -17,7 +17,6 @@ namespace WatchStore.Infrastructure.Repositories
         {
             _context = context;
         }
-
         public async Task AddProductAsync(Product product)
         {
             _context.Products.Add(product);

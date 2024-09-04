@@ -22,10 +22,12 @@ namespace WatchStore.API.Configuration.Authentication
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuerSigningKey = true, // Check chữ ký
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    ValidateLifetime = true, // Check hết hạn token
+                    ClockSkew = TimeSpan.Zero, // Tùy chọn: loại bỏ thời gian lệch // Không có thì lệnh 5p
                     RoleClaimType = ClaimTypes.Role
                 };
             });

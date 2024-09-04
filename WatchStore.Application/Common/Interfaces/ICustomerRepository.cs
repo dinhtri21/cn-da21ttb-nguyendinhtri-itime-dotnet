@@ -11,5 +11,8 @@ namespace WatchStore.Application.Common.Interfaces
     {
         Task AddCustomerAsync(Customer customer);
         Task<IEnumerable<Customer>> GetAllCustomerAsync();
+        Task<Customer> GetCustomerByEmailAsync(string Email);
+        Task<bool> UpdateCustomerAsync(Customer customer);
+        Task<Customer> GetCustomerByIdAsync(int id);
     }
 }

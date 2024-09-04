@@ -26,9 +26,10 @@ namespace WatchStore.Application.Admins.Queries.LoginAdmin
         public async Task<string> Handle(LoginAdminQuery request, CancellationToken cancellationToken)
         {
             var admin = await _adminRepository.GetAdminByEmailAsync(request.AdminEmail);
+
             if (admin == null )
             {
-                throw new UnauthorizedAccessException("Email không tồn tại!");
+                throw new UnauthorizedAccessException("Email hoặc mật khẩu không đúng.");
             }
             if (!BCrypt.Net.BCrypt.Verify(request.AdminPassword, admin.AdminPassword))
             {
@@ -52,7 +53,6 @@ namespace WatchStore.Application.Admins.Queries.LoginAdmin
                 new Claim(ClaimTypes.Name, admin.AdminId.ToString()),
                 new Claim(ClaimTypes.Email, admin.AdminEmail),
               }.Concat(roleClaims)), // Add roles to claim
-
                 Expires = DateTime.UtcNow.AddHours(1), // Time to expire
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature) // Key to sign
             };

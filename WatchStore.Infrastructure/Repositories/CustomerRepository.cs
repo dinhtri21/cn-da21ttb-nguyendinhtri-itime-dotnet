@@ -26,6 +26,24 @@ namespace WatchStore.Infrastructure.Repositories
         {
             return await _context.Customers.ToListAsync();
         }
+
+        public async Task<Customer> GetCustomerByEmailAsync(string Email)
+        {
+            return await _context.Customers.FirstOrDefaultAsync(c => c.Email == Email);
+        }
+
+        public async Task<Customer> GetCustomerByIdAsync(int id)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
+            return customer;
+        }
+
+        public async Task<bool> UpdateCustomerAsync(Customer customer)
+        {
+            _context.Customers.Update(customer);
+           await _context.SaveChangesAsync();
+            return true;
+        }
     }
 
 }

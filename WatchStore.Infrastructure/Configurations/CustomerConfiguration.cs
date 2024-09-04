@@ -50,7 +50,11 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnName("Address")
                    .HasColumnType("nvarchar(255)")
                    .IsRequired()
-                   .HasMaxLength(255);    
+                   .HasMaxLength(255);
+
+            // Add unique constraints
+            builder.HasIndex(c => c.Email).IsUnique();
+            builder.HasIndex(c => c.PhoneNumber).IsUnique();
         }
     }
 }

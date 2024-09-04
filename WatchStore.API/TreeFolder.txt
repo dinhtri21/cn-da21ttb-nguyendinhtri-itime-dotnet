@@ -2,7 +2,11 @@
 ├── WatchStore.API
 │   ├── Program.cs
 │   ├── Controllers
-│   │   └── CustomerController.cs
+│   │   ├── CartController.cs
+|   │   ├── CartItemController.cs
+|   │   ├── CustomerController.cs
+|   │   ├── OrderController.cs
+|   │   └── ProductController.cs
 │   └── Properties
 │       └── launchSettings.json
 ├── WatchStore.Application
@@ -48,3 +52,10 @@ Clean Architecture + CQRS
 dotnet ef migrations add Initialization --project WatchStore.Infrastructure --startup-project WatchStore.API
 
 dotnet ef database update --project WatchStore.Infrastructure --startup-project WatchStore.API
+
+3 loại user
+- Admin
+    + Manager
+    + Staff
+- Customer
+- Guest
