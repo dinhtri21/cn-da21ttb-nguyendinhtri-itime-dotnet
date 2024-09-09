@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Common.Interfaces;
+using WatchStore.Domain.Entities;
 
 namespace WatchStore.Application.CartItems.Commands.UpdateCartItem
 {
-    public class UpdateCartItemCommandHandler : IRequestHandler<UpdateCartItemCommand, bool>, IApplicationMarker
+    public class UpdateCartItemCommandHandler : IRequestHandler<UpdateCartItemCommand, CartItemDto>, IApplicationMarker
     {
         private readonly ICartItemRepository _cartItemRepository;
         private readonly IMapper _mapper;
@@ -18,7 +20,7 @@ namespace WatchStore.Application.CartItems.Commands.UpdateCartItem
             _cartItemRepository = cartItemRepository;
             _mapper = mapper;
         }
-        public async Task<bool> Handle(UpdateCartItemCommand request, CancellationToken cancellationToken)
+        public async Task<CartItemDto> Handle(UpdateCartItemCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -29,11 +31,13 @@ namespace WatchStore.Application.CartItems.Commands.UpdateCartItem
                     throw new Exception("CartItem not found");
                 }
 
-                cartItem.Quantity = request.Quantity; // Hoặc sử dụng mappping
+                cartItem.Quantity = request.Quantity; 
+                cartItem.UnitPrice = cartItem.Product.ProductPrice * request.Quantity;
 
                 await _cartItemRepository.UpdateCartItemAasync(cartItem);
 
-                return true;
+                cartItem = await _cartItemRepository.GetCartItemByIdAsync(request.CartItemId);
+                return _mapper.Map<CartItem, CartItemDto>(cartItem);
             }
             catch (Exception ex)
             {

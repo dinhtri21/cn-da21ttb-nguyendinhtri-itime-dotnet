@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Products.Commands.CreateProduct;
 using WatchStore.Application.Products.Commands.DeleteProduct;
 using WatchStore.Application.Products.Commands.UpdateProduct;
@@ -20,15 +21,15 @@ namespace WatchStore.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds, [FromQuery] int? pageNumber, [FromQuery] int? pageSize)
+        public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds, [FromQuery] int? skip, [FromQuery] int? limit)
         {
             try {
-                int currentPageNumber = pageNumber ?? 1;
-                int currentPageSize = pageSize ?? 9;
-                var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, currentPageNumber, currentPageSize));
+                int Skip = skip ?? 0;
+                int Limit = limit ?? 9;
+                var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, Skip, Limit));
                 if (productListDto.Products.Count() == 0)
                 {
-                    return BadRequest(new { message = "Không có sản phẩm nào!" });
+                    return Ok(new { productListDto.Products, message = "Giỏ hàng trống!" });
                 }
                 return Ok(productListDto);
             }

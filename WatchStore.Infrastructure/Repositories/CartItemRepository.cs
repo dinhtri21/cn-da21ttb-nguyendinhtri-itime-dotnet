@@ -49,23 +49,23 @@ namespace WatchStore.Infrastructure.Repositories
 
         public async Task<CartItem> GetCartItemByIdAsync(int id)
         {
-            var cartItem = await _context.CartItems.FirstOrDefaultAsync(c => c.CartItemId == id);
+            var cartItem = await _context.CartItems
+                                         .Include(c => c.Product)    
+                                         .FirstOrDefaultAsync(c => c.CartItemId == id);
             return cartItem;
         }
 
-        public async Task<bool> UpdateCartItemAasync(CartItem cartItem)
+        public async Task<CartItem> GetCartItemByProductIdAsync(int productId, int cartId)
         {
-            try
-            {
-                _context.CartItems.Update(cartItem);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
+           var cartItem = await _context.CartItems.FirstOrDefaultAsync(c => c.ProductId == productId && c.CartId == cartId);
+            return cartItem;
+        }
 
-            }
+        public async Task<CartItem> UpdateCartItemAasync(CartItem cartItem)
+        {
+                var cartItemUpdate = _context.CartItems.Update(cartItem);
+                await _context.SaveChangesAsync();
+                return cartItem;
         }
     }
 }

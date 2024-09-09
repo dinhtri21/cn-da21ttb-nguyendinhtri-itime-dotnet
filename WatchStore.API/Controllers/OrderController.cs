@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Orders.Commands.CreateOrder;
 using WatchStore.Application.Orders.Commands.DeleteOrder;
 using WatchStore.Application.Orders.Queries.GetOrder;
@@ -21,15 +22,15 @@ namespace WatchStore.API.Controllers
 
         [Authorize(Policy = "AdminPolicy")]
         [HttpGet]
-        public async Task<IActionResult> GetOrders([FromQuery] int? pageNumber, [FromQuery] int? pageSize)
+        public async Task<IActionResult> GetOrders([FromQuery] int? skip, [FromQuery] int? limit)
         {
             try {
-                int currentPageNumber = pageNumber ?? 1; 
-                int currentPageSize = pageSize ?? 9;
-                var listOrders = await _mediator.Send(new GetOrdersQuery(currentPageNumber, currentPageSize));
+                int Skip = skip ?? 0;
+                int Limit = limit ?? 9;
+                var listOrders = await _mediator.Send(new GetOrdersQuery(Skip, Limit));
                 if (listOrders.Orders.Count() == 0)
                 {
-                    return BadRequest(new { message = "Không có đơn hàng nào!" });
+                    return Ok(new { listOrders.Orders, message = "Giỏ hàng trống!" });
                 }
                 return Ok(listOrders);
             }

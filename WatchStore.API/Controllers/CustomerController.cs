@@ -117,7 +117,7 @@ namespace WatchStore.API.Controllers
                 {
                     HttpOnly = true,
                     Secure = true,
-                    Expires = DateTime.UtcNow.AddMinutes(3)
+                    Expires = DateTime.UtcNow.AddHours(1)
                 };
                 Response.Cookies.Append("accessToken", token, cookieOptions);
                 return Ok(new { message = "Đăng nhập thành công!" });

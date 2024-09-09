@@ -22,16 +22,16 @@ namespace WatchStore.Application.Products.Queries.GetProducts
         }
         public async Task<ProductListDto> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-          var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.PageNumber, request.PageSize);
+          var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.Skip, request.Limit);
           
           int totalCount = await _productRepository.GetTotalProductCountAsync(request.BrandIds, request.MaterialIds);
-          int totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
 
             return new ProductListDto
             {
                 Products = _mapper.Map<IEnumerable<ProductDto>>(Products),
-                TotalCount = totalCount,
-                TotalPages = totalPages
+                total = totalCount,
+                skip = request.Skip,
+                limit = request.Limit
             };
         }
     }

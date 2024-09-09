@@ -12,14 +12,13 @@ namespace WatchStore.Application.Products.Queries.GetProducts
     {
         public List<int> BrandIds { get; set; }
         public List<int> MaterialIds { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; } // Default page size
-
-        public GetProductsQuery(List<int> brandIds, List<int> materialIds,int pageNumber, int pageSize) {
+        public int Skip { get; set; }
+        public int Limit { get; set; } // Default page size
+        public GetProductsQuery(List<int> brandIds, List<int> materialIds,int skip, int limit) {
             BrandIds = brandIds;
             MaterialIds = materialIds;
-            PageNumber = pageNumber;
-            PageSize = pageSize;
+            Skip = skip;
+            Limit = limit;
         }
     }
 }

@@ -40,22 +40,20 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
             await _baseRepository.BeginTransactionAsync();
             try
             {
-                if (request.CustomerId != null)
+                var customer = await _customerRepository.GetCustomerByIdAsync(request.CustomerId);
+
+                if (request.CustomerId == null)
                 {
-                    // Xử lý đặt hàng cho khách đa đăng ký 
+                    customer = new Customer
+                    {
+                        FullName = request.FullName,
+                        PhoneNumber = request.PhoneNumber,
+                        Address = request.Address,
+                        Email = request.Email
+                    };
+                    await _customerRepository.AddCustomerAsync(customer);
                 }
-
-                // Add customer
-                var customer = new Customer
-                {
-                    FullName = request.FullName,
-                    PhoneNumber = request.PhoneNumber,
-                    Address = request.Address,
-                    Email = request.Email
-                };
-
-                await _customerRepository.AddCustomerAsync(customer);
-
+              
                 // Add order
                 if (!await _paymentRepository.IsPaymentExitAsync(request.PaymentId))
                 {

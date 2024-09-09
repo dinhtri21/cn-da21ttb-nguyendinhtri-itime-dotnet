@@ -18,11 +18,11 @@ namespace WatchStore.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<Order>> GetOrdersAsync(int Skip, int Limit)
         {
             var orders = await _context.Orders
-                                       .Skip((pageNumber - 1) * pageSize)
-                                       .Take(pageSize)
+                                       .Skip(Skip * Limit)
+                                       .Take(Limit)
                                        .ToListAsync();
             return orders;
         }
@@ -45,11 +45,9 @@ namespace WatchStore.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<int> GetTotalOrderCountAsync(int pageNumber,int pageSize)
+        public async Task<int> GetTotalOrderCountAsync()
         {
             int TotalCount = await _context.Orders
-                                      .Skip((pageNumber - 1) * pageSize)
-                                      .Take(pageSize)
                                       .CountAsync();
 
             return TotalCount;

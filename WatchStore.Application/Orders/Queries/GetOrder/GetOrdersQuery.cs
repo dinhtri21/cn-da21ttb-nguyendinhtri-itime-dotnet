@@ -10,12 +10,12 @@ namespace WatchStore.Application.Orders.Queries.GetOrder
 {
     public class GetOrdersQuery : IRequest<OrderListDto>
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public GetOrdersQuery(int pageNumber, int pageSize)
+        public int Skip { get; set; }
+        public int Limit { get; set; }
+        public GetOrdersQuery(int skip, int limit)
         {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
+            Skip = skip;
+            Limit = limit;
         }
     }
 }

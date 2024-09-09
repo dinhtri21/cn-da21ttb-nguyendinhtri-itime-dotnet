@@ -9,7 +9,8 @@ namespace WatchStore.Application.Common.DTOs
     public class OrderListDto
     {
         public IEnumerable<OrderDto> Orders { get; set; }
-        public int TotalCount { get; set; }
-        public int TotalPages { get; set; }
+        public int Total { get; set; }
+        public int Skip { get; set; }
+        public int Limit { get; set; }
     }
 }

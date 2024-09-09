@@ -37,7 +37,7 @@ namespace WatchStore.Infrastructure.Repositories
             return true;          
         }
     
-        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int pageNumber, int pageSize)
+        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip, int limit)
         {
             var query = _context.Products.Include(p => p.ProductImages).AsQueryable();
 
@@ -51,8 +51,8 @@ namespace WatchStore.Infrastructure.Repositories
                 query = query.Where(p => materialIds.Contains(p.MaterialId));
             }
 
-            return await query.Skip((pageNumber - 1) * pageSize)
-                              .Take(pageSize)
+            return await query.Skip(skip * limit)
+                              .Take(limit)
                               .ToListAsync();
         }
 

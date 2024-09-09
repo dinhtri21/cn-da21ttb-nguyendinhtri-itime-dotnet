@@ -47,8 +47,7 @@ namespace WatchStore.Application.Customers.Queries.LoginCustomer
                     new Claim(ClaimTypes.Email, customer.Email),
                     new Claim(ClaimTypes.Role, "Customer")
                 }),
-                //Expires = DateTime.UtcNow.AddHours(1),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

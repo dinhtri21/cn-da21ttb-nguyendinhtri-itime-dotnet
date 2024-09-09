@@ -22,17 +22,17 @@ namespace WatchStore.Application.Orders.Queries.GetOrder
 
         public async Task<OrderListDto> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _orderRepository.GetOrdersAsync(request.PageNumber, request.PageSize);
+            var orders = await _orderRepository.GetOrdersAsync(request.Skip, request.Limit);
 
-            int totalCount = await _orderRepository.GetTotalOrderCountAsync(request.PageNumber, request.PageSize);
+            int totalCount = await _orderRepository.GetTotalOrderCountAsync();
 
-            int totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
 
             return new OrderListDto
             {
                 Orders = _mapper.Map<IEnumerable<OrderDto>>(orders),
-                TotalCount = totalCount,
-                TotalPages = totalPages
+                Total = totalCount,
+                Skip = request.Skip,
+                Limit = request.Limit
             };
 
             
