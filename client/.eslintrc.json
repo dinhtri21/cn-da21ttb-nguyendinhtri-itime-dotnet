@@ -1,3 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "no-unused-vars": ["warn", { "vars": "all", "args": "none" }]
+  }, // Tắt cảnh báo khai báo nhưng không sử dụng biến
 }
