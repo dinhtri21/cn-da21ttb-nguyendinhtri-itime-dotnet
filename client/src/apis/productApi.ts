@@ -1,33 +1,24 @@
 import axiosConfig from "@/lib/axiosConfig";
-
-export interface Product {
-  productId: number;
-  productName: string;
-  productPrice: number;
-  productDescription: string;
-  quantityInStock: number;
-  brandId: number;
-  materialId: number;
-  imageUrls: string[];
-}
-
-export interface ProductResponse {
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
-}
+import { ProductsRes } from "@/validations/product.schema";
+import { z } from "zod";
 
 const ProductApi = {
-    async getProduct(): Promise<ProductResponse> {
-      try {
-        const response = await axiosConfig.get<ProductResponse>("products");
-        return response.data; 
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        throw error;
+  async getProduct(): Promise<ProductsRes> {
+    try {
+      const response = await axiosConfig.get("products");
+      // Check type
+      const result = ProductsRes.safeParse(response.data);
+      if (result.success) {
+        return result.data;
+      } else {
+        console.error("Lỗi xác thực:", result.error.errors);
+        throw new Error("Lỗi xác thực: Dữ liệu sản phẩm không hợp lệ");
       }
-    },
-  };
-  
-  export default ProductApi;
+    } catch (error) {
+      console.error("Lỗi fetch api:", error);
+      throw new Error("Lỗi fetch api: Unable to retrieve product data");
+    }
+  },
+};
+
+export default ProductApi;
