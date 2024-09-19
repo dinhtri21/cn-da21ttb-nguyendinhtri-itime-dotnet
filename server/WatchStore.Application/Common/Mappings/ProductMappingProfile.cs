@@ -22,8 +22,8 @@ namespace WatchStore.Application.Common.Mappings
                .ForMember(dest => dest.ProductDescription, opt => opt.MapFrom(src => src.ProductDescription))
                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.ProductName))
                .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.QuantityInStock))
-               .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.BrandId))
-               .ForMember(dest => dest.MaterialId, opt => opt.MapFrom(src => src.MaterialId))
+               .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => new BrandDto { BrandId = src.Brand.BrandId, BrandName = src.Brand.BrandName, BrandDescription = src.Brand.BrandDescription }))
+               .ForMember(dest => dest.Material, opt => opt.MapFrom(src => new MaterialDto { MaterialId = src.Material.MaterialId, MaterialName = src.Material.MaterialName }))
                .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ProductImages.Select(pi => pi.ImageUrl)));
 
             CreateMap<ProductDto, Product>()
@@ -32,8 +32,8 @@ namespace WatchStore.Application.Common.Mappings
                 .ForMember(dest => dest.ProductPrice, opt => opt.MapFrom(src => src.ProductPrice))
                 .ForMember(dest => dest.ProductDescription, opt => opt.MapFrom(src => src.ProductDescription))
                 .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.QuantityInStock))
-                .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.BrandId))
-                .ForMember(dest => dest.MaterialId, opt => opt.MapFrom(src => src.MaterialId));
+                .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand))
+                .ForMember(dest => dest.Material, opt => opt.MapFrom(src => src.Material));
 
             CreateMap<CreateProductCommand, Product>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.ProductName))

@@ -1,8 +1,4 @@
 "use client";
-
-import { useState } from "react";
-import { Checkbox } from "../ui/checkbox";
-
 import {
   Sheet,
   SheetContent,
@@ -12,63 +8,113 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+import { use, useEffect, useState } from "react";
+import { Checkbox } from "../ui/checkbox";
+
 import { MixerVerticalIcon } from "@radix-ui/react-icons";
+import { Console } from "console";
+import { number } from "zod";
 
-const filtersData: { [key: string]: string[] } = {
-  "Thương hiệu": ["Casio", "Omega", "Seiko", "Rolex"],
-  "Chất liệu": ["Vàng", "Bạch kim", "Thép không gỉ"],
-  "Màu sắc": ["Đen", "Trắng", "Xanh"],
-};
+interface FilterProps {
+  filtersData: { [key: string]: { id: number; name: string }[] };
+  selectedFilters: { [key: string]: { id: number; name: string }[] };
+  setSelectedFilters: React.SetStateAction<{
+    [key: string]: { id: number; name: string }[];
+  }>;
+  handleFilterChange: any;
+}
 
-export default function Filter() {
-  const [selectedFilters, setSelectedFilters] = useState<{
-    [key: string]: string[];
-  }>({});
-
-  // Hàm cập nhật bộ lọc khi người dùng thay đổi lựa chọn
-  const handleFilterChange = (category: string, value: string) => {
-    setSelectedFilters((prevFilters) => {
-      const prevValues = prevFilters[category] || [];
-
-      // Nếu giá trị đã được chọn trước đó, thì bỏ chọn
-      if (prevValues.includes(value)) {
-        return {
-          ...prevFilters,
-          [category]: prevValues.filter((v) => v !== value),
-        };
-      }
-
-      // Nếu chưa chọn, thêm giá trị vào danh sách
-      return {
-        ...prevFilters,
-        [category]: [...prevValues, value],
-      };
-    });
-  };
-
+export default function Filter({
+  filtersData,
+  selectedFilters,
+  setSelectedFilters,
+  handleFilterChange,
+}: FilterProps) {
   return (
-    <div>
+    <div className="absolute md:relative left-4 top-2">
       <div className="hidden md:block">
+        <div className="mb-4 mt-2 flex items-center gap-2">
+          <MixerVerticalIcon width={20} height={20} />
+          <span className="uppercase font-medium">Lọc sản phẩm</span>
+        </div>
         {Object.keys(filtersData).map((filterKey: string) => (
           <div key={filterKey} className="filter-section mb-4">
-            <h3 className="uppercase text-base font-medium">{filterKey}</h3>
+            <h3 className="uppercase text-base font-medium">
+              {filterKey == "brandIds"
+                ? "Thương hiệu"
+                : filterKey == "materialIds"
+                ? "Chất liệu"
+                : filterKey == "colorIds"
+                ? "Màu sắc"
+                : ""}
+            </h3>
             {filtersData[filterKey].map((option) => (
-              <div key={option}>
+              <div key={option.id}>
                 <label className="flex items-center mt-1">
                   <input
                     className="w-4 h-4"
                     type="checkbox"
                     checked={
-                      selectedFilters[filterKey]?.includes(option) || false
+                      selectedFilters[filterKey]?.some(
+                        (selectedOption) => selectedOption.id === option.id
+                      ) || false
                     } // Check để đánh dấu
                     onChange={() => handleFilterChange(filterKey, option)}
                   />
-                  <span className="ml-2">{option}</span>
+                  <span className="ml-2">{option.name}</span>
                 </label>
               </div>
             ))}
           </div>
         ))}
+      </div>
+      <div className="md:hidden">
+        <Sheet>
+          <SheetTrigger>
+            <div className="flex items-center gap-1">
+              <MixerVerticalIcon width={16} height={16} />
+              <span>Bộ lọc</span>
+            </div>
+          </SheetTrigger>
+          <SheetContent className="w-[250px] sm:w-[540px]">
+            <SheetHeader>
+              <SheetTitle>BỘ LỘC SẢN PHẨM</SheetTitle>
+            </SheetHeader>
+            <div className="px-4 mt-4">
+              {Object.keys(filtersData).map((filterKey: string) => (
+                <div key={filterKey} className="filter-section mb-4">
+                  <h3 className="uppercase text-base font-medium">
+                    {filterKey == "brandIds"
+                      ? "Thương hiệu"
+                      : filterKey == "materialIds"
+                      ? "Chất liệu"
+                      : filterKey == "colorIds"
+                      ? "Màu sắc"
+                      : ""}
+                  </h3>
+                  {filtersData[filterKey].map((option) => (
+                    <div key={option.id}>
+                      <label className="flex items-center mt-1">
+                        <input
+                          className="w-4 h-4"
+                          type="checkbox"
+                          checked={
+                            selectedFilters[filterKey]?.some(
+                              (selectedOption) =>
+                                selectedOption.id === option.id
+                            ) || false
+                          } // Check để đánh dấu
+                          onChange={() => handleFilterChange(filterKey, option)}
+                        />
+                        <span className="ml-2">{option.name}</span>
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
   );

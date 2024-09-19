@@ -21,7 +21,7 @@ import {
 export default function Header() {
   return (
     <header className="w-full border-b-[0.8px] mx-auto">
-      <div className="container mx-auto max-w-screen-xl flex justify-between items-center p-4 bg-background text-foreground">
+      <div className="container mx-auto max-w-screen-xl flex justify-between items-center p-4">
         <div className="logo bg-background flex">
           <Sheet>
             <SheetTrigger>

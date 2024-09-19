@@ -6,6 +6,7 @@ using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Products.Commands.CreateProduct;
 using WatchStore.Application.Products.Commands.DeleteProduct;
 using WatchStore.Application.Products.Commands.UpdateProduct;
+using WatchStore.Application.Products.Queries.GetProductById;
 using WatchStore.Application.Products.Queries.GetProducts;
 
 namespace WatchStore.API.Controllers
@@ -32,6 +33,28 @@ namespace WatchStore.API.Controllers
                     return Ok(new { productListDto.Products, message = "Giỏ hàng trống!" });
                 }
                 return Ok(productListDto);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById([FromRoute] int id)
+        {
+            try
+            {
+                var productDto = await _mediator.Send(new GetProductByIdQuery(id));
+                if (productDto == null)
+                {
+                    return NotFound(new { message = "Không tìm thấy sản phẩm!" });
+                }
+                return Ok(productDto);
             }
             catch (ValidationException ex)
             {

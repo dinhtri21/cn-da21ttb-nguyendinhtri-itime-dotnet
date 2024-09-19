@@ -9,7 +9,7 @@ export default function ProductItem({ product }: ProductItemProps) {
   return (
     <Link
       href={`/products/${product.productId}`}
-      className="p-4 dark:bg-white rounded-lg hover:shadow-lg dark:hover:shadow-[#ffff]"
+      className="px-4 py-5 dark:bg-white rounded-lg hover:shadow-md dark:hover:shadow-[#ffff]"
     >
       <div className="aspect-square">
         {product.imageUrls.length > 0 ? (
@@ -24,8 +24,10 @@ export default function ProductItem({ product }: ProductItemProps) {
           </div>
         )}
       </div>
-
-      <h2 className="text-lg font-medium text-center dark:text-black mt-2">
+      <p className="text-base font-extralight text-center mt-2  dark:text-black">
+        {product.brand?.brandName}
+      </p>
+      <h2 className="text-base font-medium text-center mt-1 dark:text-black">
         {product.productName}
       </h2>
       {/* <p className="text-gray-700 mb-2">{product.productDescription}</p> */}

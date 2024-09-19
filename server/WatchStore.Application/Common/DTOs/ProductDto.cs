@@ -14,9 +14,9 @@ namespace WatchStore.Application.Common.DTOs
         public decimal ProductPrice { get; set; }
         public string ProductDescription { get; set; }
         public int QuantityInStock { get; set; }
-        public int BrandId { get; set; }
-        public int MaterialId { get; set; }
         public IEnumerable<string> ImageUrls { get; set; }
+        public BrandDto Brand { get; set; }
+        public MaterialDto Material { get; set; }
     }
 
 }

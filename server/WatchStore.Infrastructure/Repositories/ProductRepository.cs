@@ -13,7 +13,7 @@ namespace WatchStore.Infrastructure.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly WatchStoreDbContext _context;
-        public ProductRepository(WatchStoreDbContext context) 
+        public ProductRepository(WatchStoreDbContext context)
         {
             _context = context;
         }
@@ -25,21 +25,24 @@ namespace WatchStore.Infrastructure.Repositories
 
         public async Task<bool> DeleteProductAsync(int productId)
         {
-            var product = await  _context.Products
+            var product = await _context.Products
                                          .Include(p => p.ProductImages)
                                          .FirstOrDefaultAsync(p => p.ProductId == productId);
             if (product == null)
             {
-                return false; 
+                return false;
             }
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
-            return true;          
+            return true;
         }
-    
+
         public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip, int limit)
         {
-            var query = _context.Products.Include(p => p.ProductImages).AsQueryable();
+            var query = _context.Products.Include(p => p.ProductImages)
+                                         .Include(p => p.Brand)
+                                         .Include(p => p.Material)  
+                                         .AsQueryable();
 
             if (brandIds != null && brandIds.Any())
             {
@@ -76,6 +79,8 @@ namespace WatchStore.Infrastructure.Repositories
         {
             var product = await _context.Products
                                   .Include(p => p.ProductImages)
+                                  .Include(p => p.Brand)
+                                  .Include(p => p.Material)
                                   .FirstOrDefaultAsync(p => p.ProductId == productId);
             return product;
         }
@@ -97,6 +102,6 @@ namespace WatchStore.Infrastructure.Repositories
             return await _context.Materials.AnyAsync(m => m.MaterialId == materialId);
         }
 
-       
+
     }
 }
