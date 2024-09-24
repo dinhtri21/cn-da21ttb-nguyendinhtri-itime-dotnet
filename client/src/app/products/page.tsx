@@ -54,7 +54,7 @@ const filtersData: { [key: string]: { id: number; name: string }[] } = {
   ],
 };
 
-export default function ProductsPage() {
+export default function ProductsPage(){
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<{
     [key: string]: { id: number; name: string }[];

@@ -91,7 +91,7 @@ export default function Header() {
           </Link>
         </nav>
         <div className="user-actions flex justify-end items-center space-x-5">
-          <Link href="#">
+          <Link href="/login">
             <PersonIcon width={20} height={20} />
           </Link>
           <Link href="#">
