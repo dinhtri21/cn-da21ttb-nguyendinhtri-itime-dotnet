@@ -28,7 +28,6 @@ export default function Header() {
               <HamburgerMenuIcon className="md:hidden" width={20} height={20} />
             </SheetTrigger>
             <SheetContent side={"left"}>
-             
               <div className="flex flex-col font-semibold text-lg">
                 <Link
                   className="py-2 flex items-center gap-3 px-1 md:px-4"
@@ -61,20 +60,24 @@ export default function Header() {
               </div>
             </SheetContent>
           </Sheet>
-          <Image
-            className="hidden dark:block"
-            alt="Next.js Streaming"
-            src={logoLight}
-            width={100}
-            height={100}
-          />
-          <Image
-            className="block dark:hidden"
-            alt="Next.js Streaming"
-            src={logoDark}
-            width={100}
-            height={100}
-          />
+          <Link href="/">
+            <Image
+              className="hidden dark:block"
+              alt="Next.js Streaming"
+              src={logoLight}
+              width={100}
+              height={100}
+            />
+          </Link>
+          <Link href="/">
+            <Image
+              className="block dark:hidden"
+              alt="Next.js Streaming"
+              src={logoDark}
+              width={100}
+              height={100}
+            />
+          </Link>
         </div>
         <nav className="hidden md:flex justify-center space-x-3 md:space-x-4 uppercase font-medium text-base">
           <Link className="py-2 px-1 md:px-4" href="/">

@@ -35,98 +35,76 @@ import Filter from "@/components/filter/filter";
 import { SkeletonCard } from "@/components/ui/skeleton-card";
 import FilterResponsive from "@/components/filterResponsive/filter-responsive";
 
-const filtersData: { [key: string]: { id: number; name: string }[] } = {
-  brandIds: [
-    { id: 1, name: "Casio" },
-    { id: 2, name: "Omega" },
-    { id: 3, name: "Seiko" },
-    { id: 4, name: "Rolex" },
-  ],
-  materialIds: [
-    { id: 1, name: "Vàng" },
-    { id: 2, name: "Bạch kim" },
-    { id: 3, name: "Thép không gỉ" },
-  ],
-  colorIds: [
-    { id: 1, name: "Đen" },
-    { id: 2, name: "Trắng" },
-    { id: 3, name: "Xanh" },
-  ],
-};
+const brandIds: { id: number; name: string }[] = [
+  { id: 1, name: "Casio" },
+  { id: 2, name: "Omega" },
+  { id: 3, name: "Seiko" },
+  { id: 4, name: "Rolex" },
+];
 
-export default function ProductsPage(){
+const materialIds: { id: number; name: string }[] = [
+  { id: 1, name: "Vàng" },
+  { id: 2, name: "Bạch kim" },
+  { id: 3, name: "Thép không gỉ" },
+];
+
+const colorIds: { id: number; name: string }[] = [
+  { id: 1, name: "Đen" },
+  { id: 2, name: "Trắng" },
+  { id: 3, name: "Xanh" },
+];
+
+export default function ProductsPage() {
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
-  const [selectedFilters, setSelectedFilters] = useState<{
-    [key: string]: { id: number; name: string }[];
-  }>({});
+  const [selectBrandIds, setSelectBrandIds] = useState<number[]>([]);
+  const [selectMaterialIds, setSelectMaterialIds] = useState<number[]>([]);
+  const [selectColorIds, setSelectColorIds] = useState<number[]>([]);
 
   const [skip, setSkip] = useState<number>(0);
   const [limit, setLimit] = useState<number>(9);
 
-  //// BEGIN: FETCH PRODUCTS ////
+  //// FETCH PRODUCTS
   const fetchProducts = async () => {
     try {
-      // Tạo query params từ selectedFilters
-      const queryParams: Record<string, number[]> = {};
-
-      // Chuyển đổi selectedFilters thành queryParams
-      for (const [key, values] of Object.entries(selectedFilters)) {
-        if (values.length > 0) {
-          queryParams[key] = values.map((v) => v.id);
-        }
-      }
-      // Chuyển đổi queryParams thành query string
-      const params = new URLSearchParams();
-
-      // Duyệt qua queryParams và thêm vào URLSearchParams
-      if (queryParams) {
-        Object.keys(queryParams).forEach((key) => {
-          queryParams[key].forEach((value) => {
-            params.append(key, value.toString());
-          });
-        });
-      }
-
-      // Thêm limit và skip vào URLSearchParams
-      params.append("limit", `${limit}`);
-      params.append("skip", `${skip}`);
-
-      const data = await ProductApi.getProduct(params);
-
+      const data = await ProductApi.getProduct(
+        skip,
+        limit,
+        selectBrandIds.length > 0 ? selectBrandIds : undefined,
+        selectMaterialIds.length > 0 ? selectMaterialIds : undefined
+      );
       setProductsRes(data);
+      console.log("Products:", data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
   };
-  //// END: FETCH PRODUCTS ////
 
-  //// BEGIN: Filter ////
-  const handleFilterChange = (
-    category: string,
-    value: { id: number; name: string }
-  ) => {
-    setSelectedFilters((prevFilters) => {
-      setSkip(0);
-      const prevValues = prevFilters[category] || [];
-
-      // Nếu giá trị đã được chọn trước đó, thì bỏ chọn
-      if (prevValues.some((v) => v.id === value.id)) {
-        return {
-          ...prevFilters,
-          [category]: prevValues.filter((v) => v.id !== value.id),
-        };
-      }
-
-      // Nếu chưa chọn, thêm giá trị vào danh sách
-      return {
-        ...prevFilters,
-        [category]: [...prevValues, value],
-      };
-    });
+  //// Filter
+  const handleSelectBrand = (id: number) => {
+    if (selectBrandIds.includes(id)) {
+      setSelectBrandIds((prev) => prev.filter((item) => item !== id));
+    } else {
+      setSelectBrandIds((prev) => [...prev, id]);
+    }
   };
-  //// END: Filter ////
 
-  //// BEGIN: Pagination ////
+  const handleSelectMaterial = (id: number) => {
+    if (selectMaterialIds.includes(id)) {
+      setSelectMaterialIds((prev) => prev.filter((item) => item !== id));
+    } else {
+      setSelectMaterialIds((prev) => [...prev, id]);
+    }
+  };
+
+  const handleSelectColor = (id: number) => {
+    if (selectColorIds.includes(id)) {
+      setSelectColorIds((prev) => prev.filter((item) => item !== id));
+    } else {
+      setSelectColorIds((prev) => [...prev, id]);
+    }
+  };
+
+  //// Pagination
   const handlePaginationPrevious = () => {
     if (skip > 0) {
       setSkip(skip - 1);
@@ -140,11 +118,11 @@ export default function ProductsPage(){
     )
       setSkip((prev) => prev + 1);
   };
-  //// END: Pagination ////
 
+  //// Update
   useEffect(() => {
     fetchProducts();
-  }, [selectedFilters, skip]);
+  }, [selectBrandIds, selectMaterialIds, selectColorIds, skip]);
 
   return (
     <div className="w-full">
@@ -163,10 +141,12 @@ export default function ProductsPage(){
       </div>
       <div className="container mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-4 md:py-4 relative">
         <Filter
-          filtersData={filtersData}
-          selectedFilters={selectedFilters}
-          setSelectedFilters={selectedFilters}
-          handleFilterChange={handleFilterChange}
+          brandIds={brandIds}
+          materialIds={materialIds}
+          colorIds={colorIds}
+          handleSelectBrandIds={handleSelectBrand}
+          handleSelectMaterialIds={handleSelectMaterial}
+          handleSelectColorIds={handleSelectColor}
         />
         <div className="col-span-3">
           <div className="grid md:grid-cols-3 grid-cols-2 gap-5">

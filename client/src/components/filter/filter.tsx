@@ -16,19 +16,21 @@ import { Console } from "console";
 import { number } from "zod";
 
 interface FilterProps {
-  filtersData: { [key: string]: { id: number; name: string }[] };
-  selectedFilters: { [key: string]: { id: number; name: string }[] };
-  setSelectedFilters: React.SetStateAction<{
-    [key: string]: { id: number; name: string }[];
-  }>;
-  handleFilterChange: any;
+  brandIds: { id: number; name: string }[];
+  materialIds: { id: number; name: string }[];
+  colorIds: { id: number; name: string }[];
+  handleSelectBrandIds: (brandId: number) => void;
+  handleSelectMaterialIds: (materialId: number) => void;
+  handleSelectColorIds: (colorId: number) => void;
 }
 
 export default function Filter({
-  filtersData,
-  selectedFilters,
-  setSelectedFilters,
-  handleFilterChange,
+  brandIds,
+  materialIds,
+  colorIds,
+  handleSelectBrandIds,
+  handleSelectMaterialIds,
+  handleSelectColorIds,
 }: FilterProps) {
   return (
     <div className="absolute md:relative left-4 top-2">
@@ -37,36 +39,54 @@ export default function Filter({
           <MixerVerticalIcon width={20} height={20} />
           <span className="uppercase font-medium">Lọc sản phẩm</span>
         </div>
-        {Object.keys(filtersData).map((filterKey: string) => (
-          <div key={filterKey} className="filter-section mb-4">
-            <h3 className="uppercase text-base font-medium">
-              {filterKey == "brandIds"
-                ? "Thương hiệu"
-                : filterKey == "materialIds"
-                ? "Chất liệu"
-                : filterKey == "colorIds"
-                ? "Màu sắc"
-                : ""}
-            </h3>
-            {filtersData[filterKey].map((option) => (
-              <div key={option.id}>
-                <label className="flex items-center mt-1">
-                  <input
-                    className="w-4 h-4"
-                    type="checkbox"
-                    checked={
-                      selectedFilters[filterKey]?.some(
-                        (selectedOption) => selectedOption.id === option.id
-                      ) || false
-                    } // Check để đánh dấu
-                    onChange={() => handleFilterChange(filterKey, option)}
-                  />
-                  <span className="ml-2">{option.name}</span>
-                </label>
-              </div>
-            ))}
-          </div>
-        ))}
+        {/* Brand */}
+        <div className="filter-section mb-4">
+          <h3 className="uppercase text-base font-medium">Thương hiệu</h3>
+          {brandIds.map((brand) => (
+            <div key={brand.id}>
+              <label className="flex items-center mt-1">
+                <input
+                  className="w-4 h-4"
+                  type="checkbox"
+                  onChange={() => handleSelectBrandIds(brand.id)}
+                />
+                <span className="ml-2">{brand.name}</span>
+              </label>
+            </div>
+          ))}
+        </div>
+        {/* Material */}
+        <div className="filter-section mb-4">
+          <h3 className="uppercase text-base font-medium">Chất liệu</h3>
+          {materialIds.map((material) => (
+            <div key={material.id}>
+              <label className="flex items-center mt-1">
+                <input
+                  className="w-4 h-4"
+                  type="checkbox"
+                  onChange={() => handleSelectMaterialIds(material.id)}
+                />
+                <span className="ml-2">{material.name}</span>
+              </label>
+            </div>
+          ))}
+        </div>
+        {/* Color */}
+        <div className="filter-section mb-4">
+          <h3 className="uppercase text-base font-medium">Màu sắc</h3>
+          {colorIds.map((color) => (
+            <div key={color.id}>
+              <label className="flex items-center mt-1">
+                <input
+                  className="w-4 h-4"
+                  type="checkbox"
+                  onChange={() => handleSelectColorIds(color.id)}
+                />
+                <span className="ml-2">{color.name}</span>
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="md:hidden">
         <Sheet>
@@ -80,36 +100,52 @@ export default function Filter({
             <SheetHeader>
               <SheetTitle>BỘ LỘC SẢN PHẨM</SheetTitle>
             </SheetHeader>
-            <div className="px-4 mt-4">
-              {Object.keys(filtersData).map((filterKey: string) => (
-                <div key={filterKey} className="filter-section mb-4">
-                  <h3 className="uppercase text-base font-medium">
-                    {filterKey == "brandIds"
-                      ? "Thương hiệu"
-                      : filterKey == "materialIds"
-                      ? "Chất liệu"
-                      : filterKey == "colorIds"
-                      ? "Màu sắc"
-                      : ""}
-                  </h3>
-                  {filtersData[filterKey].map((option) => (
-                    <div key={option.id}>
-                      <label className="flex items-center mt-1">
-                        <input
-                          className="w-4 h-4"
-                          type="checkbox"
-                          checked={
-                            selectedFilters[filterKey]?.some(
-                              (selectedOption) =>
-                                selectedOption.id === option.id
-                            ) || false
-                          } // Check để đánh dấu
-                          onChange={() => handleFilterChange(filterKey, option)}
-                        />
-                        <span className="ml-2">{option.name}</span>
-                      </label>
-                    </div>
-                  ))}
+            <SheetDescription></SheetDescription>
+            {/* Brand */}
+            <div className="filter-section mb-4">
+              <h3 className="uppercase text-base font-medium">Thương hiệu</h3>
+              {brandIds.map((brand) => (
+                <div key={brand.id}>
+                  <label className="flex items-center mt-1">
+                    <input
+                      className="w-4 h-4"
+                      type="checkbox"
+                      onChange={() => handleSelectBrandIds(brand.id)}
+                    />
+                    <span className="ml-2">{brand.name}</span>
+                  </label>
+                </div>
+              ))}
+            </div>
+            {/* Material */}
+            <div className="filter-section mb-4">
+              <h3 className="uppercase text-base font-medium">Chất liệu</h3>
+              {materialIds.map((material) => (
+                <div key={material.id}>
+                  <label className="flex items-center mt-1">
+                    <input
+                      className="w-4 h-4"
+                      type="checkbox"
+                      onChange={() => handleSelectMaterialIds(material.id)}
+                    />
+                    <span className="ml-2">{material.name}</span>
+                  </label>
+                </div>
+              ))}
+            </div>
+            {/* Color */}
+            <div className="filter-section mb-4">
+              <h3 className="uppercase text-base font-medium">Màu sắc</h3>
+              {colorIds.map((color) => (
+                <div key={color.id}>
+                  <label className="flex items-center mt-1">
+                    <input
+                      className="w-4 h-4"
+                      type="checkbox"
+                      onChange={() => handleSelectColorIds(color.id)}
+                    />
+                    <span className="ml-2">{color.name}</span>
+                  </label>
                 </div>
               ))}
             </div>
