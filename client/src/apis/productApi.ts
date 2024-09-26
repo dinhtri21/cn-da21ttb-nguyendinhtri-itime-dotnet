@@ -20,12 +20,12 @@ const ProductApi = {
       paramsSerializer: (params) => {
         return qs.stringify(params, { arrayFormat: 'repeat' });
       }
-      
     });
     return response.data;
   },
   async getProductById(id: string): Promise<ProductRes> {
-    return await axiosConfig.get(`products/${id}`);
+    const response = await axiosConfig.get(`products/${id}`);
+    return response.data;
   },
 };
 

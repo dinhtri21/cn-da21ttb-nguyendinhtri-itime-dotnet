@@ -3,7 +3,6 @@
 import ProductApi from "@/apis/productApi";
 import { useEffect, useState } from "react";
 import ProductItem from "@/components/productItem/page";
-import { Button } from "@/components/ui/button";
 import { ProductsRes } from "@/validations/product.schema";
 import {
   Breadcrumb,
@@ -15,17 +14,8 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -33,45 +23,31 @@ import {
 } from "@/components/ui/pagination";
 import Filter from "@/components/filter/filter";
 import { SkeletonCard } from "@/components/ui/skeleton-card";
-import FilterResponsive from "@/components/filterResponsive/filter-responsive";
-
-const brandIds: { id: number; name: string }[] = [
-  { id: 1, name: "Casio" },
-  { id: 2, name: "Omega" },
-  { id: 3, name: "Seiko" },
-  { id: 4, name: "Rolex" },
-];
-
-const materialIds: { id: number; name: string }[] = [
-  { id: 1, name: "Vàng" },
-  { id: 2, name: "Bạch kim" },
-  { id: 3, name: "Thép không gỉ" },
-];
-
-const colorIds: { id: number; name: string }[] = [
-  { id: 1, name: "Đen" },
-  { id: 2, name: "Trắng" },
-  { id: 3, name: "Xanh" },
-];
+import { useRouter, useSearchParams } from "next/navigation";
+import RenderPaginationItems from "@/components/paginationItemsCustom/paginationItemsCustom";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ProductsPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
-  const [selectBrandIds, setSelectBrandIds] = useState<number[]>([]);
-  const [selectMaterialIds, setSelectMaterialIds] = useState<number[]>([]);
-  const [selectColorIds, setSelectColorIds] = useState<number[]>([]);
-
-  const [skip, setSkip] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(9);
 
   //// FETCH PRODUCTS
   const fetchProducts = async () => {
     try {
-      const data = await ProductApi.getProduct(
-        skip,
-        limit,
-        selectBrandIds.length > 0 ? selectBrandIds : undefined,
-        selectMaterialIds.length > 0 ? selectMaterialIds : undefined
-      );
+      const skip = parseInt(searchParams.get("skip") || "0");
+      const limit = parseInt(searchParams.get("limit") || "1");
+      // const limit = 2;
+      const brands = searchParams.get("brands")?.split(",").map(Number);
+      const materials = searchParams.get("materials")?.split(",").map(Number);
+
+      const data = await ProductApi.getProduct(skip, limit, brands, materials);
       setProductsRes(data);
       console.log("Products:", data);
     } catch (error) {
@@ -79,50 +55,50 @@ export default function ProductsPage() {
     }
   };
 
-  //// Filter
-  const handleSelectBrand = (id: number) => {
-    if (selectBrandIds.includes(id)) {
-      setSelectBrandIds((prev) => prev.filter((item) => item !== id));
-    } else {
-      setSelectBrandIds((prev) => [...prev, id]);
-    }
+  //// Update filters and call API
+  useEffect(() => {
+    fetchProducts();
+  }, [searchParams]);
+
+  //// Function to update URL with filters
+  const updateURLWithFilters = (filters: Record<string, any>) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set("skip", "0"); // Reset 0 nếu có thay đổi filters
+
+    Object.keys(filters).forEach((key: string) => {
+      if (filters[key]) {
+        // Nếu value có giá trị thì set vào URL
+        params.set(key, filters[key]);
+      } else {
+        params.delete(key); // Ngược lại xóa param query đó ra khỏi URL
+      }
+    });
+
+    router.push(`${window.location.pathname}?${params.toString()}`);
   };
 
-  const handleSelectMaterial = (id: number) => {
-    if (selectMaterialIds.includes(id)) {
-      setSelectMaterialIds((prev) => prev.filter((item) => item !== id));
-    } else {
-      setSelectMaterialIds((prev) => [...prev, id]);
-    }
-  };
-
-  const handleSelectColor = (id: number) => {
-    if (selectColorIds.includes(id)) {
-      setSelectColorIds((prev) => prev.filter((item) => item !== id));
-    } else {
-      setSelectColorIds((prev) => [...prev, id]);
-    }
-  };
-
-  //// Pagination
+  //// Pagination handlers
   const handlePaginationPrevious = () => {
+    const skip = parseInt(searchParams.get("skip") || "0");
     if (skip > 0) {
-      setSkip(skip - 1);
+      updateURLWithFilters({ skip: skip - 1 });
     }
   };
 
   const handlePaginationNext = () => {
-    if (
-      productsRes &&
-      skip < Math.ceil(productsRes.total / productsRes.limit) - 1
-    )
-      setSkip((prev) => prev + 1);
+    const skip = parseInt(searchParams.get("skip") || "0");
+    const totalPages = productsRes
+      ? Math.ceil(productsRes.total / productsRes.limit) - 1
+      : 0;
+    if (skip < totalPages) {
+      updateURLWithFilters({ skip: skip + 1 });
+    }
   };
 
-  //// Update
-  useEffect(() => {
-    fetchProducts();
-  }, [selectBrandIds, selectMaterialIds, selectColorIds, skip]);
+  const handlePaginationItem = (page: number) => {
+    updateURLWithFilters({ skip: page });
+  };
 
   return (
     <div className="w-full">
@@ -140,14 +116,7 @@ export default function ProductsPage() {
         </Breadcrumb>
       </div>
       <div className="container mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-4 md:py-4 relative">
-        <Filter
-          brandIds={brandIds}
-          materialIds={materialIds}
-          colorIds={colorIds}
-          handleSelectBrandIds={handleSelectBrand}
-          handleSelectMaterialIds={handleSelectMaterial}
-          handleSelectColorIds={handleSelectColor}
-        />
+        <Filter updateURLWithFilters={updateURLWithFilters} />
         <div className="col-span-3">
           <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
             <div className="col-span-2 md:col-span-3 flex justify-end">
@@ -171,36 +140,30 @@ export default function ProductsPage() {
               <SkeletonCard />
             )}
           </div>
-          {productsRes?.products.length !== 0 ? (
+          {productsRes?.products.length !== 0 && (
             <div className="col-span-3 mt-4">
               <Pagination>
                 <PaginationContent>
-                  <PaginationItem onClick={handlePaginationPrevious}>
-                    <PaginationPrevious onClick={handlePaginationPrevious} />
+                  <PaginationItem
+                    className="cursor-pointer"
+                    onClick={handlePaginationPrevious}
+                  >
+                    <PaginationPrevious />
                   </PaginationItem>
-                  {productsRes
-                    ? Array.from(
-                        {
-                          length: Math.ceil(
-                            productsRes.total / productsRes.limit
-                          ),
-                        },
-                        (_, i) => (
-                          <PaginationItem key={i + 1}>
-                            <PaginationLink href="#">{i + 1}</PaginationLink>
-                          </PaginationItem>
-                        )
-                      )
-                    : null}
-                  <PaginationItem>
-                    {/* <PaginationEllipsis /> */}
-                  </PaginationItem>
+                  <RenderPaginationItems
+                    total={productsRes?.total || 0}
+                    limit={productsRes?.limit ?? 0}
+                    skip={parseInt(searchParams.get("skip") || "0")}
+                    handlePaginationItem={handlePaginationItem}
+                  />
 
-                  <PaginationNext onClick={handlePaginationNext} />
+                  <PaginationItem className="cursor-pointer">
+                    <PaginationNext onClick={handlePaginationNext} />
+                  </PaginationItem>
                 </PaginationContent>
               </Pagination>
             </div>
-          ) : null}
+          )}
         </div>
       </div>
     </div>
