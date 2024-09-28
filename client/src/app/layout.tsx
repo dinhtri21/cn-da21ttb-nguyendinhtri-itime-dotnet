@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import CustomLayout from "./customLayout";
 import { Toaster } from "@/components/ui/toaster";
 
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // <Provider store={store}>
       <html lang="en" suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -45,5 +47,6 @@ export default function RootLayout({
           </ThemeProvider>
         </body>
       </html>
+    // </Provider>
   );
 }

@@ -17,12 +17,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { usePathname } from "next/navigation";
+import { useSelector, UseSelector } from "react-redux";
+import { Root } from "postcss";
+import { RootState } from "@/redux/store/store";
 
 export default function Header() {
+  const pathname = usePathname();
+  const user = useSelector((state: RootState) => state.user);
+
+  // console.log(user);
+
   return (
     <header className="w-full border-b-[0.8px] mx-auto">
       <div className="container mx-auto max-w-screen-xl flex justify-between items-center p-4">
         <div className="logo bg-background flex">
+          {/* Reponsive nav */}
           <Sheet>
             <SheetTrigger>
               <HamburgerMenuIcon className="md:hidden" width={20} height={20} />
@@ -50,16 +60,10 @@ export default function Header() {
                   <span>Giới thiệu </span>
                   <ChevronRightIcon width={20} height={20} />
                 </Link>
-                <Link
-                  className="py-2 flex items-center gap-3 px-1 md:px-4"
-                  href="#"
-                >
-                  <span>Liên hệ </span>
-                  <ChevronRightIcon width={20} height={20} />
-                </Link>
               </div>
             </SheetContent>
           </Sheet>
+          {/* Logo */}
           <Link href="/">
             <Image
               className="hidden dark:block"
@@ -80,24 +84,45 @@ export default function Header() {
           </Link>
         </div>
         <nav className="hidden md:flex justify-center space-x-3 md:space-x-4 uppercase font-medium text-base">
-          <Link className="py-2 px-1 md:px-4" href="/">
+          <Link
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 ${
+              pathname === "/" ? "text-slate-400" : ""
+            }`}
+            href="/"
+          >
             Trang chủ
           </Link>
-          <Link className="py-2 px-1 md:px-4" href="/products">
+          <Link
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 ${
+              pathname.startsWith("/products") ? "text-slate-400" : ""
+            }`}
+            href="/products"
+          >
             Sản phẩm
           </Link>
-          <Link className="py-2 px-1 md:px-4" href="#">
+          <Link
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 ${
+              pathname.startsWith("/about") ? "text-slate-400" : ""
+            }`}
+            href="/about"
+          >
             Giới thiệu
-          </Link>
-          <Link className="py-2 px-1 md:px-4" href="#">
-            Liên hệ
           </Link>
         </nav>
         <div className="user-actions flex justify-end items-center space-x-5">
-          <Link href="/login">
+          <Link
+            className={`hover:text-slate-400 ${
+              pathname.startsWith("/login") ||
+              pathname.startsWith("/register") ||
+              pathname.startsWith("/user")
+                ? "text-slate-400"
+                : ""
+            }`}
+            href="/login"
+          >
             <PersonIcon width={20} height={20} />
           </Link>
-          <Link href="#">
+          <Link className={`hover:text-slate-400`} href="#">
             <ArchiveIcon width={20} height={20} />
           </Link>
           <ModeToggle />

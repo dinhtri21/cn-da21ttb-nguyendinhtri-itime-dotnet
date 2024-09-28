@@ -35,6 +35,7 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
       );
     }
   } else {
+    // 1 2 3 ...
     if (skip == 0) {
       for (let i = skip; i < skip + maxPaginationItems; i++) {
         pageNumbers.push(
@@ -49,9 +50,27 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
         );
       }
       pageNumbers.push(<PaginationEllipsis />);
+      pageNumbers.push(<PaginationEllipsis />);
+      // 1 2 3 ...
+    } else if (skip > 0 && skip < maxPaginationItems - 1) {
+      for (let i = skip - 1; i < skip + maxPaginationItems - 1; i++) {
+        pageNumbers.push(
+          <PaginationItem className="cursor-pointer" key={i}>
+            <PaginationLink
+              className={skip == i ? "bg-slate-200 dark:text-black" : ""}
+              onClick={() => handlePaginationItem(i)}
+            >
+              {i + 1}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+      pageNumbers.push(<PaginationEllipsis />);
+      pageNumbers.push(<PaginationEllipsis />);
+      // ... 2 3 4 ...
     } else if (skip > 0 && skip + maxPaginationItems < totalPages) {
       pageNumbers.push(<PaginationEllipsis />);
-      for (let i = skip; i < skip + maxPaginationItems - 1; i++) {
+      for (let i = skip - 1; i < skip + maxPaginationItems - 1; i++) {
         pageNumbers.push(
           <PaginationItem className="cursor-pointer" key={i}>
             <PaginationLink
@@ -64,21 +83,9 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
         );
       }
       pageNumbers.push(<PaginationEllipsis />);
-    } else if (skip > 0 && skip + maxPaginationItems == totalPages) {
-      pageNumbers.push(<PaginationEllipsis />);
-      for (let i = skip; i < skip + 3; i++) {
-        pageNumbers.push(
-          <PaginationItem className="cursor-pointer" key={i}>
-            <PaginationLink
-              className={skip == i ? "bg-slate-200 dark:text-black" : ""}
-              onClick={() => handlePaginationItem(i)}
-            >
-              {i + 1}
-            </PaginationLink>
-          </PaginationItem>
-        );
-      }
+      // ... 4 5 6
     } else if (skip > 0 && skip <= totalPages) {
+      pageNumbers.push(<PaginationEllipsis />);
       pageNumbers.push(<PaginationEllipsis />);
       for (let i = totalPages - maxPaginationItems; i < totalPages; i++) {
         pageNumbers.push(

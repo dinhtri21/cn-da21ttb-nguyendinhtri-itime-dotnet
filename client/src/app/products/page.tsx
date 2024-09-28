@@ -42,7 +42,7 @@ export default function ProductsPage() {
   const fetchProducts = async () => {
     try {
       const skip = parseInt(searchParams.get("skip") || "0");
-      const limit = parseInt(searchParams.get("limit") || "1");
+      const limit = parseInt(searchParams.get("limit") || "6");
       // const limit = 2;
       const brands = searchParams.get("brands")?.split(",").map(Number);
       const materials = searchParams.get("materials")?.split(",").map(Number);
@@ -100,13 +100,14 @@ export default function ProductsPage() {
     updateURLWithFilters({ skip: page });
   };
 
+
   return (
     <div className="w-full">
       <div className="container mx-auto max-w-screen-xl my-2 px-4">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -140,7 +141,7 @@ export default function ProductsPage() {
               <SkeletonCard />
             )}
           </div>
-          {productsRes?.products.length !== 0 && (
+          {productsRes && productsRes?.products?.length !== 0 && (
             <div className="col-span-3 mt-4">
               <Pagination>
                 <PaginationContent>
