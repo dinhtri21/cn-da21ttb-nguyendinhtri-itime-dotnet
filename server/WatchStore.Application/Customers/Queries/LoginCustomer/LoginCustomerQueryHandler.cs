@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,20 +9,23 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Common.Interfaces;
 
 namespace WatchStore.Application.Customers.Queries.LoginCustomer
 {
-    public class LoginCustomerQueryHandler : IRequestHandler<LoginCustomerQuery, string>, IApplicationMarker
+    public class LoginCustomerQueryHandler : IRequestHandler<LoginCustomerQuery, LoginCustomerDto>, IApplicationMarker
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IConfiguration _configuration;
-        public LoginCustomerQueryHandler(ICustomerRepository customerRepository, IConfiguration configuration)
+        private readonly IMapper _mapper;
+        public LoginCustomerQueryHandler(ICustomerRepository customerRepository, IConfiguration configuration, IMapper mapper)
         {
             _customerRepository = customerRepository;
             _configuration = configuration;
+            _mapper = mapper;
         }
-        public async Task<string> Handle(LoginCustomerQuery request, CancellationToken cancellationToken)
+        public async Task<LoginCustomerDto> Handle(LoginCustomerQuery request, CancellationToken cancellationToken)
         {
             var customer = await _customerRepository.GetCustomerByEmailAsync(request.Email);
 
@@ -54,7 +58,13 @@ namespace WatchStore.Application.Customers.Queries.LoginCustomer
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return tokenString;
+           
+
+            return new LoginCustomerDto
+            {
+                Token = tokenString,
+                Customer = _mapper.Map<CustomerDto>(customer)
+            };
         }
     }
 }

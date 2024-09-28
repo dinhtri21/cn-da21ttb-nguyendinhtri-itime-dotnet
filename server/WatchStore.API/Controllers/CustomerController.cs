@@ -9,6 +9,7 @@ using WatchStore.Application.Customers.Commands.UpdateCustomer;
 using WatchStore.Application.Customers.Queries.LoginCustomer;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using WatchStore.Application.Customers.Queries.GetCustomerById;
 
 namespace WatchStore.API.Controllers
 {
@@ -46,6 +47,32 @@ namespace WatchStore.API.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        [Authorize(Policy = "CustomerPolicy")]
+        public async Task<IActionResult> GetCustomerById(int id)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+
+                if (userId != id.ToString())
+                {
+                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+                }
+
+                var query = new GetCustomerByIdQuery(id);
+                var customer = await _mediator.Send(query);
+                if (customer == null)
+                {
+                    return BadRequest(new { message = "Không tìm thấy khách hàng!" });
+                }
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddCustomer(CreateCustomerCommand command)
@@ -112,15 +139,16 @@ namespace WatchStore.API.Controllers
         {
             try
             {
-                var token = await _mediator.Send(query);
+                var loginData = await _mediator.Send(query);
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true,
-                    Expires = DateTime.UtcNow.AddHours(1)
+                    Secure = false,
+                    Expires = DateTime.UtcNow.AddHours(1),
+                     SameSite = SameSiteMode.None
                 };
-                Response.Cookies.Append("accessToken", token, cookieOptions);
-                return Ok(new { message = "Đăng nhập thành công!" });
+                Response.Cookies.Append("accessToken", loginData.Token, cookieOptions);
+                return Ok(loginData.Customer);
             }
             catch (UnauthorizedAccessException ex)
             {
