@@ -12,12 +12,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { set, z } from "zod";
-import { LoginCustomer } from "@/validations/customer.chema";
 import { customerApi } from "@/apis/customerApi";
 import { useToast } from "@/hooks/use-toast";
 import { SymbolIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/userSlice";
 
 export const description =
   "A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -28,15 +29,29 @@ export function LoginForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     setIsLoading(true);
     try {
       const res = await customerApi.LoginCustomer({ email, password });
+
+      Cookies.set("userId", res.customer.customerId, { expires: 1 });
+      Cookies.set("token", res.token, { expires: 1 });
+
+      dispatch(
+        setUser({
+          id: res.customer.customerId,
+          email: res.customer.email,
+          name: res.customer.fullName,
+        })
+      );
+
       toast.toast({
         title: "Đăng nhập thành công",
         description: "Chuyển hướng đến trang cá nhân...",
       });
+
       setTimeout(() => {
         router.push("/user");
       }, 1000);
@@ -48,14 +63,6 @@ export function LoginForm() {
       });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleGetUser = async () => {
-    try {
-      const res = await customerApi.GetCustomer("1");
-    } catch (error) {
-      console.error(error);
     }
   };
 

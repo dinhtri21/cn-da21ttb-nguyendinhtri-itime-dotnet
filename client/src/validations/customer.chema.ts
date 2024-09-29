@@ -29,15 +29,30 @@ export const CreateCustomer = z.object({
 export type CreateCustomer = z.infer<typeof CreateCustomer>;
 
 // Login Customer for API
-export const LoginCustomer = z.object({
+export const CustomerLoginRequest = z.object({
   email: z.string().email({ message: "Email không hợp lệ!" }),
   password: z.string().min(3, { message: "Mật khẩu phải có ít nhất 3 ký tự!" }),
 });
 
-export type LoginCustomer = z.infer<typeof LoginCustomer>;
+export type CustomerLoginRequest = z.infer<typeof CustomerLoginRequest>;
+
+// Customer Login Response
+export const CustomerLoginResponse = z.object({
+  token: z.string(),
+  customer: z.object({
+    customerId: z.string(),
+    fullName: z.string(),
+    phoneNumber: z.string(),
+    email: z.string().email(),
+    address: z.string(),
+  }),
+});
+
+export type CustomerLoginResponse = z.infer<typeof CustomerLoginResponse>;
 
 // Customer Response
 export const CustomerResponse = z.object({
+  customerId: z.string(),
   fullName: z.string(),
   phoneNumber: z.string(),
   email: z.string().email(),

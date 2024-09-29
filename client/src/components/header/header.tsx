@@ -18,7 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
-import { useSelector, UseSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Root } from "postcss";
 import { RootState } from "@/redux/store/store";
 
@@ -111,16 +111,17 @@ export default function Header() {
         </nav>
         <div className="user-actions flex justify-end items-center space-x-5">
           <Link
-            className={`hover:text-slate-400 ${
+            className={`hover:text-slate-400 flex gap-2 items-center ${
               pathname.startsWith("/login") ||
               pathname.startsWith("/register") ||
               pathname.startsWith("/user")
                 ? "text-slate-400"
                 : ""
             }`}
-            href="/login"
+            href={`${user.id ? "/user" : "/login"}`}
           >
             <PersonIcon width={20} height={20} />
+            {user.name ? user.name : null}
           </Link>
           <Link className={`hover:text-slate-400`} href="#">
             <ArchiveIcon width={20} height={20} />

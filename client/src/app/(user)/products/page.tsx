@@ -49,7 +49,6 @@ export default function ProductsPage() {
 
       const data = await ProductApi.getProduct(skip, limit, brands, materials);
       setProductsRes(data);
-      console.log("Products:", data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
@@ -99,7 +98,6 @@ export default function ProductsPage() {
   const handlePaginationItem = (page: number) => {
     updateURLWithFilters({ skip: page });
   };
-
 
   return (
     <div className="w-full">
