@@ -55,7 +55,7 @@ export default function Header() {
                 </Link>
                 <Link
                   className="py-2 flex items-center gap-3 px-1 md:px-4"
-                  href="#"
+                  href="/about"
                 >
                   <span>Giới thiệu </span>
                   <ChevronRightIcon width={20} height={20} />
@@ -123,7 +123,7 @@ export default function Header() {
             <PersonIcon width={20} height={20} />
             {user.name ? user.name : null}
           </Link>
-          <Link className={`hover:text-slate-400`} href="#">
+          <Link className={`hover:text-slate-400`} href="/cart">
             <ArchiveIcon width={20} height={20} />
           </Link>
           <ModeToggle />
