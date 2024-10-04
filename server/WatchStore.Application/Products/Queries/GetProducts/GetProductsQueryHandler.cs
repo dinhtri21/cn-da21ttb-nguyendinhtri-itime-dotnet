@@ -22,7 +22,7 @@ namespace WatchStore.Application.Products.Queries.GetProducts
         }
         public async Task<ProductListDto> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-          var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.Skip, request.Limit);
+          var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.Skip, request.Limit, request.SortOrder);
           
           int totalCount = await _productRepository.GetTotalProductCountAsync(request.BrandIds, request.MaterialIds);
 

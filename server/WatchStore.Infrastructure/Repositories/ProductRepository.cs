@@ -37,7 +37,7 @@ namespace WatchStore.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip, int limit)
+        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip, int limit, string sortOrder)
         {
             var query = _context.Products.Include(p => p.ProductImages)
                                          .Include(p => p.Brand)
@@ -52,6 +52,26 @@ namespace WatchStore.Infrastructure.Repositories
             if (materialIds != null && materialIds.Any())
             {
                 query = query.Where(p => materialIds.Contains(p.MaterialId));
+            }
+
+            // Áp dụng sắp xếp theo sortOrder
+            switch (sortOrder)
+            {
+                case "price_asc": // Sắp xếp theo giá tăng dần
+                    query = query.OrderBy(p => p.ProductPrice);
+                    break;
+                case "price_desc": // Sắp xếp theo giá giảm dần
+                    query = query.OrderByDescending(p => p.ProductPrice);
+                    break;
+                //case "date_asc": // Sắp xếp theo ngày tạo cũ nhất
+                //    query = query.OrderBy(p => p.CreatedDate);
+                //    break;
+                //case "date_desc": // Sắp xếp theo ngày tạo mới nhất
+                //    query = query.OrderByDescending(p => p.CreatedDate);
+                //    break;
+                default: // Nếu không có sortOrder, mặc định không sắp xếp
+                    query = query.OrderBy(p => p.ProductId);
+                    break;
             }
 
             return await query.Skip(skip * limit)

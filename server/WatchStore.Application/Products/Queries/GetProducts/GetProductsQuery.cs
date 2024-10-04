@@ -14,11 +14,14 @@ namespace WatchStore.Application.Products.Queries.GetProducts
         public List<int> MaterialIds { get; set; }
         public int Skip { get; set; }
         public int Limit { get; set; } // Default page size
-        public GetProductsQuery(List<int> brandIds, List<int> materialIds,int skip, int limit) {
+        public string SortOrder { get; set; }
+        public GetProductsQuery(List<int> brandIds, List<int> materialIds,int skip, int limit, string sortOrder)
+        {
             BrandIds = brandIds;
             MaterialIds = materialIds;
             Skip = skip;
             Limit = limit;
+            SortOrder = sortOrder;
         }
     }
 }

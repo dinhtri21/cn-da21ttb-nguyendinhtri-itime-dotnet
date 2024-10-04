@@ -22,12 +22,14 @@ namespace WatchStore.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds, [FromQuery] int? skip, [FromQuery] int? limit)
+        public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds,
+            [FromQuery] int? skip, [FromQuery] int? limit, [FromQuery] string? sortOrder)
         {
-            try {
+            try
+            {
                 int Skip = skip ?? 0;
                 int Limit = limit ?? 9;
-                var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, Skip, Limit));
+                var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, Skip, Limit, sortOrder));
                 if (productListDto.Products.Count() == 0)
                 {
                     return Ok(new { productListDto.Products, message = "Giỏ hàng trống!" });
@@ -65,7 +67,7 @@ namespace WatchStore.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-       
+
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] CreateProductCommand command)
         {
