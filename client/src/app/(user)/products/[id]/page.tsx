@@ -27,12 +27,21 @@ import {
 import { PlusIcon, MinusIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-
+import { CartItemApi } from "@/apis/cartItemAPi";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import Cookies from "js-cookie";
+import { useToast } from "@/hooks/use-toast";
+import { set } from "zod";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
 
 export default function ProductDetail({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<ProductRes | null>(null);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const token = Cookies.get("token");
+  const toast = useToast();
 
   const handleIncrease = () => {
     setQuantity((prev) => prev + 1);
@@ -40,7 +49,38 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const handleDecrease = () => {
     setQuantity((prev) => prev - 1);
   };
-  
+
+  const handleUpdateCartItemsCount = async () => {
+    try {
+      const res = await CartItemApi.getCartItemsCount(
+        token ?? "",
+        parseInt(user.id ?? "0")
+      );
+      dispatch(setCartItemCount(res.data.cartItemsCount));
+    } catch (error) {
+      console.error("Failed to fetch cart items count:", error);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      const data = await CartItemApi.createCartItem(token ?? "", {
+        customerId: parseInt(user.id ?? "0"),
+        productId: product?.productId ?? 0,
+        quantity: quantity,
+      });
+      toast.toast({
+        title: "Thên vào giỏ hàng thành công",
+      });
+      handleUpdateCartItemsCount();
+    } catch (error) {
+      toast.toast({
+        title: "Thên vào giỏ hàng thất bại",
+      });
+      console.error("Failed to add to cart:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -100,7 +140,9 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           </Carousel>
         </div>
         <div className="md:col-span-4 mt-4 px-4">
-          <h1 className="text-xl md:text-2xl font-medium">{product?.productName}</h1>
+          <h1 className="text-xl md:text-2xl font-medium">
+            {product?.productName}
+          </h1>
           <div className="flex items-center mt-4 gap-2">
             <p className="md:text-lg font-normal uppercase">Giá : </p>
             <span className="text-lg md:text-xl font-semibold text-customOrange">
@@ -116,7 +158,9 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               >
                 <MinusIcon width={16} height={16} />
               </div>
-              <span className="text-lg font-medium px-1 text-cyan-600">{quantity}</span>
+              <span className="text-lg font-medium px-1 text-cyan-600">
+                {quantity}
+              </span>
               <div
                 onClick={handleIncrease}
                 className="p-1 border-l cursor-pointer px-1"
@@ -128,7 +172,9 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                <p className="text-base md:text-lg font-normal uppercase">Thông số :</p>
+                <p className="text-base md:text-lg font-normal uppercase">
+                  Thông số :
+                </p>
               </AccordionTrigger>
               <AccordionContent>
                 <p className="text-base font-normal">
@@ -140,12 +186,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <div
+          <Button
+            onClick={handleAddToCart}
             className="mt-4 w-full px-4 py-3 rounded-md text-center text-sm md:text-base font-medium
              uppercase cursor-pointer bg-black text-white dark:bg-slate-200 dark:text-black"
           >
             Thêm vào giỏ hàng
-          </div>
+          </Button>
         </div>
       </div>
     </div>

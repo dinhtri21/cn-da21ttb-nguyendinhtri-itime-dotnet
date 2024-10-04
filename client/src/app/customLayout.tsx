@@ -8,6 +8,7 @@ import store from "../redux/store/store";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import CustomerRouter from "./customerRouter";
+import React from "react";
 
 // CustomLayout để quản lý việc có hiển thị Header và Footer hay không
 export default function CustomLayout({

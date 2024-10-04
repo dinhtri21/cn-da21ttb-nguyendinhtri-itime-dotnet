@@ -6,6 +6,9 @@ import { customerApi } from "@/apis/customerApi";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/userSlice";
 import { useRouter, usePathname } from "next/navigation";
+import React from "react";
+import { CartItemApi } from "@/apis/cartItemAPi";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
 
 export default function CustomerRouter({
   children,
@@ -14,10 +17,24 @@ export default function CustomerRouter({
 }) {
   const user = useSelector((state: RootState) => state.user);
   const userIdCookie = Cookies.get("userId");
-  const tokenCookie = Cookies.get("token");
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
+  const token = Cookies.get("token");
+
+  const handleUpdateCartItemsCount = async (customerId: string) => {
+    try {
+      console.log(user);
+      const res = await CartItemApi.getCartItemsCount(
+        token ?? "",
+        parseInt(customerId ?? "0")
+      );
+      console.log(res.data.cartItemsCount);
+      dispatch(setCartItemCount(res.data.cartItemsCount));
+    } catch (error) {
+      console.error("Failed to fetch cart items count:", error);
+    }
+  };
 
   const getInfoUser = async (userId: string, token: string) => {
     try {
@@ -29,13 +46,14 @@ export default function CustomerRouter({
           name: data.fullName,
         })
       );
+      handleUpdateCartItemsCount(data.customerId);
     } catch (error) {
       console.error("Failed to fetch user:", error);
     }
   };
   useEffect(() => {
-    if (!user.id && userIdCookie && tokenCookie) {
-      getInfoUser(userIdCookie, tokenCookie);
+    if (!user.id && userIdCookie && token) {
+      getInfoUser(userIdCookie, token);
       // Nếu đang ở trang /login thì chuyển hướng đến /user
       if (pathname === "/login") {
         router.push("/user");

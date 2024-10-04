@@ -25,6 +25,7 @@ import { RootState } from "@/redux/store/store";
 export default function Header() {
   const pathname = usePathname();
   const user = useSelector((state: RootState) => state.user);
+  const cartItemsCount = useSelector((state: RootState) => state.cartItemCount);
 
   // console.log(user);
 
@@ -123,8 +124,19 @@ export default function Header() {
             <PersonIcon width={20} height={20} />
             {user.name ? user.name : null}
           </Link>
-          <Link className={`hover:text-slate-400`} href="/cart">
+          <Link
+            className={`hover:text-slate-400 ${
+              pathname.startsWith("/cart") ? "text-slate-400" : ""
+            } relative`}
+            href="/cart"
+          >
             <ArchiveIcon width={20} height={20} />
+            <span
+              className="  absolute top-[-10px] right-[-10px] bg-red-400
+               h-5 w-5 flex items-center justify-center rounded-full text-white text-xs"
+            >
+              {cartItemsCount.total}
+            </span>
           </Link>
           <ModeToggle />
         </div>
