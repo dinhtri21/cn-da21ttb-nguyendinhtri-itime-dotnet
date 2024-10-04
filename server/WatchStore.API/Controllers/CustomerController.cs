@@ -145,10 +145,12 @@ namespace WatchStore.API.Controllers
                     HttpOnly = true,
                     Secure = false,
                     Expires = DateTime.UtcNow.AddHours(1),
-                     SameSite = SameSiteMode.None
+                    SameSite = SameSiteMode.None,
+                    MaxAge = TimeSpan.FromHours(1)
                 };
                 Response.Cookies.Append("accessToken", loginData.Token, cookieOptions);
-                return Ok(loginData.Customer);
+
+                return Ok(loginData);
             }
             catch (UnauthorizedAccessException ex)
             {

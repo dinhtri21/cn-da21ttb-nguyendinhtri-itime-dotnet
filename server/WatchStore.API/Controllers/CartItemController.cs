@@ -8,6 +8,7 @@ using WatchStore.Application.CartItems.Commands.CreateCartItem;
 using WatchStore.Application.CartItems.Commands.DeleteCartItem;
 using WatchStore.Application.CartItems.Commands.UpdateCartItem;
 using WatchStore.Application.CartItems.Queries.GetCartItems;
+using WatchStore.Application.CartItems.Queries.GetCartItemsCount;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Domain.Entities;
 
@@ -42,6 +43,32 @@ namespace WatchStore.API.Controllers
                     return Ok(new { cartItems = new List<CartItemDto>(), message = "Giỏ hàng trống!" });
                 }
                 return Ok(cartItems);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [Authorize(Policy = "CustomerPolicy")]
+        [HttpGet("items-count/customer/{customer-id}")]
+        public async Task<IActionResult> GetCartItemsCount([FromRoute(Name = "customer-id")] int customerId)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+
+                if (userId != customerId.ToString())
+                {
+                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+                }
+
+                var cartItemsCount = await _mediator.Send(new GetCartItemsCountQuery(customerId));
+                return Ok(new { cartItemsCount });
             }
             catch (ValidationException ex)
             {

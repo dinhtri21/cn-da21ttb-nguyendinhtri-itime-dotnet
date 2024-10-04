@@ -67,5 +67,18 @@ namespace WatchStore.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
                 return cartItem;
         }
+        public async Task<int> GetCartItemCountByIdAsync(int cartId)
+        {
+            var cartItems = await _context.CartItems
+                                            .Where(c => c.CartId == cartId)
+                                            .ToListAsync();
+            int count = 0;
+            foreach (var item in cartItems)
+            {
+                count = count + item.Quantity;   
+            }
+
+            return count;
+        }
     }
 }

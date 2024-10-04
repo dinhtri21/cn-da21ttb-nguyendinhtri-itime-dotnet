@@ -15,5 +15,6 @@ namespace WatchStore.Application.Common.Interfaces
         Task<IEnumerable<CartItem>> GetCartItemByCartIdAsync(int cartId);
         Task<CartItem> UpdateCartItemAasync(CartItem cartItem);
         Task<CartItem> GetCartItemByProductIdAsync (int productId, int cartId);
+        Task<int> GetCartItemCountByIdAsync(int cartId);
     }
 }
