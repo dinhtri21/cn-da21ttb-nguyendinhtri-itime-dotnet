@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false, // Tăt chế độ strict mode
   images: {
-    domains: ["dummyimage.com"], // Thêm các hostname cần thiết ở đây
+    domains: ["dummyimage.com", "localhost", "product.hstatic.net"], // Thêm các hostname cần thiết ở đây
   },
 };
 

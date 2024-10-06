@@ -1,68 +1,43 @@
-import { Badge } from "@/components/ui/badge";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { TabsContent } from "@/components/ui/tabs";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-
+"use client";
 import Image from "next/image";
 import { PlusIcon, MinusIcon, Cross1Icon } from "@radix-ui/react-icons";
-
-const products = [
-  {
-    productId: 1,
-    productName: "SMILE KID 47 mm Trẻ em SL064-01",
-    price: 1000000,
-    quantity: 25,
-    total: 10000000,
-  },
-  {
-    productId: 1,
-    productName: "SMILE KID 47 mm Trẻ em SL064-01",
-    price: 1000000,
-    quantity: 25,
-    total: 10000000,
-  },
-  {
-    productId: 1,
-    productName: "SMILE KID 47 mm Trẻ em SL064-01",
-    price: 1000000,
-    quantity: 25,
-    total: 10000000,
-  },
-  {
-    productId: 1,
-    productName: "SMILE KID 47 mm Trẻ em SL064-01",
-    price: 1000000,
-    quantity: 25,
-    total: 10000000,
-  },
-];
+import { CartItemApi } from "@/apis/cartItemAPi";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import Cookies from "js-cookie";
+import { parse } from "path";
+import { useEffect, useState } from "react";
+import { CartItemRes } from "@/validations/cartItem.chema";
+import { set } from "zod";
 
 export function TableProduct() {
+  const user = useSelector((state: RootState) => state.user);
+  const token = Cookies.get("token");
+  const [cartItems, setCartItems] = useState<CartItemRes[]>([]);
+  const [total, setTotal] = useState(0);
+
+  const fetchCartItems = async () => {
+    try {
+      console.log(user.id);
+      if (user.id && token) {
+        const data = await CartItemApi.getCartItems(token, parseInt(user.id));
+        setCartItems(data);
+      } else {
+        console.error("User id or token is invalid");
+      }
+    } catch (error) {
+      console.error("Failed to fetch cart items:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user.id && token) {
+      fetchCartItems();
+    }
+  }, [user, token]); // Chỉ gọi user được cập nhật redux
+
+  console.log(cartItems);
+
   return (
     <div>
       <div className="grid grid-cols-10 gap-8">
@@ -75,9 +50,9 @@ export function TableProduct() {
             <div className="col-span-3 flex  justify-center">Thành tiền</div>
           </div>
 
-          {products.map((product) => (
+          {cartItems.map((cartItem, index) => (
             <div
-              key={product.productId}
+              key={index}
               className="grid grid-rows-2 grid-flow-col md:grid-cols-12 md:grid-rows-subgrid gap-2 py-3 px-1 md:p-3 border-b relative"
             >
               <div
@@ -87,10 +62,20 @@ export function TableProduct() {
                 <Cross1Icon width={10} height={10} />
               </div>
               <div className="row-span-2 md:col-span-1  overflow-hidden">
-                <img
+                <Image
+                  src={
+                    cartItem.product.imageUrls[0] ||
+                    "https://dummyimage.com/100x100"
+                  }
+                  width={100}
+                  height={100}
+                  className="object-cover rounded-xl"
+                  alt="Picture of the author"
+                />
+                {/* <img
                   className="rounded-md"
                   src="https://dummyimage.com/100x100"
-                />
+                /> */}
                 {/* <Image
                   src={"https://dummyimage.com/100x100"}
                   width={100}
@@ -100,22 +85,24 @@ export function TableProduct() {
                 /> */}
               </div>
               <div className="md:col-span-4 flex md:justify-center items-center ">
-                <span className="line-clamp-1">{product.productName}</span>
+                <span className="line-clamp-1">
+                  {cartItem.product.productName}
+                </span>
               </div>
               <div className="md:col-span-2 flex  md:justify-center items-center">
-                {product.price}
+                {cartItem.product.productPrice} đ
               </div>
               <div className="md:col-span-2 flex  justify-center items-center">
                 <div className="p-1 border-[0.1px] border-slate-500 rounded hover:bg-slate-200 cursor-pointer dark:hover:bg-slate-800">
                   <MinusIcon />
                 </div>
-                <span className="px-2">{product.quantity}</span>
+                <span className="px-2">{cartItem.quantity}</span>
                 <div className="p-1 border-[0.1px] border-slate-500 rounded hover:bg-slate-200 cursor-pointer dark:hover:bg-slate-800">
                   <PlusIcon />
                 </div>
               </div>
               <div className="md:col-span-3 flex  justify-center items-center">
-                {product.total}
+                {cartItem.unitPrice} đ
               </div>
             </div>
           ))}
@@ -126,7 +113,7 @@ export function TableProduct() {
           </h2>
           <div className="flex justify-between">
             <p className="font-semibold  text-lg">Tổng tiền:</p>
-            <span className="text-customOrange text-lg">200000000</span>
+            <span className="text-customOrange text-lg">{total}</span>
           </div>
           <p className="">
             - Phí vận chuyển sẽ được tính ở thanh toán. <br />- Bạn cũng có thể
@@ -135,116 +122,5 @@ export function TableProduct() {
         </div>
       </div>
     </div>
-    // <TabsContent value="all">
-    // <Card x-chunk="dashboard-06-chunk-0">
-    //   <CardHeader>
-    //     <CardTitle>Products</CardTitle>
-    //     <CardDescription>
-    //       Manage your products and view their sales performance.
-    //     </CardDescription>
-    //   </CardHeader>
-    //   <CardContent>
-    //     <Table>
-    //       <TableHeader className="hidden md:table-header-group">
-    //         <TableRow>
-    //           <TableHead className="w-[100px] table-cell">
-    //             <span className="sr-only">Image</span>
-    //           </TableHead>
-    //           <TableHead>Tên</TableHead>
-    //           <TableHead>Trạng thái</TableHead>
-    //           <TableHead>Giá</TableHead>
-    //           <TableHead className="table-cell">Số lượng</TableHead>
-    //           <TableHead className="table-cell">Thành tiền</TableHead>
-    //           <TableHead>
-    //             <span className="sr-only">Actions</span>
-    //           </TableHead>
-    //         </TableRow>
-    //       </TableHeader>
-    //       <TableBody>
-    //         <TableRow>
-    //           <TableCell className="table-cell">
-    //             <Image
-    //               alt="Product image"
-    //               className="aspect-square rounded-md object-cover"
-    //               height="64"
-    //               src="/placeholder.svg"
-    //               width="64"
-    //             />
-    //           </TableCell>
-    //           <TableCell className="font-medium">
-    //             {/* Laser Lemonade Machine */}
-    //             Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    //             Doloribus obcaecati facere consectetur in nesciunt quae quaerat
-    //             accusamus, deserunt esse consequatur, cupiditate voluptatibus
-    //             voluptatem, soluta numquam iusto? Laborum quasi reprehenderit
-    //             non?
-    //           </TableCell>
-    //           <TableCell>
-    //             <Badge variant="outline">Draft</Badge>
-    //           </TableCell>
-    //           <TableCell>$499.99</TableCell>
-    //           <TableCell className="table-cell">25</TableCell>
-    //           <TableCell className="table-cell">2023-07-12 10:42 AM</TableCell>
-    //           <TableCell>
-    //             <DropdownMenu>
-    //               <DropdownMenuTrigger asChild>
-    //                 <Button aria-haspopup="true" size="icon" variant="ghost">
-    //                   <MoreHorizontal className="h-4 w-4" />
-    //                   <span className="sr-only">Toggle menu</span>
-    //                 </Button>
-    //               </DropdownMenuTrigger>
-    //               <DropdownMenuContent align="end">
-    //                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    //                 <DropdownMenuItem>Edit</DropdownMenuItem>
-    //                 <DropdownMenuItem>Delete</DropdownMenuItem>
-    //               </DropdownMenuContent>
-    //             </DropdownMenu>
-    //           </TableCell>
-    //         </TableRow>
-    //         {/* <TableRow>
-    //           <TableCell className="table-cell">
-    //             <Image
-    //               alt="Product image"
-    //               className="aspect-square rounded-md object-cover"
-    //               height="64"
-    //               src="/placeholder.svg"
-    //               width="64"
-    //             />
-    //           </TableCell>
-    //           <TableCell className="font-medium">
-    //             Hypernova Headphones
-    //           </TableCell>
-    //           <TableCell>
-    //             <Badge variant="outline">Active</Badge>
-    //           </TableCell>
-    //           <TableCell>$129.99</TableCell>
-    //           <TableCell className="table-cell">100</TableCell>
-    //           <TableCell className="table-cell">2023-10-18 03:21 PM</TableCell>
-    //           <TableCell>
-    //             <DropdownMenu>
-    //               <DropdownMenuTrigger asChild>
-    //                 <Button aria-haspopup="true" size="icon" variant="ghost">
-    //                   <MoreHorizontal className="h-4 w-4" />
-    //                   <span className="sr-only">Toggle menu</span>
-    //                 </Button>
-    //               </DropdownMenuTrigger>
-    //               <DropdownMenuContent align="end">
-    //                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    //                 <DropdownMenuItem>Edit</DropdownMenuItem>
-    //                 <DropdownMenuItem>Delete</DropdownMenuItem>
-    //               </DropdownMenuContent>
-    //             </DropdownMenu>
-    //           </TableCell>
-    //         </TableRow> */}
-    //       </TableBody>
-    //     </Table>
-    //   </CardContent>
-    //   <CardFooter>
-    //     <div className="text-xs text-muted-foreground">
-    //       Showing <strong>1-10</strong> of <strong>32</strong> products
-    //     </div>
-    //   </CardFooter>
-    // </Card>
-    // </TabsContent>
   );
 }

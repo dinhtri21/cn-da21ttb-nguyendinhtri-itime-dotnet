@@ -24,12 +24,11 @@ export default function CustomerRouter({
 
   const handleUpdateCartItemsCount = async (customerId: string) => {
     try {
-      console.log(user);
       const res = await CartItemApi.getCartItemsCount(
         token ?? "",
         parseInt(customerId ?? "0")
       );
-      console.log(res.data.cartItemsCount);
+      // console.log(res.data.cartItemsCount);
       dispatch(setCartItemCount(res.data.cartItemsCount));
     } catch (error) {
       console.error("Failed to fetch cart items count:", error);
@@ -53,6 +52,7 @@ export default function CustomerRouter({
   };
   useEffect(() => {
     if (!user.id && userIdCookie && token) {
+      console.log("Get user info");
       getInfoUser(userIdCookie, token);
       // Nếu đang ở trang /login thì chuyển hướng đến /user
       if (pathname === "/login") {

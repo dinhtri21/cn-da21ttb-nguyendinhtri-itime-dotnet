@@ -15,7 +15,7 @@ export const CreateCustomerForm = z.object({
 
 export type CreateCustomerForm = z.infer<typeof CreateCustomerForm>;
 
-// Create Customer for API
+// Create Customer Request
 export const CreateCustomer = z.object({
   fullName: z
     .string({ message: "Tên kiểu chuỗi" })
@@ -28,7 +28,7 @@ export const CreateCustomer = z.object({
 
 export type CreateCustomer = z.infer<typeof CreateCustomer>;
 
-// Login Customer for API
+// Login Customer Request
 export const CustomerLoginRequest = z.object({
   email: z.string().email({ message: "Email không hợp lệ!" }),
   password: z.string().min(3, { message: "Mật khẩu phải có ít nhất 3 ký tự!" }),

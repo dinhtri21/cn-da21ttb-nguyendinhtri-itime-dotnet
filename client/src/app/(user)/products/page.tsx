@@ -46,8 +46,15 @@ export default function ProductsPage() {
       // const limit = 2;
       const brands = searchParams.get("brands")?.split(",").map(Number);
       const materials = searchParams.get("materials")?.split(",").map(Number);
-
-      const data = await ProductApi.getProduct(skip, limit, brands, materials);
+      const sortOrder = searchParams.get("sortOrder");
+    
+      const data = await ProductApi.getProduct(
+        skip,
+        limit,
+        brands,
+        materials,
+        sortOrder || undefined
+      );
       setProductsRes(data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -66,15 +73,15 @@ export default function ProductsPage() {
     params.set("skip", "0"); // Reset 0 nếu có thay đổi filters
 
     Object.keys(filters).forEach((key: string) => {
+      // Nếu value có giá trị thì set vào URL
       if (filters[key]) {
-        // Nếu value có giá trị thì set vào URL
         params.set(key, filters[key]);
       } else {
         params.delete(key); // Ngược lại xóa param query đó ra khỏi URL
       }
     });
 
-    router.push(`${window.location.pathname}?${params.toString()}`);
+    router.push(`${window.location.pathname}?${params.toString()}`); // => Push URL mới vào URL khi có thay đổi filters
   };
 
   //// Pagination handlers
@@ -99,6 +106,13 @@ export default function ProductsPage() {
     updateURLWithFilters({ skip: page });
   };
 
+  const handleSortChange = (sortOrder: string) => {
+   if (sortOrder === "default") {
+      sortOrder = "";
+    }
+    updateURLWithFilters({ sortOrder }); // Cập nhật sortOrder vào URL
+  };
+
   return (
     <div className="w-full">
       <div className="container mx-auto max-w-screen-xl my-2 px-4">
@@ -114,18 +128,19 @@ export default function ProductsPage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="container mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-4 md:py-4 relative">
+      <div className="container mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-4 md:py-1 relative">
         <Filter updateURLWithFilters={updateURLWithFilters} />
         <div className="col-span-3">
           <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
             <div className="col-span-2 md:col-span-3 flex justify-end">
-              <Select>
+              <Select onValueChange={(value) => handleSortChange(value)}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Sắp xếp theo:" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="light">Giá tăng dần</SelectItem>
-                  <SelectItem value="dark">Giá giảm dần</SelectItem>
+                  <SelectItem value="default">Mặc định</SelectItem>
+                  <SelectItem value="price_asc">Giá tăng dần</SelectItem>
+                  <SelectItem value="price_desc">Giá giảm dần</SelectItem>
                 </SelectContent>
               </Select>
             </div>

@@ -8,7 +8,8 @@ const ProductApi = {
     skip: number,
     limit: number,
     brandIds?: number[],
-    materialIds?: number[]
+    materialIds?: number[],
+    sortOrder?: string
   ): Promise<ProductsRes> {
     const response = await axiosConfig.get("products", {
       params: {
@@ -16,6 +17,7 @@ const ProductApi = {
         limit: limit,
         brandIds: brandIds,
         materialIds: materialIds,
+        sortOrder: sortOrder,
       },
       paramsSerializer: (params) => {
         return qs.stringify(params, { arrayFormat: 'repeat' });

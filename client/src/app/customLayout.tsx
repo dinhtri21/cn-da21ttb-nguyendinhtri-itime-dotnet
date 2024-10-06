@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import store from "../redux/store/store";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-import CustomerRouter from "./customerRouter";
+import CustomRouter from "./customRouter";
 import React from "react";
 
 // CustomLayout để quản lý việc có hiển thị Header và Footer hay không
@@ -24,7 +24,7 @@ export default function CustomLayout({
       <Provider store={store}>
         <TooltipProvider>
           {!isRegisterPage && <Header />} {/* Ẩn header nếu là /register */}
-          <CustomerRouter>{children}</CustomerRouter>
+          <CustomRouter>{children}</CustomRouter>
           {!isRegisterPage && <Footer />} {/* Ẩn footer nếu là /register */}
         </TooltipProvider>
       </Provider>
