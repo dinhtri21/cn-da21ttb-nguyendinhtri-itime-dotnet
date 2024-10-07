@@ -17,3 +17,11 @@ export const CartItemRes = z.object({
   product: ProductRes,
 });
 export type CartItemRes = z.infer<typeof CartItemRes>;
+
+export const CartItemsUpdateRequest = z.object({
+  customerId: z.number(),
+  cartItemId: z.number(),
+  quantity: z.number(),
+});
+
+export type CartItemsUpdateRequest = z.infer<typeof CartItemsUpdateRequest>;
