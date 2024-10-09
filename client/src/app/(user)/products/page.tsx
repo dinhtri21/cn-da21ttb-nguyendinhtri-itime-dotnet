@@ -115,7 +115,7 @@ export default function ProductsPage() {
 
   return (
     <div className="w-full">
-      <div className="container mx-auto max-w-screen-xl my-2 px-4">
+      <div className="mx-auto max-w-screen-xl my-2 px-4">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -128,7 +128,7 @@ export default function ProductsPage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="container mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-4 md:py-1 relative">
+      <div className="mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-4 md:py-1 relative min-h-[380px]">
         <Filter updateURLWithFilters={updateURLWithFilters} />
         <div className="col-span-3">
           <div className="grid md:grid-cols-3 grid-cols-2 gap-5">

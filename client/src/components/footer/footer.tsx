@@ -1,6 +1,4 @@
 import Image from "next/image";
-import logoDark from "../../assets/logo/logo-dart.svg";
-import logoLight from "../../assets/logo/logo-light.svg";
 import { PiFacebookLogoLight } from "react-icons/pi";
 import { PiInstagramLogoLight } from "react-icons/pi";
 import { PiYoutubeLogoLight } from "react-icons/pi";
@@ -21,7 +19,7 @@ export default function Footer() {
           <Image
             className=""
             alt="Next.js Streaming"
-            src={logoLight}
+            src={"/logo/logo-light.svg"}
             width={100}
             height={100}
           />
@@ -86,7 +84,7 @@ export default function Footer() {
           <Image
             className=""
             alt="Next.js Streaming"
-            src={logoLight}
+            src={"/logo/logo-light.svg"}
             width={100}
             height={100}
           />

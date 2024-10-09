@@ -1,6 +1,4 @@
 import Image from "next/image";
-import logoDark from "../../assets/logo/logo-dart.svg";
-import logoLight from "../../assets/logo/logo-light.svg";
 import { ModeToggle } from "../ui/mode-toggle";
 import {
   PersonIcon,
@@ -69,7 +67,7 @@ export default function Header() {
             <Image
               className="hidden dark:block"
               alt="Next.js Streaming"
-              src={logoLight}
+              src={"/logo/logo-light.svg"}
               width={100}
               height={100}
             />
@@ -78,7 +76,7 @@ export default function Header() {
             <Image
               className="block dark:hidden"
               alt="Next.js Streaming"
-              src={logoDark}
+              src={"/logo/logo-dark.svg"}
               width={100}
               height={100}
             />
@@ -135,6 +133,10 @@ export default function Header() {
               className="  absolute top-[-10px] right-[-10px] bg-red-400
                h-5 w-5 flex items-center justify-center rounded-full text-white text-xs"
             >
+              {cartItemsCount.total > 0 ? (
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              ) : null}
+
               {cartItemsCount.total}
             </span>
           </Link>
