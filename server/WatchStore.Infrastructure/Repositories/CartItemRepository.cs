@@ -43,6 +43,7 @@ namespace WatchStore.Infrastructure.Repositories
             var cartItems = await _context.CartItems
                                           .Where(c => c.CartId == cartId)
                                           .Include(c => c.Product)
+                                          .ThenInclude(p => p.ProductImages)
                                           .ToListAsync();
             return cartItems;
         }

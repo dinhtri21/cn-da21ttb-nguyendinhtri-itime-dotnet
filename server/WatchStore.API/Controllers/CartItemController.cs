@@ -116,12 +116,12 @@ namespace WatchStore.API.Controllers
         {
             try
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+                //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
 
-                if (userId != id.ToString())
-                {
-                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                }
+                //if (userId != id.ToString())
+                //{
+                //    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+                //}
 
                 var result = await _mediator.Send(new DeleteCartItemCommand { CartItemId = id });
                 if (result == false)

@@ -135,7 +135,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> AdminLogin([FromBody] LoginCustomerQuery query) 
+        public async Task<IActionResult> AdminLogin([FromBody] LoginCustomerQuery query)
         {
             try
             {
@@ -146,7 +146,8 @@ namespace WatchStore.API.Controllers
                     Secure = false,
                     Expires = DateTime.UtcNow.AddHours(1),
                     SameSite = SameSiteMode.None,
-                    MaxAge = TimeSpan.FromHours(1)
+                    MaxAge = TimeSpan.FromHours(1),
+
                 };
                 Response.Cookies.Append("accessToken", loginData.Token, cookieOptions);
 
@@ -165,5 +166,43 @@ namespace WatchStore.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userId != null)
+                {
+                    var cookieOptions = new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = false,
+                        Expires = DateTime.UtcNow.AddHours(-1),
+                        SameSite = SameSiteMode.None,
+                        MaxAge = TimeSpan.FromHours(-1),
+                    };
+
+                    Response.Cookies.Append("accessToken", "", cookieOptions);  // Ghi đè cookie với thời gian hết hạn
+                }
+
+                // Nếu bạn có cơ chế blacklist cho access token
+                //var accessToken = Request.Cookies["accessToken"];  // Lấy token từ cookie (nếu có)
+                //if (!string.IsNullOrEmpty(accessToken))
+                //{
+                //    // Gọi service hoặc repository để thêm token vào blacklist (nếu có)
+                //    await _mediator.Send(new BlacklistTokenCommand(accessToken));
+                //}
+
+                return Ok(new { message = "Đăng xuất thành công!" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
