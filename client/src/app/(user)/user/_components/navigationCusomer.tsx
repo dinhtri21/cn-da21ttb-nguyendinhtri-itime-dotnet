@@ -1,0 +1,108 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { GearIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
+import Link from "next/link";
+import { GoHistory } from "react-icons/go";
+import { LiaShippingFastSolid } from "react-icons/lia";
+import { MdOutlineDeliveryDining } from "react-icons/md";
+import { TfiClipboard } from "react-icons/tfi";
+import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+
+export default function NavigationCusomer() {
+  const pathname = usePathname();
+  const user = useSelector((state: RootState) => state.user);
+
+  return (
+    <div className="w-full max-w-screen-xl mx-auto px-4 pt-4">
+      <div className="flex items-center justify-between border px-3 py-3 rounded-xl bg-background">
+        <div className="flex items-center gap-3">
+          <Image
+            src={"/logo/casio.png"}
+            width={48}
+            height={48}
+            alt="avatar"
+            className="border rounded-full w-12 h-12 object-cover"
+          />
+          <div>
+            <h2 className="font-semibold text-slate-600 dark:text-white text-base">
+              Nguyễn Đình Trí
+            </h2>
+            {/* <p>{user && user.email}</p> */}
+            <p className="text-gray-600 dark:text-white text-sm">abc@gmail.com</p>
+          </div>
+        </div>
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="icon" className="rounded-full">
+                <GearIcon className="h-5 w-5" />
+                <span className="sr-only">Toggle user menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link href="/user/setting">Settings</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-3 md:gap-4 mt-3 md:mt-4">
+        <Link
+          href={"/user"}
+          className={`${
+            pathname == "/user" ? " border-slate-400" : null
+          } text-gray-500 flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-3 border hover:bg-slate-100`}
+        >
+          <TfiClipboard className={`w-6 h-6 `} />
+          <p className="font-medium">Chờ xác nhận</p>
+        </Link>
+        <div className="flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border text-gray-500 hover:bg-slate-100">
+          <LiaShippingFastSolid className="w-6 h-6 " />
+          <p className="font-medium ">Đang vận chuyển</p>
+        </div>
+        <div className="flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border text-gray-500 hover:bg-slate-100">
+          <MdOutlineDeliveryDining className="w-6 h-6 " />
+          <p className="font-medium ">Đang giao</p>
+        </div>
+        {/* <Link
+          href={"/user/history"}
+          className={`${
+            pathname == "/user/history"
+              ? "bg-slate-100 text-gray-500 border-slate-300"
+              : null
+          } flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border text-gray-500`}
+        >
+          <GoHistory className="w-6 h-6 " />
+          <p className="font-semibold ">Lịch sử mua hàng</p>
+        </Link> */}
+
+        <Link
+          href={"/user/history"}
+          className={`${
+            pathname == "/user/history" ? "border-slate-400" : null
+          } text-gray-500 flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border hover:bg-slate-100`}
+        >
+          <TfiClipboard className={`w-6 h-6`} />
+          <p className="font-medium">Lịch sử mua hàng</p>
+        </Link>
+      </div>
+    </div>
+  );
+}

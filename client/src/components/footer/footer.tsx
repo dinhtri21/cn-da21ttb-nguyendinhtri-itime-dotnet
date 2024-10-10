@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="w-full bg-black text-white mt-8">
+    <div className="w-full bg-black text-white">
       <div className="hidden container mx-auto max-w-screen-xl md:grid grid-cols-2 md:grid-cols-5 gap-3 py-10 px-4">
         <div className="col-span-2">
           <Image

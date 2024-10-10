@@ -128,8 +128,8 @@ export function TableProduct() {
   }, [cartItems]);
 
   return (
-    <div className="grid grid-cols-10 gap-8 mt-4">
-      <div className="col-span-10 md:col-span-7 gap-1 md:min-h-[380px]">
+    <div className="grid grid-cols-10 gap-8 mt-4 min-h-[calc(100vh-370px)]">
+      <div className="col-span-10 md:col-span-7 gap-1 ">
         <div className="hidden md:grid grid-cols-12 grid-flow-row rounded border gap-2 p-3">
           <div className="col-span-1 flex  justify-center">Ảnh</div>
           <div className="col-span-4 flex  justify-center">Tên sản phẩm</div>
