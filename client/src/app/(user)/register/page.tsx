@@ -3,7 +3,7 @@ import { SignUpForm } from "@/app/(user)/register/_components/signUpForm";
 
 const RegisterPage : React.FC = () => {
   return (
-    <div className="mt-8 px-3 md:p-0">
+    <div className="bg-muted/40 min-h-[calc(100vh-300px)] py-5">
       <SignUpForm />
     </div>
   );

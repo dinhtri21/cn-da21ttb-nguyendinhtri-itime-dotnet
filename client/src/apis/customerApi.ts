@@ -25,4 +25,16 @@ export const customerApi = {
     });
     return res.data;
   },
+  async LogoutCustomer(token: string): Promise<any> {
+    const res = await axiosConfig.post(
+      "/customers/logout",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res;
+  },
 };

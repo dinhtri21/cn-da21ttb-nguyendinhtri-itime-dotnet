@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { GearIcon } from "@radix-ui/react-icons";
+import { GearIcon, ExitIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { GoHistory } from "react-icons/go";
@@ -18,13 +18,56 @@ import { TfiClipboard } from "react-icons/tfi";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import Cookies from "js-cookie";
+import { customerApi } from "@/apis/customerApi";
+import CustomToast from "@/components/react-toastify/reactToastify";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/userSlice";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
 
 export default function NavigationCusomer() {
   const pathname = usePathname();
   const user = useSelector((state: RootState) => state.user);
+  const token = Cookies.get("token");
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      if (!token) return;
+      const res = await customerApi.LogoutCustomer(token);
+      Cookies.remove("token");
+      Cookies.remove("userId");
+      Cookies.remove("accessToken");
+      CustomToast.showSuccess("Đăng xuất thành công !");
+      handleDeleteDataRedux();
+      router.push("/login");
+      // window.location.href = '/login';
+    } catch (error) {
+      CustomToast.showError("Đăng xuất thất bại !");
+      console.error("Failed to logout:", error);
+    }
+  };
+
+  const handleDeleteDataRedux = () => {
+    dispatch(setUser({ id: null, email: null, name: null }));
+    dispatch(setCartItemCount(0));
+  };
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-4 pt-4">
+    <div className="w-full max-w-screen-xl mx-auto px-4">
       <div className="flex items-center justify-between border px-3 py-3 rounded-xl bg-background">
         <div className="flex items-center gap-3">
           <Image
@@ -39,10 +82,37 @@ export default function NavigationCusomer() {
               Nguyễn Đình Trí
             </h2>
             {/* <p>{user && user.email}</p> */}
-            <p className="text-gray-600 dark:text-white text-sm">abc@gmail.com</p>
+            <p className="text-gray-600 dark:text-white text-sm">
+              abc@gmail.com
+            </p>
           </div>
         </div>
-        <div>
+        <div className="flex items-center gap-2">
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <div className="flex items-center gap-2 border px-2 py-1 rounded-xl hover:bg-slate-100">
+                <ExitIcon width={20} height={20} />
+                <span>Đăng xuất</span>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Bạn có chắc muốn đăng xuất tài khoản ?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Tài khoản của bạn sẽ được đăng xuất khỏi ITime.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Huỷ</AlertDialogCancel>
+                <AlertDialogAction onClick={handleLogout}>
+                  Đăng xuất
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
@@ -58,7 +128,7 @@ export default function NavigationCusomer() {
               </DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>{/* Đăng xuất */}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

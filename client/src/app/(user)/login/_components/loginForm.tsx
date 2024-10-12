@@ -19,6 +19,10 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/userSlice";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
+
+import customToast from "@/components/react-toastify/reactToastify";
+import { CartItemApi } from "@/apis/cartItemAPi";
 
 export const description =
   "A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -35,10 +39,12 @@ export function LoginForm() {
     setIsLoading(true);
     try {
       const res = await customerApi.LoginCustomer({ email, password });
-
+      // Lưu thông tin user vào Cookie
       Cookies.set("userId", res.customer.customerId, { expires: 1 });
       Cookies.set("token", res.token, { expires: 1 });
-
+      // Lấy số lượng sản phẩm trong giỏ hàng
+      handleUpdateCartItemsCount(res.customer.customerId, res.token);
+      // Lưu thông tin user vào Redux
       dispatch(
         setUser({
           id: res.customer.customerId,
@@ -47,22 +53,28 @@ export function LoginForm() {
         })
       );
 
-      toast.toast({
-        title: "Đăng nhập thành công",
-        description: "Chuyển hướng đến trang cá nhân...",
-      });
-
-      setTimeout(() => {
-        router.push("/user");
-      }, 1000);
+      customToast.showSuccess("Đăng nhập thành công !");
+      router.push("/user");
+      // window.location.href = "/user";
     } catch (error) {
-      toast.toast({
-        title: "Đăng nhập thất bại",
-        description: "Email hoặc mật khẩu không chính xác!",
-        variant: "destructive",
-      });
+      customToast.showError("Đăng nhập thất bại !");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleUpdateCartItemsCount = async (
+    customerId: string,
+    token: string
+  ) => {
+    try {
+      const res = await CartItemApi.getCartItemsCount(
+        token ?? "",
+        parseInt(customerId ?? "0")
+      );
+      dispatch(setCartItemCount(res.data.cartItemsCount));
+    } catch (error) {
+      console.error("Failed to fetch cart items count:", error);
     }
   };
 
