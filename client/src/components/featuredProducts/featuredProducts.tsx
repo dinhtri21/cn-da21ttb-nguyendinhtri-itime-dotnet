@@ -11,9 +11,7 @@ interface FeaturedProductsProps {
   title: string;
 }
 
-export default function FeaturedProducts({
-  title,
-}: FeaturedProductsProps) {
+export default function FeaturedProducts({ title }: FeaturedProductsProps) {
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
 
   useEffect(() => {
@@ -42,7 +40,12 @@ export default function FeaturedProducts({
               <ProductItem key={index} product={product} />
             ))
           ) : (
-            <SkeletonCard />
+            <>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </>
           )}
         </div>
       </div>

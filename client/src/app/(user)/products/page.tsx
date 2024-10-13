@@ -47,7 +47,7 @@ export default function ProductsPage() {
       const brands = searchParams.get("brands")?.split(",").map(Number);
       const materials = searchParams.get("materials")?.split(",").map(Number);
       const sortOrder = searchParams.get("sortOrder");
-    
+
       const data = await ProductApi.getProduct(
         skip,
         limit,
@@ -107,14 +107,14 @@ export default function ProductsPage() {
   };
 
   const handleSortChange = (sortOrder: string) => {
-   if (sortOrder === "default") {
+    if (sortOrder === "default") {
       sortOrder = "";
     }
     updateURLWithFilters({ sortOrder }); // Cập nhật sortOrder vào URL
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-300px)]">
+    <div className="w-full min-h-[calc(100vh-300px)] pb-6">
       <div className="mx-auto max-w-screen-xl my-2 px-4">
         <Breadcrumb>
           <BreadcrumbList>
@@ -151,7 +151,12 @@ export default function ProductsPage() {
                 <ProductItem key={index} product={product} />
               ))
             ) : (
-              <SkeletonCard />
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
             )}
           </div>
           {productsRes && productsRes?.products?.length !== 0 && (
