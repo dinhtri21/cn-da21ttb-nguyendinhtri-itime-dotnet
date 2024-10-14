@@ -25,8 +25,8 @@ export function TableProduct() {
 
   const fetchCartItems = async () => {
     try {
-      if (user.id && token) {
-        const data = await CartItemApi.getCartItems(token, parseInt(user.id));
+      if (user.customerId && token) {
+        const data = await CartItemApi.getCartItems(token, user.customerId);
         setCartItems(data);
       } else {
         console.error("User id or token is invalid");
@@ -37,9 +37,9 @@ export function TableProduct() {
   };
 
   const handlerIncreaseQuantity = async (cartItem: any) => {
-    if (user.id && token) {
+    if (user.customerId && token) {
       const cartItemsUpdateRequest: CartItemsUpdateRequest = {
-        customerId: parseInt(user.id as string),
+        customerId: user.customerId,
         cartItemId: cartItem.cartItemId,
         quantity: cartItem.quantity + 1,
       };
@@ -49,7 +49,7 @@ export function TableProduct() {
           cartItemsUpdateRequest
         );
         fetchCartItems();
-        handleUpdateCartItemsCount(user.id);
+        handleUpdateCartItemsCount(user.customerId);
         CustomToast.showSuccess("Cập nhật giỏ hàng thành công");
       } catch (error) {
         CustomToast.showError("Cập nhật giỏ hàng thất bại");
@@ -59,9 +59,9 @@ export function TableProduct() {
   };
 
   const handlerDecreaseQuantity = async (cartItem: any) => {
-    if (user.id && token && cartItem.quantity > 1) {
+    if (user.customerId && token && cartItem.quantity > 1) {
       const cartItemsUpdateRequest: CartItemsUpdateRequest = {
-        customerId: parseInt(user.id as string),
+        customerId: user.customerId,
         cartItemId: cartItem.cartItemId,
         quantity: cartItem.quantity - 1,
       };
@@ -71,7 +71,7 @@ export function TableProduct() {
           cartItemsUpdateRequest
         );
         fetchCartItems();
-        handleUpdateCartItemsCount(user.id);
+        handleUpdateCartItemsCount(user.customerId);
         CustomToast.showSuccess("Cập nhật giỏ hàng thành công");
       } catch (error) {
         console.error("Failed to update cart item:", error);
@@ -81,14 +81,14 @@ export function TableProduct() {
   };
 
   const handleDeleteCartItem = async (cartItem: any) => {
-    if (user.id && token) {
+    if (user.customerId && token) {
       try {
         const data = await CartItemApi.deleteCartItem(
           token,
           cartItem.cartItemId
         );
         fetchCartItems();
-        handleUpdateCartItemsCount(user.id);
+        handleUpdateCartItemsCount(user.customerId);
         CustomToast.showSuccess("Xoá sản phẩm thành công");
       } catch (err) {
         CustomToast.showSuccess("Xoá sản phẩm thất bại");
@@ -97,12 +97,9 @@ export function TableProduct() {
     }
   };
 
-  const handleUpdateCartItemsCount = async (customerId: string) => {
+  const handleUpdateCartItemsCount = async (customerId: number) => {
     try {
-      const res = await CartItemApi.getCartItemsCount(
-        token ?? "",
-        parseInt(customerId ?? "0")
-      );
+      const res = await CartItemApi.getCartItemsCount(token ?? "", customerId);
       dispatch(setCartItemCount(res.data.cartItemsCount));
     } catch (error) {
       console.error("Failed to fetch cart items count:", error);
@@ -118,7 +115,7 @@ export function TableProduct() {
   };
 
   useEffect(() => {
-    if (user.id && token) {
+    if (user.customerId && token) {
       fetchCartItems();
     }
   }, [user, token]);

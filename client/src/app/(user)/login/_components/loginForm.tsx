@@ -40,16 +40,18 @@ export function LoginForm() {
     try {
       const res = await customerApi.LoginCustomer({ email, password });
       // Lưu thông tin user vào Cookie
-      Cookies.set("userId", res.customer.customerId, { expires: 1 });
+      Cookies.set("userId", res.customer.customerId.toString(), { expires: 1 });
       Cookies.set("token", res.token, { expires: 1 });
       // Lấy số lượng sản phẩm trong giỏ hàng
       handleUpdateCartItemsCount(res.customer.customerId, res.token);
       // Lưu thông tin user vào Redux
       dispatch(
         setUser({
-          id: res.customer.customerId,
+          customerId: res.customer.customerId,
           email: res.customer.email,
-          name: res.customer.fullName,
+          fullName: res.customer.fullName,
+          phoneNumber: res.customer.phoneNumber,
+          address: res.customer.address,
         })
       );
 
@@ -64,13 +66,13 @@ export function LoginForm() {
   };
 
   const handleUpdateCartItemsCount = async (
-    customerId: string,
+    customerId: number,
     token: string
   ) => {
     try {
       const res = await CartItemApi.getCartItemsCount(
         token ?? "",
-        parseInt(customerId ?? "0")
+        customerId
       );
       dispatch(setCartItemCount(res.data.cartItemsCount));
     } catch (error) {

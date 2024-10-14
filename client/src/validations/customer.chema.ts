@@ -40,7 +40,7 @@ export type CustomerLoginRequest = z.infer<typeof CustomerLoginRequest>;
 export const CustomerLoginResponse = z.object({
   token: z.string(),
   customer: z.object({
-    customerId: z.string(),
+    customerId: z.number(),
     fullName: z.string(),
     phoneNumber: z.string(),
     email: z.string().email(),

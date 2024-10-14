@@ -22,12 +22,9 @@ export default function CustomerRouter({
   const pathname = usePathname();
   const token = Cookies.get("token");
 
-  const handleUpdateCartItemsCount = async (customerId: string) => {
+  const handleUpdateCartItemsCount = async (customerId: number) => {
     try {
-      const res = await CartItemApi.getCartItemsCount(
-        token ?? "",
-        parseInt(customerId ?? "0")
-      );
+      const res = await CartItemApi.getCartItemsCount(token ?? "", customerId);
       // console.log(res.data.cartItemsCount);
       dispatch(setCartItemCount(res.data.cartItemsCount));
     } catch (error) {
@@ -40,9 +37,11 @@ export default function CustomerRouter({
       const data = await customerApi.GetCustomerById(userId, token);
       dispatch(
         setUser({
-          id: data.customerId,
+          customerId: data.customerId,
           email: data.email,
-          name: data.fullName,
+          fullName: data.fullName,
+          phoneNumber: data.phoneNumber,
+          address: data.address,
         })
       );
       handleUpdateCartItemsCount(data.customerId);
@@ -51,7 +50,7 @@ export default function CustomerRouter({
     }
   };
   useEffect(() => {
-    if (!user.id && userIdCookie && token) {
+    if (!user.customerId && userIdCookie && token) {
       console.log("Get user info");
       getInfoUser(userIdCookie, token);
       // Nếu đang ở trang /login thì chuyển hướng đến /user

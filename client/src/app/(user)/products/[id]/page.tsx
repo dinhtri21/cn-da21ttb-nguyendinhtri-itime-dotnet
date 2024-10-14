@@ -52,9 +52,12 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
   const handleUpdateCartItemsCount = async () => {
     try {
+      if (!user.customerId) {
+        return;
+      }
       const res = await CartItemApi.getCartItemsCount(
         token ?? "",
-        parseInt(user.id ?? "0")
+        user.customerId
       );
       dispatch(setCartItemCount(res.data.cartItemsCount));
     } catch (error) {
@@ -65,7 +68,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const handleAddToCart = async () => {
     try {
       const data = await CartItemApi.createCartItem(token ?? "", {
-        customerId: parseInt(user.id ?? "0"),
+        customerId: user.customerId,
         productId: product?.productId ?? 0,
         quantity: quantity,
       });

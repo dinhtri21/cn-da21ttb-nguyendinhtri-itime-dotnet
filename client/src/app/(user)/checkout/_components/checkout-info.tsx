@@ -1,22 +1,33 @@
 "use client";
 import { CheckIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
-const customer = {
-  customerId: 1,
-  fullName: "Nguyễn Đình Trí",
-  phoneNumber: "0239828982",
-  email: "abc@gmail.cpm",
-  address: "Đức Hiệp, Càng Long, Trà Vinh",
-};
+import React, { useState } from "react";
 
-export default function CheckoutInfo() {
-  const [paymentMethod, setPaymentMethod] = useState<string>("cod");
+interface Customer {
+  customerId: number | null;
+  fullName: string | null;
+  phoneNumber: string | null;
+  email: string | null;
+  address: string | null;
+}
 
+interface CheckoutInfoProps {
+  customer: Customer;
+  selectedPaymentMethod: string;
+  setSelectedPaymentMethod: React.Dispatch<
+    React.SetStateAction<"cod" | "card" | "momo" | "zalopay">
+  >;
+}
+
+const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
+  customer,
+  selectedPaymentMethod,
+  setSelectedPaymentMethod,
+}) => {
   const handlePaymentMethodChange = (
     method: "cod" | "card" | "momo" | "zalopay"
   ) => {
-    setPaymentMethod(method);
-    console.log(paymentMethod);
+    setSelectedPaymentMethod(method);
+    console.log(method); 
   };
 
   return (
@@ -38,7 +49,7 @@ export default function CheckoutInfo() {
           <label
             onClick={() => handlePaymentMethodChange("cod")}
             className={`${
-              paymentMethod == "cod"
+              selectedPaymentMethod == "cod"
                 ? "bg-green-50 border-green-300 text-green-500"
                 : "border-gray-300"
             } flex items-center justify-between gap-3 py-2 px-3 rounded border cursor-pointer`}
@@ -46,14 +57,14 @@ export default function CheckoutInfo() {
             <div>Thanh toán khi nhận hàng</div>
             <div
               className={`${
-                paymentMethod == "cod"
+                selectedPaymentMethod == "cod"
                   ? "border-green-300 bg-green-100"
                   : "border-gray-300"
               } w-4 h-4 rounded-full  border`}
             >
               <CheckIcon
                 className={`${
-                  paymentMethod == "cod" ? "block" : "hidden"
+                  selectedPaymentMethod == "cod" ? "block" : "hidden"
                 } -translate-x-[1px] w-4 h-4`}
               />
             </div>
@@ -61,7 +72,7 @@ export default function CheckoutInfo() {
 
           <label
             className={` ${
-              paymentMethod == "card"
+              selectedPaymentMethod == "card"
                 ? "bg-green-50 border-green-300 text-green-400"
                 : "border-gray-300"
             } flex items-center justify-between gap-3 py-2 px-3 rounded border cursor-pointer`}
@@ -70,14 +81,14 @@ export default function CheckoutInfo() {
             <div>Thanh toán qua thẻ (chưa hỗ trợ)</div>
             <div
               className={`${
-                paymentMethod == "card"
+                selectedPaymentMethod == "card"
                   ? "border-green-300 bg-green-100"
                   : "border-gray-300"
               } w-4 h-4 rounded-full  border`}
             >
               <CheckIcon
                 className={`${
-                  paymentMethod == "card" ? "block" : "hidden"
+                  selectedPaymentMethod == "card" ? "block" : "hidden"
                 } -translate-x-[1px] w-4 h-4`}
               />
             </div>
@@ -89,4 +100,6 @@ export default function CheckoutInfo() {
       </div> */}
     </div>
   );
-}
+};
+
+export default CheckoutInfo;

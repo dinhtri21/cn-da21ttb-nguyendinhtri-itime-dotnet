@@ -117,10 +117,10 @@ export default function Header() {
                 ? "text-slate-400"
                 : ""
             }`}
-            href={`${user.id ? "/user" : "/login"}`}
+            href={`${user.customerId ? "/user" : "/login"}`}
           >
             <PersonIcon width={20} height={20} />
-            {user.name ? user.name : null}
+            {user.fullName ? user.fullName : null}
           </Link>
           <Link
             className={`hover:text-slate-400 ${

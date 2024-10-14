@@ -1,31 +1,39 @@
 // src/slices/userSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface UserState {
-  id: string | null;
-  name: string | null;
+interface CustomerState {
+  customerId: number | null;
+  fullName: string | null;
+  phoneNumber: string | null;
   email: string | null;
+  address: string | null;
 }
 
-const initialState: UserState = {
-  id: null,
-  name: null,
+const initialState: CustomerState = {
+  customerId: null,
+  fullName: null,
   email: null,
+  phoneNumber: null,
+  address: null,
 };
 
 const userSlice = createSlice({
   name: 'user', // Slice name
   initialState, // Initial state
   reducers: { // Reducers
-    setUser: (state, action: PayloadAction<UserState>) => { // Reducer setUser function bao gồm state và action
-      state.id = action.payload.id;
-      state.name = action.payload.name;
+    setUser: (state, action: PayloadAction<CustomerState>) => { // Reducer setUser function bao gồm state và action
+      state.customerId = action.payload.customerId;
+      state.fullName = action.payload.fullName;
       state.email = action.payload.email;
+      state.phoneNumber = action.payload.phoneNumber;
+      state.address = action.payload.address;
     },
     clearUser: (state) => {
-      state.id = null;
-      state.name = null;
+      state.customerId = null;
+      state.fullName = null;
       state.email = null;
+      state.phoneNumber = null;
+      state.address = null;
     },
   },
 });

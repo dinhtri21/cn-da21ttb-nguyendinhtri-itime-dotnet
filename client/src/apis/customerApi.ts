@@ -5,6 +5,8 @@ import {
   CustomerLoginResponse,
   CustomerLoginRequest,
 } from "@/validations/customer.chema";
+import { CustomerLoginRes } from "@/types/customer";
+import { Customer } from "@/types/customer";
 
 export const customerApi = {
   async createCustomer(customer: CreateCustomer): Promise<any> {
@@ -13,11 +15,11 @@ export const customerApi = {
   },
   async LoginCustomer(
     customerLogin: CustomerLoginRequest
-  ): Promise<CustomerLoginResponse> {
+  ): Promise<CustomerLoginRes> {
     const res = await axiosConfig.post("/customers/login", customerLogin);
     return res.data;
   },
-  async GetCustomerById(id: string, token: string): Promise<CustomerResponse> {
+  async GetCustomerById(id: string, token: string): Promise<Customer> {
     const res = await axiosConfig.get(`/customers/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`, // Thêm token vào header

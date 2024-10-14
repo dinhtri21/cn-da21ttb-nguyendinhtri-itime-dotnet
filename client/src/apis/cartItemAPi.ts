@@ -4,12 +4,13 @@ import {
   CreateCartItemSchema,
   CartItemsUpdateRequest,
 } from "@/validations/cartItem.chema";
+import { CartItem } from "@/types/cartItem";
 
 export const CartItemApi = {
   async getCartItems(
     token: string,
     customerId: number
-  ): Promise<CartItemRes[]> {
+  ): Promise<CartItem[]> {
     const res = await axiosConfig.get(`/cart-items/customer/${customerId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
