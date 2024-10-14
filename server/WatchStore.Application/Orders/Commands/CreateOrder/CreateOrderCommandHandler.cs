@@ -42,16 +42,9 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
             {
                 var customer = await _customerRepository.GetCustomerByIdAsync(request.CustomerId);
 
-                if (request.CustomerId == null)
+                if (customer == null)
                 {
-                    customer = new Customer
-                    {
-                        FullName = request.FullName,
-                        PhoneNumber = request.PhoneNumber,
-                        Address = request.Address,
-                        Email = request.Email
-                    };
-                    await _customerRepository.AddCustomerAsync(customer);
+                    throw new ValidationException($"CustomerId {request.CustomerId} không tồn tại.");
                 }
               
                 // Add order
