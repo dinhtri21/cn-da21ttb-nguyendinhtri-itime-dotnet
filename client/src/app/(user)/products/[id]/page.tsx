@@ -68,7 +68,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const handleAddToCart = async () => {
     try {
       const data = await CartItemApi.createCartItem(token ?? "", {
-        customerId: user.customerId,
+        customerId: user.customerId!,
         productId: product?.productId ?? 0,
         quantity: quantity,
       });

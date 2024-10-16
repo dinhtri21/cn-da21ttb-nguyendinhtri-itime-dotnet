@@ -34,7 +34,7 @@ import { customerApi } from "@/apis/customerApi";
 import CustomToast from "@/components/react-toastify/reactToastify";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/slices/userSlice";
+import { setUser, clearUser } from "@/redux/slices/userSlice";
 import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
 
 export default function NavigationCusomer() {
@@ -62,7 +62,7 @@ export default function NavigationCusomer() {
   };
 
   const handleDeleteDataRedux = () => {
-    dispatch(setUser({ id: null, email: null, name: null }));
+    dispatch(clearUser());
     dispatch(setCartItemCount(0));
   };
 
@@ -92,7 +92,7 @@ export default function NavigationCusomer() {
             <AlertDialogTrigger>
               <div className="flex items-center gap-2 border px-2 py-1 rounded-xl hover:bg-slate-100">
                 <ExitIcon width={20} height={20} />
-                <span>Đăng xuất</span>
+                <span className="hidden md:block">Đăng xuất</span>
               </div>
             </AlertDialogTrigger>
             <AlertDialogContent>

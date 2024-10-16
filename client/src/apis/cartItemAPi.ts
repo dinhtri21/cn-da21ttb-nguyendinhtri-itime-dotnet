@@ -4,13 +4,10 @@ import {
   CreateCartItemSchema,
   CartItemsUpdateRequest,
 } from "@/validations/cartItem.chema";
-import { CartItem } from "@/types/cartItem";
+import { CartItem, CreateCartItem } from "@/types/cartItem";
 
 export const CartItemApi = {
-  async getCartItems(
-    token: string,
-    customerId: number
-  ): Promise<CartItem[]> {
+  async getCartItems(token: string, customerId: number): Promise<CartItem[]> {
     const res = await axiosConfig.get(`/cart-items/customer/${customerId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -21,9 +18,9 @@ export const CartItemApi = {
 
   async createCartItem(
     token: string,
-    CreateCartItemSchema: CreateCartItemSchema
+    CreateCartItem: CreateCartItem
   ): Promise<any> {
-    const res = await axiosConfig.post(`/cart-items`, CreateCartItemSchema, {
+    const res = await axiosConfig.post(`/cart-items`, CreateCartItem, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -67,5 +64,5 @@ export const CartItemApi = {
       },
     });
     return res;
-  }
+  },
 };

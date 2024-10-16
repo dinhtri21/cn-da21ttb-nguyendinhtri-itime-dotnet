@@ -8,3 +8,10 @@ export type CartItem = {
   unitPrice: number;
   product: Product;
 };
+
+export type CreateCartItem = {
+  customerId: number;
+  productId: number;
+  quantity: number;
+}
+
