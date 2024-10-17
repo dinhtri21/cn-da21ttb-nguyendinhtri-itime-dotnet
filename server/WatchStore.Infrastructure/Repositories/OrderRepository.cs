@@ -52,5 +52,24 @@ namespace WatchStore.Infrastructure.Repositories
 
             return TotalCount;
         }
+
+        public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId, int Skip, int Limit)
+        {
+            var orders = await _context.Orders
+                                       .Where(o => o.CustomerId == customerId)
+                                       .OrderByDescending(o => o.OrderDate)
+                                       .Skip(Skip * Limit)
+                                       .Take(Limit)
+                                       .ToListAsync();
+            return orders;
+        }
+
+        public async Task<int> GetTotalOrderCountByCustomerIdAsync(int customerId)
+        {
+           int TotalCount = await _context.Orders
+                                  .CountAsync(o => o.CustomerId == customerId);
+
+            return TotalCount;
+        }
     }
 }

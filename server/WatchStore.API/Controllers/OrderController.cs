@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Orders.Commands.CreateOrder;
 using WatchStore.Application.Orders.Commands.DeleteOrder;
 using WatchStore.Application.Orders.Queries.GetOrder;
+using WatchStore.Application.Orders.Queries.GetOrdersByCustomerId;
 using WatchStore.Domain.Entities;
 
 namespace WatchStore.API.Controllers
@@ -16,7 +18,8 @@ namespace WatchStore.API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public OrderController(IMediator mediator) { 
+        public OrderController(IMediator mediator)
+        {
             _mediator = mediator;
         }
 
@@ -24,7 +27,8 @@ namespace WatchStore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrders([FromQuery] int? skip, [FromQuery] int? limit)
         {
-            try {
+            try
+            {
                 int Skip = skip ?? 0;
                 int Limit = limit ?? 9;
                 var listOrders = await _mediator.Send(new GetOrdersQuery(Skip, Limit));
@@ -38,19 +42,61 @@ namespace WatchStore.API.Controllers
             {
                 return Unauthorized(new { message = ex.Message });
             }
-            catch (ValidationException ex) {
+            catch (ValidationException ex)
+            {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
-        [Authorize(Policy = "AdminPolicy")]
+        [Authorize(Policy = "CustomerPolicy")]
+        [HttpGet("customer/{customer-id}")]
+        public async Task<IActionResult> GetOrdersByCustomer([FromQuery] int? skip, [FromQuery] int? limit, [FromRoute(Name = "customer-id")] int customerId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId != customerId.ToString())
+            {
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+            }
+            try
+            {
+                int Skip = skip ?? 0;
+                int Limit = limit ?? 9;
+                var listOrders = await _mediator.Send(new GetOrdersByCustomerIdQuery(customerId, Skip, Limit));
+                if (listOrders.Orders.Count() == 0)
+                {
+                    return Ok(new { listOrders.Orders, message = "Giỏ hàng trống!" });
+                }
+                return Ok(listOrders);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [Authorize(Policy = "CustomerPolicy")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
         {
-           try {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId != command.CustomerId.ToString())
+            {
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+            }
+            try
+            {
                 var orderId = await _mediator.Send(command);
                 if (orderId == 0)
                 {
@@ -62,20 +108,23 @@ namespace WatchStore.API.Controllers
             {
                 return Unauthorized(new { message = ex.Message });
             }
-            catch (ValidationException ex) {
+            catch (ValidationException ex)
+            {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-          
+
         }
 
         [Authorize(Policy = "ManagerPolicy")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            try {
+            try
+            {
                 var result = await _mediator.Send(new DeleteOrderCommand(id));
                 if (!result)
                 {
@@ -87,10 +136,12 @@ namespace WatchStore.API.Controllers
             {
                 return Unauthorized(new { message = ex.Message });
             }
-            catch (ValidationException ex) {
+            catch (ValidationException ex)
+            {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
