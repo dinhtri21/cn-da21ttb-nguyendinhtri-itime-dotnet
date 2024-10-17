@@ -5,6 +5,8 @@ import {
   ArchiveIcon,
   HamburgerMenuIcon,
   ChevronRightIcon,
+  DividerVerticalIcon,
+  GearIcon,
 } from "@radix-ui/react-icons";
 import Link from "next/link";
 import {
@@ -19,6 +21,15 @@ import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { Root } from "postcss";
 import { RootState } from "@/redux/store/store";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "../ui/button";
 
 export default function Header() {
   const pathname = usePathname();
@@ -108,20 +119,82 @@ export default function Header() {
             Giới thiệu
           </Link>
         </nav>
-        <div className="user-actions flex justify-end items-center space-x-5">
-          <Link
-            className={`hover:text-slate-400 flex gap-2 items-center ${
-              pathname.startsWith("/login") ||
-              pathname.startsWith("/register") ||
-              pathname.startsWith("/user")
-                ? "text-slate-400"
-                : ""
-            }`}
-            href={`${user.customerId ? "/user" : "/login"}`}
-          >
-            <PersonIcon width={20} height={20} />
-            {user.fullName ? user.fullName : null}
-          </Link>
+        <div className="user-actions flex justify-end items-center gap-5">
+          <div className="md:hidden flex">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full"
+                >
+                  <PersonIcon width={20} height={20} />
+                  <span className="sr-only">Toggle user menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator /> */}
+                <DropdownMenuItem>
+                  <Link
+                    className={`${
+                      pathname.startsWith("/register") ? "text-slate-400" : ""
+                    }
+                     hover:text-slate-400`}
+                    href={`/register`}
+                  >
+                    Đăng ký
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    className={`${
+                      pathname.startsWith("/login") ? "text-slate-400" : ""
+                    } hover:text-slate-400`}
+                    href={`/login`}
+                  >
+                    Đăng nhập
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          <div className="hidden md:flex gap-2">
+            {user.fullName ? (
+              <Link
+                className={`${
+                  pathname.startsWith("/user") ? "text-slate-400" : ""
+                }
+                   hover:text-slate-400 flex gap-2 items-center`}
+                href={`/user`}
+              >
+                <PersonIcon width={20} height={20} />
+                {user.fullName}
+              </Link>
+            ) : (
+              <div className="flex gap-2 items-center">
+                {/* <PersonIcon width={20} height={20} /> */}
+                <Link
+                  className={`${
+                    pathname.startsWith("/register") ? "text-slate-400" : ""
+                  } hover:text-slate-400`}
+                  href={`/register`}
+                >
+                  Đăng ký
+                </Link>
+                <div className="w-[1px] h-[20px] bg-slate-500"></div>
+                <Link
+                  className={`${
+                    pathname.startsWith("/login") ? "text-slate-400" : ""
+                  } hover:text-slate-400`}
+                  href={`/login`}
+                >
+                  Đăng nhập
+                </Link>
+              </div>
+            )}
+          </div>
           <Link
             className={`hover:text-slate-400 ${
               pathname.startsWith("/cart") ? "text-slate-400" : ""

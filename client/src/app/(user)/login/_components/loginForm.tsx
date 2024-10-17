@@ -23,6 +23,7 @@ import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
 
 import customToast from "@/components/react-toastify/reactToastify";
 import { CartItemApi } from "@/apis/cartItemAPi";
+import Overlay from "@/components/overlay/overlay";
 
 export const description =
   "A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -57,6 +58,7 @@ export function LoginForm() {
 
       customToast.showSuccess("Đăng nhập thành công !");
       router.push("/user");
+      <Overlay />;
       // window.location.href = "/user";
     } catch (error) {
       customToast.showError("Đăng nhập thất bại !");

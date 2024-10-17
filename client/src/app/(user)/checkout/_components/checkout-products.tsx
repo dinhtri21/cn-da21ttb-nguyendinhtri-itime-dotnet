@@ -61,6 +61,21 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
                 </div>
               ))
             : null}
+          {props.cartItems.length === 0 && (
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                src="/img/empty-cart.png"
+                width={100}
+                height={100}
+                alt="empty-cart"
+                quality={100}
+                className="opacity-85"
+              />
+              <span className="text-gray-400">
+                Chưa có sản phẩm nào trong giỏ hàng !
+              </span>
+            </div>
+          )}
         </div>
         <div className="flex justify-between px-2 py-2 mt-4 border-t">
           <span className="text-gray-500">Tạm tính</span>

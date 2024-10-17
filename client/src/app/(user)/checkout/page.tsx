@@ -51,6 +51,10 @@ export default function CheckOutPage() {
 
   const handleCreateOrder = async () => {
     try {
+      if(cartItems.length === 0) {
+        CustomToast.showError("Giỏ hàng của bạn đang trống!");
+        return;
+      }
       if (customer.customerId && token) {
         const res = await OrderApi.CreateOrder(token, {
           customerId: customer.customerId,
@@ -76,7 +80,7 @@ export default function CheckOutPage() {
   }, [customer]);
 
   return (
-    <div className="bg-muted/40 min-h-[calc(100vh-300px)] pt-4 pb-10">
+    <div className="dark:bg-muted/40  min-h-[calc(100vh-300px)] pt-4 pb-10">
       <div className="w-full max-w-screen-xl mx-auto px-4">
         <div className="pb-4">
           <Breadcrumb>

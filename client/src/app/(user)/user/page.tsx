@@ -17,6 +17,14 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import RenderPaginationItems from "@/components/paginationItemsCustom/paginationItemsCustom";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
 
 export default function UserPage() {
   const customer = useSelector((state: RootState) => state.user);
@@ -73,7 +81,20 @@ export default function UserPage() {
   }, [customer, searchParams]);
 
   return (
-    <div className="bg-muted/40 min-h-[calc(100vh-300px)] py-4">
+    <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-4 pb-10">
+      <div className="w-full max-w-screen-xl mx-auto px-4 pb-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Người dùng</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
       <NavigationCusomer />
       <Dashboard orders={orders} />
       {orders && orders?.length !== 0 && (

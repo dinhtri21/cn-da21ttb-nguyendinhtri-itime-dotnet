@@ -11,7 +11,7 @@ interface FeaturedProductsProps {
   title: string;
 }
 
-export default function FeaturedProducts({ title }: FeaturedProductsProps) {
+export default function OtherProducts({ title }: FeaturedProductsProps) {
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
 
   useEffect(() => {
@@ -27,13 +27,10 @@ export default function FeaturedProducts({ title }: FeaturedProductsProps) {
   }, []);
   return (
     <div className="w-full">
-      <div className="container max-w-screen-xl mx-auto py-10 mt-4 px-4">
-        <h1 className="text-center mb-1 uppercase text-lg font-medium">
+      <div className="container max-w-screen-xl mx-auto py-10 mt-4 md:px-4">
+        <h1 className="mb-4 uppercase text-lg font-medium">
           {title}
         </h1>
-        <p className="text-center mb-4">
-          Một số sản phẩm nổi bật đến từ ITime.
-        </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {productsRes?.products ? (
             productsRes.products.map((product: any, index: number) => (

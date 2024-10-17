@@ -126,82 +126,95 @@ export function TableProduct() {
 
   return (
     <div className="grid grid-cols-10 gap-8 mt-4 min-h-[calc(100vh-370px)]">
-      <div className="col-span-10 md:col-span-7 gap-1 ">
-        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded border gap-2 p-3">
-          <div className="col-span-1 flex  justify-center">Ảnh</div>
-          <div className="col-span-4 flex  justify-center">Tên sản phẩm</div>
-          <div className="col-span-2 flex  justify-center">Giá</div>
-          <div className="col-span-2 flex  justify-center">Số lượng</div>
-          <div className="col-span-3 flex  justify-center">Thành tiền</div>
-        </div>
-
-        {cartItems.length == 0 ? (
-          <div className="hidden md:grid grid-cols-12 grid-flow-row gap-2 p-3">
-            <div className="col-span-12">
-              Chưa có sản phẩm nào trong giỏ hàng!
-            </div>
+      <div className="col-span-10 md:col-span-7 gap-1">
+        <div className="border rounded-xl bg-background min-h-[400px]">
+          <div className="hidden md:grid grid-cols-12 grid-flow-row rounded border-b gap-2 p-3 ">
+            <div className="col-span-1 flex  justify-center">Ảnh</div>
+            <div className="col-span-4 flex  justify-center">Tên sản phẩm</div>
+            <div className="col-span-2 flex  justify-center">Giá</div>
+            <div className="col-span-2 flex  justify-center">Số lượng</div>
+            <div className="col-span-3 flex  justify-center">Thành tiền</div>
           </div>
-        ) : null}
 
-        {cartItems.length > 0
-          ? cartItems.map((cartItem, index) => (
-              <div
-                key={index}
-                className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:p-3 border-b relative"
-              >
-                <div
-                  onClick={() => handleDeleteCartItem(cartItem)}
-                  className="absolute top-2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800 bg-slate-100 rounded-full p-[5px]
-               hover:bg-slate-400 hover:text-white cursor-pointer dark:hover:bg-slate-600"
-                >
-                  <Cross1Icon width={14} height={14} />
-                </div>
-                <div className="row-span-2 md:col-span-1 md:row-span-2 overflow-hidden">
-                  <Image
-                    src={
-                      cartItem.product.imageUrls[0] ||
-                      "https://dummyimage.com/100x100"
-                    }
-                    width={100}
-                    height={100}
-                    className="object-cover rounded-xl"
-                    alt="Picture of the author"
-                  />
-                </div>
-                <div className="md:col-span-4 md:row-span-2 flex md:justify-center items-center ">
-                  <span className="line-clamp-1 md:line-clamp-2 ">
-                    {cartItem.product.productName}
-                  </span>
-                </div>
-                <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center">
-                  {cartItem.product.productPrice} đ
-                </div>
-                <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center">
-                  <div
-                    onClick={() => handlerDecreaseQuantity(cartItem)}
-                    className="h-7 w-7 flex justify-center items-center border-[0.1px] rounded-l border-slate-400  hover:bg-slate-400 hover:text-white cursor-pointer dark:hover:bg-slate-800"
-                  >
-                    <MinusIcon />
-                  </div>
-                  <span className="h-7 w-7 flex justify-center cursor-pointer items-center px-2 border-y-[1px] border-slate-400">
-                    {cartItem.quantity}
-                  </span>
-                  <div
-                    onClick={() => handlerIncreaseQuantity(cartItem)}
-                    className="h-7 w-7 flex justify-center  items-center border-[0.1px] rounded-r border-slate-400 hover:bg-slate-400 hover:text-white cursor-pointer dark:hover:bg-slate-800"
-                  >
-                    <PlusIcon />
-                  </div>
-                </div>
-                <div className="md:col-span-3 flex md:row-span-2  justify-center items-center">
-                  {cartItem.unitPrice} đ
-                </div>
+          {cartItems.length == 0 ? (
+            <div className="hidden md:grid grid-cols-12 grid-flow-row gap-2 p-3">
+              <div className="col-span-12 flex flex-col items-center">
+                <Image
+                  src="/img/empty-cart.png"
+                  width={200}
+                  height={200}
+                  alt="empty-cart"
+                  quality={100}
+                  className="opacity-85 mt-7"
+                />
+                <span className="text-gray-400">
+                  {" "}
+                  Chưa có sản phẩm nào trong giỏ hàng !
+                </span>
               </div>
-            ))
-          : null}
+            </div>
+          ) : null}
+
+          {cartItems.length > 0
+            ? cartItems.map((cartItem, index) => (
+                <div
+                  key={index}
+                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:p-3 border-b relative"
+                >
+                  <div
+                    onClick={() => handleDeleteCartItem(cartItem)}
+                    className="absolute top-2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800 bg-slate-100 rounded-full p-[5px]
+               hover:bg-slate-400 hover:text-white cursor-pointer dark:hover:bg-slate-600"
+                  >
+                    <Cross1Icon width={14} height={14} />
+                  </div>
+                  <div className="row-span-2 md:col-span-1 md:row-span-2 overflow-hidden">
+                    <Image
+                      src={
+                        cartItem.product.imageUrls[0] ||
+                        "https://dummyimage.com/100x100"
+                      }
+                      width={100}
+                      height={100}
+                      className="object-cover rounded-xl"
+                      alt="Picture of the author"
+                    />
+                  </div>
+                  <div className="md:col-span-4 md:row-span-2 flex md:justify-center items-center ">
+                    <span className="line-clamp-1 md:line-clamp-2 ">
+                      {cartItem.product.productName}
+                    </span>
+                  </div>
+                  <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center">
+                    {cartItem.product.productPrice} đ
+                  </div>
+                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center">
+                    <div
+                      onClick={() => handlerDecreaseQuantity(cartItem)}
+                      className="h-7 w-7 flex justify-center items-center border-[0.1px] rounded-l border-slate-400  hover:bg-slate-400 hover:text-white cursor-pointer dark:hover:bg-slate-800"
+                    >
+                      <MinusIcon />
+                    </div>
+                    <span className="h-7 w-7 flex justify-center cursor-pointer items-center px-2 border-y-[1px] border-slate-400">
+                      {cartItem.quantity}
+                    </span>
+                    <div
+                      onClick={() => handlerIncreaseQuantity(cartItem)}
+                      className="h-7 w-7 flex justify-center  items-center border-[0.1px] rounded-r border-slate-400 hover:bg-slate-400 hover:text-white cursor-pointer dark:hover:bg-slate-800"
+                    >
+                      <PlusIcon />
+                    </div>
+                  </div>
+                  <div className="md:col-span-3 flex md:row-span-2  justify-center items-center">
+                    {cartItem.unitPrice} đ
+                  </div>
+                </div>
+              ))
+            : null}
+        </div>
       </div>
-      <div className="col-span-10 md:col-span-3">
-        <div className=" dark:bg-slate-800 bg-gray-100 rounded-md px-3 py-4 md:px-7 flex flex-col gap-3">
+      <div className="col-span-10 md:col-span-3 ">
+        <div className=" dark:bg-slate-800 bg-gray-100 rounded-md px-3 py-4 md:px-7 flex flex-col gap-3 border rounded-xl">
           <h2 className="uppercase font-semibold md:text-center  text-lg">
             Thông tin đơn hàng
           </h2>

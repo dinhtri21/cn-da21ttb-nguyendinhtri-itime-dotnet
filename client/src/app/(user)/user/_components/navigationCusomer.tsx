@@ -71,19 +71,19 @@ export default function NavigationCusomer() {
       <div className="flex items-center justify-between border px-3 py-3 rounded-xl bg-background">
         <div className="flex items-center gap-3">
           <Image
-            src={"/logo/casio.png"}
-            width={48}
-            height={48}
+            src={"/img/avatar-customer.jpg"}
+            width={60}
+            height={60}
             alt="avatar"
-            className="border rounded-full w-12 h-12 object-cover"
+            className="border rounded-full w-[60px] h-[60px] object-cover"
           />
           <div>
             <h2 className="font-semibold text-slate-600 dark:text-white text-base">
-              Nguyễn Đình Trí
+              {user && user.fullName}
             </h2>
             {/* <p>{user && user.email}</p> */}
             <p className="text-gray-600 dark:text-white text-sm">
-              abc@gmail.com
+              {user && user.email}
             </p>
           </div>
         </div>
@@ -137,8 +137,11 @@ export default function NavigationCusomer() {
         <Link
           href={"/user"}
           className={`${
-            pathname == "/user" ? " border-slate-400" : null
-          } text-gray-500 flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-3 border hover:bg-slate-100`}
+            pathname == "/user"
+              ? " border-slate-400 text-slate-400"
+              
+              : "text-gray-500 hover:border-slate-400 hover:text-slate-400"
+          }  flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-3 border `}
         >
           <TfiClipboard className={`w-6 h-6 `} />
           <p className="font-medium">Chờ xác nhận</p>
@@ -166,8 +169,10 @@ export default function NavigationCusomer() {
         <Link
           href={"/user/history"}
           className={`${
-            pathname == "/user/history" ? "border-slate-400" : null
-          } text-gray-500 flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border hover:bg-slate-100`}
+            pathname == "/user/history"
+              ? "border-slate-400 text-slate-400"
+              : "text-gray-500 hover:border-slate-400 hover:text-slate-400"
+          } flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border `}
         >
           <TfiClipboard className={`w-6 h-6`} />
           <p className="font-medium">Lịch sử mua hàng</p>

@@ -10,8 +10,8 @@ import {
 
 export default function CartPage() {
   return (
-    <div className="w-full">
-      <div className="max-w-screen-xl mx-auto p-3 md:p-4">
+    <div className="w-full dark:bg-muted/40">
+      <div className="max-w-screen-xl mx-auto pt-4 pb-10 px-4">
       <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
