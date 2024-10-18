@@ -7,6 +7,7 @@ import {
   PlusIcon,
   MinusIcon,
 } from "@radix-ui/react-icons";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useState } from "react";
 import { CartItemRes } from "@/validations/cartItem.chema";
@@ -34,21 +35,31 @@ export function Dashboard(props: DashboardProps) {
   };
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-4 mt-4">
-      <div className="border rounded-xl mt-4 bg-background">
-        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 p-3 border-b">
+    <div className="w-full max-w-screen-xl mx-auto px-4 mt-6">
+      <Tabs defaultValue="confirm">
+        <TabsList>
+          {/* <TabsTrigger value="all">Tất cả</TabsTrigger> */}
+          <TabsTrigger value="confirm">Chờ xác nhận</TabsTrigger>
+          <TabsTrigger value="delivery">Chờ giao hàng</TabsTrigger>
+          <TabsTrigger  className="" value="history">Lịch sử</TabsTrigger>
+          {/* <TabsTrigger value="archived" className="hidden sm:flex">
+            Archived
+          </TabsTrigger> */}
+        </TabsList>
+      </Tabs>
+      <div className="border-2 rounded-xl mt-4 bg-background overflow-hidden min-h-[344px]">
+        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 p-3 border-b-2">
           <div className="col-span-1 flex  justify-center">ID</div>
           <div className="col-span-3 flex  justify-center">Thời gian</div>
           <div className="col-span-2 flex  justify-center">Trạng thái</div>
           <div className="col-span-3 flex  justify-center">Tổng tiền</div>
           <div className="col-span-3 flex  justify-center">Ghi chú</div>
         </div>
-
         {props.orders?.length > 0
           ? props.orders.map((order, index) => (
               <div
                 key={index}
-                className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:p-3 border-b relative bg-background"
+                className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-4 border-b relative bg-background"
               >
                 <div
                   // onClick={() => handleDeleteCartItem(cartItem)}
@@ -58,16 +69,6 @@ export function Dashboard(props: DashboardProps) {
                   <Cross1Icon width={14} height={14} />
                 </div>
                 <div className="row-span-2 md:col-span-1 md:row-span-2 flex md:justify-center items-center overflow-hidden">
-                  {/* <Image
-                    src={
-                      cartItem.product.imageUrls[0] ||
-                      "https://dummyimage.com/70x70"
-                    }
-                    width={70}
-                    height={70}
-                    className="object-cover rounded-xl"
-                    alt="Picture of the author"
-                  /> */}
                   {order.orderId}
                 </div>
                 <div className="md:col-span-3 md:row-span-2 flex md:justify-center items-center ">
@@ -76,13 +77,15 @@ export function Dashboard(props: DashboardProps) {
                   </span>
                 </div>
                 <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center">
-                  {order.orderStatus}
+                  <div className="border border-yellow-600 px-3 rounded-md text-yellow-600">
+                    {order.orderStatus}
+                  </div>
                 </div>
-                <div className="md:col-span-3 md:row-span-2 flex  justify-center items-center">
+                <div className="md:col-span-3 md:row-span-2 flex  justify-center items-center text-sky-600">
                   {order.total}đ
                 </div>
                 <div className="md:col-span-3 flex md:row-span-2  justify-center items-center">
-                  {order.orderNote}
+                  {order.orderNote.length == 0 ? "Không" : order.orderNote}
                 </div>
               </div>
             ))

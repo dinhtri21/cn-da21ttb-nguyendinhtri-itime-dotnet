@@ -31,10 +31,11 @@ import { CartItemApi } from "@/apis/cartItemAPi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import Cookies from "js-cookie";
-import { useToast } from "@/hooks/use-toast";
 import { set } from "zod";
 import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
 import OtherProducts from "@/components/otherProducts/otherProducts";
+import { MdAddCircleOutline } from "react-icons/md";
+import CustomToast from "@/components/react-toastify/reactToastify";
 
 export default function ProductDetail({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<ProductRes | null>(null);
@@ -42,7 +43,6 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const token = Cookies.get("token");
-  const toast = useToast();
 
   const handleIncrease = () => {
     setQuantity((prev) => prev + 1);
@@ -68,19 +68,20 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
   const handleAddToCart = async () => {
     try {
+      if (user.customerId === null) {
+        CustomToast.showError("Vui lòng đăng nhập để thêm vào giỏ hàng");
+        return;
+      }
       const data = await CartItemApi.createCartItem(token ?? "", {
         customerId: user.customerId!,
         productId: product?.productId ?? 0,
         quantity: quantity,
       });
-      toast.toast({
-        title: "Thên vào giỏ hàng thành công",
-      });
+
+      CustomToast.showSuccess("Thêm vào giỏ hàng thành công");
       handleUpdateCartItemsCount();
     } catch (error) {
-      toast.toast({
-        title: "Thên vào giỏ hàng thất bại",
-      });
+      CustomToast.showError("Thêm vào giỏ hàng thất bại");
       console.error("Failed to add to cart:", error);
     }
   };
@@ -100,7 +101,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   return (
     <div className="w-full dark:bg-muted/40">
       <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-4 pb-10 px-4">
-        <div className="mb-4">
+        <div className="mb-4 px-4">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -122,7 +123,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           </Breadcrumb>
         </div>
         {/*  */}
-        <div className="mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-7 gap-10">
+        <div className="mx-auto px-4 max-w-screen-xl grid grid-cols-1 md:grid-cols-7 gap-3 md:gap-10">
           <div className="md:col-span-3 p-4 bg-background border rounded-xl">
             <Carousel>
               <CarouselContent>
@@ -149,50 +150,58 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               {product?.productName}
             </h1>
             <div className="flex items-center mt-4 gap-2">
-              <p className="md:text-lg font-normal uppercase">Giá : </p>
-              <span className="text-lg md:text-xl font-semibold text-customOrange">
+              <p className="md:text-lg font-normal text-gray-500">Giá: </p>
+              <span className="text-lg md:text-2xl font-semibold text-sky-600">
                 {product?.productPrice.toLocaleString()}đ
               </span>
             </div>
             <div className="flex items-center mt-4 gap-2">
-              <p className="md:text-lg font-normal uppercase">Số lượng : </p>
-              <div className="ml-2 flex items-center gap-2 border-2 rounded-sm">
+              <p className="md:text-lg font-normal text-gray-500">Số lượng: </p>
+              <div className="ml-2 flex items-center gap-2 border-2 border-sky-600 rounded-sm">
                 <div
                   onClick={handleDecrease}
-                  className="p-1 border-r cursor-pointer px-1"
+                  className="p-1 border-r cursor-pointer px-1 bg-gray-100 border-sky-600 rounded-l-[2px]"
                 >
-                  <MinusIcon width={16} height={16} />
+                  <MinusIcon className="text-sky-600" width={18} height={18} />
                 </div>
-                <span className="text-lg font-medium px-1 text-cyan-600">
+                <span className="text-xl flex items-center justify-center w-4 h-4 font-medium px-1 text-sky-600">
                   {quantity}
                 </span>
                 <div
                   onClick={handleIncrease}
-                  className="p-1 border-l cursor-pointer px-1"
+                  className="p-1 border-l cursor-pointer px-1 bg-gray-100 border-sky-600 rounded-r-[2px]"
                 >
-                  <PlusIcon width={16} height={16} />
+                  <PlusIcon className="text-sky-600" width={18} height={18} />
                 </div>
               </div>
             </div>
             <div className="mt-4">
-              <p className="text-base md:text-lg font-normal uppercase">
-                Thông số :
+              {/* <p className="text-base md:text-xl font-normal">
+                Thông số:
+              </p> */}
+              <p className="md:text-lg text-gray-500 font-normal mt-4">
+                Thương hiệu: {product?.brand?.brandName}
               </p>
-              <p className="text-base font-normal mt-4">
-                - Thương hiệu: {product?.brand?.brandName}
-              </p>
-              <p className="text-base font-normal mt-4">
-                - Chất liệu: {product?.material?.materialName}
+              <p className="md:text-lg text-gray-500 font-normal mt-4">
+                Chất liệu: {product?.material?.materialName}
               </p>
             </div>
 
             <Button
               onClick={handleAddToCart}
-              className="mt-6 w-full px-4 py-3 rounded-md text-center text-sm md:text-base font-medium
-             uppercase cursor-pointer bg-black text-white dark:bg-slate-200 dark:text-black"
+              className="mt-6 w-full  py-5 rounded-full flex items-center justify-center gap-1 text-sm md:text-base font-semibold
+             uppercase cursor-pointer  hover:bg-gray-600 border bg-slate-900  text-white"
             >
-              Thêm vào giỏ hàng
+              <p>Thêm vào giỏ hàng</p>
+              {/* <MdOutlineAddShoppingCart />
+               */}
+              <MdAddCircleOutline className="w-5 h-5" />
             </Button>
+
+            <div className="w-full h-[1px] bg-gray-300 mt-7 mb-6"></div>
+            <div>
+              <p>{product?.productDescription}</p>
+            </div>
           </div>
         </div>
         <div className="">

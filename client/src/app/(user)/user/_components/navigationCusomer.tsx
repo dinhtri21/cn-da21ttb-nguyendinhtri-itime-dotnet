@@ -68,7 +68,7 @@ export default function NavigationCusomer() {
 
   return (
     <div className="w-full max-w-screen-xl mx-auto px-4">
-      <div className="flex items-center justify-between border px-3 py-3 rounded-xl bg-background">
+      <div className="flex items-center justify-between border-2 px-3 py-3 rounded-xl bg-background">
         <div className="flex items-center gap-3">
           <Image
             src={"/img/avatar-customer.jpg"}
@@ -78,7 +78,7 @@ export default function NavigationCusomer() {
             className="border rounded-full w-[60px] h-[60px] object-cover"
           />
           <div>
-            <h2 className="font-semibold text-slate-600 dark:text-white text-base">
+            <h2 className="font-semibold text-slate-800 dark:text-white text-base">
               {user && user.fullName}
             </h2>
             {/* <p>{user && user.email}</p> */}
@@ -133,7 +133,7 @@ export default function NavigationCusomer() {
           </DropdownMenu>
         </div>
       </div>
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-3 md:gap-4 mt-3 md:mt-4">
+      {/* <div className="grid md:grid-cols-4 grid-cols-2 gap-3 md:gap-4 mt-3 md:mt-6">
         <Link
           href={"/user"}
           className={`${
@@ -154,18 +154,7 @@ export default function NavigationCusomer() {
           <MdOutlineDeliveryDining className="w-6 h-6 " />
           <p className="font-medium ">Đang giao</p>
         </div>
-        {/* <Link
-          href={"/user/history"}
-          className={`${
-            pathname == "/user/history"
-              ? "bg-slate-100 text-gray-500 border-slate-300"
-              : null
-          } flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border text-gray-500`}
-        >
-          <GoHistory className="w-6 h-6 " />
-          <p className="font-semibold ">Lịch sử mua hàng</p>
-        </Link> */}
-
+       
         <Link
           href={"/user/history"}
           className={`${
@@ -177,7 +166,7 @@ export default function NavigationCusomer() {
           <TfiClipboard className={`w-6 h-6`} />
           <p className="font-medium">Lịch sử mua hàng</p>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }

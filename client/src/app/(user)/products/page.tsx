@@ -114,75 +114,77 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-300px)] pb-6">
-      <div className="mx-auto max-w-screen-xl my-2 px-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Sản phẩm</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
-      <div className="mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-4 md:py-1 relative">
-        <Filter updateURLWithFilters={updateURLWithFilters} />
-        <div className="col-span-3">
-          <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
-            <div className="col-span-2 md:col-span-3 flex justify-end">
-              <Select onValueChange={(value) => handleSortChange(value)}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Sắp xếp theo:" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="default">Mặc định</SelectItem>
-                  <SelectItem value="price_asc">Giá tăng dần</SelectItem>
-                  <SelectItem value="price_desc">Giá giảm dần</SelectItem>
-                </SelectContent>
-              </Select>
+    <div className="w-full dark:bg-muted/40">
+      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-4 pb-10 px-4">
+        <div className="px-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Sản phẩm</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+        <div className="mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-2 relative">
+          <Filter updateURLWithFilters={updateURLWithFilters} />
+          <div className="col-span-3">
+            <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
+              <div className="col-span-2 md:col-span-3 flex justify-end">
+                <Select onValueChange={(value) => handleSortChange(value)}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Sắp xếp theo:" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="default">Mặc định</SelectItem>
+                    <SelectItem value="price_asc">Giá tăng dần</SelectItem>
+                    <SelectItem value="price_desc">Giá giảm dần</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              {productsRes?.products.length == 0 ? (
+                <div>Không tìm thấy sản phẩm nào ...</div>
+              ) : productsRes?.products ? (
+                productsRes.products.map((product, index) => (
+                  <ProductItem key={index} product={product} />
+                ))
+              ) : (
+                <>
+                  <SkeletonCard />
+                  <SkeletonCard />
+                  <SkeletonCard />
+                  <SkeletonCard />
+                </>
+              )}
             </div>
-            {productsRes?.products.length == 0 ? (
-              <div>Không tìm thấy sản phẩm nào ...</div>
-            ) : productsRes?.products ? (
-              productsRes.products.map((product, index) => (
-                <ProductItem key={index} product={product} />
-              ))
-            ) : (
-              <>
-                <SkeletonCard />
-                <SkeletonCard />
-                <SkeletonCard />
-                <SkeletonCard />
-              </>
+            {productsRes && productsRes?.products?.length !== 0 && (
+              <div className="col-span-3 mt-4">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem
+                      className="cursor-pointer"
+                      onClick={handlePaginationPrevious}
+                    >
+                      <PaginationPrevious />
+                    </PaginationItem>
+                    <RenderPaginationItems
+                      total={productsRes?.total || 0}
+                      limit={productsRes?.limit ?? 0}
+                      skip={parseInt(searchParams.get("skip") || "0")}
+                      handlePaginationItem={handlePaginationItem}
+                    />
+
+                    <PaginationItem className="cursor-pointer">
+                      <PaginationNext onClick={handlePaginationNext} />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
             )}
           </div>
-          {productsRes && productsRes?.products?.length !== 0 && (
-            <div className="col-span-3 mt-4">
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem
-                    className="cursor-pointer"
-                    onClick={handlePaginationPrevious}
-                  >
-                    <PaginationPrevious />
-                  </PaginationItem>
-                  <RenderPaginationItems
-                    total={productsRes?.total || 0}
-                    limit={productsRes?.limit ?? 0}
-                    skip={parseInt(searchParams.get("skip") || "0")}
-                    handlePaginationItem={handlePaginationItem}
-                  />
-
-                  <PaginationItem className="cursor-pointer">
-                    <PaginationNext onClick={handlePaginationNext} />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          )}
         </div>
       </div>
     </div>

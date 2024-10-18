@@ -22,6 +22,8 @@ export default function CustomLayout({
   const router = useRouter();
   const token = Cookies.get("token");
   const isRegisterPage = pathname === "/unknow";
+
+  const isAdmin = pathname.includes("/admin");
   const isUserPage = pathname === "/user";
   const [isChecking, setIsChecking] = useState(true);
 
@@ -52,9 +54,9 @@ export default function CustomLayout({
             draggable
             pauseOnHover
           />
-          {!isRegisterPage && <Header />} {/* Ẩn header nếu là /register */}
+          {!isAdmin && <Header />} {/* Ẩn header nếu là /register */}
           <CustomRouter>{children}</CustomRouter>
-          {!isRegisterPage && <Footer />} {/* Ẩn footer nếu là /register */}
+          {!isAdmin && <Footer />} {/* Ẩn footer nếu là /register */}
         </TooltipProvider>
       </Provider>
     </>
