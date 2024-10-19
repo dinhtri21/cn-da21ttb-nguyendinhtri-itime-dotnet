@@ -9,6 +9,7 @@ using WatchStore.Application.Orders.Commands.CreateOrder;
 using WatchStore.Application.Orders.Commands.DeleteOrder;
 using WatchStore.Application.Orders.Queries.GetOrder;
 using WatchStore.Application.Orders.Queries.GetOrdersByCustomerId;
+using WatchStore.Application.Orders.Queries.GetOrdersCount;
 using WatchStore.Domain.Entities;
 
 namespace WatchStore.API.Controllers
@@ -37,6 +38,28 @@ namespace WatchStore.API.Controllers
                     return Ok(new { listOrders.Orders, message = "Giỏ hàng trống!" });
                 }
                 return Ok(listOrders);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        //[Authorize(Policy = "AdminPolicy")]
+        [HttpGet("count")]
+        public async Task<IActionResult> GetOrdersCount([FromQuery] int? month, [FromQuery] int? year)
+        {
+            try
+            {
+                var count = await _mediator.Send(new GetOrdersCountQuery(year, month));
+                return Ok(new { TotalOrders = count });
             }
             catch (UnauthorizedAccessException ex)
             {

@@ -15,5 +15,6 @@ namespace WatchStore.Application.Common.Interfaces
         Task AddOrderAsync(Order order);
         Task<bool> DeleteOrderAsync(int orderId);
         Task<int> GetTotalOrderCountAsync();
+        Task<int> GetOrderCountByMonthAndYearAsync(int? month, int? year);
     }
 }

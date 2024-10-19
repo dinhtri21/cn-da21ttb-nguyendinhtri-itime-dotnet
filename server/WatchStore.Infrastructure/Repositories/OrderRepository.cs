@@ -71,5 +71,31 @@ namespace WatchStore.Infrastructure.Repositories
 
             return TotalCount;
         }
+
+        public async Task<int> GetOrderCountByMonthAndYearAsync(int? month, int? year)
+        {
+            // Nếu truyền vào tháng mà không có năm -> trả về lỗi
+            if (month.HasValue && !year.HasValue)
+            {
+                throw new ArgumentException("Vui lòng cung cấp cả năm nếu lọc theo tháng.");
+            }
+
+            var query = _context.Orders.AsQueryable();
+
+            // Lọc theo năm nếu có
+            if (year.HasValue)
+            {
+                query = query.Where(o => o.OrderDate.Year == year.Value);
+            }
+
+            // Lọc theo tháng nếu có
+            if (month.HasValue)
+            {
+                query = query.Where(o => o.OrderDate.Month == month.Value);
+            }
+
+            // Không truyền tháng và năm -> Đếm tất cả các đơn hàng
+            return await query.CountAsync();
+        }
     }
 }
