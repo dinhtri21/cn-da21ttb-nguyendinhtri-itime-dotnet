@@ -8,7 +8,7 @@ import { setUser } from "@/redux/slices/userSlice";
 import { useRouter, usePathname } from "next/navigation";
 import React from "react";
 import { CartItemApi } from "@/apis/cartItemAPi";
-import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlice";
 
 export default function CustomerRouter({
   children,
@@ -25,7 +25,6 @@ export default function CustomerRouter({
   const handleUpdateCartItemsCount = async (customerId: number) => {
     try {
       const res = await CartItemApi.getCartItemsCount(token ?? "", customerId);
-      // console.log(res.data.cartItemsCount);
       dispatch(setCartItemCount(res.data.cartItemsCount));
     } catch (error) {
       console.error("Failed to fetch cart items count:", error);
@@ -46,12 +45,11 @@ export default function CustomerRouter({
       );
       handleUpdateCartItemsCount(data.customerId);
     } catch (error) {
-      console.error("Failed to fetch user:", error);
+      // console.error("Failed to fetch user:", error);
     }
   };
   useEffect(() => {
     if (!user.customerId && userIdCookie && token) {
-      console.log("Get user info");
       getInfoUser(userIdCookie, token);
       // Nếu đang ở trang /login thì chuyển hướng đến /user
       if (pathname === "/login") {

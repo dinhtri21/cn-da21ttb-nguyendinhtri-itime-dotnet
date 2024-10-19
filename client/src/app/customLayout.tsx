@@ -12,6 +12,8 @@ import { ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import Overlay from "@/components/overlay/overlay";
+import HeaderAdmin from "./(admin)/admin/_components/headerAdmin";
+import NavDashboard from "./(admin)/admin/_components/navDashboard";
 
 export default function CustomLayout({
   children,
@@ -24,6 +26,7 @@ export default function CustomLayout({
   const isRegisterPage = pathname === "/unknow";
 
   const isAdmin = pathname.includes("/admin");
+  const isLoginAdmin = pathname === "/admin/login";
   const isUserPage = pathname === "/user";
   const [isChecking, setIsChecking] = useState(true);
 
@@ -54,9 +57,11 @@ export default function CustomLayout({
             draggable
             pauseOnHover
           />
-          {!isAdmin && <Header />} {/* Ẩn header nếu là /register */}
+          {isAdmin && !isLoginAdmin ? <HeaderAdmin /> : null}
+          {!isAdmin ? <Header /> : null}
+          {isAdmin && !isLoginAdmin ? <NavDashboard /> : null}
           <CustomRouter>{children}</CustomRouter>
-          {!isAdmin && <Footer />} {/* Ẩn footer nếu là /register */}
+          {isAdmin ? null : <Footer />} 
         </TooltipProvider>
       </Provider>
     </>

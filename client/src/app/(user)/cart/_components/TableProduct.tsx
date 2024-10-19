@@ -11,7 +11,7 @@ import {
   CartItemRes,
   CartItemsUpdateRequest,
 } from "@/validations/cartItem.chema";
-import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlice";
 import { useDispatch } from "react-redux";
 import React from "react";
 import CustomToast from "@/components/react-toastify/reactToastify";

@@ -2,13 +2,34 @@
 import { useState } from "react";
 import AdminFormLogin from "./_components/formLogin";
 import Image from "next/image";
+import AdminApi from "@/apis/adminApi";
+import CustomToast from "@/components/react-toastify/reactToastify";
+import { useDispatch } from "react-redux";
+import { setAdmin } from "@/redux/slices/adminSlice";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
 export default function AdminLoginPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Login success");
+    if (!email || !password) {
+      CustomToast.showError("Vui lòng nhập đầy đủ thông tin đăng nhập !");
+    }
+    try {
+      const res = await AdminApi.loginAdmin(email, password);
+      Cookies.set("accessTokenAdmin", res.accessToken);
+      Cookies.set("adminId", res.admin.adminId.toString());
+      dispatch(setAdmin(res.admin));
+      CustomToast.showSuccess("Đăng nhập thành công !");
+      router.push("/admin");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

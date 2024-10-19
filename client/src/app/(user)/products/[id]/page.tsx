@@ -32,7 +32,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import Cookies from "js-cookie";
 import { set } from "zod";
-import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlice";
 import OtherProducts from "@/components/otherProducts/otherProducts";
 import { MdAddCircleOutline } from "react-icons/md";
 import CustomToast from "@/components/react-toastify/reactToastify";

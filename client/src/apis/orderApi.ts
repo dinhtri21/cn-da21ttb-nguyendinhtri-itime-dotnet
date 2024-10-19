@@ -30,6 +30,10 @@ const OrderApi = {
     );
     return res.data;
   },
+  // async GetOrdersCount(): Promise<any> {
+  //   const res = await axiosConfig.get(`/orders/count`);
+  //   return res.data;
+  // }
 };
 
 export default OrderApi;

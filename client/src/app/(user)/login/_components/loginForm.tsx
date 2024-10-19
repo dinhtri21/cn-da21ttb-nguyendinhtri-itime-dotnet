@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/userSlice";
-import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlice";
 
 import customToast from "@/components/react-toastify/reactToastify";
 import { CartItemApi } from "@/apis/cartItemAPi";
@@ -59,7 +59,6 @@ export function LoginForm() {
       customToast.showSuccess("Đăng nhập thành công !");
       router.push("/user");
       <Overlay />;
-      // window.location.href = "/user";
     } catch (error) {
       customToast.showError("Đăng nhập thất bại !");
     } finally {

@@ -35,7 +35,7 @@ import CustomToast from "@/components/react-toastify/reactToastify";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "@/redux/slices/userSlice";
-import { setCartItemCount } from "@/redux/slices/cartItemsSlide";
+import { setCartItemCount } from "@/redux/slices/cartItemsSlice";
 
 export default function NavigationCusomer() {
   const pathname = usePathname();

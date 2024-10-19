@@ -36,8 +36,6 @@ export default function Header() {
   const user = useSelector((state: RootState) => state.user);
   const cartItemsCount = useSelector((state: RootState) => state.cartItemCount);
 
-  // console.log(user);
-
   return (
     <header className="w-full border-b-[0.8px] mx-auto">
       <div className="container mx-auto max-w-screen-xl flex justify-between items-center p-4">
@@ -133,8 +131,6 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator /> */}
                 <DropdownMenuItem>
                   <Link
                     className={`${
@@ -174,7 +170,6 @@ export default function Header() {
               </Link>
             ) : (
               <div className="flex gap-2 items-center">
-                {/* <PersonIcon width={20} height={20} /> */}
                 <Link
                   className={`${
                     pathname.startsWith("/register") ? "text-slate-400" : ""
