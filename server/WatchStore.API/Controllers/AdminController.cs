@@ -18,7 +18,7 @@ namespace WatchStore.API.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Policy = "ManagerPolicy")]
+        //[Authorize(Policy = "ManagerPolicy")]
         [HttpPost]
         public async Task<IActionResult> CreateAdmin([FromBody] CreateAdminCommand command)
         {
@@ -51,15 +51,19 @@ namespace WatchStore.API.Controllers
         {
             try
             {
-                var token = await _mediator.Send(query);
+                var loginData = await _mediator.Send(query);
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true, // Chỉ sử dụng trên HTTPS
-                    Expires = DateTime.UtcNow.AddHours(1)
+                    Secure = false,
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SameSite = SameSiteMode.None,
+                    MaxAge = TimeSpan.FromHours(1),
+
                 };
-                Response.Cookies.Append("accessToken", token, cookieOptions);
-                return Ok(new { message = "Đăng nhập thành công!" });
+                Response.Cookies.Append("accessToken", loginData.AccessToken, cookieOptions);
+
+                return Ok(loginData);
             }
             catch (UnauthorizedAccessException ex)
             {

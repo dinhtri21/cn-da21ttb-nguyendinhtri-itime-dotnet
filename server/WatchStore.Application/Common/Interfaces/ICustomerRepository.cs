@@ -14,5 +14,6 @@ namespace WatchStore.Application.Common.Interfaces
         Task<Customer> GetCustomerByEmailAsync(string Email);
         Task<bool> UpdateCustomerAsync(Customer customer);
         Task<Customer> GetCustomerByIdAsync(int id);
+        Task<int> GetCustomerCountAsync();
     }
 }

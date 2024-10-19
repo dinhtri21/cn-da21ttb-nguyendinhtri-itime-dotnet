@@ -38,6 +38,12 @@ namespace WatchStore.Infrastructure.Repositories
             return customer;
         }
 
+        public async Task<int> GetCustomerCountAsync()
+        {
+            var count = await _context.Customers.GroupBy(c => c.CustomerId).CountAsync();
+            return count;
+        }
+
         public async Task<bool> UpdateCustomerAsync(Customer customer)
         {
             _context.Customers.Update(customer);

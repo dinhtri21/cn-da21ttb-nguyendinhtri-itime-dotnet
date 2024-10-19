@@ -58,8 +58,6 @@ namespace WatchStore.Application.Customers.Queries.LoginCustomer
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-           
-
             return new LoginCustomerDto
             {
                 Token = tokenString,

@@ -10,6 +10,7 @@ using WatchStore.Application.Customers.Queries.LoginCustomer;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using WatchStore.Application.Customers.Queries.GetCustomerById;
+using WatchStore.Application.Customers.Queries.GetCustomerCount;
 
 namespace WatchStore.API.Controllers
 {
@@ -67,6 +68,22 @@ namespace WatchStore.API.Controllers
                     return BadRequest(new { message = "Không tìm thấy khách hàng!" });
                 }
                 return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("count")]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> GetCustomerCount()
+        {
+            try
+            {
+                var query = new GetCustomersCountQuery();
+                var count = await _mediator.Send(query);
+                return Ok(new { totalCount = count });
             }
             catch (Exception ex)
             {
