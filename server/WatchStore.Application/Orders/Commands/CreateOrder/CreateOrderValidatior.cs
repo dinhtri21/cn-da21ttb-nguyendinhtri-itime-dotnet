@@ -35,9 +35,6 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
             //    .EmailAddress()
             //    .WithMessage("Email không hợp lệ.");
 
-            RuleFor(x => x.OrderNote)
-                .MaximumLength(255)
-                .WithMessage("OrderNote không được vượt quá 255 ký tự.");
 
             RuleFor(x => x.PaymentId)
                 .NotEmpty()

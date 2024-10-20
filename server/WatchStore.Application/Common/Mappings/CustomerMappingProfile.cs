@@ -18,7 +18,9 @@ namespace WatchStore.Application.Common.Mappings
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
+                .ForMember(dest => dest.CreatedAt,opt => opt.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+
         }
     }
 }

@@ -11,10 +11,9 @@ namespace WatchStore.Domain.Entities
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
         public int PaymentId { get; set; }
-        public DateTime OrderDate { get; set; }
         public string OrderStatus { get; set; }
         public decimal Total { get; set; }
-        public string OrderNote { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         // Navigation properties
         public Customer Customer { get; set; }
@@ -24,7 +23,6 @@ namespace WatchStore.Domain.Entities
         public Order()
         {
             OrderDetails = new HashSet<OrderDetail>();
-            OrderDate = DateTime.Now;
         }
     }
 }

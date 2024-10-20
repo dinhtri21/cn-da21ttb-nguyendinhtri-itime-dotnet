@@ -17,6 +17,7 @@ namespace WatchStore.Application.Common.DTOs
         public IEnumerable<string> ImageUrls { get; set; }
         public BrandDto Brand { get; set; }
         public MaterialDto Material { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
 }

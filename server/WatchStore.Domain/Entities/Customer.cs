@@ -14,6 +14,7 @@ namespace WatchStore.Domain.Entities
         public string Address { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         // Navigation properties
         public ICollection<Order> Orders { get; set; }

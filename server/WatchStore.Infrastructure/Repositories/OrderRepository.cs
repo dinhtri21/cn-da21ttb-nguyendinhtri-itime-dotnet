@@ -57,7 +57,7 @@ namespace WatchStore.Infrastructure.Repositories
         {
             var orders = await _context.Orders
                                        .Where(o => o.CustomerId == customerId)
-                                       .OrderByDescending(o => o.OrderDate)
+                                       .OrderByDescending(o => o.CreatedAt)
                                        .Skip(Skip * Limit)
                                        .Take(Limit)
                                        .ToListAsync();
@@ -85,13 +85,13 @@ namespace WatchStore.Infrastructure.Repositories
             // Lọc theo năm nếu có
             if (year.HasValue)
             {
-                query = query.Where(o => o.OrderDate.Year == year.Value);
+                query = query.Where(o => o.CreatedAt.Year == year.Value);
             }
 
             // Lọc theo tháng nếu có
             if (month.HasValue)
             {
-                query = query.Where(o => o.OrderDate.Month == month.Value);
+                query = query.Where(o => o.CreatedAt.Month == month.Value);
             }
 
             // Không truyền tháng và năm -> Đếm tất cả các đơn hàng

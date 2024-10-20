@@ -15,6 +15,7 @@ namespace WatchStore.Domain.Entities
         public int QuantityInStock { get; set; }
         public int BrandId { get; set; }
         public int MaterialId { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         // Navigation properties
         public Brand Brand { get; set; }

@@ -28,7 +28,7 @@ namespace WatchStore.Application.CartItems.Queries.GetCartItems
            var cart = await _cartRepository.GetCartByIdCutomerAsync(request.CustomerId);
             if (cart == null)
               {
-                var cartId = await _cartRepository.CreateCartAsync(new Domain.Entities.Cart { CustomerId = request.CustomerId, CreatedDate = DateTime.Now });
+                var cartId = await _cartRepository.CreateCartAsync(new Domain.Entities.Cart { CustomerId = request.CustomerId });
                 cart = await _cartRepository.GetCartByIdCutomerAsync(request.CustomerId);
                 return new List<CartItemDto>();
            }

@@ -52,6 +52,12 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnName("MaterialId")
                    .IsRequired();
 
+            builder.Property(p => p.CreatedAt)
+                  .HasColumnName("CreatedAt")
+                  .HasColumnType("datetime")
+                  .IsRequired()
+                  .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
             // 1 - n : Brand - Product
             builder.HasOne(p => p.Brand)
                    .WithMany(b => b.Products)

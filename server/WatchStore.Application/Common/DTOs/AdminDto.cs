@@ -14,5 +14,6 @@ namespace WatchStore.Application.Common.DTOs
         public string AdminPhone { get; set; }
         public string AdminEmail { get; set; }
         public IEnumerable<RoleDto> AdminRoles { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace WatchStore.Application.Common.Mappings
                 .ForMember(dest => dest.AdminName, opt => opt.MapFrom(src => src.AdminName))
                 .ForMember(dest => dest.AdminPhone, opt => opt.MapFrom(src => src.AdminPhone))
                 .ForMember(dest => dest.AdminEmail, opt => opt.MapFrom(src => src.AdminEmail))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.AdminRoles, opt => opt.MapFrom(src => src.AdminRoles.Select(ar => new RoleDto
                 {
                     RoleId = ar.Role.RoleId,

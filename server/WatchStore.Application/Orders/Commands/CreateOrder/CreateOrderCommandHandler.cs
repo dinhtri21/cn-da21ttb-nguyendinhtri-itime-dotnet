@@ -57,8 +57,7 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                 {
                     CustomerId = customer.CustomerId,
                     PaymentId = request.PaymentId,
-                    OrderNote = request.OrderNote,
-                    OrderDate = DateTime.Now,
+                    CreatedAt = DateTime.Now,
                     OrderStatus = "Pending",
                     Total = 0,
                 };

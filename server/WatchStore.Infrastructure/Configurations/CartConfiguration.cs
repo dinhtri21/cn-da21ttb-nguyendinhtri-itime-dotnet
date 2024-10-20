@@ -33,10 +33,11 @@ namespace WatchStore.Infrastructure.Configurations
                    .IsUnique()
                    .HasDatabaseName("IX_Cart_CustomerId");
 
-            builder.Property(c => c.CreatedDate)
-                   .HasColumnName("CreatedDate")
-                   .HasColumnType("datetime")
-                   .IsRequired();
+            builder.Property(c => c.CreatedAt)
+                    .HasColumnName("CreatedAt")
+                    .HasColumnType("datetime")
+                    .IsRequired()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             // Configure relationships
             // 1 - n : Customer - Cart

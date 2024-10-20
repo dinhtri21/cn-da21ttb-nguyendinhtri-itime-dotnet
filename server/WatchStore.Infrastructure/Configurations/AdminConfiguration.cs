@@ -47,6 +47,12 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255)
                    .IsRequired();
+
+            builder.Property(a => a.CreatedAt)
+                   .HasColumnName("CreatedAt")
+                   .HasColumnType("datetime")
+                   .IsRequired()
+                   .HasDefaultValueSql("CURRENT_TIMESTAMP"); 
         }
     }
 }

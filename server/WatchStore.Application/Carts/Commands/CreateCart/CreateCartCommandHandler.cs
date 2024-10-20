@@ -23,7 +23,7 @@ namespace WatchStore.Application.Carts.Commands.CreateCart
             var cart = new Cart
             {
                 CustomerId = request.CustomerId,
-                CreatedDate = DateTime.Now
+                //CreatedAt = DateTime.Now
             };
 
             var cartId = await _cartRepository.CreateCartAsync(cart);

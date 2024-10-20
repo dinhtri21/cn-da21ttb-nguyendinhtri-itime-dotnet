@@ -24,6 +24,12 @@ namespace WatchStore.Application.Customers.Commands.CreateCustomer
 
         public async Task<int> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
+            var isCustomerExist = await _customerRepository.GetCustomerByEmailAsync(request.Email);
+
+            if (isCustomerExist != null) {
+                throw new Exception("Email này đã được đăng ký!");
+            }
+
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             var customer = new Customer

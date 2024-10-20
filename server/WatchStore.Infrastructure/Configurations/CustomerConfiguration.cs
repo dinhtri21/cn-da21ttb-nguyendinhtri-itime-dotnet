@@ -52,6 +52,12 @@ namespace WatchStore.Infrastructure.Configurations
                    .IsRequired()
                    .HasMaxLength(255);
 
+            builder.Property(c => c.CreatedAt)
+                  .HasColumnName("CreatedAt")
+                  .HasColumnType("datetime")
+                  .IsRequired()
+                  .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
             // Add unique constraints
             builder.HasIndex(c => c.Email).IsUnique();
             builder.HasIndex(c => c.PhoneNumber).IsUnique();

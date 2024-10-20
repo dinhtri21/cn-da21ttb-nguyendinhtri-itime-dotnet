@@ -24,10 +24,12 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnName("OrderId")
                    .IsRequired()
                    .ValueGeneratedOnAdd();
-            
-            builder.Property(o => o.OrderDate)
-                   .HasColumnName("OrderDate")
-                   .IsRequired();
+
+            builder.Property(o => o.CreatedAt)
+                   .HasColumnName("CreatedAt")
+                   .HasColumnType("datetime")
+                   .IsRequired()
+                   .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder.Property(o => o.OrderStatus)
                    .HasColumnName("OrderStatus")
@@ -40,12 +42,6 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnType("decimal(18,2)")
                    .IsRequired();
 
-            builder.Property(o => o.OrderNote)
-                   .HasColumnName("OrderNote")
-                   .HasColumnType("nvarchar(255)")
-                   .HasMaxLength(255)
-                   .IsRequired(); 
-            
             // 1 - N : Customer - Orders
             builder.HasOne(o => o.Customer)
                    .WithMany(c => c.Orders)
