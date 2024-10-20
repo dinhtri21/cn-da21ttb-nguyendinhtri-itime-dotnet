@@ -28,8 +28,10 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
 
   return (
     <div className="w-full md:w-[40%] ">
-      <div className="border p-5 rounded-md bg-background">
-        <h1 className="font-medium uppercase">Đơn hàng của bạn</h1>
+      <div className="border  p-5 rounded-md bg-background">
+        <div className="border-b  pb-2">
+          <h1 className="font-medium uppercase">Đơn hàng của bạn</h1>
+        </div>
         <div className="flex flex-col gap-3 mt-3 px-2">
           {props.cartItems.length > 0
             ? props.cartItems.map((cartItem, index) => (
@@ -51,12 +53,12 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
                       {cartItem.product.productName}
                     </span>
                     <span>
-                      {cartItem.product.productPrice}đ
+                      {cartItem.product.productPrice} ₫
                       <span> x {cartItem.quantity}</span>
                     </span>
                   </div>
                   <div className="flex items-center">
-                    <span>{cartItem.unitPrice}đ</span>
+                    <span>{cartItem.unitPrice} ₫</span>
                   </div>
                 </div>
               ))
@@ -79,22 +81,22 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
         </div>
         <div className="flex justify-between px-2 py-2 mt-4 border-t">
           <span className="text-gray-500">Tạm tính</span>
-          <span className="text-gray-500">{tempTotal}đ</span>
+          <span className="text-gray-500">{tempTotal} ₫</span>
         </div>
         <div className="flex justify-between px-2">
           <span className="text-gray-500">Phí vận chuyển</span>
-          <span className="text-gray-500">{shippingFee}</span>
+          <span className="text-gray-500">{shippingFee} ₫</span>
         </div>
         <div className="flex justify-between border p-2 mt-2 rounded">
           <span className="font-medium">Tổng cộng</span>
-          <span className="font-medium text-customOrange">
-            {tempTotal + shippingFee}đ
+          <span className="font-medium text-red-400">
+            {tempTotal + shippingFee} ₫
           </span>
         </div>
         <div
           onClick={props.handleCreateOrder}
           className="mt-4 w-full px-4 py-2 rounded-md text-center text-sm md:text-base font-medium
-             uppercase cursor-pointer bg-slate-900 text-white dark:bg-slate-200 dark:text-black
+             uppercase cursor-pointer bg-black text-white dark:bg-slate-200 dark:text-black
              hover:bg-slate-600
              "
         >

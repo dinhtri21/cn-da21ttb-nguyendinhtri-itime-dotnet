@@ -13,6 +13,8 @@ import { useState } from "react";
 import { CartItemRes } from "@/validations/cartItem.chema";
 import { Order } from "@/types/order";
 
+import { ClockIcon, ReloadIcon } from "@radix-ui/react-icons";
+
 export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions.";
 
@@ -35,25 +37,39 @@ export function Dashboard(props: DashboardProps) {
   };
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-4 mt-6">
+    <div className="w-full max-w-screen-xl mx-auto px-4 mt-4">
       <Tabs defaultValue="confirm">
-        <TabsList>
+        <TabsList className="border bg-white">
           {/* <TabsTrigger value="all">Tất cả</TabsTrigger> */}
           <TabsTrigger value="confirm">Chờ xác nhận</TabsTrigger>
           <TabsTrigger value="delivery">Chờ giao hàng</TabsTrigger>
-          <TabsTrigger  className="" value="history">Lịch sử</TabsTrigger>
+          <TabsTrigger className="" value="history">
+            Lịch sử
+          </TabsTrigger>
           {/* <TabsTrigger value="archived" className="hidden sm:flex">
             Archived
           </TabsTrigger> */}
         </TabsList>
       </Tabs>
-      <div className="border-2 rounded-xl mt-4 bg-background overflow-hidden min-h-[344px]">
-        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 p-3 border-b-2">
-          <div className="col-span-1 flex  justify-center">ID</div>
-          <div className="col-span-3 flex  justify-center">Thời gian</div>
-          <div className="col-span-2 flex  justify-center">Trạng thái</div>
-          <div className="col-span-3 flex  justify-center">Tổng tiền</div>
-          <div className="col-span-3 flex  justify-center">Ghi chú</div>
+      <div className="border rounded-xl mt-4 bg-background overflow-hidden min-h-[344px]">
+        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b text-black">
+          <div className="col-span-1 font-medium text-black/80 flex  justify-center">
+            ID
+          </div>
+          <div className="col-span-3 font-medium text-black/80 flex justify-center gap-1 items-center uppercase">
+            <span>Ngày đặt</span>
+            <ClockIcon className="" />
+          </div>
+          <div className="col-span-2 font-medium text-black/80 flex justify-center gap-1 items-center uppercase">
+            <span>Trạng thái</span>
+            <ReloadIcon className="" />
+          </div>
+          <div className="col-span-3 font-medium text-black/80 flex justify-center gap-1 items-center uppercase">
+            Tổng tiền
+          </div>
+          <div className="col-span-3 font-medium text-black/80 flex justify-center gap-1 items-center uppercase">
+            Ghi chú
+          </div>
         </div>
         {props.orders?.length > 0
           ? props.orders.map((order, index) => (
@@ -81,8 +97,8 @@ export function Dashboard(props: DashboardProps) {
                     {order.orderStatus}
                   </div>
                 </div>
-                <div className="md:col-span-3 md:row-span-2 flex  justify-center items-center text-sky-600">
-                  {order.total}đ
+                <div className="md:col-span-3 md:row-span-2 flex  justify-center items-center ">
+                  {order.total} đ
                 </div>
                 <div className="md:col-span-3 flex md:row-span-2  justify-center items-center">
                   {order.orderNote.length == 0 ? "Không" : order.orderNote}

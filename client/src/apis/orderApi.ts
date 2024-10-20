@@ -16,24 +16,30 @@ const OrderApi = {
     limit?: number,
     skip?: number
   ): Promise<OrderResponse> {
-    const res = await axiosConfig.get(
-      `/orders/customer/${customerId}`,
-      {
-        params: {
-          limit: limit,
-          skip: skip,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axiosConfig.get(`/orders/customer/${customerId}`, {
+      params: {
+        limit: limit,
+        skip: skip,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res.data;
   },
-  // async GetOrdersCount(): Promise<any> {
-  //   const res = await axiosConfig.get(`/orders/count`);
-  //   return res.data;
-  // }
+  async GetOrdersCount(
+    token: string,
+    month?: number,
+    year?: number
+  ): Promise<{ totalCount: number }> {
+    const response = await axiosConfig.get("orders/count", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { month: month, year: year },
+    });
+    return response.data;
+  },
 };
 
 export default OrderApi;

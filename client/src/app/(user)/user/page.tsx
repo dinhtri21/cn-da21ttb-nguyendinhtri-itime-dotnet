@@ -100,7 +100,7 @@ export default function UserPage() {
       {orders && orders?.length !== 0 && (
         <div className="col-span-3 mt-4">
           <Pagination>
-            <PaginationContent>
+            <PaginationContent className="border rounded-xl">
               <PaginationItem
                 className="cursor-pointer"
                 // onClick={handlePaginationPrevious}

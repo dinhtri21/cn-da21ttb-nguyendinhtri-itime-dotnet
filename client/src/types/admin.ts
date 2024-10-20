@@ -6,6 +6,7 @@ export type Admin = {
   adminEmail: string;
   adminPhone: string;
   adminRoles: Role[];
+  createdAt: string;
 };
 
 export type AdminLoginRes = {

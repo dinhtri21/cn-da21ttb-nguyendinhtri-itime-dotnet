@@ -45,9 +45,11 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const token = Cookies.get("token");
 
   const handleIncrease = () => {
+    if (quantity > (product?.quantityInStock ?? 0)) return;
     setQuantity((prev) => prev + 1);
   };
   const handleDecrease = () => {
+    if (quantity === 1) return;
     setQuantity((prev) => prev - 1);
   };
 
@@ -157,19 +159,19 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             </div>
             <div className="flex items-center mt-4 gap-2">
               <p className="md:text-lg font-normal text-gray-500">Số lượng: </p>
-              <div className="ml-2 flex items-center gap-2 border-2 border-sky-600 rounded-sm">
+              <div className="ml-2 flex items-center gap-2 border border-sky-600 rounded-sm">
                 <div
                   onClick={handleDecrease}
-                  className="p-1 border-r cursor-pointer px-1 bg-gray-100 border-sky-600 rounded-l-[2px]"
+                  className="p-1 border-r cursor-pointer px-1 bg-gray-100 border-sky-600 rounded-l-[3px]"
                 >
                   <MinusIcon className="text-sky-600" width={18} height={18} />
                 </div>
-                <span className="text-xl flex items-center justify-center w-4 h-4 font-medium px-1 text-sky-600">
+                <span className="text-xl flex items-center justify-center w-4 h-4 px-1 text-sky-600">
                   {quantity}
                 </span>
                 <div
                   onClick={handleIncrease}
-                  className="p-1 border-l cursor-pointer px-1 bg-gray-100 border-sky-600 rounded-r-[2px]"
+                  className="p-1 border-l cursor-pointer px-1 bg-gray-100 border-sky-600 rounded-r-[3px]"
                 >
                   <PlusIcon className="text-sky-600" width={18} height={18} />
                 </div>
@@ -190,7 +192,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             <Button
               onClick={handleAddToCart}
               className="mt-6 w-full  py-5 rounded-full flex items-center justify-center gap-1 text-sm md:text-base font-semibold
-             uppercase cursor-pointer  hover:bg-gray-600 border bg-slate-900  text-white"
+             uppercase cursor-pointer  hover:bg-gray-600 border bg-black  text-white"
             >
               <p>Thêm vào giỏ hàng</p>
               {/* <MdOutlineAddShoppingCart />

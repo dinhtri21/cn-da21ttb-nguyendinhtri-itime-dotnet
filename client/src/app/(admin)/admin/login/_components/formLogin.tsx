@@ -3,6 +3,7 @@ import {
   EnvelopeClosedIcon,
   LockClosedIcon,
   EnterIcon,
+  SymbolIcon,
 } from "@radix-ui/react-icons";
 import Image from "next/image";
 
@@ -12,6 +13,7 @@ interface AdminFormLoginProps {
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   handleLogin: (e: React.FormEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
 }
 
 export default function AdminFormLogin({
@@ -20,6 +22,7 @@ export default function AdminFormLogin({
   setEmail,
   setPassword,
   handleLogin,
+  isLoading,
 }: AdminFormLoginProps) {
   return (
     <div
@@ -73,9 +76,13 @@ export default function AdminFormLogin({
         </div>
         <button
           type="submit"
-          className="px-4 py-2 w-full mt-8 text-center font-medium bg-black text-white rounded-full hover:bg-slate-600 uppercase"
+          className="px-4 py-2 w-full mt-8 text-center flex justify-center font-medium bg-black text-white rounded-full hover:bg-slate-600 uppercase"
         >
-          Đăng nhập
+          {isLoading ? (
+            <SymbolIcon className="animate-spin" width={20} height={20} />
+          ) : (
+            "Đăng nhập"
+          )}
         </button>
       </form>
     </div>

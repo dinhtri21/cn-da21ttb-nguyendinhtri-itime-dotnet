@@ -214,9 +214,9 @@ export function TableProduct() {
         </div>
       </div>
       <div className="col-span-10 md:col-span-3 ">
-        <div className=" dark:bg-slate-800 bg-gray-100 rounded-md px-3 py-4 md:px-7 flex flex-col gap-3 border rounded-xl">
+        <div className=" dark:bg-slate-800  rounded-md px-3 py-4 md:px-7 flex flex-col gap-3 border rounded-xl">
           <h2 className="uppercase font-semibold md:text-center  text-lg">
-            Thông tin đơn hàng
+            Thông tin giỏ hàng
           </h2>
           <div className="flex justify-between">
             <p className="font-semibold  text-lg">Tổng tiền:</p>
@@ -225,8 +225,8 @@ export function TableProduct() {
             </span>
           </div>
           <p className="">
-            - Phí vận chuyển sẽ được tính ở thanh toán. <br />- Bạn cũng có thể
-            nhập mã giảm giá ở trang thanh toán.
+            - Phí vận chuyển sẽ được tính ở thanh toán. <br />
+            - Thông tin thanh toán sẽ được cung cấp ở bước tiếp theo.
           </p>
 
           <Link

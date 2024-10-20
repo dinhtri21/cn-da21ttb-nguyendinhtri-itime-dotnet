@@ -12,10 +12,12 @@ import Cookies from "js-cookie";
 export default function AdminLoginPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleLogin = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
     if (!email || !password) {
       CustomToast.showError("Vui lòng nhập đầy đủ thông tin đăng nhập !");
@@ -29,6 +31,8 @@ export default function AdminLoginPage() {
       router.push("/admin");
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -41,6 +45,7 @@ export default function AdminLoginPage() {
           setEmail={setEmail}
           setPassword={setPassword}
           handleLogin={handleLogin}
+          isLoading={isLoading}
         />
       </div>
     </div>

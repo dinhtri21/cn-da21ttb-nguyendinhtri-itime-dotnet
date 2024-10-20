@@ -36,6 +36,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "@/redux/slices/userSlice";
 import { setCartItemCount } from "@/redux/slices/cartItemsSlice";
+import { PiUserThin } from "react-icons/pi";
 
 export default function NavigationCusomer() {
   const pathname = usePathname();
@@ -68,21 +69,22 @@ export default function NavigationCusomer() {
 
   return (
     <div className="w-full max-w-screen-xl mx-auto px-4">
-      <div className="flex items-center justify-between border-2 px-3 py-3 rounded-xl bg-background">
+      <div className="flex items-center justify-between border  px-3 py-3 rounded-xl  ">
         <div className="flex items-center gap-3">
-          <Image
+          {/* <Image
             src={"/img/avatar-customer.jpg"}
             width={60}
             height={60}
-            alt="avatar"
+            alt="avatar
             className="border rounded-full w-[60px] h-[60px] object-cover"
-          />
+          /> */}
+          <PiUserThin className="w-[40px] h-[40px]" />
           <div>
-            <h2 className="font-semibold text-slate-800 dark:text-white text-base">
+            <h2 className="font-semibold text-black dark:text-white text-base">
               {user && user.fullName}
             </h2>
             {/* <p>{user && user.email}</p> */}
-            <p className="text-gray-600 dark:text-white text-sm">
+            <p className="text-black dark:text-white text-sm">
               {user && user.email}
             </p>
           </div>
@@ -90,7 +92,7 @@ export default function NavigationCusomer() {
         <div className="flex items-center gap-2">
           <AlertDialog>
             <AlertDialogTrigger>
-              <div className="flex items-center gap-2 border px-2 py-1 rounded-xl hover:bg-slate-100">
+              <div className="flex items-center gap-2 border  px-2 py-1 rounded-xl hover:bg-slate-100">
                 <ExitIcon width={20} height={20} />
                 <span className="hidden md:block">Đăng xuất</span>
               </div>
@@ -115,7 +117,7 @@ export default function NavigationCusomer() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
+              <Button variant="secondary" size="icon" className="rounded-full bg-white border ">
                 <GearIcon className="h-5 w-5" />
                 <span className="sr-only">Toggle user menu</span>
               </Button>
@@ -170,3 +172,4 @@ export default function NavigationCusomer() {
     </div>
   );
 }
+

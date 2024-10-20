@@ -26,7 +26,7 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
       pageNumbers.push(
         <PaginationItem className="cursor-pointer" key={i + 1}>
           <PaginationLink
-            className={skip == i ? "bg-slate-200 dark:text-black" : ""}
+            className={skip == i ? "border dark:text-black" : "text-gray-400"}
             onClick={() => handlePaginationItem(i)}
           >
             {i + 1}
@@ -41,7 +41,7 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
         pageNumbers.push(
           <PaginationItem className="cursor-pointer" key={i}>
             <PaginationLink
-              className={skip == i ? "bg-slate-200 dark:text-black" : ""}
+              className={skip == i ? "border dark:text-black" : "text-gray-400"}
               onClick={() => handlePaginationItem(i)}
             >
               {i + 1}
@@ -57,7 +57,7 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
         pageNumbers.push(
           <PaginationItem className="cursor-pointer" key={i}>
             <PaginationLink
-              className={skip == i ? "bg-slate-200 dark:text-black" : ""}
+              className={skip == i ? "border dark:text-black" : "text-gray-400"}
               onClick={() => handlePaginationItem(i)}
             >
               {i + 1}
@@ -74,7 +74,7 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
         pageNumbers.push(
           <PaginationItem className="cursor-pointer" key={i}>
             <PaginationLink
-              className={skip == i ? "bg-slate-200 dark:text-black" : ""}
+              className={skip == i ? "border dark:text-black" : "text-gray-400"}
               onClick={() => handlePaginationItem(i)}
             >
               {i + 1}
@@ -91,7 +91,7 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
         pageNumbers.push(
           <PaginationItem className="cursor-pointer" key={i}>
             <PaginationLink
-              className={skip == i ? "bg-slate-200 dark:text-black" : ""}
+              className={skip == i ? "border dark:text-black" : "text-gray-400"}
               onClick={() => handlePaginationItem(i)}
             >
               {i + 1}

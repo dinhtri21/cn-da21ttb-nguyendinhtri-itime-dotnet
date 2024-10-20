@@ -1,7 +1,7 @@
 import axiosConfig from "@/lib/axiosConfig";
 import { ProductRes, ProductsRes } from "@/validations/product.schema";
 import { z } from "zod";
-import qs from 'qs';
+import qs from "qs";
 
 const ProductApi = {
   async getProduct(
@@ -20,13 +20,26 @@ const ProductApi = {
         sortOrder: sortOrder,
       },
       paramsSerializer: (params) => {
-        return qs.stringify(params, { arrayFormat: 'repeat' });
-      }
+        return qs.stringify(params, { arrayFormat: "repeat" });
+      },
     });
     return response.data;
   },
   async getProductById(id: string): Promise<ProductRes> {
     const response = await axiosConfig.get(`products/${id}`);
+    return response.data;
+  },
+  async getProductsCount(
+    token: string,
+    month?: number,
+    year?: number
+  ): Promise<{ totalCount: number }> {
+    const response = await axiosConfig.get("products/count", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { month: month, year: year },
+    });
     return response.data;
   },
 };
