@@ -52,14 +52,14 @@ namespace WatchStore.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        //[Authorize(Policy = "AdminPolicy")]
+        [Authorize(Policy = "AdminPolicy")]
         [HttpGet("count")]
         public async Task<IActionResult> GetOrdersCount([FromQuery] int? month, [FromQuery] int? year)
         {
             try
             {
                 var count = await _mediator.Send(new GetOrdersCountQuery(year, month));
-                return Ok(new { TotalOrders = count });
+                return Ok(new { totalCount = count });
             }
             catch (UnauthorizedAccessException ex)
             {

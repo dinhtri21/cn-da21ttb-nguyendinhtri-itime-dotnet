@@ -15,7 +15,7 @@ namespace WatchStore.Application.Common.Interfaces
         Task<bool> DeleteProductAsync(int productId);
         Task<bool> UpdateProductAsync(Product product);
         Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int pageNumber, int pageSize, string sortOrder);
-        Task<int> GetTotalProductCountAsync(List<int> brandIds, List<int> materialIds);
+        Task<int> GetTotalProductCountAsync(List<int>? brandIds = null, List<int>? materialIds = null, int? month = null, int? year = null);
         Task<Product> GetProductByIdAsync(int productId);
     }
 }

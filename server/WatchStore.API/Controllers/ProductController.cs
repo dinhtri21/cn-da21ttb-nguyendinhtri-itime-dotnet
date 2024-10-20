@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,7 @@ using WatchStore.Application.Products.Commands.DeleteProduct;
 using WatchStore.Application.Products.Commands.UpdateProduct;
 using WatchStore.Application.Products.Queries.GetProductById;
 using WatchStore.Application.Products.Queries.GetProducts;
+using WatchStore.Application.Products.Queries.GetProductsCount;
 
 namespace WatchStore.API.Controllers
 {
@@ -46,6 +48,26 @@ namespace WatchStore.API.Controllers
             }
         }
 
+        [HttpGet("count")]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> GetProductsCount([FromQuery]int? month, [FromQuery] int? year)
+        {
+            try
+            {
+                var count = await _mediator.Send(new GetProductsCountQuery(month, year));
+                return Ok(new {totalCount = count});
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {

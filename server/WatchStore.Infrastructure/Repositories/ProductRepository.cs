@@ -41,7 +41,7 @@ namespace WatchStore.Infrastructure.Repositories
         {
             var query = _context.Products.Include(p => p.ProductImages)
                                          .Include(p => p.Brand)
-                                         .Include(p => p.Material)  
+                                         .Include(p => p.Material)
                                          .AsQueryable();
 
             if (brandIds != null && brandIds.Any())
@@ -79,15 +79,31 @@ namespace WatchStore.Infrastructure.Repositories
                               .ToListAsync();
         }
 
-        public async Task<int> GetTotalProductCountAsync(List<int> brandIds, List<int> materialIds)
+        public async Task<int> GetTotalProductCountAsync(List<int>? brandIds = null, List<int>? materialIds = null, int? month = null, int? year = null)
         {
             var query = _context.Products.AsQueryable();
 
+            // Lọc theo tháng và năm nếu có
+            if (month.HasValue && year.HasValue)
+            {
+                query = query.Where(p => p.CreatedAt.Month == month.Value && p.CreatedAt.Year == year.Value);
+            }
+            else if (month.HasValue)
+            {
+                throw new ArgumentException("Vui lòng cung cấp cả năm nếu lọc theo tháng.");
+            }
+            else if (year.HasValue)
+            {
+                query = query.Where(p => p.CreatedAt.Year == year.Value);
+            }
+
+            // Lọc theo brandIds nếu có
             if (brandIds != null && brandIds.Any())
             {
                 query = query.Where(p => brandIds.Contains(p.BrandId));
             }
 
+            // Lọc theo materialIds nếu có
             if (materialIds != null && materialIds.Any())
             {
                 query = query.Where(p => materialIds.Contains(p.MaterialId));
