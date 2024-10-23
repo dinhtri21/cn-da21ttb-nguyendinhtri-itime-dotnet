@@ -98,10 +98,10 @@ export function Dashboard(props: DashboardProps) {
                   </div>
                 </div>
                 <div className="md:col-span-3 md:row-span-2 flex  justify-center items-center ">
-                  {order.total} đ
+                  {order.total.toLocaleString()} đ
                 </div>
                 <div className="md:col-span-3 flex md:row-span-2  justify-center items-center">
-                  {order.orderNote.length == 0 ? "Không" : order.orderNote}
+                  {/* {order.orderNote.length == 0 ? "Không" : order.orderNote} */}
                 </div>
               </div>
             ))

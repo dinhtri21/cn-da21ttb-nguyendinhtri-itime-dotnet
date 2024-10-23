@@ -17,7 +17,7 @@ interface FilterProps {
 const brandIds = [
   { id: 1, name: "Casio" },
   { id: 2, name: "Omega" },
-  { id: 3, name: "Seiko" },
+  { id: 3, name: "Citizen" },
   { id: 4, name: "Rolex" },
 ];
 

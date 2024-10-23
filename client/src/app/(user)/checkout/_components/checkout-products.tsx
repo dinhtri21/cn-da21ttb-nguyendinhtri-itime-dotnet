@@ -53,7 +53,7 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
                       {cartItem.product.productName}
                     </span>
                     <span>
-                      {cartItem.product.productPrice} ₫
+                      {cartItem.product.productPrice.toLocaleString()} ₫
                       <span> x {cartItem.quantity}</span>
                     </span>
                   </div>
@@ -81,7 +81,7 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
         </div>
         <div className="flex justify-between px-2 py-2 mt-4 border-t">
           <span className="text-gray-500">Tạm tính</span>
-          <span className="text-gray-500">{tempTotal} ₫</span>
+          <span className="text-gray-500">{tempTotal.toLocaleString()} ₫</span>
         </div>
         <div className="flex justify-between px-2">
           <span className="text-gray-500">Phí vận chuyển</span>
@@ -89,8 +89,8 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
         </div>
         <div className="flex justify-between border p-2 mt-2 rounded">
           <span className="font-medium">Tổng cộng</span>
-          <span className="font-medium text-red-400">
-            {tempTotal + shippingFee} ₫
+          <span className="font-medium text-red-500">
+            {(tempTotal + shippingFee).toLocaleString()} ₫
           </span>
         </div>
         <div

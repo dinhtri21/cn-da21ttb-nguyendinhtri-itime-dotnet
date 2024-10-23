@@ -21,6 +21,7 @@ type PaymentMethod =
       name: "card";
     };
 
+
 interface CheckoutInfoProps {
   customer: Customer;
   selectedPaymentMethod: PaymentMethod;
@@ -44,11 +45,11 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
 
   const handleOrderNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setOrderNote(e.target.value);
-  }
+  };
 
   return (
     <div className="w-full md:w-[60%]">
-      <div className=" bg-background border p-5 rounded-md">
+      <div className=" bg-background p-5 rounded-md">
         <h1 className="font-medium uppercase mb-2">Thông tin khách hàng</h1>
         <div className="grid grid-cols-2 grid-flow-row gap-1">
           <label>Họ và tên :</label>
@@ -57,8 +58,6 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
           <p>{customer.phoneNumber}</p>
           <label>Email :</label>
           <p>{customer.email}</p>
-          <label>Địa chỉ :</label>
-          <p>{customer.address}</p>
         </div>
         <div className="md:mt-4">
           <h1 className="font-medium uppercase mb-2">Phương thức thanh toán</h1>
@@ -112,6 +111,15 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
             </label>
           </div>
         </div>
+        {/* <div className="mt-4">
+          <h1 className="font-medium uppercase mb-2">ĐỊA CHỈ GIAO HÀNG</h1>
+          <Textarea
+            className="h-full"
+            onChange={handleOrderNoteChange}
+            value={orderNote}
+            placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."
+          />
+        </div> */}
         <div className="mt-4">
           <h1 className="font-medium uppercase mb-2">
             THÔNG TIN BỔ SUNG (TUỲ CHỌN)

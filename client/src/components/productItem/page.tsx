@@ -32,7 +32,7 @@ export default function ProductItem({ product }: ProductItemProps) {
       </h2>
       {/* <p className="text-gray-700 mb-2">{product.productDescription}</p> */}
       <p className="text-base text-customOrange font-medium text-center mt-1">
-        {product.productPrice.toFixed(2)}đ
+        {product.productPrice.toLocaleString()}₫
       </p>
     </Link>
   );

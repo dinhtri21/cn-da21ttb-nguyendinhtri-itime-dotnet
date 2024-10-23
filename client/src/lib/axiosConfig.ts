@@ -1,9 +1,8 @@
 import axios, { AxiosResponse, AxiosInstance } from "axios";
 
-const BASE_URL = "http://localhost:5288/api/";
-
+console.log(process.env.BASE_URL);
 const axiosConfig = axios.create({
-  baseURL: BASE_URL,
+  baseURL: `${process.env.BASE_URL}/api/`,
   headers: {
     "Content-Type": "application/json",
     // Thêm các header khác nếu cần

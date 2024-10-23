@@ -126,7 +126,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         </div>
         {/*  */}
         <div className="mx-auto px-4 max-w-screen-xl grid grid-cols-1 md:grid-cols-7 gap-3 md:gap-10">
-          <div className="md:col-span-3 p-4 bg-background border rounded-xl">
+          <div className="md:col-span-3 p-4 bg-background rounded-xl">
             <Carousel>
               <CarouselContent>
                 {product?.imageUrls.map((image, index) => {
@@ -147,14 +147,14 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               <CarouselNext />
             </Carousel>
           </div>
-          <div className="md:col-span-4 py-6 px-8 bg-background border rounded-xl">
+          <div className="md:col-span-4 py-6 px-8 bg-background rounded-xl">
             <h1 className="text-xl md:text-2xl font-medium">
               {product?.productName}
             </h1>
             <div className="flex items-center mt-4 gap-2">
               <p className="md:text-lg font-normal text-gray-500">Giá: </p>
               <span className="text-lg md:text-2xl font-semibold text-sky-600">
-                {product?.productPrice.toLocaleString()}đ
+                {product?.productPrice.toLocaleString()}₫
               </span>
             </div>
             <div className="flex items-center mt-4 gap-2">

@@ -3,7 +3,6 @@ export type Customer = {
   fullName: string;
   phoneNumber: string;
   email: string;
-  address: string;
 };
 
 export type CustomerLoginRes = {

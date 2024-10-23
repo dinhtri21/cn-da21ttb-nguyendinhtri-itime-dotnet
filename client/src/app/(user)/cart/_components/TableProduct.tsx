@@ -186,7 +186,7 @@ export function TableProduct() {
                     </span>
                   </div>
                   <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center">
-                    {cartItem.product.productPrice} đ
+                    {cartItem.product.productPrice.toLocaleString()} ₫
                   </div>
                   <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center">
                     <div
@@ -206,7 +206,7 @@ export function TableProduct() {
                     </div>
                   </div>
                   <div className="md:col-span-3 flex md:row-span-2  justify-center items-center">
-                    {cartItem.unitPrice} đ
+                    {cartItem.unitPrice.toLocaleString()} ₫
                   </div>
                 </div>
               ))
@@ -221,7 +221,7 @@ export function TableProduct() {
           <div className="flex justify-between">
             <p className="font-semibold  text-lg">Tổng tiền:</p>
             <span className="text-customOrange text-lg font-medium">
-              {total}đ
+              {total.toLocaleString()}₫
             </span>
           </div>
           <p className="">

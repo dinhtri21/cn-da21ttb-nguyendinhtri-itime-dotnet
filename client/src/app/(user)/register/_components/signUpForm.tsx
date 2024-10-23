@@ -35,6 +35,7 @@ export const description =
   "A sign up form with first name, last name, email and password inside a card. There's an option to sign up with GitHub and a link to login if you already have an account";
 
 export function SignUpForm() {
+  
   interface Province {
     Id: string;
     Name: string;
@@ -58,11 +59,8 @@ export function SignUpForm() {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedWard, setSelectedWard] = useState("");
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
+
+  const { register, handleSubmit, setValue, formState: { errors },
   } = useForm<CreateCustomerForm>({
     mode: "onSubmit",
     resolver: zodResolver(CreateCustomerForm), // Sử dụng zodResolver với schema CreateCustomer
