@@ -36,7 +36,6 @@ namespace WatchStore.Application.Customers.Commands.CreateCustomer
             {
                 FullName = request.FullName,
                 PhoneNumber = request.PhoneNumber,
-                Address = request.Address,
                 Email = request.Email,
                 Password = hashedPassword
             };

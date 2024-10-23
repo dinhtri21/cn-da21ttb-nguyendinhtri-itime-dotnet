@@ -29,7 +29,6 @@ namespace WatchStore.Application.Customers.Commands.UpdateCustomer
             // Cập nhật các thuộc tính của khách hàng
             customer.FullName = request.FullName;
             customer.PhoneNumber = request.PhoneNumber;
-            customer.Address = request.Address;
             customer.Email = request.Email;
 
             // Nếu password có được cung cấp, cập nhật password mới sau khi đã hash

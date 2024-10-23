@@ -46,11 +46,6 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnName("Password")
                    .HasMaxLength(255);
 
-            builder.Property(c => c.Address)
-                   .HasColumnName("Address")
-                   .HasColumnType("nvarchar(255)")
-                   .IsRequired()
-                   .HasMaxLength(255);
 
             builder.Property(c => c.CreatedAt)
                   .HasColumnName("CreatedAt")

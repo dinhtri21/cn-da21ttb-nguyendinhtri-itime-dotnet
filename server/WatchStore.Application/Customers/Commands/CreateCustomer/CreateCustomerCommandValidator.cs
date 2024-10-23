@@ -25,12 +25,6 @@ namespace WatchStore.Application.Customers.Commands.CreateCustomer
                 .MaximumLength(20)
                 .WithMessage("PhoneNumber không được vượt quá 20 ký tự.");
 
-            RuleFor(v => v.Address)
-                .NotEmpty()
-                .WithMessage("Address là bắt buộc.")
-                .MaximumLength(200)
-                .WithMessage("Address không được vượt quá 200 ký tự.");
-
             RuleFor(v => v.Email)
                 .NotEmpty()
                 .WithMessage("Email là bắt buộc.")

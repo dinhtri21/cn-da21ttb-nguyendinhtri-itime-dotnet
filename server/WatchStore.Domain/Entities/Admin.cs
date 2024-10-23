@@ -13,7 +13,7 @@ namespace WatchStore.Domain.Entities
         public string AdminPhone { get; set; }
         public string AdminEmail { get; set; }
         public string AdminPassword { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         // Navigation properties
         public ICollection<AdminRole> AdminRoles { get; set; }

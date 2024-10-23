@@ -6,6 +6,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using WatchStore.API.Configuration.Authentication;
 using WatchStore.API.Configuration.Authorization;
+using WatchStore.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,12 +41,18 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminRoleRepository, AdminRoleRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<IShippingService, GhtkShippingService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpClient<IShippingService, GhtkShippingService>(client =>
+{
+    client.BaseAddress = new Uri("https://services.giaohangtietkiem.vn");
+    client.DefaultRequestHeaders.Add("X-Client-Source", "{PARTNER_CODE}");
+    client.DefaultRequestHeaders.Add("Token", builder.Configuration["ghtkService:Token"]);
+});
 // Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration["Jwt:key"]);
 // Authorization

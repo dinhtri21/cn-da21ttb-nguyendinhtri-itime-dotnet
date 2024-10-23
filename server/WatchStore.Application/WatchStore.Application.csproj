@@ -27,7 +27,6 @@
     <Folder Include="Customers\Commands\DeleteCustomer\" />
     <Folder Include="Inventory\" />
     <Folder Include="Orders\Commands\UpdateOrder\" />
-    <Folder Include="Shipping\" />
     <Folder Include="Payments\" />
   </ItemGroup>
 

@@ -21,6 +21,7 @@ namespace WatchStore.Infrastructure.Data
 
         }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerAddress> CustomerAddresses { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -35,6 +36,8 @@ namespace WatchStore.Infrastructure.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Carrier> Carriers { get; set; }
+        public DbSet<Shipping> Shippings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -54,6 +57,7 @@ namespace WatchStore.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new CartItemConfiguration());
             modelBuilder.ApplyConfiguration(new CartConfiguration());
+            modelBuilder.ApplyConfiguration(new CustomerAddressConfiguration());
         }
 
         internal async Task ToListAsync()
