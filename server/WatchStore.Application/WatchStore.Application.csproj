@@ -24,6 +24,8 @@
     <Folder Include="Carts\Commands\DeleteCart\" />
     <Folder Include="Carts\Commands\UpdateCart\" />
     <Folder Include="Carts\Queries\" />
+    <Folder Include="CustomerAddresses\Commands\UpdateCustomerAddress\" />
+    <Folder Include="CustomerAddresses\Queries\" />
     <Folder Include="Customers\Commands\DeleteCustomer\" />
     <Folder Include="Inventory\" />
     <Folder Include="Orders\Commands\UpdateOrder\" />

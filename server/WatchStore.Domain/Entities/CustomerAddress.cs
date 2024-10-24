@@ -15,7 +15,6 @@ namespace WatchStore.Domain.Entities
         public string District { get; set; }    // Quận/huyện
         public string Province { get; set; }    // Tỉnh/thành phố
         public string ZipCode { get; set; }     // Mã bưu điện
-
         public bool IsDefault { get; set; } // Địa chỉ mặc định
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

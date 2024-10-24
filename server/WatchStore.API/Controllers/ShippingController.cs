@@ -23,7 +23,6 @@ namespace WatchStore.API.Controllers
             [FromQuery] string pickProvince,
             [FromQuery] string pickDistrict,
             [FromQuery] int weight,
-            [FromQuery] int value,
             [FromQuery] string deliverOption)
         {
             try
@@ -36,7 +35,6 @@ namespace WatchStore.API.Controllers
                     PickProvince = pickProvince,
                     PickDistrict = pickDistrict,
                     Weight = weight,
-                    Value = value,
                     DeliverOption = deliverOption
                 };
 

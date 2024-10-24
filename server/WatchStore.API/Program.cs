@@ -41,13 +41,14 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminRoleRepository, AdminRoleRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-builder.Services.AddScoped<IShippingService, GhtkShippingService>();
+builder.Services.AddScoped<IGhtkService, GhtkShippingService>();
+builder.Services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpClient<IShippingService, GhtkShippingService>(client =>
+builder.Services.AddHttpClient<IGhtkService, GhtkShippingService>(client =>
 {
     client.BaseAddress = new Uri("https://services.giaohangtietkiem.vn");
     client.DefaultRequestHeaders.Add("X-Client-Source", "{PARTNER_CODE}");

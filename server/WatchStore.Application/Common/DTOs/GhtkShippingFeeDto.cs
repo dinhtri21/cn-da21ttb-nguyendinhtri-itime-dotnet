@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace WatchStore.Application.Common.DTOs
 {
+    public class GhtkShippingFeeDto
+    {
+        public string name { get; set; } // Tên gói cước được áp dụng, các giá trị có thể: area1, area2, area3
+        public int fee { get; set; } // Cước vận chuyển tính theo VNĐ
+        public int insurance_fee { get; set; } //Giá bảo hiểm tính theo VNĐ
+        public bool delivery { get; set; } //Hỗ trợ giao ở địa chỉ này chưa,
+                                           // nếu điểm giao đã được GHTK hỗ trợ giao trả về true,
+    }
     public class GhtkShippingFeeResponseDto
     {
         public bool success { get; set; }
