@@ -27,6 +27,9 @@
     <Folder Include="CustomerAddresses\Commands\UpdateCustomerAddress\" />
     <Folder Include="CustomerAddresses\Queries\" />
     <Folder Include="Customers\Commands\DeleteCustomer\" />
+    <Folder Include="ExternalServices\GiaoHangTietKiem\Address\Response\" />
+    <Folder Include="ExternalServices\GiaoHangTietKiem\Address\Request\" />
+    <Folder Include="ExternalServices\GiaoHangTietKiem\Fee\" />
     <Folder Include="Inventory\" />
     <Folder Include="Orders\Commands\UpdateOrder\" />
     <Folder Include="Payments\" />

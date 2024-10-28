@@ -29,16 +29,28 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnName("CustomerId")
                    .IsRequired();
 
+            builder.Property(ca => ca.ProvinceId)
+                   .HasColumnName("ProvinceId")
+                   .IsRequired();
+
             builder.Property(ca => ca.Province)
                    .HasColumnName("Province")
                    .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255)
                    .IsRequired();
 
+            builder.Property(ca => ca.DistrictId)
+                  .HasColumnName("DistrictId")
+                  .IsRequired();
+
             builder.Property(ca => ca.District)
                    .HasColumnName("District")
                    .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255)
+                   .IsRequired();
+
+            builder.Property(ca => ca.WardId)
+                   .HasColumnName("WardId")
                    .IsRequired();
 
             builder.Property(ca => ca.Ward)

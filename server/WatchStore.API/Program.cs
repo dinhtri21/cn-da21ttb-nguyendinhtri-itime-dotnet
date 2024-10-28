@@ -6,7 +6,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using WatchStore.API.Configuration.Authentication;
 using WatchStore.API.Configuration.Authorization;
-using WatchStore.Infrastructure.Services;
+using WatchStore.Infrastructure.Services.GhtkService;
 
 var builder = WebApplication.CreateBuilder(args);
 

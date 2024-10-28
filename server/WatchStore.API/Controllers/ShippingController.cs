@@ -18,10 +18,10 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpGet("fee")]
-        public async Task<IActionResult> GetShippingFee( [FromQuery] string address, [FromQuery] string province,
+        public async Task<IActionResult> GetShippingFee( 
+            [FromQuery] string address, 
+            [FromQuery] string province,
             [FromQuery] string district,
-            [FromQuery] string pickProvince,
-            [FromQuery] string pickDistrict,
             [FromQuery] int weight,
             [FromQuery] string deliverOption)
         {
@@ -32,8 +32,6 @@ namespace WatchStore.API.Controllers
                     Address = address,
                     Province = province,
                     District = district,
-                    PickProvince = pickProvince,
-                    PickDistrict = pickDistrict,
                     Weight = weight,
                     DeliverOption = deliverOption
                 };

@@ -15,7 +15,6 @@ namespace WatchStore.Application.CustomerAddresses.Commands.CreateCustomerAddres
         public string Ward { get; set; }
         public string District { get; set; }
         public string Province { get; set; }
-        public string ZipCode { get; set; }
         public bool IsDefault { get; set; }
     }
 }

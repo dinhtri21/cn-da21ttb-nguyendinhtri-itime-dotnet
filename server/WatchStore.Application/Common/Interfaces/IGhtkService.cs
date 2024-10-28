@@ -13,5 +13,6 @@ namespace WatchStore.Application.Common.Interfaces
            string address, string province, string district,
            string pickProvince, string pickDistrict, int weight,
            string deliverOption);
+
     }
 }

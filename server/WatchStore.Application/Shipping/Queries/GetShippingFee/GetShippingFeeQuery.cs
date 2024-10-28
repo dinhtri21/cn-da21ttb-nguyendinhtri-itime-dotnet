@@ -13,8 +13,6 @@ namespace WatchStore.Application.Shipping.Queries
         public string Address { get; set; }
         public string Province { get; set; }
         public string District { get; set; }
-        public string PickProvince { get; set; }
-        public string PickDistrict { get; set; }
         public int Weight { get; set; }
         public string DeliverOption { get; set; }
     }

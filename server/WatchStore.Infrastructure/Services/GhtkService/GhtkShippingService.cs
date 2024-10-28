@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Common.Interfaces;
 
-namespace WatchStore.Infrastructure.Services
+namespace WatchStore.Infrastructure.Services.GhtkService
 {
     public class GhtkShippingService : IGhtkService
     {
@@ -19,7 +19,7 @@ namespace WatchStore.Infrastructure.Services
         }
         public async Task<GhtkShippingFeeResponseDto> GetGhtkFeeAsync(
             string address, string province, string district,
-            string pickProvince, string pickDistrict, int weight, 
+            string pickProvince, string pickDistrict, int weight,
             string deliverOption)
         {
             var uri = $"services/shipment/fee?" +

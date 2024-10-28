@@ -41,7 +41,6 @@ namespace WatchStore.Application.CustomerAddresses.Commands.CreateCustomerAddres
                 Province = request.Province,
                 District = request.District,
                 Ward = request.Ward,
-                ZipCode = request.ZipCode
             };
 
             var result = await _customerAddressRepository.CreateCustomerAddressAsync(customerAddress);

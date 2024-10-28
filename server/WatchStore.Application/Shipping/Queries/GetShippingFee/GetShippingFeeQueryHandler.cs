@@ -23,9 +23,12 @@ namespace WatchStore.Application.Shipping.Queries.GetShippingFee
 
         public async Task<GhtkShippingFeeDto> Handle(GetShippingFeeQuery request, CancellationToken cancellationToken)
         {
+            const string defaultProvince = "Trà Vinh";
+            const string defaultDistrict = "Thành Phố Trà Vinh";
+
             var fee = await _shippingService.GetGhtkFeeAsync(
                 request.Address, request.Province, request.District,
-                request.PickProvince, request.PickDistrict,
+                defaultProvince, defaultDistrict,
                 request.Weight, request.DeliverOption);
 
             return _mapper.Map<GhtkShippingFeeDto>(fee);
