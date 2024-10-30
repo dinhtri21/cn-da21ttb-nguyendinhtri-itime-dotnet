@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WatchStore.Application.Products.Queries.GetProductsCount;
 using WatchStore.Application.Shipping.Queries;
+using WatchStore.Application.Shipping.Queries.GetCalculateFee;
 
 namespace WatchStore.API.Controllers
 {
@@ -17,26 +18,12 @@ namespace WatchStore.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("fee")]
-        public async Task<IActionResult> GetShippingFee( 
-            [FromQuery] string address, 
-            [FromQuery] string province,
-            [FromQuery] string district,
-            [FromQuery] int weight,
-            [FromQuery] string deliverOption)
+        [HttpGet("calculate-fee")]
+        public async Task<IActionResult> GetShippingFee([FromQuery]GetCalculateFeeQuery getCalculateFeeQuery)
         {
             try
             {
-                var query = new GetShippingFeeQuery
-                {
-                    Address = address,
-                    Province = province,
-                    District = district,
-                    Weight = weight,
-                    DeliverOption = deliverOption
-                };
-
-                var fee = await _mediator.Send(query);
+                var fee = await _mediator.Send(getCalculateFeeQuery);
                 return Ok(fee);
             }
             catch (ValidationException ex)

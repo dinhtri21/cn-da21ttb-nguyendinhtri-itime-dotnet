@@ -6,7 +6,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using WatchStore.API.Configuration.Authentication;
 using WatchStore.API.Configuration.Authorization;
-using WatchStore.Infrastructure.Services.GhtkService;
+using WatchStore.Infrastructure.Services.GiaoHanhNhanhService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,18 +41,17 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminRoleRepository, AdminRoleRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-builder.Services.AddScoped<IGhtkService, GhtkShippingService>();
 builder.Services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
+builder.Services.AddScoped<IGiaoHanhNhanhService, GiaoHangNhanhService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpClient<IGhtkService, GhtkShippingService>(client =>
+builder.Services.AddHttpClient<IGiaoHanhNhanhService, GiaoHangNhanhService>(client =>
 {
-    client.BaseAddress = new Uri("https://services.giaohangtietkiem.vn");
-    client.DefaultRequestHeaders.Add("X-Client-Source", "{PARTNER_CODE}");
-    client.DefaultRequestHeaders.Add("Token", builder.Configuration["ghtkService:Token"]);
+    client.BaseAddress = new Uri(builder.Configuration["GHNService:BaseUrl"]);
+    client.DefaultRequestHeaders.Add("Token", builder.Configuration["GHNService:Token"]);
 });
 // Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration["Jwt:key"]);

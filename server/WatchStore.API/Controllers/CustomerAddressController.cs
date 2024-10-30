@@ -7,6 +7,9 @@ using System.Security.Claims;
 using WatchStore.Application.CustomerAddresses.Commands.CreateCustomerAddress;
 using WatchStore.Application.CustomerAddresses.Commands.DeleteCustomerAddress;
 using WatchStore.Application.CustomerAddresses.Queries.GetCustomerAddress;
+using WatchStore.Application.CustomerAddresses.Queries.GetDistrict;
+using WatchStore.Application.CustomerAddresses.Queries.GetProvince;
+using WatchStore.Domain.Entities;
 
 namespace WatchStore.API.Controllers
 {
@@ -43,7 +46,47 @@ namespace WatchStore.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("provinces")]
+        public async Task<IActionResult> GetProvince()
+        {
+            try
+            {
+                var provinces = await _mediator.Send(new GetProvinceQuery());
+
+                if (provinces == null)
+                {
+                    return NotFound(new { message = "Không tìm thấy tỉnh nào!" });
+                }
+
+                return Ok(provinces);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("districts")]
+        public async Task<IActionResult> GetDistrict([FromQuery(Name = "province-id")] int provinceId)
+        {
+            try
+            {
+                var districts = await _mediator.Send(new GetDistrictQuery() { ProvinceID = provinceId});
+
+                if (districts == null)
+                {
+                    return NotFound(new { message = "Không tìm thấy quận/huyện nào!" });
+                }
+
+                return Ok(districts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -76,7 +119,7 @@ namespace WatchStore.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -101,7 +144,7 @@ namespace WatchStore.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
