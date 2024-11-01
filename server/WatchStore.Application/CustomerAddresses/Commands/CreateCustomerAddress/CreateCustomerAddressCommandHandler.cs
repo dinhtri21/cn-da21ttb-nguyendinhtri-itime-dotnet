@@ -34,14 +34,41 @@ namespace WatchStore.Application.CustomerAddresses.Commands.CreateCustomerAddres
                 throw new Exception("Không tìm thấy khách hàng");
             }
 
+            var customerAddresses = await _customerAddressRepository.GetCustomerAddressesByCustomerIdAsync(request.CustomerId);
+
+            if (customerAddresses != null && customerAddresses.Count() > 0)
+            {
+                foreach (var address in customerAddresses)
+                {
+                    if (address.ProvinceId == request.ProvinceId && address.DistrictId == request.DistrictId && address.WardId == request.WardId)
+                    {
+                        throw new Exception("Địa chỉ đã tồn tại");
+                    }
+                }
+            }
+
+            if(customerAddresses.Count() >= 3   )
+            {
+                throw new Exception("Bạn chỉ có tối đa 4 địa chỉ !");
+            }
+
             var customerAddress = new CustomerAddress
             {
                 CustomerId = request.CustomerId,
                 AddressLine = request.AddressLine,
                 Province = request.Province,
+                ProvinceId = request.ProvinceId,
                 District = request.District,
+                DistrictId = request.DistrictId,
                 Ward = request.Ward,
+                WardId = request.WardId,
             };
+
+            // Nếu không có địa chỉ nào thì đặt địa chỉ đó là mặc định
+            if (customerAddresses == null || customerAddresses.Count() == 0)
+            {
+                customerAddress.IsDefault = true;
+            }
 
             var result = await _customerAddressRepository.CreateCustomerAddressAsync(customerAddress);
 

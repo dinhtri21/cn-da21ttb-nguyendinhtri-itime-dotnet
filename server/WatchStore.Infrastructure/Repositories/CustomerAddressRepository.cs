@@ -48,5 +48,12 @@ namespace WatchStore.Infrastructure.Repositories
             var customerAddresses = await _context.CustomerAddresses.Where(ca => ca.CustomerId == customerId).ToListAsync();
             return customerAddresses;
         }
+
+        public async Task<CustomerAddress> UpdateCustomerAddressAsync(CustomerAddress customerAddress)
+        {
+            var result = _context.CustomerAddresses.Update(customerAddress);
+            await _context.SaveChangesAsync();
+            return result.Entity;
+        }
     }
 }

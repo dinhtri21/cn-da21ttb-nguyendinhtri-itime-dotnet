@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 using WatchStore.Application.Common.Interfaces;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetDistrict;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetProvince;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetWards;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 
 namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
 {
@@ -25,7 +27,6 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
             _configuration = configuration;
         }
        
-
         public async Task<CalculateFeeResponse> CalculateFeeAsync(CalculateFeeRequest request)
         {
             _httpClient.DefaultRequestHeaders.Add("ShopId", _configuration["GHNService:ShopId"]);
@@ -84,6 +85,48 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
             return result;
         }
 
+        public async Task<GetServiceResponse> GetServiceAsync(GetServiceRequest request)
+        {
+            _httpClient.DefaultRequestHeaders.Add("ShopId", _configuration["GHNService:ShopId"]);
 
+            var json = JsonConvert.SerializeObject(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/shiip/public-api/v2/shipping-order/available-services", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error when calling GetServiceAsync API: {response.StatusCode} - {errorContent}");
+            }
+
+            var result = JsonConvert.DeserializeObject<GetServiceResponse>(await response.Content.ReadAsStringAsync());
+            return result;
+        }
+
+        public async Task<GetWardResponse> GetWardAsync(GetWardRequest request)
+        {
+            // Chuyển request thành json
+            var json = JsonConvert.SerializeObject(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Tạo HttpRequestMessage
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"/shiip/public-api/master-data/ward?district_id={request.DistrictID}")
+            {
+                Content = content
+            };
+
+            // Gửi yêu cầu
+            var response = await _httpClient.SendAsync(httpRequest);
+
+            // Xử lý kết quả
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error when calling GetWard API: {response.StatusCode} - {errorContent}");
+            }
+
+            var result = JsonConvert.DeserializeObject<GetWardResponse>(await response.Content.ReadAsStringAsync());
+            return result;
+        }
     }
 }

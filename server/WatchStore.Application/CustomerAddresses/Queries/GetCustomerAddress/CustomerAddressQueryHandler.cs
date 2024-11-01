@@ -26,7 +26,6 @@ namespace WatchStore.Application.CustomerAddresses.Queries.GetCustomerAddress
             return _mapper.Map<IEnumerable<CustomerAddressDto>>(customerAddresses);
         }
 
-
     }
 
 }

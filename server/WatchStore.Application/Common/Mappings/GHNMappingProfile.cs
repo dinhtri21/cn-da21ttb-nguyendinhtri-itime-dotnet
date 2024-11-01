@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetDistrict;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetProvince;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetWards;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
 
 namespace WatchStore.Application.Common.Mappings
@@ -26,6 +27,11 @@ namespace WatchStore.Application.Common.Mappings
                 .ForMember(dest => dest.DistrictID, opt => opt.MapFrom(src => src.DistrictID))
                 .ForMember(dest => dest.ProvinceID, opt => opt.MapFrom(src => src.ProvinceID))
                 .ForMember(dest => dest.DistrictName, opt => opt.MapFrom(src => src.DistrictName));
+
+            CreateMap<Ward, GHNWardDto>()
+                .ForMember(dest => dest.WardCode, opt => opt.MapFrom(src => src.WardCode))
+                .ForMember(dest => dest.DistrictID, opt => opt.MapFrom(src => src.DistrictID))
+                .ForMember(dest => dest.WardName, opt => opt.MapFrom(src => src.WardName));
         }
     }
 }

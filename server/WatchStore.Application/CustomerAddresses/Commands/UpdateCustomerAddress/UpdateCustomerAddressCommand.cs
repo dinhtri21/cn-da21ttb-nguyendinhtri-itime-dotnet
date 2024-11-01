@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 
-namespace WatchStore.Application.CustomerAddresses.Commands.CreateCustomerAddress
+namespace WatchStore.Application.CustomerAddresses.Commands.UpdateCustomerAddress
 {
-    public class CreateCustomerAddressCommand : IRequest<CustomerAddressDto>
+    public class UpdateCustomerAddressCommand : IRequest<CustomerAddressDto>
     {
+        public int AddressId { get; set; }
         public int CustomerId { get; set; }
         public string AddressLine { get; set; }
         public string Province { get; set; }
@@ -18,5 +19,7 @@ namespace WatchStore.Application.CustomerAddresses.Commands.CreateCustomerAddres
         public int DistrictId { get; set; }
         public string Ward { get; set; }
         public int WardId { get; set; }
+        public string ZipCode { get; set; }
+        public bool IsDefault { get; set; }
     }
 }

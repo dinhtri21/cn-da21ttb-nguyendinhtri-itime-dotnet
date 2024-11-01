@@ -13,5 +13,6 @@ namespace WatchStore.Application.Common.Interfaces
         Task<IEnumerable<CustomerAddress>> GetCustomerAddressesByCustomerIdAsync(int customerId);
         Task<CustomerAddress> GetCustomerAddressByIdAsync(int addressId);
         Task<int> DeleteCustomerAddressById(int addressId);
+        Task<CustomerAddress> UpdateCustomerAddressAsync(CustomerAddress customerAddress);
     }
 }

@@ -10,14 +10,16 @@ using WatchStore.Infrastructure.Services.GiaoHanhNhanhService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Đăng ký với DI container
+// Đăng ký FluentValidation
 builder.Services.AddControllers()
  .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IValidatorMarker>());
 
+// Đăng ký DbContext
 builder.Services.AddDbContext<WatchStoreDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
     new MySqlServerVersion(new Version(8, 0, 28))));
 
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -30,7 +32,10 @@ builder.Services.AddCors(options =>
         });
 });
 
+// Đăng ký MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationMarker).Assembly));
+
+// Đăng ký Repository
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -44,15 +49,20 @@ builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
 builder.Services.AddScoped<IGiaoHanhNhanhService, GiaoHangNhanhService>();
 
+// Đăng ký AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Đăng ký Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Đăng ký HttpClient
 builder.Services.AddHttpClient<IGiaoHanhNhanhService, GiaoHangNhanhService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["GHNService:BaseUrl"]);
     client.DefaultRequestHeaders.Add("Token", builder.Configuration["GHNService:Token"]);
 });
+
 // Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration["Jwt:key"]);
 // Authorization
@@ -68,13 +78,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors("AllowSpecificOrigin"); // CORS
-
 app.UseAuthentication(); // Xác thực
-
 app.UseAuthorization(); // Phân quyền
-
 app.MapControllers();
-
 app.Run();

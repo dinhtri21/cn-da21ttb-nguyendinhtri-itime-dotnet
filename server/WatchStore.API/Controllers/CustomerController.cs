@@ -185,7 +185,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPost("logout")]
-        [Authorize(Policy = "CustomerPolicy")]
+        //[Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> Logout()
         {
             try
