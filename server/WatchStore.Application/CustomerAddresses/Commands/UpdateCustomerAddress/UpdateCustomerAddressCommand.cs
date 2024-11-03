@@ -19,7 +19,7 @@ namespace WatchStore.Application.CustomerAddresses.Commands.UpdateCustomerAddres
         public int DistrictId { get; set; }
         public string Ward { get; set; }
         public int WardId { get; set; }
-        public string ZipCode { get; set; }
+        public string? ZipCode { get; set; }
         public bool IsDefault { get; set; }
     }
 }

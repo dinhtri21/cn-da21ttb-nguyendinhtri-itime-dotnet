@@ -33,13 +33,5 @@ namespace WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee
         [JsonProperty("width")]
         public int Width { get; set; }
 
-        [JsonProperty("insurance_value")]
-        public int InsuranceValue { get; set; }
-
-        [JsonProperty("cod_failed_amount")]
-        public int CodFailedAmount { get; set; }
-
-        [JsonProperty("coupon")]
-        public string? Coupon { get; set; }
     }
 }

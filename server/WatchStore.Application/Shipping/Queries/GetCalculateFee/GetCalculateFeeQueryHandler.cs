@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Common.Interfaces;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 
 namespace WatchStore.Application.Shipping.Queries.GetCalculateFee
 {
@@ -23,25 +24,30 @@ namespace WatchStore.Application.Shipping.Queries.GetCalculateFee
         }
         public async Task<GHNCalculateFeeDto> Handle(GetCalculateFeeQuery request, CancellationToken cancellationToken)
         {
+            // TP Trà vinh: 1560
+            var res = await _ghnService.GetServiceAsync(new GetServiceRequest() { ShopID = 1 , FromDistrict = 1560, ToDistrict = request.ToDistrictId });
+
+            var service = res.Data.FirstOrDefault(x => x.ShortName == "Hàng nhẹ");
+            if (service == null)
+            {
+                service = res.Data[0];
+            }
 
             var calculateFeeRequest = new CalculateFeeRequest
             {
-                ServiceId = request.ServiceId,
-                ServiceTypeId = request.ServiceTypeId,
+                ServiceId = service.ServiceID,
+                ServiceTypeId = service.ServiceTypeID,
                 ToDistrictId = request.ToDistrictId,
                 ToWardCode = request.ToWardCode,
                 Height = request.Height,
                 Length = request.Length,
                 Weight = request.Weight,
                 Width = request.Width,
-                InsuranceValue = request.InsuranceValue,
-                CodFailedAmount = request.CodFailedAmount,
-                Coupon = request.Coupon
             };
 
             var calculateFeeResponse = await _ghnService.CalculateFeeAsync(calculateFeeRequest);
             return _mapper.Map<GHNCalculateFeeDto>(calculateFeeResponse);
-            
+
         }
     }
 }

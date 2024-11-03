@@ -14,15 +14,17 @@ namespace WatchStore.Application.CustomerAddresses.Commands.UpdateCustomerAddres
     {
         private readonly ICustomerAddressRepository _customerAddressRepository;
         private readonly IMapper _mapper;
-        public UpdateCustomerAddressCommandHandler(ICustomerAddressRepository customerAddressRepository, IMapper mapper)
+        private readonly IBaseRepository _baseRepository;
+        public UpdateCustomerAddressCommandHandler(ICustomerAddressRepository customerAddressRepository, IMapper mapper, IBaseRepository baseRepository)
         {
             _customerAddressRepository = customerAddressRepository;
             _mapper = mapper;
+            _baseRepository = baseRepository;
         }
-        
+
         public async Task<CustomerAddressDto> Handle(UpdateCustomerAddressCommand request, CancellationToken cancellationToken)
         {
-           var customerAddress = await _customerAddressRepository.GetCustomerAddressByIdAsync(request.AddressId);
+            var customerAddress = await _customerAddressRepository.GetCustomerAddressByIdAsync(request.AddressId);
             if (customerAddress == null)
             {
                 throw new Exception("Không tìm thấy địa chỉ");
@@ -35,8 +37,25 @@ namespace WatchStore.Application.CustomerAddresses.Commands.UpdateCustomerAddres
             customerAddress.DistrictId = request.DistrictId;
             customerAddress.Ward = request.Ward;
             customerAddress.WardId = request.WardId;
-            customerAddress.IsDefault = request.IsDefault;
 
+            var listCustomerAddresses = await _customerAddressRepository.GetCustomerAddressesByCustomerIdAsync(request.CustomerId);
+
+            // Nếu cập nhật default address thì cập nhật lại tất cả các địa chỉ khác của khách hàng là false
+            if (request.IsDefault == true && listCustomerAddresses.Count() > 1)
+            {
+                foreach (var address in listCustomerAddresses)
+                {
+                    address.IsDefault = false;
+                }
+                await _baseRepository.SaveChangesAsync();
+            }
+
+            if(request.IsDefault == false && listCustomerAddresses.Count() == 1)
+            {
+                throw new Exception("Chỉ có một địa chỉ thì không được cập nhật mặc định là false");
+            }
+
+            customerAddress.IsDefault = request.IsDefault;
             await _customerAddressRepository.UpdateCustomerAddressAsync(customerAddress);
 
             return _mapper.Map<CustomerAddressDto>(customerAddress);

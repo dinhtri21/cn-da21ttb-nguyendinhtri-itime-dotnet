@@ -88,6 +88,7 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
         public async Task<GetServiceResponse> GetServiceAsync(GetServiceRequest request)
         {
             _httpClient.DefaultRequestHeaders.Add("ShopId", _configuration["GHNService:ShopId"]);
+            request.ShopID = Convert.ToInt32(_configuration["GHNService:ShopId"]);
 
             var json = JsonConvert.SerializeObject(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

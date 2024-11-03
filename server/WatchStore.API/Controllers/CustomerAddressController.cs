@@ -190,6 +190,7 @@ namespace WatchStore.API.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var result = await _mediator.Send(new DeleteCustomerAddressCommand(id, int.Parse(userId)));
+
                 if (result == 0)
                 {
                     return BadRequest(new { message = "Xóa địa chỉ khách hàng không thành công!" });

@@ -26,6 +26,11 @@ namespace WatchStore.Application.CustomerAddresses.Commands.DeleteCustomerAddres
                 throw new UnauthorizedAccessException("Bạn không có quyền truy cập tài nguyên này!");
             }
 
+            if(addRess.IsDefault == true)
+            {
+                throw new Exception("Không được xoá địa chỉ mặc định!");
+            }
+
             var AddressId = _customerAddressRepository.DeleteCustomerAddressById(request.AddressId);
             return await AddressId;
         }
