@@ -21,16 +21,17 @@ import CustomToast from "@/components/react-toastify/reactToastify";
 type PaymentMethod =
   | {
       id: 1;
-      name: "cod";
+      name: "Credit Card";
     }
   | {
       id: 2;
-      name: "card";
+      name: "COD";
     };
 
 export default function CheckOutPage() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState<PaymentMethod>({ id: 1, name: "cod" });
+    useState<PaymentMethod>({ id: 1, name: "Credit Card" });
+
   const customer = useSelector((state: RootState) => state.user);
   const token = Cookies.get("token");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -51,7 +52,7 @@ export default function CheckOutPage() {
 
   const handleCreateOrder = async () => {
     try {
-      if(cartItems.length === 0) {
+      if (cartItems.length === 0) {
         CustomToast.showError("Giỏ hàng của bạn đang trống!");
         return;
       }
@@ -97,6 +98,7 @@ export default function CheckOutPage() {
         </div>
         <div className="flex flex-col md:flex-row md:gap-8">
           <CheckoutInfo
+            countCartItems={cartItems.length}
             customer={customer}
             selectedPaymentMethod={selectedPaymentMethod}
             setSelectedPaymentMethod={setSelectedPaymentMethod}

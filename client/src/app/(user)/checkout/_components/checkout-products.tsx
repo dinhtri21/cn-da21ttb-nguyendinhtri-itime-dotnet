@@ -4,6 +4,7 @@ import { Cross1Icon, MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import { CartItem } from "@/types/cartItem";
+import { BsBox2 } from "react-icons/bs";
 
 interface CheckoutProductsProps {
   cartItems: CartItem[];
@@ -29,13 +30,16 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
   return (
     <div className="w-full md:w-[40%] ">
       <div className="border  p-5 rounded-md bg-background">
-        <div className="border-b  pb-2">
+        <div className="border-b pb-2 flex items-center gap-2">
+          <BsBox2 />
           <h1 className="font-medium uppercase">Đơn hàng của bạn</h1>
         </div>
         <div className="flex flex-col gap-3 mt-3 px-2">
           {props.cartItems.length > 0
             ? props.cartItems.map((cartItem, index) => (
-                <div className="flex gap-2 justify-between ">
+                <div 
+                key={index}
+                className="flex gap-2 justify-between ">
                   <div>
                     <Image
                       src={
