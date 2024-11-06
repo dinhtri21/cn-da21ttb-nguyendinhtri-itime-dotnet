@@ -17,6 +17,7 @@ import { ToastContainer } from "react-toastify";
 import Overlay from "@/components/overlay/overlay";
 import HeaderAdmin from "./(admin)/admin/_components/headerAdmin";
 import NavDashboard from "./(admin)/admin/_components/navDashboard";
+import { setOverlayStatus } from "@/redux/slices/overlayStatusSilde";
 
 export default function AppRouter({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -26,10 +27,12 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.user);
+  const overlayStatus = useSelector((state: RootState) => state.overlayStatus);
   const isAdmin = pathname.includes("/admin");
   const isLoginAdmin = pathname === "/admin/login";
   const isUserPage = pathname === "/user";
   const isCheckoutPage = pathname.includes("/checkout");
+  const isLoginPage = pathname === "/login";
   const [isChecking, setIsChecking] = useState(true);
 
   const handleUpdateCartItemsCount = async (customerId: number) => {
@@ -42,7 +45,6 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
   };
 
   const getInfoUser = async (userId: string, token: string) => {
-    console.log("call");
     try {
       const data = await customerApi.GetCustomerById(userId, token);
       dispatch(
@@ -60,42 +62,40 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
     }
   };
 
-  useEffect(() => {
-    const checkUserStatus = async () => {
-      // Nếu đang ở trang userhoặc checout mà chưa có token thì chuyển về trang login
-      if ((isUserPage || isCheckoutPage) && !token) {
-        router.push("/login");
-      }
-      // Nếu ở bất kỳ trang nào mà có token thì lấy thông tin user
-      if (!user.customerId && userIdCookie && token) {
-        try {
-          await getInfoUser(userIdCookie, token);
-          // Trường hợp ở /login mà lấy thông tin thành công thì chuyển về trang user => đang đăng nhập
-          // Nếu ở bất kỳ trang nào thì chỉ cần lấy thông tin user thành công để hiển thị header,...
-          if (pathname === "/login") {
-            router.push("/user");
-          }
-        } catch (error) {
-          // Ở bất kỳ trang nào mà lấy thông tin user thất bại thì thôi không cần hiển thị header,...
-          // Nếu ở trang user mà lấy thông tin user thất bại thì chuyển về trang login.
-          //   Cookies.remove("token");
-          //   Cookies.remove("userId");
-          console.log(isCheckoutPage);
-          if (isUserPage || isCheckoutPage) {
-            router.push("/login");
-          }
-        }
-      }
-      // Hiển overlay khi check user
-      const delayTimeout = setTimeout(() => {
-        setIsChecking(false);
+  const checkUserStatus = async () => {
+    // Nếu đang ở trang user hoặc checkout mà chưa có token thì chuyển về trang login
+    if ((isUserPage || isCheckoutPage || isLoginPage) && !token) {
+      router.push("/login");
+      const timeId = setTimeout(() => {
+        dispatch(setOverlayStatus(false));
       }, 1000);
-
-      return () => clearTimeout(delayTimeout);
-    };
-
+      return () => clearTimeout(timeId);
+    }
+    // Nếu ở bất kỳ trang nào mà có token thì lấy thông tin user
+    if (!user.customerId && userIdCookie && token) {
+      try {
+        await getInfoUser(userIdCookie, token);
+        // Trường hợp ở /login mà lấy thông tin thành công thì chuyển về trang user => đang đăng nhập
+        // Nếu ở bất kỳ trang nào thì chỉ cần lấy thông tin user thành công để hiển thị header,...
+        if (pathname === "/login") {
+          router.push("/user");
+        }
+        dispatch(setOverlayStatus(false));
+      } catch (error) {
+        // Ở bất kỳ trang nào mà lấy thông tin user thất bại thì thôi không cần hiển thị header,...
+        // Nếu ở trang user mà lấy thông tin user thất bại thì chuyển về trang login.
+        //   Cookies.remove("token");
+        //   Cookies.remove("userId");
+        if (isUserPage || isCheckoutPage) {
+          router.push("/login");
+        }
+        dispatch(setOverlayStatus(false));
+      }
+    }
+  };
+  useEffect(() => {
     checkUserStatus();
-  }, [isUserPage, user.customerId, userIdCookie, token, pathname, router]);
+  }, []);
 
   return (
     <TooltipProvider>
@@ -110,7 +110,7 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
         draggable
         pauseOnHover
       />
-      {isChecking && <Overlay isLoading={isChecking} />}
+      <Overlay />
       {isAdmin && !isLoginAdmin ? (
         <HeaderAdmin />
       ) : !isAdmin ? (

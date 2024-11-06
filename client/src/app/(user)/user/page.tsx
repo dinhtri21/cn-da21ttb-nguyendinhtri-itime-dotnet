@@ -25,6 +25,9 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+import { useDispatch } from "react-redux";
+import { set } from "date-fns";
+import { setOverlayStatus } from "@/redux/slices/overlayStatusSilde";
 
 export default function UserPage() {
   const customer = useSelector((state: RootState) => state.user);
@@ -33,6 +36,7 @@ export default function UserPage() {
   const [orderResponse, setOrderResponse] = useState<OrderResponse>();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const params = new URLSearchParams(searchParams.toString());
 
@@ -78,6 +82,10 @@ export default function UserPage() {
 
   useEffect(() => {
     fetchOrders();
+    // if (customer.customerId == null) {
+    // } else {
+    //   dispatch(setOverlayStatus(false));
+    // }
   }, [customer, searchParams]);
 
   return (

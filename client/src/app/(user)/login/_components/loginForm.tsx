@@ -11,19 +11,21 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { customerApi } from "@/apis/customerApi";
 import { useToast } from "@/hooks/use-toast";
 import { SymbolIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/slices/userSlice";
 import { setCartItemCount } from "@/redux/slices/cartItemsSlice";
 
 import customToast from "@/components/react-toastify/reactToastify";
 import { CartItemApi } from "@/apis/cartItemAPi";
 import Overlay from "@/components/overlay/overlay";
+import { setOverlayStatus } from "@/redux/slices/overlayStatusSilde";
+import { RootState } from "@/redux/store/store";
 
 export const description =
   "A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -36,6 +38,8 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const dispatch = useDispatch();
+
+  const customer = useSelector((state: RootState) => state.user);
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -55,12 +59,14 @@ export function LoginForm() {
           phoneNumber: res.customer.phoneNumber,
         })
       );
-      
+
       setIsSuccess(true);
       customToast.showSuccess("Đăng nhập thành công !");
+      dispatch(setOverlayStatus(true));
       router.push("/user");
       const delayTimeout = setTimeout(() => {
         setIsSuccess(false);
+        dispatch(setOverlayStatus(false));
       }, 1000);
       return () => clearTimeout(delayTimeout);
     } catch (error) {
@@ -87,9 +93,15 @@ export function LoginForm() {
     handleLogin();
   };
 
+  useEffect(() => {
+    
+    // if (customer.customerId == null) {
+    //   dispatch(setOverlayStatus(false));
+    // }
+  }, []);
+
   return (
     <>
-      {isSuccess && <Overlay isLoading={isSuccess} />}
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">Đăng nhập</CardTitle>

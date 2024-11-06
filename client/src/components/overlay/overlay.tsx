@@ -3,32 +3,64 @@
 import Image from "next/image";
 import { Progress } from "../ui/progress";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import { CgSpinner } from "react-icons/cg";
 
-interface OverlayProps {
-  isLoading: boolean;
-}
-
-export default function Overlay({ isLoading }: OverlayProps) {
+export default function Overlay() {
+  const overlayStatus = useSelector((state: RootState) => state.overlayStatus);
   const [progress, setProgress] = useState(0);
 
+  // console.log("progress", progress);
+  // useEffect(() => {
+  //   if (overlayStatus.status) {
+  //     // const interval = setInterval(() => {
+  //     //   setProgress((prevProgress) => {
+  //     //     if (prevProgress >= 90) return 95; // Dừng lại ở 90 khi đang kiểm tra
+  //     //     return prevProgress + 10;
+  //     //   });
+  //     // }, 200); // Tăng progress mỗi 100ms
+  //     // return () => {
+  //     //   clearInterval(interval);
+  //     // };
+  //   } else {
+  //     // if (progress < 70) {
+  //     //   const interval = setInterval(() => {
+  //     //     setProgress((prevProgress) => {
+  //     //       if (prevProgress == 100 || prevProgress > 100) return 100;
+  //     //       return prevProgress + 10;
+  //     //     });
+  //     //   }, 100); // Tăng progress mỗi 100ms
+
+  //     //   return () => {
+  //     //     clearInterval(interval);
+  //     //   };
+  //     // }
+  //     // setProgress(100);
+  //   }
+  // }, [overlayStatus.status]);
+
+  // useEffect(() => {
+  //   if (progress == 100) {
+  //     setProgress(0);
+  //   }
+  // }, [progress]);
   useEffect(() => {
-    if (isLoading) {
-      const interval = setInterval(() => {
-        setProgress((prevProgress) => {
-          if (prevProgress >= 90) return 95; // Dừng lại ở 90 khi đang kiểm tra
-          return prevProgress + 5;
-        });
-      }, 20); // Tăng progress mỗi 100ms
-      return () => clearInterval(interval);
-    } else {
-      setProgress(100);
-    }
-  }, [isLoading]);
+    console.log("overlayStatus", overlayStatus);
+    return () => {
+      console.log("overlay unmount");
+    };
+  }, [overlayStatus.status]);
 
   return (
-    <div className="overlay bg-white bg-opacity-97 fixed top-0 left-0 w-full h-full flex flex-col gap-4 items-center justify-center z-50">
+    <div
+      className={`bg-white bg-opacity-97 fixed top-0 left-0 w-full h-full flex flex-col gap-4 items-center justify-center z-50 ${
+        overlayStatus.status ? "" : "hidden"
+      }`}
+    >
       <Image src="/logo/logo-dark.svg" width={200} height={200} alt="Logo" />
-      <Progress className="max-w-40 opacity-40 h-1" value={progress} />
+      {/* <Progress className="max-w-40 opacity-40 h-1" value={progress} /> */}
+      <CgSpinner className="animate-spin text-4xl text-gray-500" />
       <p className="text-gray-500">Đang xử lý dữ liệu...</p>
     </div>
   );
