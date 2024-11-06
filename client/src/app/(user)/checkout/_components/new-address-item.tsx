@@ -80,7 +80,7 @@ export default function NewAddressItem(props: NewAddressItemProps) {
             )?.districtName || ""
           ),
           ward: String(
-            ward.find((ward) => ward.districtID === selectedWard)?.wardName ||
+            ward.find((ward) => Number(ward.wardCode) === selectedWard)?.wardName ||
               ""
           ),
         };
@@ -164,8 +164,8 @@ export default function NewAddressItem(props: NewAddressItemProps) {
           className="flex border w-[250px] px-1 py-1 rounded-md"
           value={selectedWard || 0}
           onChange={(e) => {
-            const districtId = Number(e.target.value);
-            setSelectedWard(districtId);
+            const wardId = Number(e.target.value);
+            setSelectedWard(wardId);
           }}
         >
           <option value={0}>
@@ -175,9 +175,9 @@ export default function NewAddressItem(props: NewAddressItemProps) {
                 )?.wardName
               : "Chọn Xã / Phường"}
           </option>
-          {ward?.map((district, index) => (
-            <option key={index} value={Number(district.districtID)}>
-              {district.wardName}
+          {ward?.map((ward, index) => (
+            <option key={index} value={Number(ward.wardCode)}>
+              {ward.wardName}
             </option>
           ))}
         </select>

@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Header from "@/components/header/header";
-import Footer from "@/components/footer/footer";
-import { usePathname } from "next/navigation";
-import CustomLayout from "./customLayout";
 import { Toaster } from "@/components/ui/toaster";
+import AppReduxProvider from "./appReduxProvider";
 
 
 const geistSans = localFont({
@@ -46,7 +43,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-            <CustomLayout>{children}</CustomLayout>
+            <AppReduxProvider >
+              {children}
+            </AppReduxProvider>
           </ThemeProvider>
         </body>
       </html>

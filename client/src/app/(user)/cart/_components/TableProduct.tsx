@@ -233,7 +233,7 @@ export function TableProduct() {
             className="bg-black text-white px-2 py-2 rounded-md font-medium text-center uppercase mb-2
             hover:bg-slate-500
             "
-            href={"/checkout"}
+            href={`/checkout`}
           >
             Thanh toán
           </Link>

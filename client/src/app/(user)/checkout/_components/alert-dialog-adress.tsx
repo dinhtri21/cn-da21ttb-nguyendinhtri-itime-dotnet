@@ -29,7 +29,6 @@ interface customer {
   fullName: string | null;
   phoneNumber: string | null;
   email: string | null;
-  address: string | null;
 }
 interface AlertDialogAddressProps {
   customer: customer;
@@ -51,6 +50,23 @@ export const AlertDialogAddress = (props: AlertDialogAddressProps) => {
   const handlerOut = () => {
     handlerChooseFirtDefault();
     setIsAdding(false);
+  };
+
+  const handleDeleteAddress = async (addressId: number) => {
+    if (!token) {
+      CustomToast.showError(
+        "Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại !"
+      );
+      return;
+    }
+    try {
+      const res = await customerAddressApi.DeleteCustomerAddress(addressId, token);
+      CustomToast.showSuccess("Xoá địa chỉ thành công !");
+      props.setIsFetching(true);
+    } catch (error: any) {
+      console.log(error);
+      CustomToast.showError(error.response.data.message || "Xoá địa chỉ thất bại!");
+    }
   };
 
   const handlerChooseFirtDefault = () => {
@@ -139,9 +155,6 @@ export const AlertDialogAddress = (props: AlertDialogAddressProps) => {
               <div className="flex gap-1">
                 <p className="font-semibold">Địa chỉ {index + 1}</p>
               </div>
-              {/* <div className="flex gap-1">
-                        <p>{address.addressLine}</p> | <p>{address.zipCode}</p>
-                    </div> */}
               {isChosen == address.addressId && (
                 <span className="text-sm border bg-sky-50/70 border-sky-400 px-2 rounded-xl text-sky-400">
                   Mặc định
@@ -157,10 +170,33 @@ export const AlertDialogAddress = (props: AlertDialogAddressProps) => {
                   <CiEdit className="w-5 h-5" />
                   <span>Sửa</span>
                 </div>
-                <div className="flex gap-1 items-center text-sm text-gray-500 text-red-500">
-                  <CiTrash className="w-5 h-5" />
-                  <span>Xoá</span>
-                </div>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <div className="flex gap-1 items-center text-sm text-gray-500 text-red-500">
+                      <CiTrash className="w-5 h-5" />
+                      <span>Xoá</span>
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Bạn có chắc chắn muốn xoá địa chỉ này ?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Địa chỉ này sẽ bị xoá khỏi danh sách địa chỉ của bạn.
+                        Lưu ý không được xoá đia chỉ mặc định.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Huỷ</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleDeleteAddress(address.addressId)}
+                      >
+                        Xoá
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           </div>

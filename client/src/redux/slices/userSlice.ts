@@ -6,7 +6,6 @@ interface CustomerState {
   fullName: string | null;
   phoneNumber: string | null;
   email: string | null;
-  address: string | null;
 }
 
 const initialState: CustomerState = {
@@ -14,7 +13,6 @@ const initialState: CustomerState = {
   fullName: null,
   email: null,
   phoneNumber: null,
-  address: null,
 };
 
 const userSlice = createSlice({
@@ -26,14 +24,12 @@ const userSlice = createSlice({
       state.fullName = action.payload.fullName;
       state.email = action.payload.email;
       state.phoneNumber = action.payload.phoneNumber;
-      state.address = action.payload.address;
     },
     clearUser: (state) => {
       state.customerId = null;
       state.fullName = null;
       state.email = null;
       state.phoneNumber = null;
-      state.address = null;
     },
   },
 });

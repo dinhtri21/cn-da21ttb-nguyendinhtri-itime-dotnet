@@ -32,6 +32,7 @@ export default function CheckOutPage() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<PaymentMethod>({ id: 1, name: "Credit Card" });
 
+  const [shippingFee, setShippingFee] = useState<number>(0);
   const customer = useSelector((state: RootState) => state.user);
   const token = Cookies.get("token");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -104,10 +105,14 @@ export default function CheckOutPage() {
             setSelectedPaymentMethod={setSelectedPaymentMethod}
             orderNote={orderNote}
             setOrderNote={setOrderNote}
+            shippingFee={shippingFee}
+            setShippingFee={setShippingFee}
           />
           <CheckoutProducts
             handleCreateOrder={handleCreateOrder}
             cartItems={cartItems}
+            shippingFee={shippingFee}
+            setShippingFee={setShippingFee}
           />
         </div>
       </div>

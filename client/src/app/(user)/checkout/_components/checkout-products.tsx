@@ -9,11 +9,12 @@ import { BsBox2 } from "react-icons/bs";
 interface CheckoutProductsProps {
   cartItems: CartItem[];
   handleCreateOrder: () => void;
+  shippingFee: number;
+  setShippingFee: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function CheckoutProducts(props: CheckoutProductsProps) {
   const [tempTotal, setTempTotal] = useState(0);
-  const [shippingFee, setShippingFee] = useState(0);
 
   const handleCalculateTempTotal = () => {
     let total = 0;
@@ -62,7 +63,7 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
                     </span>
                   </div>
                   <div className="flex items-center">
-                    <span>{cartItem.unitPrice} ₫</span>
+                    <span>{cartItem.unitPrice.toLocaleString()} ₫</span>
                   </div>
                 </div>
               ))
@@ -89,12 +90,12 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
         </div>
         <div className="flex justify-between px-2">
           <span className="text-gray-500">Phí vận chuyển</span>
-          <span className="text-gray-500">{shippingFee} ₫</span>
+          <span className="text-gray-500">{props.shippingFee.toLocaleString()} ₫</span>
         </div>
         <div className="flex justify-between border p-2 mt-2 rounded">
           <span className="font-medium">Tổng cộng</span>
           <span className="font-medium text-red-500">
-            {(tempTotal + shippingFee).toLocaleString()} ₫
+            {(tempTotal + props.shippingFee).toLocaleString()} ₫
           </span>
         </div>
         <div

@@ -1,5 +1,6 @@
 import axiosConfig from "@/lib/axiosConfig";
 import { ShippingCalculateFeeReQuest } from "@/types/shipping";
+import { Delete } from "lucide-react";
 
 const shippingApi = {
   async GetCalculateFee(
@@ -14,6 +15,7 @@ const shippingApi = {
     });
     return res.data;
   },
+  
 };
 
 export default shippingApi;

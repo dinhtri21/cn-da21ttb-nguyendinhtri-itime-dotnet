@@ -27,7 +27,6 @@ interface Customer {
   fullName: string | null;
   phoneNumber: string | null;
   email: string | null;
-  address: string | null;
 }
 
 type PaymentMethod =
@@ -47,6 +46,8 @@ interface CheckoutInfoProps {
   setSelectedPaymentMethod: React.Dispatch<React.SetStateAction<PaymentMethod>>;
   orderNote: string;
   setOrderNote: React.Dispatch<React.SetStateAction<string>>;
+  shippingFee: number;
+  setShippingFee: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
@@ -56,6 +57,8 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
   orderNote,
   setOrderNote,
   countCartItems,
+  shippingFee,
+  setShippingFee,
 }) => {
   //
 
@@ -65,7 +68,6 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
   const [selectedAddress, setSelectedAddress] =
     useState<CustomerAddress | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [shippingFee, setShippingFee] = useState<number>(0);
   const token = Cookies.get("token");
 
   // Chọn phương thức thanh toán
@@ -99,7 +101,6 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
 
   // Tính phí vận chuyển
   const fetchShippingFee = async () => {
-    console.log("-----");
     if (!selectedAddress) return;
     if (!token) {
       CustomToast.showError(
@@ -112,14 +113,13 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
         {
           ToDistrictId: selectedAddress.districtId,
           ToWardCode: selectedAddress.wardId.toString(),
-          Height: 10 * countCartItems,
-          Length: 10 * countCartItems,
-          Weight: 150 * countCartItems,
-          Width: 10 * countCartItems,
+          Height: 10,
+          Length: 10,
+          Weight: 2000,
+          Width: 10,
         },
         token
       );
-      console.log(res);
       setShippingFee(res.total);
     } catch (error) {
       console.log(error);
@@ -133,12 +133,11 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
   // Khi fetch xong danh sách địa chỉ thì chọn địa chỉ mặc định
   useEffect(() => {
     chooseDefaultAddress();
-    
   }, [customerAddressList]);
 
   useEffect(() => {
     fetchShippingFee();
-  }, [selectedAddress]);
+  }, [selectedAddress, countCartItems]);
   
   return (
     <div className="w-full md:w-[60%]">
@@ -295,12 +294,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 </div>
               </div>
             </div>
-            <div>{shippingFee}đ</div>
-            {/* <div className="border-green-300 bg-green-100 w-5 h-5 rounded-full  border flex items-center justify-center`">
-              <CheckIcon
-                className={`-translate-x-[0px] w-4 h-4 text-green-400`}
-              />
-            </div> */}
+            <div>{shippingFee.toLocaleString()}đ</div>
           </div>
         </div>
       </div>

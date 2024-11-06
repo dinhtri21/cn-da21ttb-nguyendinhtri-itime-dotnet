@@ -49,6 +49,14 @@ export const customerAddressApi = {
     );
     return res.data;
   },
+  async DeleteCustomerAddress(addressId: number, token: string): Promise<any> {
+    const res = await axiosConfig.delete(`/customer-address/${addressId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  },
 
   async GetProvinces(): Promise<Province[]> {
     const res = await axiosConfig.get(`/customer-address/provinces`);
