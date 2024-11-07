@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 
-namespace WatchStore.Application.Shipping.Queries.GetCalculateFee
+namespace WatchStore.Application.Shippings.Queries.GetCalculateFee
 {
     public class GetCalculateFeeQuery : IRequest<GHNCalculateFeeDto>
     {

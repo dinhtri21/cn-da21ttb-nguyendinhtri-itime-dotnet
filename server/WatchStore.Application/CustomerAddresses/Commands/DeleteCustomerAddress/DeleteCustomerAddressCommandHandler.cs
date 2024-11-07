@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace WatchStore.Application.CustomerAddresses.Commands.DeleteCustomerAddres
 
             if(addRess.IsDefault == true)
             {
-                throw new Exception("Không được xoá địa chỉ mặc định!");
+                throw new ValidationException("Không được xoá địa chỉ mặc định!");
             }
 
             var AddressId = _customerAddressRepository.DeleteCustomerAddressById(request.AddressId);

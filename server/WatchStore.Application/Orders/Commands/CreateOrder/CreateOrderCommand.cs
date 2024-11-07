@@ -12,8 +12,8 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
     {
         // Customer
         public int CustomerId { get; set; }
+        public int CustomerAddressId { get; set; }
         // Order
-        public string OrderNote { get; set; }
         public int PaymentId { get; set; }
         // OrderDetail
         public List<OrderItem> OrderDetails { get; set; }

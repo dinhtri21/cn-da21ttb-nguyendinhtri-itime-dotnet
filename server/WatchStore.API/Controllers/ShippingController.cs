@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WatchStore.Application.Products.Queries.GetProductsCount;
-using WatchStore.Application.Shipping.Queries;
-using WatchStore.Application.Shipping.Queries.GetCalculateFee;
+using WatchStore.Application.Shippings.Queries;
+using WatchStore.Application.Shippings.Queries.GetCalculateFee;
 
 namespace WatchStore.API.Controllers
 {

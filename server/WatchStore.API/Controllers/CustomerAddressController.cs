@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using WatchStore.Application.CustomerAddresses.Commands.CreateCustomerAddress;
 using WatchStore.Application.CustomerAddresses.Commands.DeleteCustomerAddress;

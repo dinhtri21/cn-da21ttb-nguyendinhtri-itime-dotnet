@@ -8,6 +8,7 @@ using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetProvince;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetWards;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CreateOrder;
 
 namespace WatchStore.Application.Common.Interfaces
 {
@@ -18,5 +19,6 @@ namespace WatchStore.Application.Common.Interfaces
         Task<GetDistrictResponse> GetDistrictAsync(GetDistrictRequest request);
         Task<GetWardResponse> GetWardAsync(GetWardRequest request);
         Task<GetServiceResponse> GetServiceAsync(GetServiceRequest request);
+        Task<CreateOrderResponse> CreateOrderAsync(CreateOrderRequest request);
     }
 }

@@ -13,6 +13,7 @@ using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetProvince;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetWards;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CreateOrder;
 
 namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
 {
@@ -21,12 +22,12 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
 
-        public GiaoHangNhanhService(HttpClient httpClient , IConfiguration configuration)
+        public GiaoHangNhanhService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _configuration = configuration;
         }
-       
+
         public async Task<CalculateFeeResponse> CalculateFeeAsync(CalculateFeeRequest request)
         {
             _httpClient.DefaultRequestHeaders.Add("ShopId", _configuration["GHNService:ShopId"]);
@@ -42,6 +43,23 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
             }
 
             var result = JsonConvert.DeserializeObject<CalculateFeeResponse>(await response.Content.ReadAsStringAsync());
+            return result;
+        }
+
+        public async Task<CreateOrderResponse> CreateOrderAsync(CreateOrderRequest request)
+        {
+            _httpClient.DefaultRequestHeaders.Add("ShopId", _configuration["GHNService:ShopId"]);
+            var json = JsonConvert.SerializeObject(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/shiip/public-api/v2/shipping-order/create", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error when CreateOrder GHN API: {response.StatusCode} - {errorContent}");
+            }
+
+            var result = JsonConvert.DeserializeObject<CreateOrderResponse>(await response.Content.ReadAsStringAsync());
             return result;
         }
 

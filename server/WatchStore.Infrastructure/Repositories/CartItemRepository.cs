@@ -81,5 +81,17 @@ namespace WatchStore.Infrastructure.Repositories
 
             return count;
         }
+
+        public async Task<bool> DeleteAllCartItemByCartIdAsync(int cartId)
+        {
+            var cartItems = await _context.CartItems
+                                          .Where(c => c.CartId == cartId)
+                                          .ToListAsync();
+
+            // Remove Range : xóa nhiều bản ghi cùng lúc
+            _context.CartItems.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

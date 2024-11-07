@@ -40,7 +40,7 @@ namespace WatchStore.API.Controllers
                 var cartItems = await _mediator.Send(new GetCartItemsQuery(customerId));
                 if (cartItems.Count() == 0)
                 {
-                    return Ok(new { cartItems = new List<CartItemDto>(), message = "Giỏ hàng trống!" });
+                    return Ok(cartItems);
                 }
                 return Ok(cartItems);
             }

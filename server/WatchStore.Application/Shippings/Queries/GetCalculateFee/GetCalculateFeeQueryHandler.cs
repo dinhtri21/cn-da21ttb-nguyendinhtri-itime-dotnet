@@ -10,7 +10,7 @@ using WatchStore.Application.Common.Interfaces;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 
-namespace WatchStore.Application.Shipping.Queries.GetCalculateFee
+namespace WatchStore.Application.Shippings.Queries.GetCalculateFee
 {
     public class GetCalculateFeeQueryHandler : IRequestHandler<GetCalculateFeeQuery, GHNCalculateFeeDto>, IApplicationMarker
     {

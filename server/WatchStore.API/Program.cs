@@ -48,6 +48,7 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
 builder.Services.AddScoped<IGiaoHanhNhanhService, GiaoHangNhanhService>();
+builder.Services.AddScoped<IShippingRepository, ShippingRepository>();
 
 // Đăng ký AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
