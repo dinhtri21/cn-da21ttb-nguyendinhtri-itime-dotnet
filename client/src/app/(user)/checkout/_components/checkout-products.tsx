@@ -6,11 +6,15 @@ import Image from "next/image";
 import { CartItem } from "@/types/cartItem";
 import { BsBox2 } from "react-icons/bs";
 
+import { CgSpinner } from "react-icons/cg";
+
 interface CheckoutProductsProps {
   cartItems: CartItem[];
   handleCreateOrder: () => void;
   shippingFee: number;
   setShippingFee: React.Dispatch<React.SetStateAction<number>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function CheckoutProducts(props: CheckoutProductsProps) {
@@ -18,10 +22,15 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
 
   const handleCalculateTempTotal = () => {
     let total = 0;
-    props.cartItems.forEach((item) => {
-      total += item.unitPrice;
-    });
-    setTempTotal(total);
+    if (props.cartItems.length == 0) {
+      setTempTotal(total);
+      return;
+    } else {
+      props.cartItems?.forEach((item) => {
+        total += item.unitPrice;
+      });
+      setTempTotal(total);
+    }
   };
 
   useEffect(() => {
@@ -38,9 +47,7 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
         <div className="flex flex-col gap-3 mt-3 px-2">
           {props.cartItems.length > 0
             ? props.cartItems.map((cartItem, index) => (
-                <div 
-                key={index}
-                className="flex gap-2 justify-between ">
+                <div key={index} className="flex gap-2 justify-between ">
                   <div>
                     <Image
                       src={
@@ -90,7 +97,9 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
         </div>
         <div className="flex justify-between px-2">
           <span className="text-gray-500">Phí vận chuyển</span>
-          <span className="text-gray-500">{props.shippingFee.toLocaleString()} ₫</span>
+          <span className="text-gray-500">
+            {props.shippingFee.toLocaleString()} ₫
+          </span>
         </div>
         <div className="flex justify-between border p-2 mt-2 rounded">
           <span className="font-medium">Tổng cộng</span>
@@ -99,13 +108,22 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
           </span>
         </div>
         <div
-          onClick={props.handleCreateOrder}
-          className="mt-4 w-full px-4 py-2 rounded-md text-center text-sm md:text-base font-medium
+          onClick={!props.loading ? props.handleCreateOrder : undefined} // Vô hiệu hóa onClick khi loading là true
+          className={`mt-4 w-full px-4 py-2 rounded-md text-center text-sm md:text-base font-medium
              uppercase cursor-pointer bg-black text-white dark:bg-slate-200 dark:text-black
-             hover:bg-slate-600
-             "
+             ${
+               props.loading
+                 ? "pointer-events-none bg-gray-400"
+                 : "hover:bg-slate-600"
+             } 
+             flex justify-center
+             `}
         >
-          Đặt hàng
+          {props.loading ? (
+            <CgSpinner className="animate-spin w-6 h-6 font-bold" />
+          ) : (
+            "Đặt hàng"
+          )}
         </div>
       </div>
     </div>

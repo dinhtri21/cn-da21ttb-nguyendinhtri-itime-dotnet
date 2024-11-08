@@ -95,6 +95,7 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
   };
   useEffect(() => {
     checkUserStatus();
+    dispatch(setOverlayStatus(false))
   }, []);
 
   return (

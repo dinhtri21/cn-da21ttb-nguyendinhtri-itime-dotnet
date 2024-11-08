@@ -49,8 +49,8 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
           </PaginationItem>
         );
       }
-      pageNumbers.push(<PaginationEllipsis />);
-      pageNumbers.push(<PaginationEllipsis />);
+      pageNumbers.push(<PaginationEllipsis key="ellipsis-end-1" />);
+      pageNumbers.push(<PaginationEllipsis key="ellipsis-end-2" />);
       // 1 2 3 ...
     } else if (skip > 0 && skip < maxPaginationItems - 1) {
       for (let i = skip - 1; i < skip + maxPaginationItems - 1; i++) {
@@ -65,11 +65,11 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
           </PaginationItem>
         );
       }
-      pageNumbers.push(<PaginationEllipsis />);
-      pageNumbers.push(<PaginationEllipsis />);
+      pageNumbers.push(<PaginationEllipsis key="ellipsis-end-1" />);
+      pageNumbers.push(<PaginationEllipsis key="ellipsis-end-2" />);
       // ... 2 3 4 ...
     } else if (skip > 0 && skip + maxPaginationItems < totalPages) {
-      pageNumbers.push(<PaginationEllipsis />);
+      pageNumbers.push(<PaginationEllipsis key="ellipsis-start" />);
       for (let i = skip - 1; i < skip + maxPaginationItems - 1; i++) {
         pageNumbers.push(
           <PaginationItem className="cursor-pointer" key={i}>
@@ -82,11 +82,11 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
           </PaginationItem>
         );
       }
-      pageNumbers.push(<PaginationEllipsis />);
+      pageNumbers.push(<PaginationEllipsis key="ellipsis-end" />);
       // ... 4 5 6
     } else if (skip > 0 && skip <= totalPages) {
-      pageNumbers.push(<PaginationEllipsis />);
-      pageNumbers.push(<PaginationEllipsis />);
+      pageNumbers.push(<PaginationEllipsis key="ellipsis-start-1" />);
+      pageNumbers.push(<PaginationEllipsis key="ellipsis-start-2" />);
       for (let i = totalPages - maxPaginationItems; i < totalPages; i++) {
         pageNumbers.push(
           <PaginationItem className="cursor-pointer" key={i}>

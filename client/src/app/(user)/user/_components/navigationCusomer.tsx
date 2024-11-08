@@ -78,14 +78,14 @@ export default function NavigationCusomer() {
             alt="avatar
             className="border rounded-full w-[60px] h-[60px] object-cover"
           /> */}
-          <PiUserThin className="w-[40px] h-[40px]" />
+          <PiUserThin className="w-[40px] h-[40px] text-gray-500" />
           <div>
-            <h2 className="font-semibold text-black dark:text-white text-base">
+            <h2 className=" text-gray-700 dark:text-white text-base">
               {user && user.fullName}
             </h2>
             {/* <p>{user && user.email}</p> */}
-            <p className="text-black dark:text-white text-sm">
-              {user && user.email}
+            <p className="text-gray-500 dark:text-white text-sm">
+                {user && user.email } | {user && user.phoneNumber} 
             </p>
           </div>
         </div>
@@ -135,40 +135,6 @@ export default function NavigationCusomer() {
           </DropdownMenu>
         </div>
       </div>
-      {/* <div className="grid md:grid-cols-4 grid-cols-2 gap-3 md:gap-4 mt-3 md:mt-6">
-        <Link
-          href={"/user"}
-          className={`${
-            pathname == "/user"
-              ? " border-slate-400 text-slate-400"
-              
-              : "text-gray-500 hover:border-slate-400 hover:text-slate-400"
-          }  flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-3 border `}
-        >
-          <TfiClipboard className={`w-6 h-6 `} />
-          <p className="font-medium">Chờ xác nhận</p>
-        </Link>
-        <div className="flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border text-gray-500 hover:bg-slate-100">
-          <LiaShippingFastSolid className="w-6 h-6 " />
-          <p className="font-medium ">Đang vận chuyển</p>
-        </div>
-        <div className="flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border text-gray-500 hover:bg-slate-100">
-          <MdOutlineDeliveryDining className="w-6 h-6 " />
-          <p className="font-medium ">Đang giao</p>
-        </div>
-       
-        <Link
-          href={"/user/history"}
-          className={`${
-            pathname == "/user/history"
-              ? "border-slate-400 text-slate-400"
-              : "text-gray-500 hover:border-slate-400 hover:text-slate-400"
-          } flex items-center rounded-xl gap-2 cursor-pointer px-4 bg-background py-2 border `}
-        >
-          <TfiClipboard className={`w-6 h-6`} />
-          <p className="font-medium">Lịch sử mua hàng</p>
-        </Link>
-      </div> */}
     </div>
   );
 }

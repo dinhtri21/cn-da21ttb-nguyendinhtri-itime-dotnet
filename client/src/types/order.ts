@@ -1,6 +1,6 @@
 export type CreateOrder = {
   customerId: number;
-  orderNote: string;
+  customerAddressId: number;
   paymentId: number;
   orderDetails: {
     productId: number;
@@ -12,10 +12,9 @@ export type Order = {
   orderId: number;
   customerId: number;
   paymentId: number;
-  orderDate: string;
   orderStatus: string;
   total: number;
-  orderNote: string;
+  createdAt: string;
 };
 
 export type OrderResponse = {

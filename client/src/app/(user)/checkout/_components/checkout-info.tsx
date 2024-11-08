@@ -48,6 +48,10 @@ interface CheckoutInfoProps {
   setOrderNote: React.Dispatch<React.SetStateAction<string>>;
   shippingFee: number;
   setShippingFee: React.Dispatch<React.SetStateAction<number>>;
+  selectedAddress: CustomerAddress | null;
+  setSelectedAddress: React.Dispatch<
+    React.SetStateAction<CustomerAddress | null>
+  >;
 }
 
 const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
@@ -59,14 +63,14 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
   countCartItems,
   shippingFee,
   setShippingFee,
+  selectedAddress,
+  setSelectedAddress,
 }) => {
   //
-
   const [customerAddressList, setCustomerAddressList] = useState<
     CustomerAddress[]
   >([]);
-  const [selectedAddress, setSelectedAddress] =
-    useState<CustomerAddress | null>(null);
+
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const token = Cookies.get("token");
 
@@ -101,6 +105,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
 
   // Tính phí vận chuyển
   const fetchShippingFee = async () => {
+    if (countCartItems === 0) return;
     if (!selectedAddress) return;
     if (!token) {
       CustomToast.showError(
@@ -138,7 +143,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
   useEffect(() => {
     fetchShippingFee();
   }, [selectedAddress, countCartItems]);
-  
+
   return (
     <div className="w-full md:w-[60%]">
       <div className=" bg-background p-5 rounded-md">

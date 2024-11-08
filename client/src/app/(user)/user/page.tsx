@@ -51,6 +51,7 @@ export default function UserPage() {
         );
         setOrders(data.orders);
         setOrderResponse(data);
+        console.log(data.orders);
       } else {
         console.error("User id is invalid");
       }
@@ -79,6 +80,8 @@ export default function UserPage() {
   const handlePaginationItem = (page: number) => {
     updateURLWithFilters({ skip: page });
   };
+
+ 
 
   useEffect(() => {
     fetchOrders();

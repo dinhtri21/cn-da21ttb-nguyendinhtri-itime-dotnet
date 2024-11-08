@@ -7,7 +7,7 @@ import {
 import { CartItem, CreateCartItem } from "@/types/cartItem";
 
 export const CartItemApi = {
-  async getCartItems(token: string, customerId: number): Promise<CartItem[]> {
+  async getCartItems(token: string, customerId: number): Promise< CartItem[]> {
     const res = await axiosConfig.get(`/cart-items/customer/${customerId}`, {
       headers: {
         Authorization: `Bearer ${token}`,

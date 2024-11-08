@@ -108,7 +108,10 @@ export function TableProduct() {
 
   const calculateTotal = () => {
     let num = 0;
-    cartItems.forEach((cartItem) => {
+    if (cartItems?.length == 0) {
+      return;
+    }
+    cartItems?.forEach((cartItem) => {
       num = num + cartItem.unitPrice;
     });
     setTotal(num);
@@ -136,7 +139,7 @@ export function TableProduct() {
             <div className="col-span-3 flex  justify-center">Thành tiền</div>
           </div>
 
-          {cartItems.length == 0 ? (
+          {cartItems?.length == 0 ? (
             <div className="hidden md:grid grid-cols-12 grid-flow-row gap-2 p-3">
               <div className="col-span-12 flex flex-col items-center">
                 <Image
@@ -155,7 +158,7 @@ export function TableProduct() {
             </div>
           ) : null}
 
-          {cartItems.length > 0
+          {cartItems?.length > 0
             ? cartItems.map((cartItem, index) => (
                 <div
                   key={index}

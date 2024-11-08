@@ -79,12 +79,12 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         productId: product?.productId ?? 0,
         quantity: quantity,
       });
-
+      
       CustomToast.showSuccess("Thêm vào giỏ hàng thành công");
       handleUpdateCartItemsCount();
-    } catch (error) {
+    } catch (error: any) {
+      console.log("Failed to add to cart:", error);
       CustomToast.showError("Thêm vào giỏ hàng thất bại");
-      console.error("Failed to add to cart:", error);
     }
   };
 

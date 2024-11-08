@@ -9,47 +9,7 @@ import { CgSpinner } from "react-icons/cg";
 
 export default function Overlay() {
   const overlayStatus = useSelector((state: RootState) => state.overlayStatus);
-  const [progress, setProgress] = useState(0);
-
-  // console.log("progress", progress);
-  // useEffect(() => {
-  //   if (overlayStatus.status) {
-  //     // const interval = setInterval(() => {
-  //     //   setProgress((prevProgress) => {
-  //     //     if (prevProgress >= 90) return 95; // Dừng lại ở 90 khi đang kiểm tra
-  //     //     return prevProgress + 10;
-  //     //   });
-  //     // }, 200); // Tăng progress mỗi 100ms
-  //     // return () => {
-  //     //   clearInterval(interval);
-  //     // };
-  //   } else {
-  //     // if (progress < 70) {
-  //     //   const interval = setInterval(() => {
-  //     //     setProgress((prevProgress) => {
-  //     //       if (prevProgress == 100 || prevProgress > 100) return 100;
-  //     //       return prevProgress + 10;
-  //     //     });
-  //     //   }, 100); // Tăng progress mỗi 100ms
-
-  //     //   return () => {
-  //     //     clearInterval(interval);
-  //     //   };
-  //     // }
-  //     // setProgress(100);
-  //   }
-  // }, [overlayStatus.status]);
-
-  // useEffect(() => {
-  //   if (progress == 100) {
-  //     setProgress(0);
-  //   }
-  // }, [progress]);
   useEffect(() => {
-    console.log("overlayStatus", overlayStatus);
-    return () => {
-      console.log("overlay unmount");
-    };
   }, [overlayStatus.status]);
 
   return (
