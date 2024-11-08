@@ -13,7 +13,6 @@ namespace WatchStore.Application.Common.DTOs
         public int PaymentId { get; set; }
         public string OrderStatus { get; set; }
         public decimal Total { get; set; }
-        public string OrderNote { get; set; }
         public DateTime CreatedAt { get; set; }
 
     }
