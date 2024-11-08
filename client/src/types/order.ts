@@ -10,10 +10,13 @@ export type CreateOrder = {
 
 export type Order = {
   orderId: number;
+  trackingNumber: string;
   customerId: number;
   paymentId: number;
-  orderStatus: string;
   total: number;
+  estimatedDeliveryTime: string;
+  shippingStatus: string;
+  addressLine: string;
   createdAt: string;
 };
 

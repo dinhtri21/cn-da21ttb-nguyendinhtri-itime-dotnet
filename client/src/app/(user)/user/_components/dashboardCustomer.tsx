@@ -30,6 +30,57 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import { TfiReceipt } from "react-icons/tfi";
 import { CiReceipt } from "react-icons/ci";
 
+type ShippingStatus =
+  | "waiting_to_return"
+  | "ready_to_pick"
+  | "delivered"
+  | "delivering"
+  | "delivery_fail"
+  | "picking"
+  | "default";
+
+const statusStyles: Record<
+  ShippingStatus,
+  { textColor: string; bgColor: string; content: string }
+> = {
+  waiting_to_return: {
+    textColor: "text-yellow-600",
+    bgColor: "bg-yellow-100",
+    content: "Chờ trả hàng",
+  },
+  ready_to_pick: {
+    textColor: "text-violet-600",
+    bgColor: "bg-violet-100",
+    content: "Chuẩn bị hàng",
+  },
+  picking: {
+    textColor: "text-violet-600",
+    bgColor: "bg-violet-100",
+    content: "Đang lấy hàng",
+  },
+
+  delivering: {
+    textColor: "text-blue-600",
+    bgColor: "bg-blue-100",
+    content: "Đang giao hàng",
+  },
+  delivered: {
+    textColor: "text-green-600",
+    bgColor: "bg-green-100",
+    content: "Giao hàng thành công",
+  },
+  delivery_fail: {
+    textColor: "text-red-600",
+    bgColor: "bg-red-100",
+    content: "Giao hàng thất bại",
+  },
+  default: {
+    textColor: "text-gray-600",
+    bgColor: "bg-gray-100",
+    content: "Không xác định",
+  },
+};
+
 export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions.";
 
@@ -40,15 +91,31 @@ export function Dashboard(props: DashboardProps) {
   // Hàm định dạng ngày
   const formatDate = (dateString: string) => {
     const dateObj = new Date(dateString);
+
+    // Định dạng cho ngày và giờ
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
       hour: "2-digit",
       minute: "2-digit",
-      hour12: false, // Sử dụng định dạng 24 giờ
+      second: "2-digit",
+      hour12: true, // Sử dụng định dạng 12 giờ (AM/PM)
     };
-    return dateObj.toLocaleDateString("vi-VN", options); // Định dạng theo ngôn ngữ Việt Nam
+
+    // Định dạng ngày theo ngôn ngữ Việt Nam
+    const formattedDate = dateObj.toLocaleDateString("vi-VN", options);
+
+    // Tách ngày và giờ
+    const [date, time] = formattedDate.split(" ");
+
+    // Tách giờ và phân đoạn AM/PM
+    const [hour, minute, second] = time.split(":");
+    const ampm = parseInt(hour) >= 12 ? "PM" : "AM";
+    const hourIn12 = parseInt(hour) % 12 || 12;
+
+    // Trả về định dạng theo yêu cầu
+    return `${date} ${hourIn12}:${minute}:${second} ${ampm}`;
   };
 
   return (
@@ -71,11 +138,11 @@ export function Dashboard(props: DashboardProps) {
           <div className="col-span-1 font-medium text-gray-600  flex  justify-center">
             ID
           </div>
-          <div className="col-span-2 font-medium text-gray-600 flex justify-center gap-1 items-center ">
+          <div className="col-span-1 font-medium text-gray-600 flex justify-center gap-1 items-center ">
             <span>Ngày giao</span>
             {/* <ClockIcon className="" /> */}
           </div>
-          <div className="col-span-1 font-medium text-gray-600 flex justify-center gap-1 items-center ">
+          <div className="col-span-2 font-medium text-gray-600 flex justify-center gap-1 items-center ">
             <span>Trạng thái</span>
             {/* <ReloadIcon className="" /> */}
           </div>
@@ -108,18 +175,36 @@ export function Dashboard(props: DashboardProps) {
                 <div className="row-span-2 md:col-span-1 md:row-span-2 flex md:justify-center items-center overflow-hidden">
                   <div className="flex flex-col">
                     <span>{order.orderId}</span>
-                    <span>LDBP4Q</span>
+                    {/* <span>LDBP4Q</span> */}
                   </div>
                 </div>
-                <div className="md:col-span-2 md:row-span-2 flex md:justify-center items-center ">
+                <div className="md:col-span-1 md:row-span-2 flex md:justify-center items-center ">
                   <span className="line-clamp-1 md:line-clamp-2 text-gray-500">
-                    {formatDate(order.createdAt).slice(6)}
+                    {/* {formatDate(order.estimatedDeliveryTime)} */}
+                    {order.estimatedDeliveryTime
+                      ? order.estimatedDeliveryTime.slice(0, 10)
+                      : ""}
                   </span>
                 </div>
-                <div className="md:col-span-1 md:row-span-2 flex  md:justify-center items-center">
-                  <div className="bg-yellow-100 pr-3 pl-1 py-[2px] rounded-xl text-yellow-600 flex items-center">
+                <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center">
+                  <div
+                    className={`${
+                      statusStyles[
+                        order.shippingStatus as keyof typeof statusStyles
+                      ]?.bgColor || statusStyles.default.bgColor
+                    }  ${
+                      statusStyles[
+                        order.shippingStatus as keyof typeof statusStyles
+                      ]?.textColor || statusStyles.default.textColor
+                    } flex items-center pr-3 pl-1 py-[2px] rounded-xl text-sm`}
+                  >
                     <RxDotFilled />
-                    {order.orderStatus}
+                    <span className="text-sm">
+                      {statusStyles[
+                        order.shippingStatus as keyof typeof statusStyles
+                      ]?.content || statusStyles.default.content}
+                    </span>
+                    {/* {statusTranslations[order.shippingStatus as ShippingStatus] || statusTranslations.default} */}
                   </div>
                 </div>
                 <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
@@ -127,14 +212,14 @@ export function Dashboard(props: DashboardProps) {
                 </div>
                 <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
                   <div className="flex flex-col items-center">
-                    <span>COD</span>
+                    <span  className="text-sm">COD</span>
                     <span className="text-sm text-gray-500">
                       Bên nhận trả phí
                     </span>
                   </div>
                 </div>
                 <div className="md:col-span-3 flex md:row-span-2  justify-center items-center">
-                  Bình Dương, Thành phố Dĩ An, Phường Bình An
+                  {order.addressLine}
                 </div>
                 <div className="md:col-span-1 flex md:row-span-2  justify-center items-center">
                   <div className="flex gap-2">

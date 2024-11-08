@@ -63,7 +63,7 @@ export default function UserPage() {
   const updateURLWithFilters = (filters: Record<string, any>) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    params.set("skip", "0"); // Reset 0 nếu có thay đổi filters
+    params.set("skip", "5"); // Reset 0 nếu có thay đổi filters
 
     Object.keys(filters).forEach((key: string) => {
       // Nếu value có giá trị thì set vào URL
