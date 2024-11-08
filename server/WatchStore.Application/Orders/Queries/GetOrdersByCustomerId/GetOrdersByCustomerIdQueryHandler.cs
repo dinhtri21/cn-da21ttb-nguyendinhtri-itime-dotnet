@@ -7,30 +7,57 @@ using System.Text;
 using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Common.Interfaces;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.GetOrderInfo;
 
 namespace WatchStore.Application.Orders.Queries.GetOrdersByCustomerId
 {
     public class GetOrdersByCustomerIdQueryHandler : IRequestHandler<GetOrdersByCustomerIdQuery, OrderListDto>, IApplicationMarker
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IGiaoHanhNhanhService _giaoHanhNhanhService;
+        private readonly IShippingRepository _shippingRepository;
         private readonly IMapper _mapper;
-        public GetOrdersByCustomerIdQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+        public GetOrdersByCustomerIdQueryHandler(IOrderRepository orderRepository, IMapper mapper, IGiaoHanhNhanhService giaoHanhNhanhService, IShippingRepository shippingRepository)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
+            _giaoHanhNhanhService = giaoHanhNhanhService;
+            _shippingRepository = shippingRepository;
         }
+       
         public async Task<OrderListDto> Handle(GetOrdersByCustomerIdQuery request, CancellationToken cancellationToken)
         {
             var orders = await _orderRepository.GetOrdersByCustomerIdAsync(request.CustomerId, request.Skip, request.Limit);
             int totalCount = await _orderRepository.GetTotalOrderCountByCustomerIdAsync(request.CustomerId);
 
-            return new OrderListDto
+            var orderListDto = new OrderListDto
             {
-                Orders = _mapper.Map<IEnumerable<OrderDto>>(orders),
+                Orders = new List<OrderShippingDto>(),
                 Total = totalCount,
                 Skip = request.Skip,
                 Limit = request.Limit
             };
+
+            foreach (var order in orders)
+            {
+                var shipping = await _shippingRepository.GetShippingByOrderIdAsync(order.OrderId);
+                var orderInfoGHN = await _giaoHanhNhanhService.GetOrderInfoAsync(new GetOrderInfoRequest { OrderCode = shipping.TrackingNumber });
+                orderListDto.Orders.Add(new OrderShippingDto
+                {
+                    OrderId = order.OrderId,
+                    CustomerId = order.CustomerId,
+                    PaymentId = order.PaymentId,
+                    //OrderStatus = order.OrderStatus,
+                    Total = order.Total,
+                    CreatedAt = order.CreatedAt,
+                    TrackingNumber = shipping.TrackingNumber,
+                    EstimatedDeliveryTime = shipping.EstimatedDelivery.ToString(),
+                    ShippingStatus = orderInfoGHN.Data.Status,
+                    AddressLine = shipping.AddressLine
+                });
+            }
+
+            return orderListDto;
         }
     }
 }

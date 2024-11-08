@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace WatchStore.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             return result.Entity;
+        }
+
+        public async Task<Shipping> GetShippingByOrderIdAsync(int orderId)
+        {
+            var shipping = await _context.Shippings.Where(s => s.OrderId == orderId).FirstOrDefaultAsync();
+            return shipping;
         }
     }
 }

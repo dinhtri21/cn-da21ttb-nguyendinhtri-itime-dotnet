@@ -29,7 +29,7 @@ namespace WatchStore.Application.Orders.Queries.GetOrder
 
             return new OrderListDto
             {
-                Orders = _mapper.Map<IEnumerable<OrderDto>>(orders),
+                Orders = null,
                 Total = totalCount,
                 Skip = request.Skip,
                 Limit = request.Limit

@@ -16,4 +16,25 @@ namespace WatchStore.Application.Common.DTOs
         public DateTime CreatedAt { get; set; }
 
     }
+    public class OrderListDto
+    {
+        public List<OrderShippingDto> Orders { get; set; }
+        public int Total { get; set; }
+        public int Skip { get; set; }
+        public int Limit { get; set; }
+    }
+
+    public class OrderShippingDto
+    {
+        public int OrderId { get; set; }
+        public string TrackingNumber { get; set; }
+        public int CustomerId { get; set; }
+        public int PaymentId { get; set; }
+        public decimal Total { get; set; }
+        public string EstimatedDeliveryTime { get; set; }
+        public string ShippingStatus { get; set; }
+        public string AddressLine { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+    }
 }

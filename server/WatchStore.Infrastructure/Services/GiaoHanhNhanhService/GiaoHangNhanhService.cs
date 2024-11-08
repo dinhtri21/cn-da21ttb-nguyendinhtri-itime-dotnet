@@ -14,6 +14,7 @@ using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetWards;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CreateOrder;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.GetOrderInfo;
 
 namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
 {
@@ -86,6 +87,22 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
             }
 
             var result = JsonConvert.DeserializeObject<GetDistrictResponse>(await response.Content.ReadAsStringAsync());
+            return result;
+        }
+
+        public async Task<GetOrdeInfoResponse> GetOrderInfoAsync(GetOrderInfoRequest request)
+        {
+            var json = JsonConvert.SerializeObject(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/shiip/public-api/v2/shipping-order/detail", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error when calling GetOrderFnfo GHN API: {response.StatusCode} - {errorContent}");
+            }
+
+            var result = JsonConvert.DeserializeObject<GetOrdeInfoResponse>(await response.Content.ReadAsStringAsync());
             return result;
         }
 

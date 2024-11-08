@@ -11,5 +11,6 @@ namespace WatchStore.Application.Common.Interfaces
     public interface IShippingRepository
     {
         Task<Shipping> CreateShippingAsync(Shipping shipping);
+        Task<Shipping> GetShippingByOrderIdAsync(int orderId);
     }
 }
