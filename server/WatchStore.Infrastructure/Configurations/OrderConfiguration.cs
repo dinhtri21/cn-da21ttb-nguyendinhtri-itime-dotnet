@@ -31,12 +31,6 @@ namespace WatchStore.Infrastructure.Configurations
                    .IsRequired()
                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            builder.Property(o => o.OrderStatus)
-                   .HasColumnName("OrderStatus")
-                   .HasColumnType("nvarchar(50)")
-                   .HasMaxLength(50)
-                   .IsRequired();
-
             builder.Property(o => o.Total)
                    .HasColumnName("Total")
                    .HasColumnType("decimal(18,2)")

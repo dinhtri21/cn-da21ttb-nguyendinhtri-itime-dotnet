@@ -18,7 +18,6 @@ namespace WatchStore.Application.Orders.Queries.GetOrdersByCustomerId
             Skip = skip;
             Limit = limit;
             CustomerId = customerId;
-
         }
     }
 }

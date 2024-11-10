@@ -49,14 +49,16 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Policy = "CustomerPolicy")]
+        [Authorize(Policy = "CustomerAndAdminPolicy")]
         public async Task<IActionResult> GetCustomerById(int id)
         {
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+                var role = User.FindFirst(ClaimTypes.Role)?.Value;  // Lấy role từ token
 
-                if (userId != id.ToString())
+                if (userId != id.ToString() && role != "Manager" && role != "Staff")
+
                 {
                     return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
                 }

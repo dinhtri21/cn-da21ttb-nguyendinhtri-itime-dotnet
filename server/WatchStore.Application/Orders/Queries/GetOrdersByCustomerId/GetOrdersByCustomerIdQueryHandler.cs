@@ -47,12 +47,13 @@ namespace WatchStore.Application.Orders.Queries.GetOrdersByCustomerId
                     OrderId = order.OrderId,
                     CustomerId = order.CustomerId,
                     PaymentId = order.PaymentId,
-                    //OrderStatus = order.OrderStatus,
+                    Payment = order.Payment,
                     Total = order.Total,
                     CreatedAt = order.CreatedAt,
                     TrackingNumber = shipping.TrackingNumber,
                     EstimatedDeliveryTime = shipping.EstimatedDelivery.ToString(),
                     ShippingStatus = orderInfoGHN.Data.Status,
+                    ShippingFee = shipping.ShippingFee,
                     AddressLine = shipping.AddressLine
                 });
             }

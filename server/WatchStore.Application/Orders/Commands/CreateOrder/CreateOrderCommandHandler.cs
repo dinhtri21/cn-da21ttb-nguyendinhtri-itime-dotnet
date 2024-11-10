@@ -57,6 +57,7 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
             await _baseRepository.BeginTransactionAsync();
             try
             {
+                // Get customer, customer address, payment
                 var customer = await _customerRepository.GetCustomerByIdAsync(request.CustomerId);
                 var customerAddress = await _customerAddressRepository.GetCustomerAddressByIdAsync(request.CustomerAddressId);
 
@@ -65,18 +66,37 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                     throw new ValidationException($"CustomerId {request.CustomerId} không tồn tại.");
                 }
 
-                // Add order
                 if (!await _paymentRepository.IsPaymentExitAsync(request.PaymentId))
                 {
                     throw new ValidationException($"PaymentId {request.PaymentId} không tồn tại.");
                 }
 
+                // GHN fee
+                var res = await _ghnService.GetServiceAsync(new GetServiceRequest() { ShopID = 1, FromDistrict = 1560, ToDistrict = customerAddress.DistrictId });
+                var service = res.Data.FirstOrDefault(x => x.ShortName == "Hàng nhẹ");
+                if (service == null)
+                {
+                    service = res.Data[0];
+                }
+                var calculateFeeRequest = new CalculateFeeRequest
+                {
+                    ServiceId = service.ServiceID,
+                    ServiceTypeId = service.ServiceTypeID,
+                    ToDistrictId = customerAddress.DistrictId,
+                    ToWardCode = customerAddress.WardId.ToString(),
+                    Height = 10,
+                    Length = 10,
+                    Weight = 2000,
+                    Width = 10
+                };
+                var calculateFeeResponse = await _ghnService.CalculateFeeAsync(calculateFeeRequest);
+
+                // Add order
                 var order = new Order
                 {
                     CustomerId = customer.CustomerId,
                     PaymentId = request.PaymentId,
                     CreatedAt = DateTime.Now,
-                    OrderStatus = "Pending",
                     Total = 0,
                 };
 
@@ -95,6 +115,7 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                 }
 
                 order.Total = orderDetails.Sum(od => od.UnitPrice);
+                order.Total = order.Total + calculateFeeResponse.Data.Total;
                 await _orderRepository.AddOrderAsync(order);
 
                 // Add order details
@@ -103,27 +124,6 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                     orderDetail.OrderId = order.OrderId;
                     await _orderDetailRepository.AddOrderDetailsAsync(orderDetail);
                 }
-
-                // GHN fee
-                var res = await _ghnService.GetServiceAsync(new GetServiceRequest() { ShopID = 1, FromDistrict = 1560, ToDistrict = customerAddress.DistrictId });
-
-                var service = res.Data.FirstOrDefault(x => x.ShortName == "Hàng nhẹ");
-                if (service == null)
-                {
-                    service = res.Data[0];
-                }
-                var calculateFeeRequest = new CalculateFeeRequest
-                {
-                    ServiceId = service.ServiceID,
-                    ServiceTypeId = service.ServiceTypeID,
-                    ToDistrictId = customerAddress.DistrictId,
-                    ToWardCode = customerAddress.WardId.ToString(),
-                    Height = 10,
-                    Length = 10,
-                    Weight = 2000,
-                    Width = 10
-                };
-                var calculateFeeResponse = await _ghnService.CalculateFeeAsync(calculateFeeRequest);
 
                 // GHN Order
                 var createOrderRequest = new CreateOrderRequest

@@ -32,6 +32,7 @@ builder.Services.AddCors(options =>
         });
 });
 
+
 // Đăng ký MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationMarker).Assembly));
 

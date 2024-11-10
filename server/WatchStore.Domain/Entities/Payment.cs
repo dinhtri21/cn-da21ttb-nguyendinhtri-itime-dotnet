@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace WatchStore.Domain.Entities
@@ -12,6 +13,7 @@ namespace WatchStore.Domain.Entities
         public string PaymentName { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public ICollection<Order> Orders { get; set; }
 
         public Payment()

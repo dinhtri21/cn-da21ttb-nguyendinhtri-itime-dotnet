@@ -21,6 +21,8 @@ namespace WatchStore.Infrastructure.Repositories
         public async Task<IEnumerable<Order>> GetOrdersAsync(int Skip, int Limit)
         {
             var orders = await _context.Orders
+                                       .Include(o => o.Payment)
+                                       .OrderByDescending(o => o.CreatedAt)
                                        .Skip(Skip * Limit)
                                        .Take(Limit)
                                        .ToListAsync();
@@ -57,6 +59,7 @@ namespace WatchStore.Infrastructure.Repositories
         {
             var orders = await _context.Orders
                                        .Where(o => o.CustomerId == customerId)
+                                       .Include(o => o.Payment)
                                        .OrderByDescending(o => o.CreatedAt)
                                        .Skip(Skip * Limit)
                                        .Take(Limit)

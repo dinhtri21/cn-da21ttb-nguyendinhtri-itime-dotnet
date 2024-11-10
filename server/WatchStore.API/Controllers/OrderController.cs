@@ -69,6 +69,7 @@ namespace WatchStore.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
@@ -82,7 +83,7 @@ namespace WatchStore.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId != customerId.ToString())
             {
-                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+                return Forbid("Bạn không có quyền truy cập tài nguyên này!");
             }
             try
             {
@@ -95,6 +96,7 @@ namespace WatchStore.API.Controllers
                 }
                 return Ok(listOrders);
             }
+            
             catch (UnauthorizedAccessException ex)
             {
                 return Unauthorized(new { message = ex.Message });

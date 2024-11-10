@@ -10,5 +10,7 @@ namespace WatchStore.Application.Common.Interfaces
     public interface IOrderDetailRepository
     {
         Task AddOrderDetailsAsync(OrderDetail orderDetail);
+        Task<OrderDetail> GetOrderDetailByIdAsync(int orderDetailId);
+        Task<IList<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId);
     }
 }
