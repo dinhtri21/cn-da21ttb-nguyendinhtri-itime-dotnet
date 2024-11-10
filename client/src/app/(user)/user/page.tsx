@@ -1,6 +1,6 @@
 "use client";
-import { Dashboard } from "@/app/(user)/user/_components/dashboardCustomer";
-import NavigationCusomer from "@/app/(user)/user/_components/navigationCusomer";
+import { OrderList } from "@/app/(user)/user/_components/order-list";
+import InfoCustomer from "./_components/info-customer";
 import { RootState } from "@/redux/store/store";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -81,8 +81,6 @@ export default function UserPage() {
     updateURLWithFilters({ skip: page });
   };
 
- 
-
   useEffect(() => {
     fetchOrders();
     // if (customer.customerId == null) {
@@ -92,7 +90,7 @@ export default function UserPage() {
   }, [customer, searchParams]);
 
   return (
-    <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-4 pb-10">
+    <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-7 pb-12 mt-[73px]">
       <div className="w-full max-w-screen-xl mx-auto px-4 pb-4">
         <Breadcrumb>
           <BreadcrumbList>
@@ -101,17 +99,18 @@ export default function UserPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Người dùng</BreadcrumbPage>
+              <BreadcrumbPage className="text-gray-500">Người dùng</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <NavigationCusomer />
-      <Dashboard orders={orders} />
+      
+      <InfoCustomer />
+      <OrderList orders={orders} />
       {orders && orders?.length !== 0 && (
-        <div className="col-span-3 mt-4">
+        <div className="col-span-3 mt-5">
           <Pagination>
-            <PaginationContent className="border rounded-xl">
+            <PaginationContent className=" rounded-xl">
               <PaginationItem
                 className="cursor-pointer"
                 // onClick={handlePaginationPrevious}

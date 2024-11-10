@@ -37,7 +37,7 @@ export default function Header() {
   const cartItemsCount = useSelector((state: RootState) => state.cartItemCount);
 
   return (
-    <header className="w-full border-b-[0.8px] mx-auto">
+    <header className="w-full border-b-[0.8px] mx-auto fixed z-40 bg-background top-0">
       <div className="container mx-auto max-w-screen-xl flex justify-between items-center p-4">
         <div className="logo bg-background flex">
           {/* Reponsive nav */}
@@ -51,21 +51,21 @@ export default function Header() {
                   className="py-2 flex items-center gap-3 px-1 md:px-4"
                   href="/"
                 >
-                  <span>Trang chủ </span>
+                  <span className="text-primaryColor">Trang chủ </span>
                   <ChevronRightIcon width={20} height={20} />
                 </Link>
                 <Link
                   className="py-2 flex items-center gap-3 px-1 md:px-4"
                   href="/products"
                 >
-                  <span>Sản phẩm </span>
+                  <span className="text-primaryColor">Sản phẩm </span>
                   <ChevronRightIcon width={20} height={20} />
                 </Link>
                 <Link
                   className="py-2 flex items-center gap-3 px-1 md:px-4"
                   href="/about"
                 >
-                  <span>Giới thiệu </span>
+                  <span className="text-primaryColor">Giới thiệu </span>
                   <ChevronRightIcon width={20} height={20} />
                 </Link>
               </div>

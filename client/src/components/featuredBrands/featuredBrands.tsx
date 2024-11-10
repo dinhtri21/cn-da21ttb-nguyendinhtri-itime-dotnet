@@ -46,7 +46,7 @@ export default function FeaturedBrands() {
       <h2 className="text-center uppercase text-lg font-medium mb-1">
         THƯƠNG HIỆU NỔI BẬT
       </h2>
-      <p className="text-center mb-3">
+      <p className="text-center mb-3 text-gray-500">
         ITime luôn có sẵn sản phẩm từ những thương hiệu nổi tiếng.
       </p>
       <div className="grid md:grid-cols-4 grid-cols-2 gap-2  md:gap-4">

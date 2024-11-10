@@ -146,7 +146,7 @@ export function SignUpForm() {
   return (
     <Card className="mx-auto max-w-lg">
       <CardHeader>
-        <CardTitle className="text-xl">Đăng ký</CardTitle>
+        <CardTitle className="text-lg">Đăng ký</CardTitle>
         <CardDescription>
           {/* Enter your information to create an account */}
           Nhập thông tin của bạn để tạo tài khoản.
@@ -184,7 +184,7 @@ export function SignUpForm() {
               )}
             </div>
 
-            <div className="col-span-2 grid gap-2">
+            {/* <div className="col-span-2 grid gap-2">
               <Label htmlFor="province">Địa chỉ</Label>
               <Select
                 onValueChange={handleProvinceChange}
@@ -263,7 +263,7 @@ export function SignUpForm() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
 
             <div className="grid col-span-2 gap-2">
               <Label htmlFor="email">Email</Label>
@@ -293,7 +293,7 @@ export function SignUpForm() {
               )}
             </div>
 
-            <Button type="submit" className="w-full col-span-2">
+            <Button type="submit" className="w-full hover:bg-gray-100 hover:text-gray-300 col-span-2 text-primaryBlackColor bg-primaryGrayColor">
               Tạo tài khoản
             </Button>
             <Button variant="outline" className="w-full col-span-2">

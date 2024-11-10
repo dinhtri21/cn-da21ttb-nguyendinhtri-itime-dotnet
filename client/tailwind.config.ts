@@ -50,7 +50,9 @@ const config: Config = {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			},
-  			customOrange: '#BC9657'
+  			customOrange: '#BC9657',
+			primaryGrayColor: "#ebeef2",
+			primaryBlackColor: "#1d242d"
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

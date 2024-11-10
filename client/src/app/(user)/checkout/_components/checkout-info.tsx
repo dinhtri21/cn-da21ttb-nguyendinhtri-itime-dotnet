@@ -146,23 +146,23 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
 
   return (
     <div className="w-full md:w-[60%]">
-      <div className=" bg-background p-5 rounded-md">
-        <h1 className="font-medium uppercase mb-2 flex gap-2 items-center">
+      <div className=" bg-background pt-5 py-6 px-5 rounded-xl border ">
+        <h1 className="font-medium uppercase mb-3 flex gap-2 items-center">
           <CiLocationOn className="w-5 h-5 " />
           <span>Địa chỉ nhận hàng</span>
         </h1>
 
         <div className="gap-1 border  py-3 px-4 rounded-xl">
           <div className="flex gap-1 justify-between items-start">
-            <div className="flex gap-1">
-              <p>{customer.fullName ? customer.fullName : "Chưa có"}</p>|{" "}
-              <p>{customer.phoneNumber ? customer.phoneNumber : "Chưa có"}</p>
+            <div className="flex gap-1 text-gray-600">
+              <p className="text-gray-600">{customer.fullName ? customer.fullName : "Chưa có"}</p>|{" "}
+              <p className="text-gray-600">{customer.phoneNumber ? customer.phoneNumber : "Chưa có"}</p>
             </div>
             {/* <span className="text-sm border bg-sky-50/70 border-sky-400 px-2 rounded-xl text-sky-400">
               Mặc định
             </span> */}
           </div>
-          <div className="flex justify-between items-center gap-1">
+          <div className="flex justify-between items-center gap-1 text-gray-600">
             <p>{customer.email ? customer.email : "Chưa có"}</p>
             {}
             <AlertDialogAddress
@@ -172,7 +172,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
               setIsFetching={setIsFetching}
             />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center ">
             {customerAddressList.length > 0 ? (
               <p>
                 {selectedAddress?.province},{""} {selectedAddress?.district},{" "}
@@ -185,13 +185,13 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
           </div>
         </div>
         <div className="md:mt-5">
-          <h1 className="font-medium uppercase mb-2 flex items-center gap-2">
+          <h1 className="font-medium uppercase mb-3 flex items-center gap-2">
             <CiCreditCard2 className="w-5 h-5" />
             <span>Phương thức thanh toán</span>
           </h1>
           <div className="flex flex-col border-[0.5px]  rounded-xl">
             <label
-              className={`flex flex-1 items-center justify-between gap-3 py-2 px-3 rounded-xl cursor-pointer`}
+              className={`flex flex-1 items-center justify-between gap-3 py-3 px-3 rounded-xl cursor-pointer`}
               onClick={() => handlePaymentMethodChange({ id: 2, name: "COD" })}
             >
               <div className="flex gap-2 items-center">
@@ -199,9 +199,9 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                   <GiReceiveMoney className="w-6 h-6 text-gray-400" />
                 </div>
                 <div>
-                  <p>Thanh toán khi nhận hàng (COD)</p>
+                  <p>COD</p>
                   <div className="text-gray-500">
-                    Lorem ipsum dolor sit, amet{" "}
+                    Thanh toán khi nhận hàng.
                   </div>
                 </div>
               </div>
@@ -223,7 +223,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
             </label>
 
             <label
-              className={`flex flex-1 items-center justify-between gap-3 py-2 px-3 rounded-xl cursor-pointer`}
+              className={`flex flex-1 items-center justify-between gap-3 py-3 px-3 rounded-xl cursor-pointer`}
               onClick={() =>
                 handlePaymentMethodChange({ id: 1, name: "Credit Card" })
               }
@@ -276,7 +276,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
           />
         </div> */}
         <div className="mt-5">
-          <h1 className="font-medium uppercase mb-2 flex gap-2 items-center">
+          <h1 className="font-medium uppercase mb-3 flex gap-2 items-center">
             <CiDeliveryTruck className="w-5 h-5 " />
             <span>Phương thức vận chuyển</span>
           </h1>
@@ -290,10 +290,10 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 alt="ghtk"
               />
               <div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 text-gray-600">
                   <p>Giao hàng tiết kiệm (GHTK)</p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 text-gray-500">
                   <p>Nhận hàng vào ngày </p>
                   <p>Thứ 2, 20/09/2021</p>
                 </div>

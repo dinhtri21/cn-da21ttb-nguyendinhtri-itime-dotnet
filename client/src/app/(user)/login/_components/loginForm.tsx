@@ -94,7 +94,6 @@ export function LoginForm() {
   };
 
   useEffect(() => {
-    
     // if (customer.customerId == null) {
     //   dispatch(setOverlayStatus(false));
     // }
@@ -104,7 +103,7 @@ export function LoginForm() {
     <>
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-xl">Đăng nhập</CardTitle>
+          <CardTitle className="text-lg">Đăng nhập</CardTitle>
           <CardDescription>
             {/* Enter your email below to login to your account */}
             Nhập email bạn đã đăng ký để đăng nhập vào tài khoản của bạn.
@@ -141,11 +140,11 @@ export function LoginForm() {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full bg-primaryGrayColor hover:bg-gray-100 hover:text-gray-300">
                 {isLoading ? (
-                  <SymbolIcon className="animate-spin" width={20} height={20} />
+                  <SymbolIcon className="animate-spin text-gray-300" width={20} height={20} />
                 ) : (
-                  "Đăng nhập"
+                  <p className="text-primaryBlackColor ">Đăng nhập</p>
                 )}
               </Button>
               <Button variant="outline" className="w-full">

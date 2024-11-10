@@ -24,10 +24,10 @@ export default function ProductItem({ product }: ProductItemProps) {
           </div>
         )}
       </div>
-      <p className="text-base font-extralight text-center mt-2  dark:text-black">
+      <p className="text-sm text-center mt-2 text-gray-500  dark:text-black">
         {product.brand?.brandName}
       </p>
-      <h2 className="text-base font-medium text-center mt-1 dark:text-black">
+      <h2 className="text-base font-medium text-center text-primaryBlackColor mt-1 dark:text-black">
         {product.productName}
       </h2>
       {/* <p className="text-gray-700 mb-2">{product.productDescription}</p> */}

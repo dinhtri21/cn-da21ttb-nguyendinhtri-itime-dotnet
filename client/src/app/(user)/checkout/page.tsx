@@ -109,7 +109,7 @@ export default function CheckOutPage() {
   }, [customer]);
 
   return (
-    <div className="dark:bg-muted/40  min-h-[calc(100vh-300px)] pt-4 pb-10">
+    <div className="dark:bg-muted/40  min-h-[calc(100vh-300px)] pt-5 pb-10 mt-[73px]">
       <div className="w-full max-w-screen-xl mx-auto px-4">
         <div className="pb-4">
           <Breadcrumb>
@@ -119,7 +119,7 @@ export default function CheckOutPage() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Thanh toán</BreadcrumbPage>
+                <BreadcrumbPage className="text-gray-500">Thanh toán</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>

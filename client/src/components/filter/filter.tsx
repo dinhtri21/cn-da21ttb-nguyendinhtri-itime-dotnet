@@ -111,7 +111,7 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
                     )
                   }
                 />
-                <span className="ml-2">{brand.name}</span>
+                <span className="ml-2 text-gray-600">{brand.name}</span>
               </label>
             </div>
           ))}
@@ -135,7 +135,7 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
                     )
                   }
                 />
-                <span className="ml-2">{material.name}</span>
+                <span className="ml-2 text-gray-600">{material.name}</span>
               </label>
             </div>
           ))}

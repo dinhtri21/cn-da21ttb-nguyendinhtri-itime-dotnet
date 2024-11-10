@@ -37,8 +37,12 @@ import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "@/redux/slices/userSlice";
 import { setCartItemCount } from "@/redux/slices/cartItemsSlice";
 import { PiUserThin } from "react-icons/pi";
+import { MdOutlineAttachEmail } from "react-icons/md";
+import { DivideIcon } from "lucide-react";
+import { MdOutlineLocalPhone } from "react-icons/md";
+import { MdOutlineMailOutline } from "react-icons/md";
 
-export default function NavigationCusomer() {
+export default function InfoCustomer() {
   const pathname = usePathname();
   const user = useSelector((state: RootState) => state.user);
   const token = Cookies.get("token");
@@ -71,30 +75,33 @@ export default function NavigationCusomer() {
     <div className="w-full max-w-screen-xl mx-auto px-4">
       <div className="flex items-center justify-between border  px-3 py-3 rounded-xl  ">
         <div className="flex items-center gap-3">
-          {/* <Image
-            src={"/img/avatar-customer.jpg"}
-            width={60}
-            height={60}
-            alt="avatar
-            className="border rounded-full w-[60px] h-[60px] object-cover"
-          /> */}
-          <PiUserThin className="w-[40px] h-[40px] text-gray-500" />
+          <div className="border rounded-full p-2">
+            <PiUserThin className="w-[40px] h-[40px] text-gray-500" />
+          </div>
           <div>
-            <h2 className=" text-gray-700 dark:text-white text-base">
+            <h2 className=" text-gray-900 dark:text-white text-base">
               {user && user.fullName}
             </h2>
             {/* <p>{user && user.email}</p> */}
-            <p className="text-gray-500 dark:text-white text-sm">
-                {user && user.email } | {user && user.phoneNumber} 
-            </p>
+            <div className="text-gray-500 dark:text-white text-sm flex items-center gap-2">
+              <div className="flex gap-1 items-center">
+                <MdOutlineMailOutline />
+                <p>{user && user.email}</p>
+              </div>
+              |
+              <div className="flex gap-1 items-center">
+                <MdOutlineLocalPhone />
+                <p>{user && user.phoneNumber}</p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <AlertDialog>
             <AlertDialogTrigger>
-              <div className="flex items-center gap-2 border  px-2 py-1 rounded-xl hover:bg-slate-100">
+              <div className="flex items-center gap-2 border  px-2 py-1 rounded-xl hover:bg-slate-100 text-gray-500">
                 <ExitIcon width={20} height={20} />
-                <span className="hidden md:block">Đăng xuất</span>
+                <span className="hidden md:block ">Đăng xuất</span>
               </div>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -117,8 +124,12 @@ export default function NavigationCusomer() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full bg-white border ">
-                <GearIcon className="h-5 w-5" />
+              <Button
+                variant="secondary"
+                size="icon"
+                className="rounded-full bg-white border "
+              >
+                <GearIcon className="h-5 w-5 text-gray-500" />
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>
@@ -138,4 +149,3 @@ export default function NavigationCusomer() {
     </div>
   );
 }
-

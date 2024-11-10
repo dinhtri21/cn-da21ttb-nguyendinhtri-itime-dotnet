@@ -102,21 +102,21 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
   return (
     <div className="w-full dark:bg-muted/40">
-      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-4 pb-10 px-4">
-        <div className="mb-4 px-4">
+      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-5 pb-10 px-4 mt-[73px]">
+        <div className="px-4">
           <Breadcrumb>
             <BreadcrumbList>
-              <BreadcrumbItem>
+              {/* <BreadcrumbItem>
                 <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
+              </BreadcrumbItem> */}
+              {/* <BreadcrumbSeparator /> */}
               <BreadcrumbItem>
                 <BreadcrumbLink href="/products">Sản phẩm</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbPage>
-                  <div className="line-clamp-1 overflow-hidden">
+                  <div className="line-clamp-1 overflow-hidden text-gray-500">
                     {product?.productName}
                   </div>
                 </BreadcrumbPage>
@@ -192,12 +192,12 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             <Button
               onClick={handleAddToCart}
               className="mt-6 w-full  py-5 rounded-full flex items-center justify-center gap-1 text-sm md:text-base font-semibold
-             uppercase cursor-pointer  hover:bg-gray-600 border bg-black  text-white"
+             uppercase cursor-pointer  hover:bg-gray-600 border bg-primaryBlackColor"
             >
-              <p>Thêm vào giỏ hàng</p>
+              <p className="text-white">Thêm vào giỏ hàng</p>
               {/* <MdOutlineAddShoppingCart />
                */}
-              <MdAddCircleOutline className="w-5 h-5" />
+              <MdAddCircleOutline className="w-5 h-5 text-white" />
             </Button>
 
             <div className="w-full h-[1px] bg-gray-300 mt-7 mb-6"></div>

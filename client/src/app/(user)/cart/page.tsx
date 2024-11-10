@@ -11,7 +11,7 @@ import {
 export default function CartPage() {
   return (
     <div className="w-full dark:bg-muted/40">
-      <div className="max-w-screen-xl mx-auto pt-4 pb-10 px-4">
+      <div className="max-w-screen-xl mx-auto pt-5 pb-10 px-4 mt-[72px]">
       <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -19,7 +19,7 @@ export default function CartPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Giỏ hàng</BreadcrumbPage>
+              <BreadcrumbPage className="text-gray-500">Giỏ hàng</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

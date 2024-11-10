@@ -115,7 +115,7 @@ export default function ProductsPage() {
 
   return (
     <div className="w-full dark:bg-muted/40">
-      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-4 pb-10 px-4">
+      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-4 pb-10 px-4 mt-[73px]">
         <div className="px-4">
           <Breadcrumb>
             <BreadcrumbList>

@@ -13,70 +13,97 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="w-full bg-black text-white">
+    <div className="w-full bg-primaryGrayColor text-gray-700 dark:bg-black">
       <div className="hidden container mx-auto max-w-screen-xl md:grid grid-cols-2 md:grid-cols-5 gap-3 py-10 px-4">
         <div className="col-span-2">
           <Image
             className=""
             alt="Next.js Streaming"
-            src={"/logo/logo-light.svg"}
+            src={"/logo/logo-dark2.svg"}
             width={100}
             height={100}
           />
-          <div className="pr-5 line-clamp-2 overflow-hidden">
+          <div className="pr-12 line-clamp-3 text-gray-500 overflow-hidden mt-1">
             Chào mừng đến với iTime – thiên đường của những chiếc đồng hồ tinh
             tế và sang trọng. Khám phá iTime để trải nghiệm vẻ đẹp của thời gian
             một cách hoàn hảo nhất.
           </div>
         </div>
-        <div>
-          <p className="font-medium uppercase">Liên hệ</p>
-          <ul>
-            <li>Hno: 126 Nguyen Van Thuong, P25, Binh Thanh Ditrict, HCM</li>
-            <li>+84 0357929230</li>
-            <li> abc@gmail.com</li>
-          </ul>
+        <div className="flex justify-end">
+          <div>
+            <p className="font-medium uppercase">Liên hệ</p>
+            <ul className="text-gray-500 mt-1">
+              <li>Hno: 126 Nguyen Van Thuong, P25, Binh Thanh Ditrict, HCM</li>
+              <li>+84 0357929230</li>
+              <li> abc@gmail.com</li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <p className="font-medium uppercase">Hỗ trợ</p>
-          <ul>
-            <li>
-              <Link href={"#"}> Hướng dẫn mua hàng</Link>
-            </li>
-            <li>
-              <Link href={"#"}> Bảo hành đổi và trả</Link>
-            </li>
-            <li>
-              <Link href={"#"}> Hướng dẫn chọn size</Link>
-            </li>
-          </ul>
+        <div className="flex justify-end">
+          <div>
+            <p className="font-medium uppercase text-[#1d242d]">Hỗ trợ</p>
+            <ul className="text-gray-500 mt-1">
+              <li>
+                <Link href={"#"}> Hướng dẫn mua hàng</Link>
+              </li>
+              <li>
+                <Link href={"#"}> Bảo hành đổi và trả</Link>
+              </li>
+              <li>
+                <Link href={"#"}> Hướng dẫn chọn size</Link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <p className="font-medium uppercase">Theo dõi</p>
-          <ul>
-            <li>
-              <Link className="flex items-center gap-1" href={"#"}>
-                <PiFacebookLogoLight />
-                <span>Facebook</span>
-              </Link>
-            </li>
-            <li>
-              <Link className="flex items-center gap-1" href={"#"}>
-                <PiInstagramLogoLight />
-                <span>Intagram</span>
-              </Link>
-            </li>
-            <li>
-              <Link className="flex items-center gap-1" href={"#"}>
-                <PiYoutubeLogoLight />
-                <span>Youtube</span>
-              </Link>
-            </li>
-          </ul>
+        <div className="flex justify-end">
+          <div>
+            <p className="font-medium uppercase">Theo dõi</p>
+            <ul className="text-gray-500 mt-1">
+              <li>
+                <Link className="flex items-center gap-1" href={"#"}>
+                  {/* <PiFacebookLogoLight /> */}
+                  <Image
+                    className=""
+                    alt="Next.js Streaming"
+                    src={"/icon/facebook.svg"}
+                    width={16}
+                    height={16}
+                  />
+                  <span>Facebook</span>
+                </Link>
+              </li>
+              <li>
+                <Link className="flex items-center gap-1" href={"#"}>
+                  {/* <PiInstagramLogoLight /> */}
+                  <Image
+                    className=""
+                    alt="Next.js Streaming"
+                    src={"/icon/instagram.svg"}
+                    width={16}
+                    height={16}
+                  />
+                  <span>Intagram</span>
+                </Link>
+              </li>
+              <li>
+                <Link className="flex items-center gap-1" href={"#"}>
+                  {/* <PiYoutubeLogoLight /> */}
+                  <Image
+                    className=""
+                    alt="Next.js Streaming"
+                    src={"/icon/youtube.svg"}
+                    width={16}
+                    height={16}
+                  />
+                  <span>Youtube</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="font-normal text-sm text-center text-gray-500">
-          <p>@20234 ITIME. All rights reserved.</p>
-        </div>
+      </div>
+      <div className="py-8 max-w-screen-xl mx-auto border-gray-200 border-t-2 col-span-12 font-normal text-sm text-center text-gray-500">
+        <p>@20234 ITIME. All rights reserved.</p>
       </div>
       {/*  */}
       <div className="md:hidden grid container mx-auto max-w-screen-xl py-10 px-4">
@@ -123,31 +150,33 @@ export default function Footer() {
               </ul>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>Theo dõi</AccordionTrigger>
-            <AccordionContent>
-              <ul>
-                <li>
-                  <Link className="flex items-center gap-1" href={"#"}>
-                    <PiFacebookLogoLight />
-                    <span>Facebook</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link className="flex items-center gap-1" href={"#"}>
-                    <PiInstagramLogoLight />
-                    <span>Intagram</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link className="flex items-center gap-1" href={"#"}>
-                    <PiYoutubeLogoLight />
-                    <span>Youtube</span>
-                  </Link>
-                </li>
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
+          <div>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Theo dõi</AccordionTrigger>
+              <AccordionContent>
+                <ul>
+                  <li>
+                    <Link className="flex items-center gap-1" href={"#"}>
+                      <PiFacebookLogoLight />
+                      <span>Facebook</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="flex items-center gap-1" href={"#"}>
+                      <PiInstagramLogoLight />
+                      <span>Intagram</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="flex items-center gap-1" href={"#"}>
+                      <PiYoutubeLogoLight />
+                      <span>Youtube</span>
+                    </Link>
+                  </li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </div>
         </Accordion>
         <div className="font-normal text-sm text-center text-gray-500 mt-5">
           <p>@20234 ITIME. All rights reserved.</p>
