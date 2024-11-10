@@ -67,7 +67,7 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
     if ((isUserPage || isCheckoutPage || isLoginPage) && !token) {
       router.push("/login");
       const timeId = setTimeout(() => {
-        dispatch(setOverlayStatus(false));
+        // dispatch(setOverlayStatus(false));
       }, 1000);
       return () => clearTimeout(timeId);
     }
@@ -80,7 +80,7 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
         if (pathname === "/login") {
           router.push("/user");
         }
-        dispatch(setOverlayStatus(false));
+        // dispatch(setOverlayStatus(false));
       } catch (error) {
         // Ở bất kỳ trang nào mà lấy thông tin user thất bại thì thôi không cần hiển thị header,...
         // Nếu ở trang user mà lấy thông tin user thất bại thì chuyển về trang login.
@@ -89,13 +89,13 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
         if (isUserPage || isCheckoutPage) {
           router.push("/login");
         }
-        dispatch(setOverlayStatus(false));
+        // dispatch(setOverlayStatus(false));
       }
     }
   };
   useEffect(() => {
     checkUserStatus();
-    dispatch(setOverlayStatus(false))
+    // dispatch(setOverlayStatus(false))
   }, []);
 
   return (
@@ -111,7 +111,7 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
         draggable
         pauseOnHover
       />
-      <Overlay />
+      {/* <Overlay /> */}
       {isAdmin && !isLoginAdmin ? (
         <HeaderAdmin />
       ) : !isAdmin ? (

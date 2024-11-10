@@ -34,9 +34,9 @@ export default function UserPage() {
   const token = Cookies.get("token");
   const [orders, setOrders] = useState<Order[]>([]);
   const [orderResponse, setOrderResponse] = useState<OrderResponse>();
-  const searchParams = useSearchParams();
   const router = useRouter();
   const dispatch = useDispatch();
+  const searchParams = useSearchParams();
 
   const params = new URLSearchParams(searchParams.toString());
 
@@ -83,10 +83,6 @@ export default function UserPage() {
 
   useEffect(() => {
     fetchOrders();
-    // if (customer.customerId == null) {
-    // } else {
-    //   dispatch(setOverlayStatus(false));
-    // }
   }, [customer, searchParams]);
 
   return (

@@ -169,7 +169,7 @@ export function OrderList(props: DashboardProps) {
   };
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-4 mt-4">
+    <div className="w-full mx-auto">
       <div className="flex justify-between">
         <Tabs defaultValue="confirm">
           <TabsList className=" bg-white p-1">
@@ -182,7 +182,7 @@ export function OrderList(props: DashboardProps) {
         </Tabs>
         <ComboboxFilter />
       </div>
-      <div className=" rounded-xl mt-4 bg-background overflow-hidden min-h-[462px]">
+      <div className="rounded-xl mt-4 bg-background overflow-hidden min-h-[530px] border">
         <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b text-black ">
           <div className="col-span-1 text-gray-500 text-sm  flex  justify-center">
             ID

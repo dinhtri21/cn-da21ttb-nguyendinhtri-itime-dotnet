@@ -14,7 +14,6 @@ export default function Analytics() {
   const token = Cookies.get("accessTokenAdmin");
 
   const fetchCustomersCount = async () => {
-    console.log("fetchCustomersCount");
     if (!token) {
       console.error("Token is undefined");
       return;
@@ -61,20 +60,22 @@ export default function Analytics() {
   }, [token]);
   return (
     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-      <Card x-chunk="dashboard-01-chunk-0" className="bg-background">
+      <Card x-chunk="dashboard-01-chunk-0" className="bg-background border-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Tổng danh thu</CardTitle>
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
+          {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
+          <img src="/icon/money.svg" alt="Dollar Sign" width={24} height={24} />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">$45,231.89</div>
           <p className="text-xs text-muted-foreground">/ tháng 10</p>
         </CardContent>
       </Card>
-      <Card x-chunk="dashboard-01-chunk-1" className="bg-background">
+      <Card x-chunk="dashboard-01-chunk-1" className="bg-background border-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Khách hàng</CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
+          {/* <Users className="h-4 w-4 text-muted-foreground" /> */}
+          <img src="/icon/customer.svg" alt="Dollar Sign" width={24} height={24} />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">+{customersCount}</div>
@@ -83,20 +84,22 @@ export default function Analytics() {
           </p>
         </CardContent>
       </Card>
-      <Card x-chunk="dashboard-01-chunk-2" className="bg-background">
+      <Card x-chunk="dashboard-01-chunk-2" className="bg-background border-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Đơn hàng</CardTitle>
-          <CreditCard className="h-4 w-4 text-muted-foreground" />
+          {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
+          <img src="/icon/cart.svg" alt="Dollar Sign" width={24} height={24} />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">+{ordersCount}</div>
           <p className="text-xs text-muted-foreground">+19% from last month</p>
         </CardContent>
       </Card>
-      <Card x-chunk="dashboard-01-chunk-3" className="bg-background">
+      <Card x-chunk="dashboard-01-chunk-3" className="bg-background border-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Sản phẩm</CardTitle>
-          <Activity className="h-4 w-4 text-muted-foreground" />
+          {/* <Activity className="h-4 w-4 text-muted-foreground" /> */}
+          <img src="/icon/package.svg" alt="Dollar Sign" width={24} height={24} />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">+{productsCount}</div>

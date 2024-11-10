@@ -27,7 +27,7 @@ export default function NavDashboard() {
   const pathname = usePathname();
   return (
     <>
-      <aside className="hidden z-50 fixed left-2 top-2 w-14 min-h-[calc(100vh-16px)] h-[calc(100%-16px)] flex-col border shadow  bg-background sm:flex rounded-xl ">
+      <aside className="hidden z-50 fixed left-2 top-2 w-14 min-h-[calc(100vh-16px)] h-[calc(100%-16px)] flex-col border-1 shadow  bg-background sm:flex rounded-xl ">
         <nav className="flex flex-col items-center gap-4 px-2 py-4">
           <Link
             href="#"

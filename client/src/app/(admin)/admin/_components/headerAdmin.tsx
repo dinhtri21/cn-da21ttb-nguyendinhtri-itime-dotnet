@@ -53,8 +53,8 @@ export default function HeaderAdmin() {
 
   console.log(date?.getDay());
   return (
-    <div className="w-full bg-slate-100 dark:bg-background ">
-      <div className="w-full max-w-screen-2xl mx-auto py-2 sm:pl-[90px] pl-[44px] sm:py-5 pr-6 flex items-center md:justify-between justify-end bg-slate-100 dark:bg-background">
+    <div className="w-full  dark:bg-background ">
+      <div className="w-full max-w-screen-2xl bg-gray-100/70 mx-auto py-2 sm:pl-[90px] pl-[44px] sm:py-5 pr-6 flex items-center md:justify-between justify-end  dark:bg-background">
         <Breadcrumb className="hidden md:flex">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -69,7 +69,7 @@ export default function HeaderAdmin() {
               <>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="sm:text-lg font-semibold">
+                  <BreadcrumbPage className="sm:text-lg font-semibold text-gray-700">
                     Đơn hàng
                   </BreadcrumbPage>
                 </BreadcrumbItem>
@@ -79,7 +79,7 @@ export default function HeaderAdmin() {
               <>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="sm:text-lg font-semibold">
+                  <BreadcrumbPage className="sm:text-lg font-semibold text-gray-700">
                     Khách hàng
                   </BreadcrumbPage>
                 </BreadcrumbItem>
@@ -89,7 +89,7 @@ export default function HeaderAdmin() {
               <>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="sm:text-lg font-semibold">
+                  <BreadcrumbPage className="sm:text-lg font-semibold text-gray-700">
                     Sản phẩm
                   </BreadcrumbPage>
                 </BreadcrumbItem>

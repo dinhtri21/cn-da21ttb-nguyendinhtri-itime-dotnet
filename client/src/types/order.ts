@@ -1,3 +1,5 @@
+import { Payment } from "./payment";
+
 export type CreateOrder = {
   customerId: number;
   customerAddressId: number;
@@ -13,9 +15,11 @@ export type Order = {
   trackingNumber: string;
   customerId: number;
   paymentId: number;
+  payment: Payment;
   total: number;
   estimatedDeliveryTime: string;
   shippingStatus: string;
+  shippingFee: number;
   addressLine: string;
   createdAt: string;
 };

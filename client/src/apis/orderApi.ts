@@ -40,6 +40,19 @@ const OrderApi = {
     });
     return response.data;
   },
+  async GetOrders(
+    token: string,
+    limit?: number,
+    skip?: number
+  ): Promise<OrderResponse> {
+    const response = await axiosConfig.get("orders", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { limit: limit, skip: skip },
+    });
+    return response.data;
+  },
 };
 
 export default OrderApi;

@@ -92,6 +92,15 @@ body {
   }
 }
 
+@media print {
+  @page {
+    size: A5;
+    margin: 0;
+  }
+  /* body {
+    font-size: 12pt;
+  } */
+}
 
 @layer base {
   * {

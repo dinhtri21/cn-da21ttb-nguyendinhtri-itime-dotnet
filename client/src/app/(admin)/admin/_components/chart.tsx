@@ -64,7 +64,7 @@ const chartConfig = {
 export function Chart() {
   return (
     <div className="">
-      <Card className="bg-background">
+      <Card className="bg-background border-1">
         <CardHeader>
           <CardTitle>Line Chart - Linear</CardTitle>
           <CardDescription>January - June 2024</CardDescription>
