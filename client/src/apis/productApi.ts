@@ -1,5 +1,5 @@
 import axiosConfig from "@/lib/axiosConfig";
-import { ProductRes, ProductsRes } from "@/validations/product.schema";
+import { CreateProductReq, Product, ProductsRes } from "@/types/product";
 import { z } from "zod";
 import qs from "qs";
 
@@ -25,7 +25,16 @@ const ProductApi = {
     });
     return response.data;
   },
-  async getProductById(id: string): Promise<ProductRes> {
+  async createProduct(form: FormData, token: string): Promise<{message : string}> {
+    const response = await axiosConfig.post("products", form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  },
+  async getProductById(id: string): Promise<Product> {
     const response = await axiosConfig.get(`products/${id}`);
     return response.data;
   },

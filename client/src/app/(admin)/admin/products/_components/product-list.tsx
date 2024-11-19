@@ -30,7 +30,9 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import { TfiReceipt } from "react-icons/tfi";
 import { CiReceipt } from "react-icons/ci";
 import ComboboxFilter from "./combobox-filter";
-import AlertOrderDetail from "./alert-order-detail";
+import AlertAddProduct from "./alert-add-product";
+import { Product } from "@/types/product";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 type ShippingStatus =
   | "waiting_to_return"
@@ -135,10 +137,13 @@ export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions.";
 
 interface DashboardProps {
-  orders: Order[];
+  products: Product[];
+  fetchProducts: () => void;
 }
-export function OrderList(props: DashboardProps) {
-  // Hàm định dạng ngày
+
+export default function ProductList(props: DashboardProps) {
+  const [open, setOpen] = useState<boolean>(false);
+
   const formatDate = (dateString: string) => {
     const dateObj = new Date(dateString);
 
@@ -171,103 +176,121 @@ export function OrderList(props: DashboardProps) {
   return (
     <div className="w-full mx-auto">
       <div className="flex justify-between">
-        <Tabs defaultValue="confirm">
-          <TabsList className=" bg-white p-1">
-            <TabsTrigger value="confirm">Chờ xác nhận</TabsTrigger>
-            <TabsTrigger value="delivery">Chờ giao hàng</TabsTrigger>
-            <TabsTrigger className="" value="history">
-              Lịch sử
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex gap-2">
+          <AlertAddProduct fetchProducts={props.fetchProducts}>
+            <div className="flex items-center gap-2 border px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer">
+              <Image
+                src="/icon/add-round.svg"
+                width={16}
+                height={16}
+                alt="logo"
+              />
+              <span className="text-gray-500">Thêm sản phẩm</span>
+            </div>
+          </AlertAddProduct>
+          <div className="flex items-center gap-2 border px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer text-gray-700">
+            <button className="border-r pr-2 ">
+              <Image src="/icon/search.svg" width={16} height={16} alt="logo" />
+            </button>
+            <input
+              type="text"
+              placeholder="Tìm kiếm"
+              className="outline-none caret-sky-500 text-gray-500"
+            />
+          </div>
+        </div>
         <ComboboxFilter />
       </div>
       <div className="rounded-xl mt-4 bg-background overflow-hidden min-h-[530px] border">
         <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b text-black ">
-          <div className="col-span-1 text-gray-900 font-medium text-sm  flex  justify-center">
-            ID
+          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center">
+            Ảnh
           </div>
-          <div className="col-span-2 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
-            <span>Ngày giao</span>
+          <div className="col-span-2 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+            <span>Tên</span>
             {/* <ClockIcon className="" /> */}
           </div>
-          <div className="col-span-2 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
-            <span>Trạng thái</span>
+          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+            <span>Giá</span>
             {/* <ReloadIcon className="" /> */}
           </div>
-          <div className="col-span-2 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
-            Tổng tiền
+          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+            Số lượng
           </div>
-          <div className="col-span-2 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
-            Thanh toán
+          <div className="col-span-2 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+            Danh mục
           </div>
-          <div className="col-span-3 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
-            Địa chỉ nhận hàng
+          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+            Thương Hiệu
           </div>
+          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+            Chất liệu
+          </div>
+          <div className="col-span-2 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+            Mô tả
+          </div>
+          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+            Tuỳ chọn
+          </div>
+
           {/* <div className="col-span-1 text-gray-500 text-sm flex justify-center gap-1 items-center ">
             Tuỳ chọn
           </div> */}
         </div>
-        {props.orders?.length > 0
-          ? props.orders.map((order, index) => (
-              <AlertOrderDetail order={order} key={index} orderId={order.orderId}>
-                <div
-                  key={index}
-                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-4 border-b border-b-gray-200/70 relative bg-background
-                hover:bg-primaryGrayColor/0 cursor-pointer"
-                >
-                  <div className="row-span-2 md:col-span-1 md:row-span-2 flex md:justify-center items-center overflow-hidden">
-                    <div className="flex flex-col text-gray-600">
-                      <span>{order.orderId}</span>
+        {props.products?.length > 0
+          ? props.products.map((product, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b text-black "
+              >
+                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center">
+                  <Image
+                    src={product?.imageUrls[0]}
+                    width={60}
+                    height={60}
+                    alt="pic"
+                  />
+                </div>
+                <div className="col-span-2 text-gray-700 text-sm flex justify-start gap-1 items-center ">
+                  <span>{product.productName}</span>
+                  {/* <ClockIcon className="" /> */}
+                </div>
+                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                  <span>{product.productPrice.toLocaleString()} đ</span>
+                  {/* <ReloadIcon className="" /> */}
+                </div>
+                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                  <span>{product.quantityInStock}</span>
+                </div>
+                <div className="col-span-2 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                  <div className="flex flex-col gap-1 ">
+                    <div className="py-1 px-2 rounded-xl bg-green-100/70 text-green-400">
+                      <span>Danh mục A</span>
                     </div>
-                  </div>
-                  <div className="md:col-span-2 md:row-span-2 flex md:justify-center items-center ">
-                    <span className="line-clamp-1 md:line-clamp-2 text-gray-600">
-                      <span className="line-clamp-1 md:line-clamp-2 text-gray-600">
-                        {/* {formatDate(order.estimatedDeliveryTime)} */}
-                        {order.estimatedDeliveryTime
-                          ? order.estimatedDeliveryTime.slice(0, 10)
-                          : ""}
-                      </span>
-                    </span>
-                  </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center">
-                    <div
-                      className={`${
-                        statusStyles[
-                          order.shippingStatus as keyof typeof statusStyles
-                        ]?.bgColor || statusStyles.default.bgColor
-                      }  ${
-                        statusStyles[
-                          order.shippingStatus as keyof typeof statusStyles
-                        ]?.textColor || statusStyles.default.textColor
-                      } flex items-center pr-3 pl-1 py-[2px] rounded-xl text-sm`}
-                    >
-                      <RxDotFilled />
-                      <span className="text-sm">
-                        {statusStyles[
-                          order.shippingStatus as keyof typeof statusStyles
-                        ]?.content || statusStyles.default.content}
-                      </span>
-                      {/* {statusTranslations[order.shippingStatus as ShippingStatus] || statusTranslations.default} */}
+                    <div className="py-1 px-2 rounded-xl bg-blue-100/70 text-blue-400">
+                      <span>Danh mục A</span>
                     </div>
-                  </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center text-gray-600">
-                    {order.total.toLocaleString()} đ
-                  </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
-                    <div className="flex flex-col items-center">
-                      <span className="text-sm text-gray-600">COD</span>
-                      <span className="text-sm text-gray-600">
-                        Bên nhận trả phí
-                      </span>
-                    </div>
-                  </div>
-                  <div className="md:col-span-3 flex md:row-span-2  justify-center items-center text-center text-gray-600">
-                    {order.addressLine}
                   </div>
                 </div>
-              </AlertOrderDetail>
+                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                  <span>{product.brand.brandName}</span>
+                </div>
+                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                  <span>{product.material.materialName}</span>
+                </div>
+                <div className="col-span-2 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                  <span className="line-clamp-2">
+                    {product.productDescription}
+                  </span>
+                </div>
+                <div className="col-span-1 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
+                  <div className="cursor-pointer">
+                    <DotsHorizontalIcon className="text-gray-700 w-5 h-5" />
+                  </div>
+                </div>
+              </div>
+
+             
             ))
           : null}
       </div>

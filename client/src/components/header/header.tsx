@@ -77,7 +77,7 @@ export default function Header() {
               className="hidden dark:block"
               alt="Next.js Streaming"
               src={"/logo/logo-light.svg"}
-              width={100}
+              width={90}
               height={100}
             />
           </Link>
@@ -85,36 +85,51 @@ export default function Header() {
             <Image
               className="block dark:hidden"
               alt="Next.js Streaming"
-              src={"/logo/logo-dark.svg"}
-              width={100}
+              src={"/logo/logo-dark2.svg"}
+              width={90}
               height={100}
             />
           </Link>
         </div>
         <nav className="hidden md:flex justify-center space-x-3 md:space-x-4 uppercase font-medium text-base">
           <Link
-            className={`py-2 px-1 md:px-4 hover:text-slate-400 ${
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${
               pathname === "/" ? "text-slate-400" : ""
             }`}
             href="/"
           >
-            Trang chủ
+            <span>Trang chủ</span>
+            <div
+              className={`${
+                pathname === "/" ? "block" : "hidden"
+              } w-[100px] left-[12px] top-[54px] h-[2px] bg-gray-300 absolute`}
+            ></div>
           </Link>
           <Link
-            className={`py-2 px-1 md:px-4 hover:text-slate-400 ${
-              pathname.startsWith("/products") ? "text-slate-400" : ""
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${
+              pathname.startsWith("/products") ? "text-slate-400" : "text-slate-700"
             }`}
             href="/products"
           >
-            Sản phẩm
+            <span>Sản phẩm</span>
+            <div
+              className={`${
+                pathname.startsWith("/products") ? "block" : "hidden"
+              } w-[88px] left-[13px] top-[54px] h-[2px] bg-gray-300 absolute`}
+            ></div>
           </Link>
           <Link
-            className={`py-2 px-1 md:px-4 hover:text-slate-400 ${
-              pathname.startsWith("/about") ? "text-slate-400" : ""
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${
+              pathname.startsWith("/about") ? "text-slate-400" : "text-slate-700"
             }`}
             href="/about"
           >
-            Giới thiệu
+            <span>Giới thiệu</span>
+            <div
+              className={`${
+                pathname.startsWith("/about") ? "block" : "hidden"
+              } w-[90px] left-[12px] top-[54px] h-[2px] bg-gray-300 absolute`}
+            ></div>
           </Link>
         </nav>
         <div className="user-actions flex justify-end items-center gap-5">

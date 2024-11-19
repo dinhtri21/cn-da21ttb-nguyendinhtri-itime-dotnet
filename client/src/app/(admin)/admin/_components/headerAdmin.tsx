@@ -98,8 +98,8 @@ export default function HeaderAdmin() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex gap-2 items-center">
-          <span className="text-base font-medium">
-            {admin ? admin.admin?.adminName : "Admin"}
+          <span className="text-base font-medium text-gray-600">
+            {/* {admin ? admin.admin?.adminName : "Admin"} */}
           </span>
           <div className="rounded-full p-2 bg-background border dark:bg-background">
             <PersonIcon width={18} height={18} />

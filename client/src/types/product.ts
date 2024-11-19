@@ -1,3 +1,4 @@
+import { type } from "node:os";
 import { Brand } from "./brand";
 import { Material } from "./material";
 
@@ -10,4 +11,21 @@ export type Product = {
   imageUrls: string[];
   brand: Brand;
   material: Material;
+};
+
+export type ProductsRes ={
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export type CreateProductReq = {
+  productName: string;
+  productPrice: number;
+  productDescription: string;
+  quantityInStock: number;
+  images: File[];
+  brandId: number;
+  materialId: number;
 };

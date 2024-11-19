@@ -31,6 +31,36 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .hidden-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+  
+  .hidden-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .scroll-custom {
+    /* Thanh cuộn mỏng và màu sắc tùy chỉnh */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #e3e3e3;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #adadad;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #6f6f6f;
+    }
+
+    scrollbar-width: thin; /* Firefox */
+  }
 }
 
 /* Class cơ bản như thẻ h1, h2 */

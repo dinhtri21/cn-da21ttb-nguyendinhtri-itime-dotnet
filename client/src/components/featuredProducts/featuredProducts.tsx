@@ -27,8 +27,8 @@ export default function FeaturedProducts({ title }: FeaturedProductsProps) {
   }, []);
   return (
     <div className="w-full">
-      <div className="container max-w-screen-xl mx-auto py-10 mt-4 px-4">
-        <h1 className="text-center mb-1 uppercase text-lg font-medium">
+      <div className="container max-w-screen-xl mx-auto py-10 mt-2 px-4">
+        <h1 className="text-center mb-1 uppercase text-xl font-medium">
           {title}
         </h1>
         <p className="text-center mb-4 text-gray-500">

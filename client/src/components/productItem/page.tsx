@@ -9,7 +9,7 @@ export default function ProductItem({ product }: ProductItemProps) {
   return (
     <Link
       href={`/products/${product.productId}`}
-      className="px-2 py-2 md:px-4 md:py-5 dark:bg-white rounded-lg hover:shadow-md dark:hover:shadow-[#ffff]"
+      className="px-2 py-2 md:px-4 md:py-5 dark:bg-white bg-white rounded-lg hover:shadow-md dark:hover:shadow-[#ffff]"
     >
       <div className="aspect-square">
         {product.imageUrls.length > 0 ? (
