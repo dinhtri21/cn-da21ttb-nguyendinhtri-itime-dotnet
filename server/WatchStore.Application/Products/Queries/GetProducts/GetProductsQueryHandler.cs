@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,22 +14,37 @@ namespace WatchStore.Application.Products.Queries.GetProducts
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, ProductListDto>, IApplicationMarker
     {
-        readonly IProductRepository _productRepository;
-        readonly IMapper _mapper;
-        public GetProductsQueryHandler(IProductRepository productRepository, IMapper mapper)
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
+        public GetProductsQueryHandler(IProductRepository productRepository, IMapper mapper, IConfiguration configuration)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
         public async Task<ProductListDto> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-          var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.Skip, request.Limit, request.SortOrder);
-          
-          int totalCount = await _productRepository.GetTotalProductCountAsync(request.BrandIds, request.MaterialIds);
+            var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.Skip, request.Limit, request.SortOrder);
+
+            int totalCount = await _productRepository.GetTotalProductCountAsync(request.BrandIds, request.MaterialIds);
+
+            // Thêm base URL vào ImageUrl
+            var baseUrl = _configuration["BaseUrl"];
+            var productDtos = _mapper.Map<IEnumerable<ProductDto>>(Products).ToList();
+            foreach (var productDto in productDtos)
+            {
+                var updatedImageUrls = productDto.ImageUrls.ToList();
+                for (int i = 0; i < updatedImageUrls.Count; i++)
+                {
+                    updatedImageUrls[i] = $"{baseUrl}{updatedImageUrls[i]}";
+                }
+                productDto.ImageUrls = updatedImageUrls;
+            }
 
             return new ProductListDto
             {
-                Products = _mapper.Map<IEnumerable<ProductDto>>(Products),
+                Products = productDtos,
                 total = totalCount,
                 skip = request.Skip,
                 limit = request.Limit

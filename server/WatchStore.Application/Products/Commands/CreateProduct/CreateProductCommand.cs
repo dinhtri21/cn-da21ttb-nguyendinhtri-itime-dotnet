@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
         public int QuantityInStock { get; set; }
         public int BrandId { get; set; }
         public int MaterialId { get; set; }
-        public List<string> ImageUrls { get; set; }
+        public List<IFormFile> Images { get; set; }
 
     }
 }

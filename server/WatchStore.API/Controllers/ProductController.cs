@@ -91,7 +91,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct([FromBody] CreateProductCommand command)
+        public async Task<IActionResult> AddProduct([FromForm] CreateProductCommand command)
         {
             try
             {

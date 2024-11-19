@@ -39,11 +39,7 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
                 .WithMessage("Material Id là bắt buộc")
                 .GreaterThan(0)
                 .WithMessage("Material Id phải lớn hơn 0");
-            RuleFor(x => x.ImageUrls)
-                .NotEmpty()
-                .WithMessage("Image Urls là bắt buộc")
-                .Must(x => x.Count > 0)
-                .WithMessage("Image Urls phải có ít nhất 1 ảnh");
+           
 
         }
 

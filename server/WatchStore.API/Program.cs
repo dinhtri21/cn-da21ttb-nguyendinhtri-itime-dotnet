@@ -7,6 +7,8 @@ using FluentValidation.AspNetCore;
 using WatchStore.API.Configuration.Authentication;
 using WatchStore.API.Configuration.Authorization;
 using WatchStore.Infrastructure.Services.GiaoHanhNhanhService;
+using Microsoft.AspNetCore.Hosting;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +29,12 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://localhost:3000")
                    .AllowAnyMethod()
-                   .AllowAnyHeader()
-                   .AllowCredentials();
+            .AllowAnyHeader()
+            .AllowCredentials();
         });
 });
+
+builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
 
 
 // Đăng ký MediatR
@@ -78,6 +82,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Cấu hình để phục vụ các tệp tĩnh từ wwwroot
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigin"); // CORS
