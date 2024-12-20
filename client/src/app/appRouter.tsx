@@ -24,15 +24,18 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const token = Cookies.get("token");
   const userIdCookie = Cookies.get("userId");
+  const tokenAdmin = Cookies.get("accessTokenAdmin");
   const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.user);
   const overlayStatus = useSelector((state: RootState) => state.overlayStatus);
+
   const isAdmin = pathname.includes("/admin");
   const isLoginAdmin = pathname === "/admin/login";
   const isUserPage = pathname === "/user";
   const isCheckoutPage = pathname.includes("/checkout");
   const isLoginPage = pathname === "/login";
+
   const [isChecking, setIsChecking] = useState(true);
 
   const handleUpdateCartItemsCount = async (customerId: number) => {
@@ -71,6 +74,7 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
       }, 1000);
       return () => clearTimeout(timeId);
     }
+
     // Nếu ở bất kỳ trang nào mà có token thì lấy thông tin user
     if (!user.customerId && userIdCookie && token) {
       try {
@@ -93,8 +97,16 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
       }
     }
   };
+
+  const checkAdminLogin = async () => {
+    if (isAdmin && !isLoginAdmin && !tokenAdmin) {
+      router.push("/admin/login");
+    }
+  };
+
   useEffect(() => {
     checkUserStatus();
+    // checkAdminLogin();
     // dispatch(setOverlayStatus(false))
   }, []);
 

@@ -146,50 +146,57 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
 
   return (
     <div className="w-full md:w-[60%]">
-      <div className=" bg-background pt-5 py-6 px-5 rounded-xl border ">
-        <h1 className="font-medium uppercase mb-3 flex gap-2 items-center">
-          <CiLocationOn className="w-5 h-5 " />
-          <span>Địa chỉ nhận hàng</span>
-        </h1>
-
-        <div className="gap-1 border  py-3 px-4 rounded-xl">
-          <div className="flex gap-1 justify-between items-start">
-            <div className="flex gap-1 text-gray-600">
-              <p className="text-gray-600">{customer.fullName ? customer.fullName : "Chưa có"}</p>|{" "}
-              <p className="text-gray-600">{customer.phoneNumber ? customer.phoneNumber : "Chưa có"}</p>
-            </div>
-            {/* <span className="text-sm border bg-sky-50/70 border-sky-400 px-2 rounded-xl text-sky-400">
+      <div className=" bg-background pt-5 py-6  rounded-xl ">
+        <div className="border-b">
+          <h1 className="font-medium uppercase flex gap-2 items-center">
+            {/* <CiLocationOn className="w-5 h-5 " /> */}
+            <span>Địa chỉ nhận hàng</span>
+          </h1>
+          <div className="gap-1 py-3 px-4 rounded-xl">
+            <div className="flex gap-1 justify-between items-start">
+              <div className="flex gap-1 text-gray-700">
+                <p className="text-gray-700">
+                  {customer.fullName ? customer.fullName : "Chưa có"}
+                </p>
+                |{" "}
+                <p className="text-gray-700">
+                  {customer.phoneNumber ? customer.phoneNumber : "Chưa có"}
+                </p>
+              </div>
+              {/* <span className="text-sm border bg-sky-50/70 border-sky-400 px-2 rounded-xl text-sky-400">
               Mặc định
             </span> */}
-          </div>
-          <div className="flex justify-between items-center gap-1 text-gray-600">
-            <p>{customer.email ? customer.email : "Chưa có"}</p>
-            {}
-            <AlertDialogAddress
-              customer={customer}
-              customerAddressList={customerAddressList}
-              isFetching={isFetching}
-              setIsFetching={setIsFetching}
-            />
-          </div>
-          <div className="flex justify-between items-center ">
-            {customerAddressList.length > 0 ? (
-              <p>
-                {selectedAddress?.province},{""} {selectedAddress?.district},{" "}
-                {""}
-                {selectedAddress?.ward}
-              </p>
-            ) : (
-              <p>Vui lòng thêm địa chỉ để thanh toán!</p>
-            )}
+            </div>
+            <div className="flex justify-between items-center gap-1 text-gray-600">
+              <p>{customer.email ? customer.email : "Chưa có"}</p>
+              {}
+              <AlertDialogAddress
+                customer={customer}
+                customerAddressList={customerAddressList}
+                isFetching={isFetching}
+                setIsFetching={setIsFetching}
+              />
+            </div>
+            <div className="flex justify-between items-center ">
+              {customerAddressList.length > 0 ? (
+                <p>
+                  {selectedAddress?.province},{""} {selectedAddress?.district},{" "}
+                  {""}
+                  {selectedAddress?.ward}
+                </p>
+              ) : (
+                <p>Vui lòng thêm địa chỉ để thanh toán!</p>
+              )}
+            </div>
           </div>
         </div>
-        <div className="md:mt-5">
-          <h1 className="font-medium uppercase mb-3 flex items-center gap-2">
-            <CiCreditCard2 className="w-5 h-5" />
+
+        <div className="md:mt-5 border-b">
+          <h1 className="font-medium uppercase  flex items-center gap-2">
+            {/* <CiCreditCard2 className="w-5 h-5" /> */}
             <span>Phương thức thanh toán</span>
           </h1>
-          <div className="flex flex-col border-[0.5px]  rounded-xl">
+          <div className="flex flex-col rounded-xl">
             <label
               className={`flex flex-1 items-center justify-between gap-3 py-3 px-3 rounded-xl cursor-pointer`}
               onClick={() => handlePaymentMethodChange({ id: 2, name: "COD" })}
@@ -200,9 +207,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 </div>
                 <div>
                   <p>COD</p>
-                  <div className="text-gray-500">
-                    Thanh toán khi nhận hàng.
-                  </div>
+                  <div className="text-gray-500">Thanh toán khi nhận hàng.</div>
                 </div>
               </div>
               <div
@@ -276,11 +281,11 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
           />
         </div> */}
         <div className="mt-5">
-          <h1 className="font-medium uppercase mb-3 flex gap-2 items-center">
-            <CiDeliveryTruck className="w-5 h-5 " />
+          <h1 className="font-medium uppercase flex gap-2 items-center">
+            {/* <CiDeliveryTruck className="w-5 h-5 " /> */}
             <span>Phương thức vận chuyển</span>
           </h1>
-          <div className="border-[0.5px] py-2 px-3 rounded-xl flex items-center justify-between gap-2">
+          <div className="  py-2 px-3 rounded-xl flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Image
                 src="/logo/ghtk-logo.jpg"

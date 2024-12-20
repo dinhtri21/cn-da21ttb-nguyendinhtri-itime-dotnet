@@ -6,7 +6,14 @@ import { Product, ProductsRes } from "@/types/product";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProductApi from "@/apis/productApi";
 import RenderPaginationItems from "@/components/paginationItemsCustom/paginationItemsCustom";
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+} from "@/components/ui/pagination";
+import CustomToast from "@/components/react-toastify/reactToastify";
 
 export default function ProductsPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -34,9 +41,20 @@ export default function ProductsPage() {
         sortOrder || undefined
       );
       setProductsRes(data);
-      console.log(data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
+    }
+  };
+
+  //// DELETE PRODUCT
+  const deleteProduct = async (id: number) => {
+    try {
+      await ProductApi.deleteProduct(id);
+      CustomToast.showSuccess("Xóa sản phẩm thành công!");
+      fetchProducts();
+    } catch (error: any) {
+      console.error("Failed to delete product:", error.response.data.message);
+      CustomToast.showError(error.response.data.message);
     }
   };
 
@@ -91,41 +109,46 @@ export default function ProductsPage() {
     }
     updateURLWithFilters({ sortOrder }); // Cập nhật sortOrder vào URL
   };
-  
-    return (
-      <div className="w-full dark:bg-muted/40 relative">
-        <div
-          className="w-full min-h-screen max-w-screen-2xl mx-auto bg-gray-100/70 dark:bg-background
-            relative p-3 sm:pl-[90px] sm:pr-6 "
-        >
-           {productsRes && <ProductList fetchProducts={fetchProducts} products={productsRes.products} />}
-           {productsRes && productsRes?.products?.length !== 0 && (
-              <div className="col-span-3 mt-4">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem
-                      className="cursor-pointer"
-                      onClick={handlePaginationPrevious}
-                    >
-                      <PaginationPrevious />
-                    </PaginationItem>
-                    <RenderPaginationItems
-                      total={productsRes?.total || 0}
-                      limit={productsRes?.limit ?? 0}
-                      skip={parseInt(searchParams.get("skip") || "0")}
-                      handlePaginationItem={handlePaginationItem}
-                    />
 
-                    <PaginationItem className="cursor-pointer">
-                      <PaginationNext onClick={handlePaginationNext} />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
-            )}
-          <h1></h1>
-        </div>
+  return (
+    <div className="w-full dark:bg-muted/40 relative bg-white">
+      <div
+        className="w-full mx-auto  dark:bg-background
+            relative  sm:pl-[220px] sm:pr-8 "
+      >
+        {productsRes && (
+          <ProductList
+            deleteProduct={deleteProduct}
+            fetchProducts={fetchProducts}
+            products={productsRes.products}
+          />
+        )}
+        {productsRes && productsRes?.products?.length !== 0 && (
+          <div className="col-span-3 mt-3">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem
+                  className="cursor-pointer"
+                  onClick={handlePaginationPrevious}
+                >
+                  <PaginationPrevious />
+                </PaginationItem>
+                <RenderPaginationItems
+                  total={productsRes?.total || 0}
+                  limit={productsRes?.limit ?? 0}
+                  skip={parseInt(searchParams.get("skip") || "0")}
+                  handlePaginationItem={handlePaginationItem}
+                />
+
+                <PaginationItem className="cursor-pointer">
+                  <PaginationNext onClick={handlePaginationNext} />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
+        <h1></h1>
       </div>
-    );
-  }
-  
+    </div>
+  );
+}

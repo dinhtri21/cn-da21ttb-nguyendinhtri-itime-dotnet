@@ -87,7 +87,7 @@ const AddProductModal = (props: InvoiceProps) => {
   return (
     <div className="relative px-8 py-6 bg-white shadow-lg sm:rounded-3xl sm:min-w-[600px] min-w-[500px] ">
       <div className="relative  bg-white rounded-lg ">
-        <div className="flex justify-between items-center pb-2 rounded-t  dark:border-gray-600">
+        <div className="flex justify-between items-center pb-2 rounded-t  dark:border-gray-600 ">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             Thêm sản phẩm
           </h3>

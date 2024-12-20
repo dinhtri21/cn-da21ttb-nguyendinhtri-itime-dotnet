@@ -39,7 +39,7 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
 
   return (
     <div className="w-full md:w-[40%] ">
-      <div className="border p-5 rounded-xl bg-background">
+      <div className="border p-6 rounded-xl bg-background shadow">
         <div className="border-b pb-4 flex items-center gap-2 ">
           <BsBox2 />
           <h1 className="font-medium uppercase ">Đơn hàng của bạn</h1>
@@ -57,20 +57,24 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
                       width={50}
                       height={50}
                       className="object-cover rounded-xl border"
-                      alt="Picture of the author"
+                      alt="Pic"
                     />
                   </div>
                   <div className="flex flex-col justify-start flex-1">
                     <span className="line-clamp-1">
                       {cartItem.product.productName}
                     </span>
-                    <span>
-                      {cartItem.product.productPrice.toLocaleString()} ₫
+                    <span className="">
+                      <span className="text-customOrange">
+                        {cartItem.product.productPrice.toLocaleString()} ₫
+                      </span>
                       <span> x {cartItem.quantity}</span>
                     </span>
                   </div>
                   <div className="flex items-center">
-                    <span>{cartItem.unitPrice.toLocaleString()} ₫</span>
+                    <span className="text-customOrange">
+                      {cartItem.unitPrice.toLocaleString()} ₫
+                    </span>
                   </div>
                 </div>
               ))

@@ -35,7 +35,7 @@ const Invoice = (props: InvoiceProps) => {
   return (
     <div
       ref={contentRef}
-      className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-8 min-w-[500px] 
+      className="fixed px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-8 min-w-[500px] 
       print:shadow-none print:rounded-none print:pb-6 print:pt-12"
     >
       <div className="max-w-md mx-auto">

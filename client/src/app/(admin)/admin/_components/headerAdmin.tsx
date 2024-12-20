@@ -51,10 +51,9 @@ export default function HeaderAdmin() {
     };
   }, [isOpen]);
 
-  console.log(date?.getDay());
   return (
-    <div className="w-full  dark:bg-background ">
-      <div className="w-full max-w-screen-2xl bg-gray-100/70 mx-auto py-2 sm:pl-[90px] pl-[44px] sm:py-5 pr-6 flex items-center md:justify-between justify-end  dark:bg-background">
+    <div className="w-full  dark:bg-background bg-white ">
+      <div className="w-full mx-auto py-2 sm:pl-[220px] pl-[44px] sm:py-5 pr-8 flex items-center md:justify-between justify-end  dark:bg-background">
         <Breadcrumb className="hidden md:flex">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -101,8 +100,9 @@ export default function HeaderAdmin() {
           <span className="text-base font-medium text-gray-600">
             {/* {admin ? admin.admin?.adminName : "Admin"} */}
           </span>
-          <div className="rounded-full p-2 bg-background border dark:bg-background">
-            <PersonIcon width={18} height={18} />
+          <div className="rounded-full bg-background border border-gray-300 dark:bg-background">
+            <img src="/icon/admin-user.svg" alt="Person" width={34} height={34} />
+            {/* <PersonIcon width={18} height={18} /> */}
           </div>
           {/* <div className="flex items-center gap-1  border rounded-md py-[5px] px-2 bg-background">
             <span className="text-base font-normal">
@@ -113,7 +113,7 @@ export default function HeaderAdmin() {
               <PersonIcon width={18} height={18} />
             </div>
           </div> */}
-          <div className="flex gap-1 border rounded-md py-[5px] px-2 bg-background relative">
+          {/* <div className="flex gap-1 border rounded-md py-[5px] px-2 bg-background relative">
             {date
               ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
               : "N/A"}
@@ -132,11 +132,11 @@ export default function HeaderAdmin() {
                   mode="single"
                   selected={date}
                   onSelect={setDate}
-                  className="bg-background  z-10 rounded-md border"
+                  className="bg-background z-[100] rounded-md border"
                 />
               </div>
             )}
-          </div>
+          </div> */}
           <ModeToggle className={"bg-background"} />
         </div>
       </div>

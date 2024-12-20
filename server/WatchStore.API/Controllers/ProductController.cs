@@ -112,10 +112,11 @@ namespace WatchStore.API.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct([FromRoute] DeleteProductCommand command)
+        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
             try
             {
+                var command = new DeleteProductCommand(id); 
                 var result = await _mediator.Send(command);
 
                 if (!result)

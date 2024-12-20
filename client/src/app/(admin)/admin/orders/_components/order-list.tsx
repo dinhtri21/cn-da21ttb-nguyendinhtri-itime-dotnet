@@ -170,10 +170,10 @@ export function OrderList(props: DashboardProps) {
 
   return (
     <div className="w-full mx-auto">
-      <div className="flex justify-between">
+      <div className="flex justify-between ">
         <Tabs defaultValue="confirm">
           <TabsList className=" bg-white p-1">
-            <TabsTrigger value="confirm">Chờ xác nhận</TabsTrigger>
+            <TabsTrigger value="confirm ">Chờ xác nhận</TabsTrigger>
             <TabsTrigger value="delivery">Chờ giao hàng</TabsTrigger>
             <TabsTrigger className="" value="history">
               Lịch sử
@@ -182,26 +182,27 @@ export function OrderList(props: DashboardProps) {
         </Tabs>
         <ComboboxFilter />
       </div>
-      <div className="rounded-xl mt-4 bg-background overflow-hidden min-h-[530px] border">
-        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b text-black ">
-          <div className="col-span-1 text-gray-900 font-medium text-sm  flex  justify-center">
+     
+      <div className="mt-6 bg-background overflow-hidden min-h-[530px] border-t border-gray-300 ">
+        <div className="hidden md:grid grid-cols-12 grid-flow-row gap-2 px-3 p-4 border-b border-gray-300 text-black ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm  flex  justify-center">
             ID
           </div>
-          <div className="col-span-2 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Ngày giao</span>
             {/* <ClockIcon className="" /> */}
           </div>
-          <div className="col-span-2 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Trạng thái</span>
             {/* <ReloadIcon className="" /> */}
           </div>
-          <div className="col-span-2 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Tổng tiền
           </div>
-          <div className="col-span-2 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Thanh toán
           </div>
-          <div className="col-span-3 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-3 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Địa chỉ nhận hàng
           </div>
           {/* <div className="col-span-1 text-gray-500 text-sm flex justify-center gap-1 items-center ">
@@ -213,17 +214,17 @@ export function OrderList(props: DashboardProps) {
               <AlertOrderDetail order={order} key={index} orderId={order.orderId}>
                 <div
                   key={index}
-                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-4 border-b border-b-gray-200/70 relative bg-background
+                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-4 border-b border-gray-300 relative bg-background
                 hover:bg-primaryGrayColor/0 cursor-pointer"
                 >
                   <div className="row-span-2 md:col-span-1 md:row-span-2 flex md:justify-center items-center overflow-hidden">
-                    <div className="flex flex-col text-gray-600">
+                    <div className="flex flex-col text-gray-700 font-[400]">
                       <span>{order.orderId}</span>
                     </div>
                   </div>
                   <div className="md:col-span-2 md:row-span-2 flex md:justify-center items-center ">
-                    <span className="line-clamp-1 md:line-clamp-2 text-gray-600">
-                      <span className="line-clamp-1 md:line-clamp-2 text-gray-600">
+                    <span className="line-clamp-1 md:line-clamp-2 text-gray-700 font-[400]">
+                      <span className="line-clamp-1 md:line-clamp-2 text-gray-700 font-[400]">
                         {/* {formatDate(order.estimatedDeliveryTime)} */}
                         {order.estimatedDeliveryTime
                           ? order.estimatedDeliveryTime.slice(0, 10)

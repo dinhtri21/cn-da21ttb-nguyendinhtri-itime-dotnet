@@ -55,77 +55,77 @@ const statusStyles: Record<
   { textColor: string; bgColor: string; content: string }
 > = {
   ready_to_pick: {
-    textColor: "text-violet-600",
+    textColor: "text-violet-700",
     bgColor: "bg-violet-100",
     content: "Chuẩn bị hàng",
   },
   picking: {
-    textColor: "text-violet-600",
+    textColor: "text-violet-700",
     bgColor: "bg-violet-100",
     content: "Đang lấy hàng",
   },
   picked: {
-    textColor: "text-violet-600",
+    textColor: "text-violet-700",
     bgColor: "bg-violet-100",
     content: "Đang lấy hàng",
   },
   storing: {
-    textColor: "text-violet-600",
+    textColor: "text-violet-700",
     bgColor: "bg-violet-100",
     content: "Nhập bưu cục",
   },
   transporting: {
-    textColor: "text-violet-600",
+    textColor: "text-violet-700",
     bgColor: "bg-violet-100",
     content: "Đang trung chuyển",
   },
   delivering: {
-    textColor: "text-blue-600",
+    textColor: "text-blue-700",
     bgColor: "bg-blue-100",
     content: "Đang giao hàng",
   },
   delivered: {
-    textColor: "text-green-600",
+    textColor: "text-green-700",
     bgColor: "bg-green-100",
     content: "Giao hàng thành công",
   },
   delivery_fail: {
-    textColor: "text-red-600",
+    textColor: "text-red-700",
     bgColor: "bg-red-100",
     content: "Giao hàng thất bại",
   },
   waiting_to_return: {
-    textColor: "text-yellow-600",
+    textColor: "text-yellow-700",
     bgColor: "bg-yellow-100",
     content: "Chờ xác nhận giao lại",
   },
   return: {
-    textColor: "text-yellow-600",
+    textColor: "text-yellow-700",
     bgColor: "bg-yellow-100",
     content: "Chờ xác nhận giao lại",
   },
   returning: {
-    textColor: "text-yellow-600",
+    textColor: "text-yellow-700",
     bgColor: "bg-yellow-100",
     content: "Đang hoàn hàng",
   },
   return_transporting: {
-    textColor: "text-yellow-600",
+    textColor: "text-yellow-700",
     bgColor: "bg-yellow-100",
     content: "Đang trung chuyển hoàn hàng",
   },
   returned: {
-    textColor: "text-yellow-600",
+    textColor: "text-yellow-700",
     bgColor: "bg-yellow-100",
     content: "Hoàn hàng thành công",
   },
   return_fail: {
-    textColor: "text-red-600",
+    textColor: "text-red-700",
     bgColor: "bg-red-100",
     content: "Hoàn hàng thất bại",
   },
   default: {
-    textColor: "text-gray-600",
+    textColor: "text-gray-700",
     bgColor: "bg-gray-100",
     content: "Không xác định",
   },
@@ -169,21 +169,26 @@ export function OrderList(props: DashboardProps) {
   };
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-4 mt-4">
-      <div className="flex justify-between">
-        <Tabs defaultValue="confirm">
-          <TabsList className=" bg-white p-1">
-            <TabsTrigger value="confirm">Chờ xác nhận</TabsTrigger>
-            <TabsTrigger value="delivery">Chờ giao hàng</TabsTrigger>
-            <TabsTrigger className="" value="history">
-              Lịch sử
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-        <ComboboxFilter />
+    <div className="w-full max-w-screen-xl mx-auto mt-7 px-4">
+      <div className="flex justify-between mt-2 items-center">
+        <h1 className="font-medium  text-gray-700 uppercase">
+          Các đơn hàng của bạn
+        </h1>
+        <div className="flex gap-3">
+          <Tabs defaultValue="confirm">
+            <TabsList className=" bg-white p-1">
+              <TabsTrigger value="confirm">Chờ xác nhận</TabsTrigger>
+              <TabsTrigger value="delivery">Chờ giao hàng</TabsTrigger>
+              <TabsTrigger className="" value="history">
+                Lịch sử
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          {/* <ComboboxFilter /> */}
+        </div>
       </div>
-      <div className=" rounded-xl mt-4 bg-background overflow-hidden min-h-[462px]">
-        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b text-black ">
+      <div className=" mt-4 bg-background overflow-hidden min-h-[462px] border shadow rounded-xl">
+        <div className="hidden md:grid grid-cols-12 grid-flow-row  gap-2 px-3 p-4  shadow text-black ">
           <div className="col-span-1 text-gray-500 text-sm  flex  justify-center">
             ID
           </div>
@@ -210,20 +215,24 @@ export function OrderList(props: DashboardProps) {
         </div>
         {props.orders?.length > 0
           ? props.orders.map((order, index) => (
-              <AlertOrderDetail order={order} key={index} orderId={order.orderId}>
+              <AlertOrderDetail
+                order={order}
+                key={index}
+                orderId={order.orderId}
+              >
                 <div
                   key={index}
-                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-4 border-b border-b-gray-200/70 relative bg-background
-                hover:bg-primaryGrayColor/0 cursor-pointer"
+                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-4  shadow mt-[2px] relative bg-background
+                 cursor-pointer hover:bg-gray-100"
                 >
                   <div className="row-span-2 md:col-span-1 md:row-span-2 flex md:justify-center items-center overflow-hidden">
-                    <div className="flex flex-col text-gray-600">
+                    <div className="flex flex-col text-gray-800 font-[400]">
                       <span>{order.orderId}</span>
                     </div>
                   </div>
                   <div className="md:col-span-2 md:row-span-2 flex md:justify-center items-center ">
-                    <span className="line-clamp-1 md:line-clamp-2 text-gray-600">
-                      <span className="line-clamp-1 md:line-clamp-2 text-gray-600">
+                    <span className="line-clamp-1 md:line-clamp-2 text-gray-800 font-[400]">
+                      <span className="line-clamp-1 md:line-clamp-2 text-gray-800 font-[400]">
                         {/* {formatDate(order.estimatedDeliveryTime)} */}
                         {order.estimatedDeliveryTime
                           ? order.estimatedDeliveryTime.slice(0, 10)
@@ -252,18 +261,20 @@ export function OrderList(props: DashboardProps) {
                       {/* {statusTranslations[order.shippingStatus as ShippingStatus] || statusTranslations.default} */}
                     </div>
                   </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center text-gray-600">
+                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center text-customOrange">
                     {order.total.toLocaleString()} đ
                   </div>
                   <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
                     <div className="flex flex-col items-center">
-                      <span className="text-sm text-gray-600">COD</span>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-gray-800 font-[400]">
+                        COD
+                      </span>
+                      <span className="text-sm text-gray-800 font-[400]">
                         Bên nhận trả phí
                       </span>
                     </div>
                   </div>
-                  <div className="md:col-span-3 flex md:row-span-2  justify-center items-center text-center text-gray-600">
+                  <div className="md:col-span-3 flex md:row-span-2  justify-center items-center text-center text-gray-800">
                     {order.addressLine}
                   </div>
                 </div>

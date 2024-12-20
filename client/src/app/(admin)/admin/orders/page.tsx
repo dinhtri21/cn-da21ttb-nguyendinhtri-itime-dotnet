@@ -71,10 +71,10 @@ export default function OrderPage() {
   }, [searchParams]);
 
   return (
-    <div className="w-full dark:bg-muted/40 bg-gray-100/70 relative">
+    <div className="w-full dark:bg-muted/40 relative">
       <div
-        className="w-full max-w-screen-2xl mx-auto  dark:bg-background
-          relative sm:pl-[90px] sm:pr-6 "
+        className="w-full mx-auto  dark:bg-background
+          relative sm:pl-[220px] sm:pr-6 "
       >
         <OrderList orders={orders} />
         {orders && orders?.length !== 0 && (

@@ -90,7 +90,7 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
       <div className="hidden md:block">
         <div className="mb-4 mt-2 flex items-center gap-2">
           <MixerVerticalIcon width={20} height={20} />
-          <span className="uppercase font-medium">Lọc sản phẩm</span>
+          <span className="uppercase text-lg font-medium">Lọc sản phẩm</span>
         </div>
         {/* Brand */}
         <div className="filter-section mb-4">

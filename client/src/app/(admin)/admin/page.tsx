@@ -8,10 +8,10 @@ import { Chart } from "./_components/chart";
 
 export default function AdminPage() {
   return (
-    <div className="w-full bg-gray-100/70 dark:bg-background relative">
+    <div className="w-full dark:bg-background relative bg-white">
       <div
-        className="w-full min-h-screen max-w-screen-2xl mx-auto  dark:bg-background
-        relative sm:pl-[90px] sm:pr-6 "
+        className="w-full min-h-screen  mx-auto dark:bg-background
+        relative sm:pl-[220px] sm:pr-8 "
       >
         {/* <NavDashboard /> */}
         <div className="flex flex-col">

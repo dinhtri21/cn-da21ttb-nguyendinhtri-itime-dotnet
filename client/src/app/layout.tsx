@@ -33,8 +33,9 @@ export default function RootLayout({
     // <Provider store={store}>
     <html lang="en" suppressHydrationWarning>
       <body
-      
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[url('/img/background.svg')] bg-center bg-repeat-space`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased 
+          
+          `}
       >
         <ThemeProvider
           attribute="class"

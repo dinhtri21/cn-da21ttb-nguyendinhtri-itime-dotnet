@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +16,19 @@ namespace WatchStore.Application.CartItems.Queries.GetCartItems
         private readonly ICartItemRepository _cartItemRepository;
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public GetCartItemsQueryHandler(ICartItemRepository cartItemRepository, ICartRepository cartRepository, IMapper mapper)
+        public GetCartItemsQueryHandler(ICartItemRepository cartItemRepository, ICartRepository cartRepository, IMapper mapper, IConfiguration configuration)
         {
             _cartItemRepository = cartItemRepository;
             _cartRepository = cartRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
         public async Task<List<CartItemDto>> Handle(GetCartItemsQuery request, CancellationToken cancellationToken)
         {
-
-           var cart = await _cartRepository.GetCartByIdCutomerAsync(request.CustomerId);
+            var baseUrl = _configuration["BaseUrl"];
+            var cart = await _cartRepository.GetCartByIdCutomerAsync(request.CustomerId);
             if (cart == null)
               {
                 var cartId = await _cartRepository.CreateCartAsync(new Domain.Entities.Cart { CustomerId = request.CustomerId });
@@ -36,6 +39,11 @@ namespace WatchStore.Application.CartItems.Queries.GetCartItems
             var cartItems = await _cartItemRepository.GetCartItemByCartIdAsync(cart.CartId);
            
             var cartItemDtos = _mapper.Map<List<CartItemDto>>(cartItems);
+
+            foreach (var cartItemDto in cartItemDtos)
+            {
+                cartItemDto.Product.ImageUrls = cartItemDto.Product.ImageUrls.Select(x => $"{baseUrl}{x}").ToList();
+            }
 
             return cartItemDtos;
         }

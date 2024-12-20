@@ -128,15 +128,26 @@ export function TableProduct() {
   }, [cartItems]);
 
   return (
-    <div className="grid grid-cols-10 gap-8 mt-4 min-h-[calc(100vh-370px)]">
-      <div className="col-span-10 md:col-span-7 gap-1">
-        <div className=" rounded-xl bg-background min-h-[400px]">
-          <div className="hidden md:grid grid-cols-12 grid-flow-row rounded border-b border-gray-200/80 gap-2 p-3 ">
-            <div className="col-span-1 flex text-gray-500 text-sm justify-center">Ảnh</div>
-            <div className="col-span-4 flex text-gray-500 text-sm justify-center">Tên sản phẩm</div>
-            <div className="col-span-2 flex text-gray-500 text-sm justify-center">Giá</div>
-            <div className="col-span-2 flex text-gray-500 text-sm justify-center">Số lượng</div>
-            <div className="col-span-3 flex text-gray-500 text-sm justify-center">Thành tiền</div>
+    <div className="grid grid-cols-10 gap-10 mt-6 min-h-[calc(100vh-370px)]">
+     
+      <div className="col-span-10 md:col-span-7 gap-1 border rounded-xl">
+        <div className="rounded-xl bg-background min-h-[400px]">
+          <div className="hidden md:grid grid-cols-12 grid-flow-row rounded-t-xl  gap-2 p-3 border-b ">
+            <div className="col-span-1 flex text-gray-600 text-sm justify-center">
+              Ảnh
+            </div>
+            <div className="col-span-4 flex text-gray-600 text-sm justify-center">
+              Tên sản phẩm
+            </div>
+            <div className="col-span-2 flex text-gray-600 text-sm justify-center">
+              Giá
+            </div>
+            <div className="col-span-2 flex text-gray-600 text-sm justify-center">
+              Số lượng
+            </div>
+            <div className="col-span-3 flex text-gray-600 text-sm justify-center">
+              Thành tiền
+            </div>
           </div>
 
           {cartItems?.length == 0 ? (
@@ -148,7 +159,7 @@ export function TableProduct() {
                   height={200}
                   alt="empty-cart"
                   quality={100}
-                  className="opacity-85 mt-7"
+                  className="opacity-20 mt-7"
                 />
                 <span className="text-gray-400">
                   {" "}
@@ -162,12 +173,12 @@ export function TableProduct() {
             ? cartItems.map((cartItem, index) => (
                 <div
                   key={index}
-                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:p-3 border-b border-gray-200/80 relative"
+                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:p-3 border-b mt-[2px] relative"
                 >
                   <div
                     onClick={() => handleDeleteCartItem(cartItem)}
-                    className="absolute top-2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800 bg-slate-100 rounded-full p-[5px]
-               hover:bg-slate-400 hover:text-white cursor-pointer dark:hover:bg-slate-600"
+                    className="absolute top-2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800  rounded-full p-[5px]
+               hover:bg-slate-300 hover:text-white cursor-pointer dark:hover:bg-slate-300 shadow"
                   >
                     <Cross1Icon width={14} height={14} />
                   </div>
@@ -180,7 +191,7 @@ export function TableProduct() {
                       width={100}
                       height={100}
                       className="object-cover rounded-xl"
-                      alt="Picture of the author"
+                      alt="Pic"
                     />
                   </div>
                   <div className="md:col-span-4 md:row-span-2 flex md:justify-center items-center ">
@@ -188,27 +199,27 @@ export function TableProduct() {
                       {cartItem.product.productName}
                     </span>
                   </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center">
+                  <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center text-customOrange">
                     {cartItem.product.productPrice.toLocaleString()} ₫
                   </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center">
+                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
                     <div
                       onClick={() => handlerDecreaseQuantity(cartItem)}
-                      className="h-7 w-7 flex justify-center items-center border-[0.1px] rounded-l border-gray-200  hover:bg-gray-300  hover:text-white cursor-pointer dark:hover:bg-slate-800"
+                      className="h-7 w-7 shadow flex justify-center items-center border-[0.1px] rounded-l border-gray-200  hover:bg-gray-300  hover:text-white cursor-pointer dark:hover:bg-slate-800"
                     >
                       <MinusIcon />
                     </div>
-                    <span className="h-7 w-7 flex justify-center cursor-pointer items-center px-2 border-y-[1px] border-gray-200 ">
+                    <span className="h-7 w-7 shadow flex justify-center cursor-pointer items-center px-2 border-y-[1px] border-gray-200 ">
                       {cartItem.quantity}
                     </span>
                     <div
                       onClick={() => handlerIncreaseQuantity(cartItem)}
-                      className="h-7 w-7 flex justify-center  items-center border-[0.1px] rounded-r border-gray-200  hover:bg-gray-300 hover:text-white cursor-pointer dark:hover:bg-slate-800"
+                      className="h-7 w-7 shadow flex justify-center  items-center border-[0.1px] rounded-r border-gray-200  hover:bg-gray-300 hover:text-white cursor-pointer dark:hover:bg-slate-800"
                     >
                       <PlusIcon />
                     </div>
                   </div>
-                  <div className="md:col-span-3 flex md:row-span-2  justify-center items-center">
+                  <div className="md:col-span-3 flex md:row-span-2 text-customOrange justify-center items-center">
                     {cartItem.unitPrice.toLocaleString()} ₫
                   </div>
                 </div>
@@ -216,8 +227,8 @@ export function TableProduct() {
             : null}
         </div>
       </div>
-      <div className="col-span-10 md:col-span-3 ">
-        <div className=" dark:bg-slate-800  px-3 py-4 md:px-7 flex flex-col gap-3 border border-gray-200/70 rounded-xl">
+      <div className="col-span-10 md:col-span-3 bg-white">
+        <div className=" dark:bg-slate-800  px-3 py-4 md:px-7 flex flex-col gap-3 border border-gray-200/70 rounded-xl shadow">
           <h2 className="uppercase font-semibold md:text-center text">
             Thông tin giỏ hàng
           </h2>
@@ -228,8 +239,8 @@ export function TableProduct() {
             </span>
           </div>
           <p className="text-gray-600 text-sm">
-            - Phí vận chuyển sẽ được tính ở thanh toán. <br />
-            - Thông tin thanh toán sẽ được cung cấp ở bước tiếp theo.
+            - Phí vận chuyển sẽ được tính ở thanh toán. <br />- Thông tin thanh
+            toán sẽ được cung cấp ở bước tiếp theo.
           </p>
 
           <Link

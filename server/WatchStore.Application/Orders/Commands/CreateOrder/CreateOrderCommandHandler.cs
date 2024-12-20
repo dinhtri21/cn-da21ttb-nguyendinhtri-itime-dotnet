@@ -115,7 +115,7 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                 }
 
                 order.Total = orderDetails.Sum(od => od.UnitPrice);
-                order.Total = order.Total + calculateFeeResponse.Data.Total;
+                //order.Total = order.Total + calculateFeeResponse.Data.Total;
                 await _orderRepository.AddOrderAsync(order);
 
                 // Add order details

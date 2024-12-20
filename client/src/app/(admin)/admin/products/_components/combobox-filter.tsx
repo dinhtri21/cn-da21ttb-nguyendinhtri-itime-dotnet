@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,12 +12,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
 const frameworks = [
   {
@@ -40,11 +40,11 @@ const frameworks = [
     value: "astro",
     label: "Astro",
   },
-]
+];
 
 export default function ComboboxFilter() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,12 +53,14 @@ export default function ComboboxFilter() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between text-base font-normal text-gray-600"
+          className="h-9 p-2 flex gap-1 justify-between text-base font-normal text-gray-400 border-gray-300"
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Lọc trạng thái đơn ..."}
-          <ChevronsUpDown className="opacity-50" />
+          <ChevronsUpDown className="opacity-90 w-4 h-4" />
+          <span>
+            {value
+              ? frameworks.find((framework) => framework.value === value)?.label
+              : "Lọc trạng thái đơn"}
+          </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -72,8 +74,8 @@ export default function ComboboxFilter() {
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
                   }}
                 >
                   {framework.label}
@@ -90,5 +92,5 @@ export default function ComboboxFilter() {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

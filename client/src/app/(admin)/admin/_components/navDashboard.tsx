@@ -27,14 +27,14 @@ export default function NavDashboard() {
   const pathname = usePathname();
   return (
     <>
-      <aside className="hidden z-50 fixed left-2 top-2 w-14 min-h-[calc(100vh-16px)] h-[calc(100%-16px)] flex-col border-1 shadow  bg-background sm:flex rounded-xl ">
-        <nav className="flex flex-col items-center gap-4 px-2 py-4">
+      <aside className="hidden bg-gray-600 z-50 fixed left-0 top-0 bottom-0  min-h-[calc(100vh-16px)]  flex-col border-1 sm:flex ">
+        <nav className="flex flex-col items-start gap-4 px-6 py-4">
           <Link
             href="#"
-            className={`group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base`}
+            className={`group flex shrink-0 items-center justify-center gap-2 text-lg font-semibold text-primary-foreground md:text-base px-3 pb-1 pt-2`}
           >
-            <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
-            <span className="sr-only">Acme Inc</span>
+            <img src="/logo/logo-light2.svg" alt="logo" className="" />
+            <span className="sr-only">iTime</span>
           </Link>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -42,12 +42,13 @@ export default function NavDashboard() {
                 href="/admin"
                 className={`${
                   pathname == "/admin"
-                    ? "bg-slate-300/50 text-dark dark:text-white"
+                    ? "bg-slate-500/50 text-dark dark:text-white"
                     : ""
-                } flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8`}
+                } flex gap-2 px-3 w-full py-2 text-white items-center justify-start rounded-lg transition-colors`}
               >
                 <Home className="h-5 w-5" />
-                <span className="sr-only">Dashboard</span>
+                <span className="">Trang chủ</span>
+                <span className="sr-only">Trang chủ</span>
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right">Dashboard</TooltipContent>
@@ -58,11 +59,12 @@ export default function NavDashboard() {
                 href="/admin/orders"
                 className={`${
                   pathname == "/admin/orders"
-                    ? "bg-slate-300/50 text-dark dark:text-white"
+                    ? "bg-slate-500/50 text-dark dark:text-white"
                     : ""
-                } flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8`}
+                } flex gap-2 px-3 py-2 w-full text-white items-center justify-start rounded-lg transition-colors `}
               >
                 <ShoppingCart className="h-5 w-5" />
+                <span className="">Đơn hàng</span>
                 <span className="sr-only">Orders</span>
               </Link>
             </TooltipTrigger>
@@ -74,12 +76,13 @@ export default function NavDashboard() {
                 href="/admin/products"
                 className={`${
                   pathname == "/admin/products"
-                    ? "bg-slate-300/50 text-dark dark:text-white"
+                    ? "bg-slate-500/50 text-dark dark:text-white"
                     : ""
-                } flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8`}
+                } flex gap-2 px-3 w-full py-2 text-white items-center justify-start rounded-lg transition-colors`}
               >
                 <Package className="h-5 w-5" />
-                <span className="sr-only">Products</span>
+                <span className="">Sản phẩm</span>
+                <span className="sr-only">Sản phẩm</span>
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right">Products</TooltipContent>
@@ -90,12 +93,13 @@ export default function NavDashboard() {
                 href="/admin/customers"
                 className={`${
                   pathname == "/admin/customers"
-                    ? "bg-slate-300/50 text-dark dark:text-white"
+                    ? "bg-slate-500/50 text-dark dark:text-white"
                     : ""
-                } flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8`}
+                } flex gap-2 px-3 w-full py-2 text-white items-center justify-start rounded-lg transition-colors `}
               >
                 <Users2 className="h-5 w-5" />
-                <span className="sr-only">Customers</span>
+                <span className="">Khách hàng</span>
+                <span className="sr-only">Khách hàng</span>
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right">Customers</TooltipContent>
@@ -104,7 +108,7 @@ export default function NavDashboard() {
             <TooltipTrigger asChild>
               <Link
                 href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg  transition-colors hover:text-foreground md:h-8 md:w-8"
+                className="flex h-9 w-9 items-center justify-center rounded-lg  transition-colors"
               >
                 <LineChart className="h-5 w-5" />
                 <span className="sr-only">Analytics</span>

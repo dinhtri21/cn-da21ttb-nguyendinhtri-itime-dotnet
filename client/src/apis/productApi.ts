@@ -51,6 +51,16 @@ const ProductApi = {
     });
     return response.data;
   },
+  async deleteProduct(id: number, token?: string): Promise<{ message: string }> {
+    // const response = await axiosConfig.delete(`products/${id}`, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+
+     const response = await axiosConfig.delete(`products/${id}`)
+    return response.data;
+  }
 };
 
 export default ProductApi;

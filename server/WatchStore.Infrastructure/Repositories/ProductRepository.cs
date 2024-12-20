@@ -27,11 +27,18 @@ namespace WatchStore.Infrastructure.Repositories
         {
             var product = await _context.Products
                                          .Include(p => p.ProductImages)
+                                         .Include(p => p.OrderDetails)
                                          .FirstOrDefaultAsync(p => p.ProductId == productId);
             if (product == null)
             {
                 return false;
             }
+
+            if(product.OrderDetails.Any())
+            {
+                throw new InvalidOperationException("Không thể xóa sản phẩm đã được đặt hàng.");
+            }
+
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return true;

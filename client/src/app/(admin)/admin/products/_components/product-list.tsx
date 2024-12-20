@@ -32,7 +32,23 @@ import { CiReceipt } from "react-icons/ci";
 import ComboboxFilter from "./combobox-filter";
 import AlertAddProduct from "./alert-add-product";
 import { Product } from "@/types/product";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import {
+  DotsHorizontalIcon,
+  TrashIcon,
+  Pencil2Icon,
+} from "@radix-ui/react-icons";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type ShippingStatus =
   | "waiting_to_return"
@@ -139,6 +155,7 @@ export const description =
 interface DashboardProps {
   products: Product[];
   fetchProducts: () => void;
+  deleteProduct: (id: number) => void;
 }
 
 export default function ProductList(props: DashboardProps) {
@@ -176,60 +193,60 @@ export default function ProductList(props: DashboardProps) {
   return (
     <div className="w-full mx-auto">
       <div className="flex justify-between">
-        <div className="flex gap-2">
-          <AlertAddProduct fetchProducts={props.fetchProducts}>
-            <div className="flex items-center gap-2 border px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer">
-              <Image
-                src="/icon/add-round.svg"
-                width={16}
-                height={16}
-                alt="logo"
-              />
-              <span className="text-gray-500">Thêm sản phẩm</span>
-            </div>
-          </AlertAddProduct>
-          <div className="flex items-center gap-2 border px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer text-gray-700">
-            <button className="border-r pr-2 ">
+        <div className="flex gap-3">
+          <ComboboxFilter />
+          <div className="flex items-center gap-2 border border-gray-300 px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer text-gray-700">
+            <button className="border-r border-gray-400 pr-2 ">
               <Image src="/icon/search.svg" width={16} height={16} alt="logo" />
             </button>
             <input
               type="text"
               placeholder="Tìm kiếm"
-              className="outline-none caret-sky-500 text-gray-500"
+              className="outline-none caret-gray-400 text-gray-500"
             />
           </div>
         </div>
-        <ComboboxFilter />
+        <AlertAddProduct fetchProducts={props.fetchProducts}>
+          <div className="flex items-center gap-1 border px-3 py-1 hover:bg-slate-800 rounded-lg bg-green-600  border-gray-400 cursor-pointer">
+            <Image
+              src="/icon/add-round.svg"
+              width={16}
+              height={16}
+              alt="logo"
+            />
+            <span className="text-white">Thêm sản phẩm</span>
+          </div>
+        </AlertAddProduct>
       </div>
-      <div className="rounded-xl mt-4 bg-background overflow-hidden min-h-[530px] border">
-        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b text-black ">
-          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center">
+      <div className="mt-6 bg-background overflow-hidden min-h-[518px] border-t border-gray-300">
+        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center">
             Ảnh
           </div>
-          <div className="col-span-2 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Tên</span>
             {/* <ClockIcon className="" /> */}
           </div>
-          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Giá</span>
             {/* <ReloadIcon className="" /> */}
           </div>
-          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Số lượng
           </div>
-          <div className="col-span-2 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Danh mục
           </div>
-          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Thương Hiệu
           </div>
-          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Chất liệu
           </div>
-          <div className="col-span-2 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Mô tả
           </div>
-          <div className="col-span-1 text-gray-700 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Tuỳ chọn
           </div>
 
@@ -241,56 +258,86 @@ export default function ProductList(props: DashboardProps) {
           ? props.products.map((product, index) => (
               <div
                 key={index}
-                className="grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b text-black "
+                className="grid grid-cols-12 grid-flow-row gap-2 px-3 p-3 border-b border-gray-300 text-black "
               >
-                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center">
+                <div className="col-span-1 text-gray-900 font-[400] flex justify-center gap-1 items-center">
                   <Image
                     src={product?.imageUrls[0]}
                     width={60}
                     height={60}
                     alt="pic"
+                    className="border rounded"
                   />
                 </div>
-                <div className="col-span-2 text-gray-700 text-sm flex justify-start gap-1 items-center ">
+                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">
                   <span>{product.productName}</span>
                   {/* <ClockIcon className="" /> */}
                 </div>
-                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <span>{product.productPrice.toLocaleString()} đ</span>
                   {/* <ReloadIcon className="" /> */}
                 </div>
-                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <span>{product.quantityInStock}</span>
                 </div>
-                <div className="col-span-2 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <div className="flex flex-col gap-1 ">
-                    <div className="py-1 px-2 rounded-xl bg-green-100/70 text-green-400">
+                    <div className="py-1 px-2 rounded-xl bg-green-100/70 font-[400] border border-green-200 text-green-400">
                       <span>Danh mục A</span>
                     </div>
-                    <div className="py-1 px-2 rounded-xl bg-blue-100/70 text-blue-400">
+                    {/* <div className="py-1 px-2 rounded-xl bg-blue-100/70 text-blue-400">
                       <span>Danh mục A</span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
-                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <span>{product.brand.brandName}</span>
                 </div>
-                <div className="col-span-1 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <span>{product.material.materialName}</span>
                 </div>
-                <div className="col-span-2 text-gray-700 text-sm flex justify-center gap-1 items-center ">
+                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <span className="line-clamp-2">
                     {product.productDescription}
                   </span>
                 </div>
                 <div className="col-span-1 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
-                  <div className="cursor-pointer">
-                    <DotsHorizontalIcon className="text-gray-700 w-5 h-5" />
+                  {/* <div className="cursor-pointer">
+                    <DotsHorizontalIcon className="text-gray-900 font-[400]  w-5 h-5" />
+                  </div> */}
+                  <div className="bg-sky-500 rounded-xl p-2 cursor-pointer">
+                    <Pencil2Icon className="w-4 h-4 text-white" />
                   </div>
+
+                  <AlertDialog>
+                    <AlertDialogTrigger>
+                      <div className="bg-red-500 rounded-xl p-2 cursor-pointer">
+                        <TrashIcon className="w-4 h-4 text-white" />
+                      </div>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Bạn có thật sự muốn xóa sản phẩm này?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Sau khi xóa, sản phẩm sẽ không thể khôi phục.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Huỷ</AlertDialogCancel>
+                        <AlertDialogAction>
+                          <button
+                            onClick={() => props.deleteProduct(product.productId)}
+                          >
+                            Xóa
+                          </button>
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
-
-             
             ))
           : null}
       </div>

@@ -72,14 +72,23 @@ export default function InfoCustomer() {
   };
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-4">
-      <div className="flex items-center justify-between border  px-3 py-3 rounded-xl  ">
+    <div className="w-full max-w-screen-xl mx-auto px-4  ">
+     
+        <h1 className="font-medium text text-gray-700 uppercase">
+          Thông tin khách hàng
+        </h1>
+      <div className="flex items-center justify-between  px-3 py-3 shadow border-t border-gray-200 rounded-xl bg-white mt-4">
         <div className="flex items-center gap-3">
-          <div className="border rounded-full p-2">
-            <PiUserThin className="w-[40px] h-[40px] text-gray-500" />
+          <div className="border rounded-full  shadow">
+            {/* <PiUserThin className="w-[40px] h-[40px] text-gray-500" /> */}
+            <img
+              src="/icon/customer2.svg"
+              alt="user"
+              className="w-[42px] h-[42px] rounded-full"
+            />
           </div>
           <div>
-            <h2 className=" text-gray-900 dark:text-white text-base">
+            <h2 className=" text-gray-900 dark:text-white ">
               {user && user.fullName}
             </h2>
             {/* <p>{user && user.email}</p> */}
@@ -99,7 +108,7 @@ export default function InfoCustomer() {
         <div className="flex items-center gap-2">
           <AlertDialog>
             <AlertDialogTrigger>
-              <div className="flex items-center gap-2 border  px-2 py-1 rounded-xl hover:bg-slate-100 text-gray-500">
+              <div className="flex items-center gap-2 border  px-2 py-1 rounded-xl hover:bg-slate-100 text-gray-600 shadow">
                 <ExitIcon width={20} height={20} />
                 <span className="hidden md:block ">Đăng xuất</span>
               </div>
@@ -127,7 +136,7 @@ export default function InfoCustomer() {
               <Button
                 variant="secondary"
                 size="icon"
-                className="rounded-full bg-white border "
+                className="rounded-full bg-white border shadow"
               >
                 <GearIcon className="h-5 w-5 text-gray-500" />
                 <span className="sr-only">Toggle user menu</span>
