@@ -288,15 +288,15 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
           <div className="  py-2 px-3 rounded-xl flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Image
-                src="/logo/ghtk-logo.jpg"
+                src="/logo/ghn-logo.jpg"
                 width={42}
                 height={42}
-                className="rounded-full h-[42px] w-[42px] opacity-80"
+                className="rounded-full h-[42px] w-[42px] opacity-90"
                 alt="ghtk"
               />
               <div>
                 <div className="flex gap-2 text-gray-600">
-                  <p>Giao hàng tiết kiệm (GHTK)</p>
+                  <p>Giao hàng nhanh</p>
                 </div>
                 <div className="flex gap-1 text-gray-500">
                   <p>Nhận hàng vào ngày </p>
@@ -304,7 +304,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 </div>
               </div>
             </div>
-            <div>{shippingFee.toLocaleString()}đ</div>
+            <div className="text-customOrange">{shippingFee.toLocaleString()}đ</div>
           </div>
         </div>
       </div>

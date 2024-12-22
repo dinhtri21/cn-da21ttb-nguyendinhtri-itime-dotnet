@@ -91,7 +91,7 @@ export default function Header() {
             />
           </Link>
         </div>
-        <nav className="hidden md:flex justify-center space-x-3 md:space-x-4 uppercase font-medium text-base">
+        <nav className="hidden md:flex justify-center space-x-3 md:space-x-4 font-[450] uppercase text-base">
           <Link
             className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${
               pathname === "/" ? "text-slate-400" : ""
@@ -102,7 +102,7 @@ export default function Header() {
             <div
               className={`${
                 pathname === "/" ? "block" : "hidden"
-              } w-[100px] left-[12px] top-[54px] h-[2px] bg-gray-300 absolute`}
+              } w-[100px] left-[12px] top-[54px] h-[2px] bg-customOrange absolute`}
             ></div>
           </Link>
           <Link
@@ -115,7 +115,7 @@ export default function Header() {
             <div
               className={`${
                 pathname.startsWith("/products") ? "block" : "hidden"
-              } w-[88px] left-[13px] top-[54px] h-[2px] bg-gray-300 absolute`}
+              } w-[88px] left-[13px] top-[54px] h-[2px] bg-customOrange absolute`}
             ></div>
           </Link>
           <Link
@@ -128,7 +128,7 @@ export default function Header() {
             <div
               className={`${
                 pathname.startsWith("/about") ? "block" : "hidden"
-              } w-[90px] left-[12px] top-[54px] h-[2px] bg-gray-300 absolute`}
+              } w-[90px] left-[12px] top-[54px] h-[2px] bg-customOrange absolute`}
             ></div>
           </Link>
         </nav>
@@ -187,16 +187,16 @@ export default function Header() {
               <div className="flex gap-2 items-center">
                 <Link
                   className={`${
-                    pathname.startsWith("/register") ? "text-slate-400" : ""
+                    pathname.startsWith("/register") ? "text-slate-400" : "text-customOrange"
                   } hover:text-slate-400`}
                   href={`/register`}
                 >
                   Đăng ký
                 </Link>
-                <div className="w-[1px] h-[20px] bg-slate-500"></div>
+                <div className="w-[1px] h-[20px] bg-customOrange"></div>
                 <Link
                   className={`${
-                    pathname.startsWith("/login") ? "text-slate-400" : ""
+                    pathname.startsWith("/login") ? "text-customOrange" : "text-customOrange"
                   } hover:text-slate-400`}
                   href={`/login`}
                 >

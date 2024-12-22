@@ -74,10 +74,10 @@ export default function InfoCustomer() {
   return (
     <div className="w-full max-w-screen-xl mx-auto px-4  ">
      
-        <h1 className="font-medium text text-gray-700 uppercase">
+        <h1 className="uppercase">
           Thông tin khách hàng
         </h1>
-      <div className="flex items-center justify-between  px-3 py-3 shadow border-t border-gray-200 rounded-xl bg-white mt-4">
+      <div className="flex items-center justify-between  px-3 py-3 shadow border border-gray-200 rounded-xl bg-white mt-4">
         <div className="flex items-center gap-3">
           <div className="border rounded-full  shadow">
             {/* <PiUserThin className="w-[40px] h-[40px] text-gray-500" /> */}
@@ -88,12 +88,12 @@ export default function InfoCustomer() {
             />
           </div>
           <div>
-            <h2 className=" text-gray-900 dark:text-white ">
+            <h2 className="  dark:text-white text-customOrange">
               {user && user.fullName}
             </h2>
             {/* <p>{user && user.email}</p> */}
             <div className="text-gray-500 dark:text-white text-sm flex items-center gap-2">
-              <div className="flex gap-1 items-center">
+              <div className="flex gap-1 items-center ">
                 <MdOutlineMailOutline />
                 <p>{user && user.email}</p>
               </div>

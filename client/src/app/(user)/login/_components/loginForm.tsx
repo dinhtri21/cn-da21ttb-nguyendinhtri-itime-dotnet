@@ -140,11 +140,11 @@ export function LoginForm() {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full bg-primaryGrayColor hover:bg-gray-100 hover:text-gray-300">
+              <Button type="submit" className="w-full bg-black hover:bg-gray-800 hover:text-gray-300">
                 {isLoading ? (
                   <SymbolIcon className="animate-spin text-gray-300" width={20} height={20} />
                 ) : (
-                  <p className="text-primaryBlackColor ">Đăng nhập</p>
+                  <p className="text-white ">Đăng nhập</p>
                 )}
               </Button>
               <Button variant="outline" className="w-full">

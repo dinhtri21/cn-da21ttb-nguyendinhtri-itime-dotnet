@@ -50,12 +50,12 @@ namespace WatchStore.API.Controllers
 
         [HttpGet("count")]
         [Authorize(Policy = "AdminPolicy")]
-        public async Task<IActionResult> GetProductsCount([FromQuery]int? month, [FromQuery] int? year)
+        public async Task<IActionResult> GetProductsCount([FromQuery] int? month, [FromQuery] int? year)
         {
             try
             {
                 var count = await _mediator.Send(new GetProductsCountQuery(month, year));
-                return Ok(new {totalCount = count});
+                return Ok(new { totalCount = count });
             }
             catch (ValidationException ex)
             {
@@ -67,7 +67,7 @@ namespace WatchStore.API.Controllers
             }
         }
 
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {
@@ -116,7 +116,7 @@ namespace WatchStore.API.Controllers
         {
             try
             {
-                var command = new DeleteProductCommand(id); 
+                var command = new DeleteProductCommand(id);
                 var result = await _mediator.Send(command);
 
                 if (!result)
@@ -131,7 +131,7 @@ namespace WatchStore.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, new { message = ex.Message });
             }
         }
         [HttpPut("{id}")]

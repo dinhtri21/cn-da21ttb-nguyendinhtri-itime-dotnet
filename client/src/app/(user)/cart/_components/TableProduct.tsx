@@ -131,8 +131,8 @@ export function TableProduct() {
     <div className="grid grid-cols-10 gap-10 mt-6 min-h-[calc(100vh-370px)]">
      
       <div className="col-span-10 md:col-span-7 gap-1 border rounded-xl">
-        <div className="rounded-xl bg-background min-h-[400px]">
-          <div className="hidden md:grid grid-cols-12 grid-flow-row rounded-t-xl  gap-2 p-3 border-b ">
+        <div className="rounded-xl bg-background min-h-[400px] ">
+          <div className="hidden md:grid grid-cols-12 grid-flow-row rounded-t-xl  gap-2 p-3 border-b bg-gray-100">
             <div className="col-span-1 flex text-gray-600 text-sm justify-center">
               Ảnh
             </div>
@@ -195,7 +195,7 @@ export function TableProduct() {
                     />
                   </div>
                   <div className="md:col-span-4 md:row-span-2 flex md:justify-center items-center ">
-                    <span className="line-clamp-1 md:line-clamp-2 ">
+                    <span className="line-clamp-1 md:line-clamp-2  text-gray-600">
                       {cartItem.product.productName}
                     </span>
                   </div>
@@ -205,18 +205,18 @@ export function TableProduct() {
                   <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
                     <div
                       onClick={() => handlerDecreaseQuantity(cartItem)}
-                      className="h-7 w-7 shadow flex justify-center items-center border-[0.1px] rounded-l border-gray-200  hover:bg-gray-300  hover:text-white cursor-pointer dark:hover:bg-slate-800"
+                      className="h-7 w-7 shadow flex justify-center items-center rounded-l border-gray-200  hover:bg-gray-300  hover:text-white cursor-pointer dark:hover:bg-slate-800"
                     >
-                      <MinusIcon />
+                      <MinusIcon className="text-gray-600" />
                     </div>
-                    <span className="h-7 w-7 shadow flex justify-center cursor-pointer items-center px-2 border-y-[1px] border-gray-200 ">
+                    <span className="h-7 w-7 shadow flex justify-center cursor-pointer items-center px-2  border-gray-200  text-gray-600">
                       {cartItem.quantity}
                     </span>
                     <div
                       onClick={() => handlerIncreaseQuantity(cartItem)}
-                      className="h-7 w-7 shadow flex justify-center  items-center border-[0.1px] rounded-r border-gray-200  hover:bg-gray-300 hover:text-white cursor-pointer dark:hover:bg-slate-800"
+                      className="h-7 w-7 shadow flex justify-center  items-center rounded-r border-gray-200  hover:bg-gray-300 hover:text-white cursor-pointer dark:hover:bg-slate-800"
                     >
-                      <PlusIcon />
+                      <PlusIcon className="text-gray-600"/>
                     </div>
                   </div>
                   <div className="md:col-span-3 flex md:row-span-2 text-customOrange justify-center items-center">
@@ -229,12 +229,12 @@ export function TableProduct() {
       </div>
       <div className="col-span-10 md:col-span-3 bg-white">
         <div className=" dark:bg-slate-800  px-3 py-4 md:px-7 flex flex-col gap-3 border border-gray-200/70 rounded-xl shadow">
-          <h2 className="uppercase font-semibold md:text-center text">
+          <h2 className="uppercase md:text-center text">
             Thông tin giỏ hàng
           </h2>
           <div className="flex justify-between">
-            <p className="font-semibold text-gray-700 text">Tổng tiền:</p>
-            <span className="text-customOrange text-lg font-medium">
+            <p className="">Tổng tiền:</p>
+            <span className="text-customOrange text-lg">
               {total.toLocaleString()}₫
             </span>
           </div>

@@ -247,7 +247,7 @@ const AddProductModal = (props: InvoiceProps) => {
                 Ảnh
               </label>
               <input
-                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer
+                className="block w-full text-sm text-gray-900 border border-gray-300 cursor-pointer
                      bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 id="file_input"
                 type="file"
@@ -255,8 +255,8 @@ const AddProductModal = (props: InvoiceProps) => {
               />
               {images.length > 0 && (
                 <div>
-                  <h3>Preview:</h3>
-                  <div className="grid grid-cols-3 gap-2">
+                  {/* <h3>Preview:</h3> */}
+                  <div className="grid grid-cols-3 gap-2 mt-2">
                     {images.map((img, index) => (
                       <div key={index}>
                         <img

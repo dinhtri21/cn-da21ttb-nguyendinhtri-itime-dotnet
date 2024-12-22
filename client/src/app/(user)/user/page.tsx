@@ -90,12 +90,12 @@ export default function UserPage() {
       <div className="w-full max-w-screen-xl mx-auto px-4 pb-4">
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
+            <BreadcrumbItem className="text-base">
               <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage className="text-gray-500">Người dùng</BreadcrumbPage>
+              <BreadcrumbPage className="text-base text-gray-500">Người dùng</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

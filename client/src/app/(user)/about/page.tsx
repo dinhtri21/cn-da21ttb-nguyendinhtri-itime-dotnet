@@ -2,13 +2,13 @@ export default function AboutPage() {
   return (
     <div className="w-full max-w-screen-xl mx-auto px-10 mt-[73px] pt-8 py-14 min-h-[calc(100vh-304px)]">
       <div className="flex justify-center">
-        <h1 className="uppercase font-semibold text-lg ">
+        <h1 className="uppercase  text-lg ">
           Giới thiệu và hướng dẫn
         </h1>
       </div>
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-6 mt-3 md:mt-4">
         <div className="md:col-span-2">
-          <h3 className="uppercase text-lg font-semibold">1. Về chúng tôi</h3>
+          <h3 className="uppercase text-lg ">1. Về chúng tôi</h3>
           <p className="text-justify mt-1 leading-7 text-gray-700">
             iTime, ra đời năm 2023, tự hào là địa chỉ uy tín trong lĩnh vực bán
             lẻ đồng hồ chính hãng tại Việt Nam. Với sứ mệnh kết nối những người
@@ -20,7 +20,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div>
-          <h3 className="uppercase text-lg font-semibold">
+          <h3 className="uppercase text-lg ">
             2. Hướng dẫn mua hàng online
           </h3>
           <p className="mt-1 leading-7 text-gray-700">
@@ -35,7 +35,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div>
-          <h3 className="uppercase text-lg font-semibold">
+          <h3 className="uppercase text-lg ">
             3. Bảo hành đổi và trả
           </h3>
           <p className="mt-1 leading-7 text-gray-700">
@@ -50,7 +50,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div>
-          <h3 className="uppercase text-lg font-semibold">
+          <h3 className="uppercase text-lg ">
             4. Thông tin liên hệ
           </h3> 
           <p className="mt-1 text-gray-700 leading-7">

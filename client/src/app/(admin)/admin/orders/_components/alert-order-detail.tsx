@@ -107,7 +107,7 @@ export default function AlertOrderDetail(props: AlertOrderDetailProps) {
           onClick={handleClickOutside} // Detect click outside
         >
           <div
-            className="mt-[10px] mb-[10px]"
+            className="fixed mt-[10px] mb-[10px] top-0 bottom-0 inline-flex items-center"
             onClick={(e) => e.stopPropagation()}
           >
             <Invoice

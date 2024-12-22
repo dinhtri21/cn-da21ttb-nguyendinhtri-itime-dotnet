@@ -26,7 +26,7 @@ const RenderPaginationItems: React.FC<RenderPaginationItemsProps> = ({
       pageNumbers.push(
         <PaginationItem className="cursor-pointer" key={i + 1}>
           <PaginationLink
-            className={skip == i ? "border dark:text-black" : "text-gray-400"}
+            className={skip == i ? "border border-gray-300 text-gray-700 dark:text-black" : "text-gray-400"}
             onClick={() => handlePaginationItem(i)}
           >
             {i + 1}

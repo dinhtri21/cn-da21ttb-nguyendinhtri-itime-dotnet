@@ -293,7 +293,7 @@ export function SignUpForm() {
               )}
             </div>
 
-            <Button type="submit" className="w-full hover:bg-gray-100 hover:text-gray-300 col-span-2 text-primaryBlackColor bg-primaryGrayColor">
+            <Button type="submit" className="w-full col-span-2 text-white bg-black">
               Tạo tài khoản
             </Button>
             <Button variant="outline" className="w-full col-span-2">

@@ -90,11 +90,11 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
       <div className="hidden md:block">
         <div className="mb-4 mt-2 flex items-center gap-2">
           <MixerVerticalIcon width={20} height={20} />
-          <span className="uppercase text-lg font-medium">Lọc sản phẩm</span>
+          <span className="uppercase text-lg ">Lọc sản phẩm</span>
         </div>
         {/* Brand */}
         <div className="filter-section mb-4">
-          <h3 className="uppercase text-base font-medium">Thương hiệu</h3>
+          <h3 className="uppercase text-base ">Thương hiệu</h3>
           {brandIds.map((brand) => (
             <div key={brand.id}>
               <label className="flex items-center mt-1">
@@ -118,7 +118,7 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
         </div>
         {/* Material */}
         <div className="filter-section mb-4">
-          <h3 className="uppercase text-base font-medium">Chất liệu</h3>
+          <h3 className="uppercase text-base ">Chất liệu</h3>
           {materialIds.map((material) => (
             <div key={material.id}>
               <label className="flex items-center mt-1">

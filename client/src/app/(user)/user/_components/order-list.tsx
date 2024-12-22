@@ -171,7 +171,7 @@ export function OrderList(props: DashboardProps) {
   return (
     <div className="w-full max-w-screen-xl mx-auto mt-7 px-4">
       <div className="flex justify-between mt-2 items-center">
-        <h1 className="font-medium  text-gray-700 uppercase">
+        <h1 className=" text-gray-900 uppercase">
           Các đơn hàng của bạn
         </h1>
         <div className="flex gap-3">
@@ -187,29 +187,29 @@ export function OrderList(props: DashboardProps) {
           {/* <ComboboxFilter /> */}
         </div>
       </div>
-      <div className=" mt-4 bg-background overflow-hidden min-h-[462px] border shadow rounded-xl">
-        <div className="hidden md:grid grid-cols-12 grid-flow-row  gap-2 px-3 p-4  shadow text-black ">
-          <div className="col-span-1 text-gray-500 text-sm  flex  justify-center">
+      <div className=" mt-4 bg-background overflow-hidden min-h-[462px] border  rounded-xl ">
+        <div className="hidden md:grid grid-cols-12 grid-flow-row  gap-2 px-3 p-4  shadow text-black bg-gray-100">
+          <div className="col-span-1 text-gray-600 text-sm  flex  justify-center">
             ID
           </div>
-          <div className="col-span-2 text-gray-500 text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 text-sm flex justify-center gap-1 items-center ">
             <span>Ngày giao</span>
             {/* <ClockIcon className="" /> */}
           </div>
-          <div className="col-span-2 text-gray-500 text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 text-sm flex justify-center gap-1 items-center ">
             <span>Trạng thái</span>
             {/* <ReloadIcon className="" /> */}
           </div>
-          <div className="col-span-2 text-gray-500 text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 text-sm flex justify-center gap-1 items-center ">
             Tổng tiền
           </div>
-          <div className="col-span-2 text-gray-500 text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 text-sm flex justify-center gap-1 items-center ">
             Thanh toán
           </div>
-          <div className="col-span-3 text-gray-500 text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-3 text-gray-600 text-sm flex justify-center gap-1 items-center ">
             Địa chỉ nhận hàng
           </div>
-          {/* <div className="col-span-1 text-gray-500 text-sm flex justify-center gap-1 items-center ">
+          {/* <div className="col-span-1 text-gray-600 text-sm flex justify-center gap-1 items-center ">
             Tuỳ chọn
           </div> */}
         </div>
@@ -250,9 +250,9 @@ export function OrderList(props: DashboardProps) {
                         statusStyles[
                           order.shippingStatus as keyof typeof statusStyles
                         ]?.textColor || statusStyles.default.textColor
-                      } flex items-center pr-3 pl-1 py-[2px] rounded-xl text-sm`}
+                      } flex items-center pr-2 pl-2 py-[2px] rounded-xl text-sm`}
                     >
-                      <RxDotFilled />
+                      {/* <RxDotFilled /> */}
                       <span className="text-sm">
                         {statusStyles[
                           order.shippingStatus as keyof typeof statusStyles

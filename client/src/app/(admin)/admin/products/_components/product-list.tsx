@@ -258,7 +258,7 @@ export default function ProductList(props: DashboardProps) {
           ? props.products.map((product, index) => (
               <div
                 key={index}
-                className="grid grid-cols-12 grid-flow-row gap-2 px-3 p-3 border-b border-gray-300 text-black "
+                className="grid grid-cols-12 grid-flow-row gap-2 px-3 p-4 border-b border-gray-300 text-black "
               >
                 <div className="col-span-1 text-gray-900 font-[400] flex justify-center gap-1 items-center">
                   <Image

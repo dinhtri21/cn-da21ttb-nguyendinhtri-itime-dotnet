@@ -28,7 +28,7 @@ export default function OtherProducts({ title }: FeaturedProductsProps) {
   return (
     <div className="w-full">
       <div className="container max-w-screen-xl mx-auto py-10 mt-4 md:px-4">
-        <h1 className="mb-4 uppercase text-lg font-medium">
+        <h1 className="mb-4 uppercase text-lg">
           {title}
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">

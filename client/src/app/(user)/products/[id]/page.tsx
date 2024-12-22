@@ -102,7 +102,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
   return (
     <div className="w-full dark:bg-muted/40">
-      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-5 pb-10 px-4 mt-[73px]">
+      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-8 pb-10 px-4 mt-[73px]">
         <div className="px-4">
           <Breadcrumb>
             <BreadcrumbList>
@@ -110,11 +110,11 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                 <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
               </BreadcrumbItem> */}
               {/* <BreadcrumbSeparator /> */}
-              <BreadcrumbItem>
+              <BreadcrumbItem className="text-base">
                 <BreadcrumbLink href="/products">Sản phẩm</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem>
+              <BreadcrumbItem className="text-base">
                 <BreadcrumbPage>
                   <div className="line-clamp-1 overflow-hidden text-gray-500">
                     {product?.productName}
@@ -125,7 +125,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           </Breadcrumb>
         </div>
         {/*  */}
-        <div className="mx-auto px-4 max-w-screen-xl grid grid-cols-1 md:grid-cols-7 gap-3 md:gap-10">
+        <div className="mx-auto px-4 max-w-screen-xl grid grid-cols-1 md:grid-cols-7 gap-3 md:gap-10 mt-4">
           <div className="md:col-span-3 p-4 bg-background rounded-xl">
             <Carousel>
               <CarouselContent>
@@ -147,33 +147,33 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               <CarouselNext />
             </Carousel>
           </div>
-          <div className="md:col-span-4 py-6 px-8 bg-background rounded-xl">
-            <h1 className="text-xl md:text-2xl font-medium">
+          <div className="md:col-span-4 py-6 px-8 bg-background rounded-xl border bg-gray-100">
+            <h1 className="text-xl md:text-xl ">
               {product?.productName}
             </h1>
             <div className="flex items-center mt-4 gap-2">
-              <p className="md:text-lg font-normal text-gray-500">Giá: </p>
-              <span className="text-lg md:text-2xl font-semibold text-sky-600">
+              <p className=" font-normal text-gray-600">Giá: </p>
+              <span className="text-lg md:text-xl  text-customOrange">
                 {product?.productPrice.toLocaleString()}₫
               </span>
             </div>
             <div className="flex items-center mt-4 gap-2">
-              <p className="md:text-lg font-normal text-gray-500">Số lượng: </p>
-              <div className="ml-2 flex items-center gap-2 border border-sky-600 rounded-sm">
+              <p className=" font-normal text-gray-600">Số lượng: </p>
+              <div className="ml-2 flex items-center gap-2 border  rounded-sm">
                 <div
                   onClick={handleDecrease}
-                  className="p-1 border-r cursor-pointer px-1 bg-gray-100 border-sky-600 rounded-l-[3px]"
+                  className="p-1 border-r cursor-pointer px-1 bg-gray-100 border-customOrange rounded-l-[3px]"
                 >
-                  <MinusIcon className="text-sky-600" width={18} height={18} />
+                  <MinusIcon className="text-customOrange" width={18} height={18} />
                 </div>
-                <span className="text-xl flex items-center justify-center w-4 h-4 px-1 text-sky-600">
+                <span className=" flex items-center justify-center w-4 h-4 px-1 text-customOrange">
                   {quantity}
                 </span>
                 <div
                   onClick={handleIncrease}
-                  className="p-1 border-l cursor-pointer px-1 bg-gray-100 border-sky-600 rounded-r-[3px]"
+                  className="p-1 border-l cursor-pointer px-1 bg-gray-100 border-customOrange rounded-r-[3px]"
                 >
-                  <PlusIcon className="text-sky-600" width={18} height={18} />
+                  <PlusIcon className="text-customOrange" width={18} height={18} />
                 </div>
               </div>
             </div>
@@ -181,23 +181,23 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               {/* <p className="text-base md:text-xl font-normal">
                 Thông số:
               </p> */}
-              <p className="md:text-lg text-gray-500 font-normal mt-4">
+              <p className=" text-gray-600 font-normal mt-4">
                 Thương hiệu: {product?.brand?.brandName}
               </p>
-              <p className="md:text-lg text-gray-500 font-normal mt-4">
+              <p className=" text-gray-600 font-normal mt-4">
                 Chất liệu: {product?.material?.materialName}
               </p>
             </div>
 
             <Button
               onClick={handleAddToCart}
-              className="mt-6 w-full  py-5 rounded-full flex items-center justify-center gap-1 text-sm md:text-base font-semibold
-             uppercase cursor-pointer  hover:bg-gray-600 border bg-primaryBlackColor"
+              className="mt-6 w-[250px]  py-5 rounded-xl flex items-center justify-center gap-1 text-sm md:text-sm font-semibold
+             uppercase cursor-pointer  hover:bg-gray-600 border bg-black"
             >
               <p className="text-white">Thêm vào giỏ hàng</p>
               {/* <MdOutlineAddShoppingCart />
                */}
-              <MdAddCircleOutline className="w-5 h-5 text-white" />
+              {/* <MdAddCircleOutline className="w-5 h-5 text-white" /> */}
             </Button>
 
             <div className="w-full h-[1px] bg-gray-300 mt-7 mb-6"></div>
