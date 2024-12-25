@@ -32,11 +32,14 @@ import { CiReceipt } from "react-icons/ci";
 import ComboboxFilter from "./combobox-filter";
 import AlertAddProduct from "./alert-add-product";
 import { Product } from "@/types/product";
+import AlertEditProduct from "./alert-edit-product";
 import {
   DotsHorizontalIcon,
   TrashIcon,
   Pencil2Icon,
 } from "@radix-ui/react-icons";
+
+import { frameworks } from "./combobox-filter";
 
 import {
   AlertDialog,
@@ -149,6 +152,51 @@ const statusStyles: Record<
   },
 };
 
+const brands: frameworks[] = [
+  {
+    value: "null",
+    label: "Thương hiệu",
+  },
+  {
+    value: "1",
+    label: "CASIO",
+  },
+  {
+    value: "2",
+    label: "Omega",
+  },
+  {
+    value: "3",
+    label: "CITIZEN",
+  },
+];
+
+const materials: frameworks[] = [
+  {
+    value: "null",
+    label: "Chất liệu",
+  },
+  {
+    value: "1",
+    label: "Thép",
+  },
+];
+
+const sortBy: frameworks[] = [
+  {
+    value: "null",
+    label: "Giá",
+  },
+  {
+    value: "price_asc",
+    label: "Giá tăng dần",
+  },
+  {
+    value: "price_desc",
+    label: "Giá giảm dần",
+  },
+];
+
 export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions.";
 
@@ -156,10 +204,15 @@ interface DashboardProps {
   products: Product[];
   fetchProducts: () => void;
   deleteProduct: (id: number) => void;
+  setFilterBrand: React.Dispatch<React.SetStateAction<number[] | null>>;
+  setFilterMaterial: React.Dispatch<React.SetStateAction<number[] | null>>;
+  setFilters: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setFilterSortOrder: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function ProductList(props: DashboardProps) {
   const [open, setOpen] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
 
   const formatDate = (dateString: string) => {
     const dateObj = new Date(dateString);
@@ -190,19 +243,50 @@ export default function ProductList(props: DashboardProps) {
     return `${date} ${hourIn12}:${minute}:${second} ${ampm}`;
   };
 
+  const handleSearch = () => {
+    if (search) {
+      props.setFilters({ productName: `"${search}"` });
+    } else {
+      props.setFilters({});
+    }
+  };
+
+  const handleKeyDownSearch = (e: any) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="w-full mx-auto">
       <div className="flex justify-between">
         <div className="flex gap-3">
-          <ComboboxFilter />
+          <ComboboxFilter
+            frameworks={brands}
+            setFilterValue={props.setFilterBrand}
+          />
+          <ComboboxFilter
+            frameworks={materials}
+            setFilterValue={props.setFilterMaterial}
+          />
+          <ComboboxFilter
+            frameworks={sortBy}
+            setFilterValueText={props.setFilterSortOrder}
+          />
           <div className="flex items-center gap-2 border border-gray-300 px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer text-gray-700">
-            <button className="border-r border-gray-400 pr-2 ">
+            <button
+              onClick={handleSearch}
+              className="border-r border-gray-400 pr-2 "
+            >
               <Image src="/icon/search.svg" width={16} height={16} alt="logo" />
             </button>
             <input
               type="text"
               placeholder="Tìm kiếm"
-              className="outline-none caret-gray-400 text-gray-500"
+              className="outline-none caret-gray-400 text-gray-800"
+              value={search}
+              onKeyDown={handleKeyDownSearch}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
         </div>
@@ -305,9 +389,14 @@ export default function ProductList(props: DashboardProps) {
                   {/* <div className="cursor-pointer">
                     <DotsHorizontalIcon className="text-gray-900 font-[400]  w-5 h-5" />
                   </div> */}
-                  <div className="bg-sky-500 rounded-xl p-2 cursor-pointer">
-                    <Pencil2Icon className="w-4 h-4 text-white" />
-                  </div>
+                  <AlertEditProduct
+                    fetchProducts={props.fetchProducts}
+                    productId={product.productId}
+                  >
+                    <div className="bg-sky-500 rounded-xl p-2 cursor-pointer">
+                      <Pencil2Icon className="w-4 h-4 text-white" />
+                    </div>
+                  </AlertEditProduct>
 
                   <AlertDialog>
                     <AlertDialogTrigger>
@@ -328,7 +417,9 @@ export default function ProductList(props: DashboardProps) {
                         <AlertDialogCancel>Huỷ</AlertDialogCancel>
                         <AlertDialogAction>
                           <button
-                            onClick={() => props.deleteProduct(product.productId)}
+                            onClick={() =>
+                              props.deleteProduct(product.productId)
+                            }
                           >
                             Xóa
                           </button>

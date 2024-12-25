@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 using WatchStore.Application.Common.Interfaces;
@@ -34,7 +35,7 @@ namespace WatchStore.Infrastructure.Repositories
                 return false;
             }
 
-            if(product.OrderDetails.Any())
+            if (product.OrderDetails.Any())
             {
                 throw new InvalidOperationException("Không thể xóa sản phẩm đã được đặt hàng.");
             }
@@ -44,7 +45,7 @@ namespace WatchStore.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip, int limit, string sortOrder)
+        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip, int limit, string sortOrder, Dictionary<string, string> filters)
         {
             var query = _context.Products.Include(p => p.ProductImages)
                                          .Include(p => p.Brand)
@@ -60,6 +61,25 @@ namespace WatchStore.Infrastructure.Repositories
             {
                 query = query.Where(p => materialIds.Contains(p.MaterialId));
             }
+
+            foreach (var filter in filters)
+            {
+                var filterValue = filter.Value;
+
+                // Kiểm tra xem filter.Value có được bao bởi cặp dấu "" hay không
+                if (filterValue.StartsWith("\"") && filterValue.EndsWith("\""))
+                {
+                    // Nếu là chuỗi, loại bỏ dấu "" và sử dụng LIKE
+                    filterValue = filterValue.Trim('"');
+                    query = query.Where($"{filter.Key}.Contains(@0)", filterValue);
+                }
+                else
+                {
+                    // Nếu không phải chuỗi, sử dụng ==
+                    query = query.Where($"{filter.Key} == @0", filterValue);
+                }
+            }
+
 
             // Áp dụng sắp xếp theo sortOrder
             switch (sortOrder)
@@ -80,6 +100,8 @@ namespace WatchStore.Infrastructure.Repositories
                     query = query.OrderBy(p => p.ProductId);
                     break;
             }
+
+
 
             return await query.Skip(skip * limit)
                               .Take(limit)

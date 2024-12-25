@@ -223,7 +223,7 @@ export default function Header() {
               {cartItemsCount.total}
             </span>
           </Link>
-          <ModeToggle />
+          {/* <ModeToggle /> */}
         </div>
       </div>
     </header>

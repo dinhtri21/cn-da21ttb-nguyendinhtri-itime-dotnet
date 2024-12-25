@@ -14,7 +14,7 @@ namespace WatchStore.Application.Common.Interfaces
         Task<bool> IsMaterialExistsAsync(int materialId);
         Task<bool> DeleteProductAsync(int productId);
         Task<bool> UpdateProductAsync(Product product);
-        Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int pageNumber, int pageSize, string sortOrder);
+        Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int pageNumber, int pageSize, string sortOrder, Dictionary<string, string> filters);
         Task<int> GetTotalProductCountAsync(List<int>? brandIds = null, List<int>? materialIds = null, int? month = null, int? year = null);
         Task<Product> GetProductByIdAsync(int productId);
     }

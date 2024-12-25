@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { Order } from "@/types/order";
 import { customerApi } from "@/apis/customerApi";
+import EditProductModal from "./edit-product-modal";
 
 interface Customer {
   customerId: number | null;
@@ -19,9 +20,10 @@ interface Customer {
 interface AlertOrderDetailProps {
   fetchProducts: (filters?: Record<string, any>) => void;
   children: React.ReactNode;
+  productId: number;
 }
 
-export default function AlertAddProduct(props: AlertOrderDetailProps) {
+export default function AlertEditProduct(props: AlertOrderDetailProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [orderDetails, setOrderDetails] = useState<OrderDetail[]>([]);
   const [subTotal, setSubTotal] = useState(0);
@@ -54,9 +56,10 @@ export default function AlertAddProduct(props: AlertOrderDetailProps) {
             className="mt-[10px] mb-[10px]"
             onClick={(e) => e.stopPropagation()}
           >
-            <AddProductModal
+            <EditProductModal
               fetchProducts={props.fetchProducts}
               handleClose={handleClose}
+              productId={props.productId}
             />
           </div>
         </div>

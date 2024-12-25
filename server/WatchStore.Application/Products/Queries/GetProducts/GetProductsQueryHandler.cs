@@ -25,9 +25,13 @@ namespace WatchStore.Application.Products.Queries.GetProducts
         }
         public async Task<ProductListDto> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.Skip, request.Limit, request.SortOrder);
+            var Products = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, request.Skip, request.Limit, request.SortOrder, request.Filters);
 
-            int totalCount = await _productRepository.GetTotalProductCountAsync(request.BrandIds, request.MaterialIds);
+
+            int totalProduct = await _productRepository.GetTotalProductCountAsync();
+            var ProductsToCount = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, 0, totalProduct, request.SortOrder, request.Filters);
+            int totalCount = ProductsToCount.Count();
+            //int totalCount = await _productRepository.GetTotalProductCountAsync(request.BrandIds, request.MaterialIds);
 
             // Thêm base URL vào ImageUrl
             var baseUrl = _configuration["BaseUrl"];

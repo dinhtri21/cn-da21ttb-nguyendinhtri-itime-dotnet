@@ -9,7 +9,8 @@ const ProductApi = {
     limit: number,
     brandIds?: number[],
     materialIds?: number[],
-    sortOrder?: string
+    sortOrder?: string,
+    filters?: Record<string, any>
   ): Promise<ProductsRes> {
     const response = await axiosConfig.get("products", {
       params: {
@@ -18,6 +19,7 @@ const ProductApi = {
         brandIds: brandIds,
         materialIds: materialIds,
         sortOrder: sortOrder,
+        filters: filters,
       },
       paramsSerializer: (params) => {
         return qs.stringify(params, { arrayFormat: "repeat" });
@@ -25,7 +27,10 @@ const ProductApi = {
     });
     return response.data;
   },
-  async createProduct(form: FormData, token: string): Promise<{message : string}> {
+  async createProduct(
+    form: FormData,
+    token: string
+  ): Promise<{ message: string }> {
     const response = await axiosConfig.post("products", form, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,16 +56,19 @@ const ProductApi = {
     });
     return response.data;
   },
-  async deleteProduct(id: number, token?: string): Promise<{ message: string }> {
+  async deleteProduct(
+    id: number,
+    token?: string
+  ): Promise<{ message: string }> {
     // const response = await axiosConfig.delete(`products/${id}`, {
     //   headers: {
     //     Authorization: `Bearer ${token}`,
     //   },
     // });
 
-     const response = await axiosConfig.delete(`products/${id}`)
+    const response = await axiosConfig.delete(`products/${id}`);
     return response.data;
-  }
+  },
 };
 
 export default ProductApi;

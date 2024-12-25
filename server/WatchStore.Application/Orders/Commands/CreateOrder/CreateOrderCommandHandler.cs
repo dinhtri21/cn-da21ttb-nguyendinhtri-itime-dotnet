@@ -175,6 +175,14 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                 var cart = await _cartRepository.GetCartByIdCutomerAsync(request.CustomerId);
                 await _cartItemRepository.DeleteAllCartItemByCartIdAsync(cart.CartId);
 
+                // Update QuantityInStock of product
+                foreach (var orderDetail in orderDetails)
+                {
+                    var product = await _productRepository.GetProductByIdAsync(orderDetail.ProductId);
+                    product.QuantityInStock -= orderDetail.Quantity;
+                    await _productRepository.UpdateProductAsync(product);
+                }
+
                 // Commit transaction
                 await _baseRepository.CommitTransactionAsync();
 

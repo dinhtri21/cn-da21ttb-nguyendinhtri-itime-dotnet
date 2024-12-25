@@ -23,22 +23,29 @@ export default function ProductsPage() {
   const searchParams = useSearchParams();
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
 
+  const [filters, setFilters] = useState<Record<string, any>>({});
+  const [filterBrand, setFilterBrand] = useState<number[] | null>(null);
+  const [filterMaterial, setFilterMaterial] = useState<number[] | null>(null);
+  const [filterSortOrder, setFilterSortOrder] = useState<string | null>(null);
+
   //// FETCH PRODUCTS
   const fetchProducts = async () => {
     try {
       const skip = parseInt(searchParams.get("skip") || "0");
       const limit = parseInt(searchParams.get("limit") || "6");
       // const limit = 2;
-      const brands = searchParams.get("brands")?.split(",").map(Number);
-      const materials = searchParams.get("materials")?.split(",").map(Number);
-      const sortOrder = searchParams.get("sortOrder");
+      // const brands = searchParams.get("brands")?.split(",").map(Number);
+
+      // const materials = searchParams.get("materials")?.split(",").map(Number);
+      // const sortOrder = searchParams.get("sortOrder");
 
       const data = await ProductApi.getProduct(
         skip,
         limit,
-        brands,
-        materials,
-        sortOrder || undefined
+        filterBrand || undefined,
+        filterMaterial || undefined,
+        filterSortOrder || undefined,
+        filters || undefined
       );
       setProductsRes(data);
     } catch (error) {
@@ -61,7 +68,7 @@ export default function ProductsPage() {
   //// Update filters and call API
   useEffect(() => {
     fetchProducts();
-  }, [searchParams]);
+  }, [searchParams, filterBrand, filters, filterMaterial, filterSortOrder]);
 
   //// Function to update URL with filters
   const updateURLWithFilters = (filters: Record<string, any>) => {
@@ -121,6 +128,10 @@ export default function ProductsPage() {
             deleteProduct={deleteProduct}
             fetchProducts={fetchProducts}
             products={productsRes.products}
+            setFilterBrand={setFilterBrand}
+            setFilters={setFilters}
+            setFilterMaterial={setFilterMaterial}
+            setFilterSortOrder={setFilterSortOrder}
           />
         )}
         {productsRes && productsRes?.products?.length !== 0 && (

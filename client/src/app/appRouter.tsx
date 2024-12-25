@@ -106,7 +106,7 @@ export default function AppRouter({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     checkUserStatus();
-    // checkAdminLogin();
+    checkAdminLogin();
     // dispatch(setOverlayStatus(false))
   }, []);
 
