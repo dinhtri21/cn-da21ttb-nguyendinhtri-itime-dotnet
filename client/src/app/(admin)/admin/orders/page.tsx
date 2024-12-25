@@ -20,6 +20,9 @@ export default function OrderPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const token = Cookies.get("accessTokenAdmin");
   const [orderResponse, setOrderResponse] = useState<OrderResponse>();
+  const [filterStatus, setFilterStatus] = useState<string | null>(null);
+  const [filters, setFilters] = useState<Record<string, any>>({});
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -34,7 +37,9 @@ export default function OrderPage() {
       const res = await OrderApi.GetOrders(
         token,
         parseInt(params.get("limit") || "6"),
-        parseInt(params.get("skip") || "0")
+        parseInt(params.get("skip") || "0"),
+        filterStatus || undefined,
+        filters || undefined
       );
       setOrders(res.orders);
       setOrderResponse(res);
@@ -43,7 +48,20 @@ export default function OrderPage() {
     }
   };
 
- 
+  const deleteOrder = async (id: number) => {
+    if (!token) {
+      CustomToast.showError("Bạn chưa đăng nhập!");
+      return;
+    }
+    try {
+      await OrderApi.DeleteOrder(token, id);
+      CustomToast.showSuccess("Huỷ đơn hàng thành công!");
+      fetchOrders();
+    } catch (error: any) {
+      console.error("Failed to delete order:", error.response.data.message);
+      CustomToast.showError(error.response.data.message);
+    }
+  };
 
   const updateURLWithFilters = (filters: Record<string, any>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -68,7 +86,7 @@ export default function OrderPage() {
 
   useEffect(() => {
     fetchOrders();
-  }, [searchParams]);
+  }, [searchParams, filterStatus, filters]);
 
   return (
     <div className="w-full dark:bg-muted/40 relative">
@@ -76,7 +94,12 @@ export default function OrderPage() {
         className="w-full mx-auto  dark:bg-background
           relative sm:pl-[220px] sm:pr-6 "
       >
-        <OrderList orders={orders} />
+        <OrderList
+          orders={orders}
+          setFilterStatus={setFilterStatus}
+          setFilters={setFilters}
+          deleteOrder={deleteOrder}
+        />
         {orders && orders?.length !== 0 && (
           <div className="col-span-3 mt-5">
             <Pagination>

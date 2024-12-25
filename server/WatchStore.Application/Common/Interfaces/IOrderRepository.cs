@@ -9,7 +9,7 @@ namespace WatchStore.Application.Common.Interfaces
 {
     public interface IOrderRepository 
     {
-        Task<IEnumerable<Order>> GetOrdersAsync(int Skip, int Limit);
+        Task<IEnumerable<Order>> GetOrdersAsync(int Skip, int Limit, Dictionary<string, string> filters);
         Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId, int Skip, int Limit);
         Task<int> GetTotalOrderCountByCustomerIdAsync(int customerId);
         Task AddOrderAsync(Order order);

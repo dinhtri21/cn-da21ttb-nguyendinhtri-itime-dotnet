@@ -26,16 +26,17 @@ namespace WatchStore.API.Controllers
 
         [Authorize(Policy = "AdminPolicy")]
         [HttpGet]
-        public async Task<IActionResult> GetOrders([FromQuery] int? skip, [FromQuery] int? limit, [FromQuery(Name = "filters")] Dictionary<string, string> filters)
+        public async Task<IActionResult> GetOrders([FromQuery] int? skip, [FromQuery] int? limit, [FromQuery(Name = "filters")] Dictionary<string, string> filters,
+            [FromQuery] string? status)
         {
             try
             {
                 int Skip = skip ?? 0;
                 int Limit = limit ?? 9;
-                var listOrders = await _mediator.Send(new GetOrdersQuery(Skip, Limit));
+                var listOrders = await _mediator.Send(new GetOrdersQuery(Skip, Limit, filters, status));
                 if (listOrders.Orders.Count() == 0)
                 {
-                    return Ok(new { listOrders.Orders, message = "Giỏ hàng trống!" });
+                    return Ok(new { listOrders.Orders, message = "Đơn hàng trống!" });
                 }
                 return Ok(listOrders);
             }

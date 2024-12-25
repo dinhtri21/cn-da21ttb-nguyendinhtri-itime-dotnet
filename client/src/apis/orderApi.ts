@@ -1,5 +1,7 @@
 import axiosConfig from "@/lib/axiosConfig";
 import { CreateOrder, OrderResponse } from "@/types/order";
+import { Delete } from "lucide-react";
+import qs from "qs";
 
 const OrderApi = {
   async CreateOrder(token: string, CreateOrder: CreateOrder): Promise<any> {
@@ -43,16 +45,30 @@ const OrderApi = {
   async GetOrders(
     token: string,
     limit?: number,
-    skip?: number
+    skip?: number,
+    status?: string,
+    filters?: Record<string, any>
   ): Promise<OrderResponse> {
     const response = await axiosConfig.get("orders", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      params: { limit: limit, skip: skip },
+      params: { limit: limit, skip: skip, status: status, filters: filters },
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: "repeat" });
+      },
     });
     return response.data;
   },
+
+  async DeleteOrder(token: string, orderId: number): Promise<any> {
+    const res = await axiosConfig.delete(`/orders/${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  }
 };
 
 export default OrderApi;

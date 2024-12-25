@@ -7,25 +7,47 @@ using System.Threading.Tasks;
 using WatchStore.Application.Common.Interfaces;
 using WatchStore.Domain.Entities;
 using WatchStore.Infrastructure.Data;
+using System.Linq.Dynamic.Core;
 
 namespace WatchStore.Infrastructure.Repositories
 {
-    public class OrderRepository :  IOrderRepository
+    public class OrderRepository : IOrderRepository
     {
         private readonly WatchStoreDbContext _context;
-        public OrderRepository(WatchStoreDbContext context) 
+        public OrderRepository(WatchStoreDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersAsync(int Skip, int Limit)
+        public async Task<IEnumerable<Order>> GetOrdersAsync(int Skip, int Limit, Dictionary<string, string> filters)
         {
-            var orders = await _context.Orders
-                                       .Include(o => o.Payment)
+
+            var query = _context.Orders.Include(o => o.Payment)
                                        .OrderByDescending(o => o.CreatedAt)
-                                       .Skip(Skip * Limit)
-                                       .Take(Limit)
-                                       .ToListAsync();
+                                       .AsQueryable();
+
+            foreach (var filter in filters)
+            {
+                var filterValue = filter.Value;
+
+                // Kiểm tra xem filter.Value có được bao bởi cặp dấu "" hay không
+                if (filterValue.StartsWith("\"") && filterValue.EndsWith("\""))
+                {
+                    // Nếu là chuỗi, loại bỏ dấu "" và sử dụng LIKE
+                    filterValue = filterValue.Trim('"');
+                    query = query.Where($"{filter.Key}.Contains(@0)", filterValue);
+                }
+                else
+                {
+                    // Nếu không phải chuỗi, sử dụng ==
+                    query = query.Where($"{filter.Key} == @0", filterValue);
+                }
+            }
+
+            var orders =  await query.Skip(Skip * Limit)
+                                     .Take(Limit)
+                                     .ToListAsync();
+
             return orders;
         }
         public async Task AddOrderAsync(Order order)
@@ -36,9 +58,9 @@ namespace WatchStore.Infrastructure.Repositories
 
         public async Task<bool> DeleteOrderAsync(int orderId)
         {
-           var order = await _context.Orders
-                                     .Include(o => o.OrderDetails)
-                                     .FirstOrDefaultAsync(o => o.OrderId == orderId);
+            var order = await _context.Orders
+                                      .Include(o => o.OrderDetails)
+                                      .FirstOrDefaultAsync(o => o.OrderId == orderId);
 
             if (order == null) return false;
 
@@ -69,8 +91,8 @@ namespace WatchStore.Infrastructure.Repositories
 
         public async Task<int> GetTotalOrderCountByCustomerIdAsync(int customerId)
         {
-           int TotalCount = await _context.Orders
-                                  .CountAsync(o => o.CustomerId == customerId);
+            int TotalCount = await _context.Orders
+                                   .CountAsync(o => o.CustomerId == customerId);
 
             return TotalCount;
         }

@@ -6,10 +6,11 @@ import {
   Cross1Icon,
   PlusIcon,
   MinusIcon,
+  TrashIcon,
 } from "@radix-ui/react-icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { CartItemRes } from "@/validations/cartItem.chema";
 import { Order } from "@/types/order";
 import { RxDotFilled } from "react-icons/rx";
@@ -32,6 +33,17 @@ import { CiReceipt } from "react-icons/ci";
 
 import AlertOrderDetail from "./alert-order-detail";
 import ComboboxFilter, { frameworks } from "./combobox-filter";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type ShippingStatus =
   | "waiting_to_return"
@@ -147,13 +159,85 @@ const sortBy: frameworks[] = [
   },
 ];
 
+const shippingStatusFilter: frameworks[] = [
+  {
+    value: "null",
+    label: "Trạng thái đơn hàng",
+  },
+
+  {
+    value: "ready_to_pick",
+    label: "Chuẩn bị hàng",
+  },
+  {
+    value: "picking",
+    label: "Đang lấy hàng",
+  },
+  {
+    value: "picked",
+    label: "Đã lấy hàng",
+  },
+  {
+    value: "storing",
+    label: "Nhập bưu cục",
+  },
+  {
+    value: "transporting",
+    label: "Đang trung chuyển",
+  },
+  {
+    value: "delivering",
+    label: "Đang giao hàng",
+  },
+  {
+    value: "delivered",
+    label: "Giao hàng thành công",
+  },
+  {
+    value: "delivery_fail",
+    label: "Giao hàng thất bại",
+  },
+  {
+    value: "return_transporting",
+    label: "Đang trung chuyển hoàn hàng",
+  },
+  {
+    value: "return",
+    label: "Chờ xác nhận giao lại",
+  },
+  {
+    value: "returning",
+    label: "Đang hoàn hàng",
+  },
+  {
+    value: "returned",
+    label: "Hoàn hàng thành công",
+  },
+  {
+    value: "return_fail",
+    label: "Hoàn hàng thất bại",
+  },
+  {
+    value: "default",
+    label: "Không xác định",
+  },
+  {
+    value: "waiting_to_return",
+    label: "Chờ xác nhận giao lại",
+  },
+];
+
 export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions.";
 
 interface DashboardProps {
   orders: Order[];
+  setFilterStatus: React.Dispatch<React.SetStateAction<string | null>>;
+  setFilters: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  deleteOrder: (id: number) => void;
 }
 export function OrderList(props: DashboardProps) {
+  const [search, setSearch] = useState<string>("");
   // Hàm định dạng ngày
   const formatDate = (dateString: string) => {
     const dateObj = new Date(dateString);
@@ -184,22 +268,53 @@ export function OrderList(props: DashboardProps) {
     return `${date} ${hourIn12}:${minute}:${second} ${ampm}`;
   };
 
+  const handleSearch = () => {
+    if (search) {
+      props.setFilters({ orderId: `${search}` });
+    } else {
+      props.setFilters({});
+    }
+  };
+
+  const handleKeyDownSearch = (e: any) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleInnerClick = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+  };
+
   return (
     <div className="w-full mx-auto">
       <div className="flex justify-between ">
-        <Tabs defaultValue="confirm">
-          <TabsList className=" bg-white p-1">
-            <TabsTrigger value="confirm ">Chờ xác nhận</TabsTrigger>
-            <TabsTrigger value="delivery">Chờ giao hàng</TabsTrigger>
-            <TabsTrigger className="" value="history">
-              Lịch sử
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-        <ComboboxFilter
-          frameworks={sortBy}
-          // setFilterValueText={props.setFilterSortOrder}
-        />
+        <div className="flex items-center gap-2 border border-gray-300 px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer text-gray-700">
+          <button
+            onClick={handleSearch}
+            className="border-r border-gray-400 pr-2 "
+          >
+            <Image src="/icon/search.svg" width={16} height={16} alt="logo" />
+          </button>
+          <input
+            type="text"
+            placeholder="Tìm theo mã đơn"
+            className="outline-none caret-gray-400 text-gray-800"
+            value={search}
+            onKeyDown={handleKeyDownSearch}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-2">
+          {/* <ComboboxFilter
+            frameworks={sortBy}
+            // setFilterValueText={props.setFilterSortOrder}
+          /> */}
+          <ComboboxFilter
+            frameworks={shippingStatusFilter}
+            setFilterValueText={props.setFilterStatus}
+          />
+        </div>
       </div>
 
       <div className="mt-6 bg-background overflow-hidden min-h-[530px] border-t border-gray-300 ">
@@ -218,11 +333,14 @@ export function OrderList(props: DashboardProps) {
           <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Tổng tiền
           </div>
-          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Thanh toán
           </div>
           <div className="col-span-3 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Địa chỉ nhận hàng
+          </div>
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
+            Tuỳ chọn
           </div>
           {/* <div className="col-span-1 text-gray-500 text-sm flex justify-center gap-1 items-center ">
             Tuỳ chọn
@@ -279,16 +397,47 @@ export function OrderList(props: DashboardProps) {
                   <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center text-gray-600">
                     {order.total.toLocaleString()} đ
                   </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
+                  <div className="md:col-span-1 md:row-span-2 flex  justify-center items-center ">
                     <div className="flex flex-col items-center">
                       <span className="text-sm text-gray-600">COD</span>
-                      <span className="text-sm text-gray-600">
-                        Bên nhận trả phí
-                      </span>
                     </div>
                   </div>
                   <div className="md:col-span-3 flex md:row-span-2  justify-center items-center text-center text-gray-600">
                     {order.addressLine}
+                  </div>
+                  <div
+                    onClick={handleInnerClick}
+                    className="md:col-span-1 flex md:row-span-2  justify-center items-center text-center text-gray-600"
+                  >
+                    <AlertDialog>
+                      <AlertDialogTrigger>
+                        <div className="bg-red-500 rounded-md p-1 cursor-pointer text-white">
+                          <TrashIcon className="w-5 h-5 text-white" />
+                        </div>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Bạn có thật sự muốn huỷ đơn hàng này ?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Sau khi huỷ, đơn hàng sẽ không thể khôi phục.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Huỷ</AlertDialogCancel>
+                          <AlertDialogAction>
+                            <button
+                            onClick={() =>
+                              props.deleteOrder(order.orderId)
+                            }
+                            >
+                              Xóa
+                            </button>
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </div>
               </AlertOrderDetail>

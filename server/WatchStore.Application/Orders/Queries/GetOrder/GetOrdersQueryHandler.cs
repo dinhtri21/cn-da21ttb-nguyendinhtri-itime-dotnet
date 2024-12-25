@@ -27,8 +27,11 @@ namespace WatchStore.Application.Orders.Queries.GetOrder
 
         public async Task<OrderListDto> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _orderRepository.GetOrdersAsync(request.Skip, request.Limit);
-            int totalCount = await _orderRepository.GetTotalOrderCountAsync();
+            var orders = await _orderRepository.GetOrdersAsync(request.Skip, request.Limit, request.Filters);
+
+            int totalOrder = await _orderRepository.GetTotalOrderCountAsync();
+            var totalOrderCount = await _orderRepository.GetOrdersAsync(0, totalOrder, request.Filters);
+            int totalCount = totalOrderCount.Count();
 
             var orderListDto = new OrderListDto
             {
@@ -56,6 +59,14 @@ namespace WatchStore.Application.Orders.Queries.GetOrder
                     ShippingFee = shipping.ShippingFee,
                     AddressLine = shipping.AddressLine
                 });
+            }
+
+            // Lọc theo status nếu có
+            if (request.Status != null)
+            {
+                orderListDto.Orders = orderListDto.Orders.Where(o => o.ShippingStatus == request.Status).ToList();
+                orderListDto.Total = orderListDto.Orders.Count();
+                orderListDto.Orders = orderListDto.Orders.Skip(request.Skip * request.Limit).Take(request.Limit).ToList();
             }
 
             return orderListDto;

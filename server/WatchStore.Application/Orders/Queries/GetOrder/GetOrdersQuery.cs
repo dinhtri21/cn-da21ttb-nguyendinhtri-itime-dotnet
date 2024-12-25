@@ -12,10 +12,14 @@ namespace WatchStore.Application.Orders.Queries.GetOrder
     {
         public int Skip { get; set; }
         public int Limit { get; set; }
-        public GetOrdersQuery(int skip, int limit)
+        public Dictionary<string, string> Filters { get; }
+        public string? Status { get; set; }
+        public GetOrdersQuery(int skip, int limit, Dictionary<string, string> filters, string? status)
         {
             Skip = skip;
             Limit = limit;
+            Filters = filters;
+            Status = status;
         }
     }
 }

@@ -294,15 +294,15 @@ export default function ProductList(props: DashboardProps) {
                     fetchProducts={props.fetchProducts}
                     productId={product.productId}
                   >
-                    <div className="bg-sky-500 rounded-xl p-2 cursor-pointer">
-                      <Pencil2Icon className="w-4 h-4 text-white" />
+                    <div className="bg-sky-500 rounded-md p-1 cursor-pointer">
+                      <Pencil2Icon className="w-5 h-5 text-white" />
                     </div>
                   </AlertEditProduct>
 
                   <AlertDialog>
                     <AlertDialogTrigger>
-                      <div className="bg-red-500 rounded-xl p-2 cursor-pointer">
-                        <TrashIcon className="w-4 h-4 text-white" />
+                      <div className="bg-red-500 rounded-md p-1 cursor-pointer">
+                        <TrashIcon className="w-5 h-5 text-white" />
                       </div>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
