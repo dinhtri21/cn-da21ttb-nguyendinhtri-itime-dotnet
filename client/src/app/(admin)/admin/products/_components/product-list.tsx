@@ -31,7 +31,7 @@ import { TfiReceipt } from "react-icons/tfi";
 import { CiReceipt } from "react-icons/ci";
 import ComboboxFilter from "./combobox-filter";
 import AlertAddProduct from "./alert-add-product";
-import { Product } from "@/types/product";
+import { Product, UpdateProductReq } from "@/types/product";
 import AlertEditProduct from "./alert-edit-product";
 import {
   DotsHorizontalIcon,
@@ -52,105 +52,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
-type ShippingStatus =
-  | "waiting_to_return"
-  | "ready_to_pick"
-  | "picking"
-  | "picked"
-  | "storing"
-  | "transporting"
-  | "delivering"
-  | "delivered"
-  | "delivery_fail"
-  | "waiting_to_return"
-  | "return_transporting"
-  | "return"
-  | "returning"
-  | "returned"
-  | "return_fail"
-  | "default";
-
-const statusStyles: Record<
-  ShippingStatus,
-  { textColor: string; bgColor: string; content: string }
-> = {
-  ready_to_pick: {
-    textColor: "text-violet-600",
-    bgColor: "bg-violet-100",
-    content: "Chuẩn bị hàng",
-  },
-  picking: {
-    textColor: "text-violet-600",
-    bgColor: "bg-violet-100",
-    content: "Đang lấy hàng",
-  },
-  picked: {
-    textColor: "text-violet-600",
-    bgColor: "bg-violet-100",
-    content: "Đang lấy hàng",
-  },
-  storing: {
-    textColor: "text-violet-600",
-    bgColor: "bg-violet-100",
-    content: "Nhập bưu cục",
-  },
-  transporting: {
-    textColor: "text-violet-600",
-    bgColor: "bg-violet-100",
-    content: "Đang trung chuyển",
-  },
-  delivering: {
-    textColor: "text-blue-600",
-    bgColor: "bg-blue-100",
-    content: "Đang giao hàng",
-  },
-  delivered: {
-    textColor: "text-green-600",
-    bgColor: "bg-green-100",
-    content: "Giao hàng thành công",
-  },
-  delivery_fail: {
-    textColor: "text-red-600",
-    bgColor: "bg-red-100",
-    content: "Giao hàng thất bại",
-  },
-  waiting_to_return: {
-    textColor: "text-yellow-600",
-    bgColor: "bg-yellow-100",
-    content: "Chờ xác nhận giao lại",
-  },
-  return: {
-    textColor: "text-yellow-600",
-    bgColor: "bg-yellow-100",
-    content: "Chờ xác nhận giao lại",
-  },
-  returning: {
-    textColor: "text-yellow-600",
-    bgColor: "bg-yellow-100",
-    content: "Đang hoàn hàng",
-  },
-  return_transporting: {
-    textColor: "text-yellow-600",
-    bgColor: "bg-yellow-100",
-    content: "Đang trung chuyển hoàn hàng",
-  },
-  returned: {
-    textColor: "text-yellow-600",
-    bgColor: "bg-yellow-100",
-    content: "Hoàn hàng thành công",
-  },
-  return_fail: {
-    textColor: "text-red-600",
-    bgColor: "bg-red-100",
-    content: "Hoàn hàng thất bại",
-  },
-  default: {
-    textColor: "text-gray-600",
-    bgColor: "bg-gray-100",
-    content: "Không xác định",
-  },
-};
 
 const brands: frameworks[] = [
   {
@@ -342,7 +243,7 @@ export default function ProductList(props: DashboardProps) {
           ? props.products.map((product, index) => (
               <div
                 key={index}
-                className="grid grid-cols-12 grid-flow-row gap-2 px-3 p-4 border-b border-gray-300 text-black "
+                className="grid grid-cols-12 grid-flow-row gap-2 px-3 p-4 border-b border-gray-300 text-black hover:bg-gray-50"
               >
                 <div className="col-span-1 text-gray-900 font-[400] flex justify-center gap-1 items-center">
                   <Image
@@ -350,7 +251,7 @@ export default function ProductList(props: DashboardProps) {
                     width={60}
                     height={60}
                     alt="pic"
-                    className="border rounded"
+                    className="border rounded w-[60px] h-[60px] object-cover"
                   />
                 </div>
                 <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">

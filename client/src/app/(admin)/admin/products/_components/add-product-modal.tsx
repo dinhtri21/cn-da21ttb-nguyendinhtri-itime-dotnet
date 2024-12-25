@@ -115,11 +115,11 @@ const AddProductModal = (props: InvoiceProps) => {
         </div>
 
         <div>
-          <div className="grid gap-4 mb-4 sm:grid-cols-2">
+          <div className="grid gap-2 mb-4 sm:grid-cols-2">
             <div className="col-span-2">
               <label
                 htmlFor="name"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
               >
                 Tên
               </label>
@@ -128,7 +128,7 @@ const AddProductModal = (props: InvoiceProps) => {
                 type="text"
                 name="name"
                 id="name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-400 block w-full p-2.5 dark:bg-gray-700  dark:focus:ring-gray-500 dark:focus:border-gray-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-400 block w-full p-2 dark:bg-gray-700  dark:focus:ring-gray-500 dark:focus:border-gray-500"
                 placeholder="Nhập tên sản phẩm"
                 required
               />
@@ -137,7 +137,7 @@ const AddProductModal = (props: InvoiceProps) => {
             <div>
               <label
                 htmlFor="price"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
               >
                 Giá
               </label>
@@ -146,7 +146,7 @@ const AddProductModal = (props: InvoiceProps) => {
                 type="number"
                 name="price"
                 id="price"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="2.000.000đ"
                 required
               />
@@ -154,7 +154,7 @@ const AddProductModal = (props: InvoiceProps) => {
             <div>
               <label
                 htmlFor="quantity"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
               >
                 Số lượng
               </label>
@@ -163,7 +163,7 @@ const AddProductModal = (props: InvoiceProps) => {
                 type="number"
                 name="quantity"
                 id="quantity"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="0"
                 required
               />
@@ -171,14 +171,14 @@ const AddProductModal = (props: InvoiceProps) => {
             <div>
               <label
                 htmlFor="brand"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
               >
                 Thương hiệu
               </label>
               <select
                 onChange={(e) => setSelectBrand(parseInt(e.target.value))}
                 id="brand"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
                 <option selected={true}>Chọn thương hiệu</option>
                 <option value="1">Casio</option>
@@ -189,13 +189,13 @@ const AddProductModal = (props: InvoiceProps) => {
             <div>
               <label
                 htmlFor="category"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
               >
                 Danh mục
               </label>
               <select
                 id="category"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
                 <option selected={true}>Chọn danh mục</option>
                 <option value="TV">TV/Monitors</option>
@@ -207,7 +207,7 @@ const AddProductModal = (props: InvoiceProps) => {
             <div className="col-span-2">
               <label
                 htmlFor="material"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
               >
                 Chất liệu
               </label>
@@ -215,7 +215,7 @@ const AddProductModal = (props: InvoiceProps) => {
                 onChange={(e) => setSelectMaterial(parseInt(e.target.value))}
                 id="material"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700
+                focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700
                  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500
                   dark:focus:border-primary-500"
               >
@@ -227,7 +227,7 @@ const AddProductModal = (props: InvoiceProps) => {
             <div className="sm:col-span-2">
               <label
                 htmlFor="description"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
               >
                 Mô tả
               </label>
@@ -235,14 +235,14 @@ const AddProductModal = (props: InvoiceProps) => {
                 onChange={(e) => setDescriptionProduct(e.target.value)}
                 id="description"
                 rows={3}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="block p-2 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="Viết mô tả về sản phẩm"
               ></textarea>
             </div>
             <div className="sm:col-span-2">
               <label
                 htmlFor="pic"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
               >
                 Ảnh
               </label>
@@ -272,7 +272,7 @@ const AddProductModal = (props: InvoiceProps) => {
               {/* <div className="flex items-center justify-center w-full">
                 <label
                   htmlFor="dropzone-file"
-                  className="flex flex-col items-center justify-center w-full  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                  className="flex flex1col items-center justify-center w-full  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                 >
                 
 

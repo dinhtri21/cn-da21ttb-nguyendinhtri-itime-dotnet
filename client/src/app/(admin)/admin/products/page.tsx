@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import ProductList from "./_components/product-list";
 import { Order } from "@/types/order";
-import { Product, ProductsRes } from "@/types/product";
+import { Product, ProductsRes, UpdateProductReq } from "@/types/product";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProductApi from "@/apis/productApi";
 import RenderPaginationItems from "@/components/paginationItemsCustom/paginationItemsCustom";
@@ -14,6 +14,7 @@ import {
   PaginationNext,
 } from "@/components/ui/pagination";
 import CustomToast from "@/components/react-toastify/reactToastify";
+import Cookies from "js-cookie";
 
 export default function ProductsPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -27,6 +28,8 @@ export default function ProductsPage() {
   const [filterBrand, setFilterBrand] = useState<number[] | null>(null);
   const [filterMaterial, setFilterMaterial] = useState<number[] | null>(null);
   const [filterSortOrder, setFilterSortOrder] = useState<string | null>(null);
+
+  const token = Cookies.get("accessTokenAdmin");
 
   //// FETCH PRODUCTS
   const fetchProducts = async () => {
@@ -55,8 +58,12 @@ export default function ProductsPage() {
 
   //// DELETE PRODUCT
   const deleteProduct = async (id: number) => {
+    if (!token) {
+      CustomToast.showError("Bạn chưa đăng nhập!");
+      return;
+    }
     try {
-      await ProductApi.deleteProduct(id);
+      await ProductApi.deleteProduct(id, token);
       CustomToast.showSuccess("Xóa sản phẩm thành công!");
       fetchProducts();
     } catch (error: any) {
@@ -65,7 +72,7 @@ export default function ProductsPage() {
     }
   };
 
-  //// Update filters and call API
+  //// FILTER PRODUCTS
   useEffect(() => {
     fetchProducts();
   }, [searchParams, filterBrand, filters, filterMaterial, filterSortOrder]);
@@ -125,8 +132,8 @@ export default function ProductsPage() {
       >
         {productsRes && (
           <ProductList
-            deleteProduct={deleteProduct}
             fetchProducts={fetchProducts}
+            deleteProduct={deleteProduct}
             products={productsRes.products}
             setFilterBrand={setFilterBrand}
             setFilters={setFilters}

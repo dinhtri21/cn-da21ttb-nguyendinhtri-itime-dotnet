@@ -9,6 +9,7 @@ import { RootState } from "@/redux/store/store";
 import { Order } from "@/types/order";
 import { customerApi } from "@/apis/customerApi";
 import EditProductModal from "./edit-product-modal";
+import { UpdateProductReq } from "@/types/product";
 
 interface Customer {
   customerId: number | null;
@@ -36,7 +37,6 @@ export default function AlertEditProduct(props: AlertOrderDetailProps) {
   });
 
   const handleClose = () => {
-
     setIsOpen(false);
   };
   const handleOpen = () => setIsOpen(true);
@@ -47,7 +47,7 @@ export default function AlertEditProduct(props: AlertOrderDetailProps) {
       <div onClick={handleOpen}>{props.children}</div>
 
       {/* Dialog (Alert) */}
-      {isOpen  && (
+      {isOpen && (
         <div
           className="fixed inset-0 z-50 flex justify-center items-center bg-gray-500 bg-opacity-50 overflow-y-scroll"
           // onClick={handleClickOutside} // Detect click outside

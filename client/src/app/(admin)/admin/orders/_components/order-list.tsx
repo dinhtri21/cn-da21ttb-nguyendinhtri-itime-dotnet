@@ -29,8 +29,9 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { TfiReceipt } from "react-icons/tfi";
 import { CiReceipt } from "react-icons/ci";
-import ComboboxFilter from "./combobox-filter";
+
 import AlertOrderDetail from "./alert-order-detail";
+import ComboboxFilter, { frameworks } from "./combobox-filter";
 
 type ShippingStatus =
   | "waiting_to_return"
@@ -131,6 +132,21 @@ const statusStyles: Record<
   },
 };
 
+const sortBy: frameworks[] = [
+  {
+    value: "null",
+    label: "Giá",
+  },
+  {
+    value: "price_asc",
+    label: "Giá tăng dần",
+  },
+  {
+    value: "price_desc",
+    label: "Giá giảm dần",
+  },
+];
+
 export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions.";
 
@@ -180,9 +196,12 @@ export function OrderList(props: DashboardProps) {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <ComboboxFilter />
+        <ComboboxFilter
+          frameworks={sortBy}
+          // setFilterValueText={props.setFilterSortOrder}
+        />
       </div>
-     
+
       <div className="mt-6 bg-background overflow-hidden min-h-[530px] border-t border-gray-300 ">
         <div className="hidden md:grid grid-cols-12 grid-flow-row gap-2 px-3 p-4 border-b border-gray-300 text-black ">
           <div className="col-span-1 text-gray-600 font-medium text-sm  flex  justify-center">
@@ -211,7 +230,11 @@ export function OrderList(props: DashboardProps) {
         </div>
         {props.orders?.length > 0
           ? props.orders.map((order, index) => (
-              <AlertOrderDetail order={order} key={index} orderId={order.orderId}>
+              <AlertOrderDetail
+                order={order}
+                key={index}
+                orderId={order.orderId}
+              >
                 <div
                   key={index}
                   className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-4 border-b border-gray-300 relative bg-background

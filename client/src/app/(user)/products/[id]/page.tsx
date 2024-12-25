@@ -131,10 +131,10 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               <CarouselContent>
                 {product?.imageUrls.map((image, index) => {
                   return (
-                    <CarouselItem key={index}>
-                      <div className="p-4 dark:bg-white rounded-xl">
+                    <CarouselItem key={index} className="w-full max-h-[450px]">
+                      <div className=" dark:bg-white rounded-xl w-full h-full">
                         <img
-                          className="rounded-lg"
+                          className="rounded-lg object-cover w-full h-full aspect-square"
                           src={image}
                           alt={product.productName}
                         />

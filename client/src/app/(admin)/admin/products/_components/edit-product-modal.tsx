@@ -6,6 +6,7 @@ import { useReactToPrint } from "react-to-print";
 import Cookies from "js-cookie";
 import ProductApi from "@/apis/productApi";
 import CustomToast from "@/components/react-toastify/reactToastify";
+import { UpdateProductReq } from "@/types/product";
 
 interface Customer {
   customerId: number | null;
@@ -56,24 +57,15 @@ const EditProductModal = (props: InvoiceProps) => {
     }
   };
 
-  const handleAddProduct = async () => {
+  const handleUpdateProduct = async () => {
     if (
       !nameProduct ||
       !priceProduct ||
       !quantityProduct ||
       !selectBrand ||
       !selectMaterial ||
-      !descriptionProduct ||
-      imagesFile.length === 0
+      !descriptionProduct
     ) {
-      console.log(
-        nameProduct,
-        priceProduct,
-        quantityProduct,
-        selectBrand,
-        selectMaterial,
-        imagesFile
-      );
       CustomToast.showError("Vui lòng điền đầy đủ thông tin sản phẩm");
       return;
     }
@@ -82,19 +74,28 @@ const EditProductModal = (props: InvoiceProps) => {
       return;
     }
 
+    formData.append("productId", props.productId.toString());
     formData.append("productName", nameProduct);
     formData.append("productPrice", priceProduct.toString());
     formData.append("productDescription", descriptionProduct);
     formData.append("quantityInStock", quantityProduct.toString());
     formData.append("brandId", selectBrand.toString());
     formData.append("materialId", selectMaterial.toString());
+    images.forEach((image) => {
+      const relativePath = image.replace(`${process.env.BASE_URL}`, "");
+      formData.append("ImageUrls", relativePath);
+    });
     imagesFile.forEach((image) => {
       formData.append("images", image);
     });
 
     try {
-      const response = await ProductApi.createProduct(formData, token);
-      CustomToast.showSuccess("Thêm sản phẩm thành công!");
+      const response = await ProductApi.updateProduct(
+        formData,
+        props.productId,
+        token
+      );
+      CustomToast.showSuccess("Sửa sản phẩm thành công!");
       props.fetchProducts();
       props.handleClose();
     } catch (error) {
@@ -102,16 +103,28 @@ const EditProductModal = (props: InvoiceProps) => {
     }
   };
 
+  const handleRemoveImage = (indexToRemove: number) => {
+    setImagesFile((prevImages) =>
+      prevImages.filter((_, index) => index !== indexToRemove)
+    );
+  };
+
+  const handleRemovImageUrls = (indexToRemove: number) => {
+    setImages((prevImages) =>
+      prevImages.filter((_, index) => index !== indexToRemove)
+    );
+  };
+
   useEffect(() => {
     fetchProductById();
   }, []);
 
   return (
-    <div className="relative px-8 py-6 bg-white shadow-lg sm:rounded-3xl sm:min-w-[600px] min-w-[500px] ">
+    <div className="relative px-8 py-6 bg-white shadow-lg sm:rounded-3xl sm:min-w-[600px] min-w-[600px] ">
       <div className="relative  bg-white rounded-lg ">
         <div className="flex justify-between items-center pb-2 rounded-t  dark:border-gray-600 ">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Thêm sản phẩm
+            Sửa sản phẩm
           </h3>
           <button
             type="button"
@@ -137,13 +150,13 @@ const EditProductModal = (props: InvoiceProps) => {
         </div>
 
         <div>
-          <div className="grid gap-4 mb-4 sm:grid-cols-2">
+          <div className="grid gap-2 mb-4 sm:grid-cols-2">
             <div className="col-span-2">
               <label
                 htmlFor="name"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Tên
+                Tên 
               </label>
               <input
                 value={nameProduct}
@@ -151,7 +164,7 @@ const EditProductModal = (props: InvoiceProps) => {
                 type="text"
                 name="name"
                 id="name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-400 block w-full p-2.5 dark:bg-gray-700  dark:focus:ring-gray-500 dark:focus:border-gray-500"
+                className="font-normal bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-400 block w-full p-2 dark:bg-gray-700  dark:focus:ring-gray-500 dark:focus:border-gray-500"
                 placeholder="Nhập tên sản phẩm"
                 required
               />
@@ -160,9 +173,9 @@ const EditProductModal = (props: InvoiceProps) => {
             <div>
               <label
                 htmlFor="price"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Giá
+                Giá 
               </label>
               <input
                 value={priceProduct}
@@ -170,7 +183,7 @@ const EditProductModal = (props: InvoiceProps) => {
                 type="number"
                 name="price"
                 id="price"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="font-normal bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="2.000.000đ"
                 required
               />
@@ -178,9 +191,9 @@ const EditProductModal = (props: InvoiceProps) => {
             <div>
               <label
                 htmlFor="quantity"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Số lượng
+                Số lượng 
               </label>
               <input
                 value={quantityProduct}
@@ -188,7 +201,7 @@ const EditProductModal = (props: InvoiceProps) => {
                 type="number"
                 name="quantity"
                 id="quantity"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="font-normal bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="0"
                 required
               />
@@ -196,15 +209,15 @@ const EditProductModal = (props: InvoiceProps) => {
             <div>
               <label
                 htmlFor="brand"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Thương hiệu
+                Thương hiệu 
               </label>
               <select
                 value={selectBrand}
                 onChange={(e) => setSelectBrand(parseInt(e.target.value))}
                 id="brand"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="font-normal bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
                 <option selected={true}>Chọn thương hiệu</option>
                 <option value="1">Casio</option>
@@ -215,13 +228,13 @@ const EditProductModal = (props: InvoiceProps) => {
             <div>
               <label
                 htmlFor="category"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Danh mục
+                Danh mục 
               </label>
               <select
                 id="category"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="font-normal bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
                 <option selected={true}>Chọn danh mục</option>
                 <option value="TV">TV/Monitors</option>
@@ -233,16 +246,16 @@ const EditProductModal = (props: InvoiceProps) => {
             <div className="col-span-2">
               <label
                 htmlFor="material"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Chất liệu
+                Chất liệu 
               </label>
               <select
                 value={selectMaterial}
                 onChange={(e) => setSelectMaterial(parseInt(e.target.value))}
                 id="material"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700
+                className="font-normal bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700
                  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500
                   dark:focus:border-primary-500"
               >
@@ -254,108 +267,77 @@ const EditProductModal = (props: InvoiceProps) => {
             <div className="sm:col-span-2">
               <label
                 htmlFor="description"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Mô tả
+                Mô tả 
               </label>
               <textarea
                 value={descriptionProduct}
                 onChange={(e) => setDescriptionProduct(e.target.value)}
                 id="description"
                 rows={3}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="font-normal block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="Viết mô tả về sản phẩm"
               ></textarea>
             </div>
             <div className="sm:col-span-2">
               <label
                 htmlFor="pic"
-                className="block mb-2 text-sm font-medium text-gray-800 dark:text-white"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Ảnh
+                Ảnh 
               </label>
               <input
+                // value={images}
                 className="block w-full text-sm text-gray-900 border border-gray-300 cursor-pointer
                      bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 id="file_input"
                 type="file"
                 onChange={(e) => handleFileChange(e)}
               />
-              {imagesFile.length > 0 && (
-                <div>
-                  {/* <h3>Preview:</h3> */}
-                  <div className="grid grid-cols-3 gap-2 mt-2">
-                    {imagesFile.map((img, index) => (
-                      <div key={index}>
-                        <img
-                          src={URL.createObjectURL(img)}
-                          alt={`Preview ${index + 1}`}
-                          style={{ width: "100px", height: "auto" }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {
-                images?.length > 0 && (
-                  <div>
-                    <div className="grid grid-cols-3 gap-2 mt-2">
-                      {images.map((img, index) => (
-                        <div key={index}>
-                          <img
-                            src={img}
-                            alt={`Preview ${index + 1}`}
-                            style={{ width: "100px", height: "auto" }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )
-                }
-              {/* <div className="flex items-center justify-center w-full">
-                <label
-                  htmlFor="dropzone-file"
-                  className="flex flex-col items-center justify-center w-full  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                >
-                
-
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg
-                      className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 20 16"
+              <div className="grid grid-cols-4 gap-2 mt-4">
+                {images.map((img, index) => (
+                  <div key={index} className="inline-flex relative">
+                    <img
+                      src={img}
+                      alt={`Preview ${index + 1}`}
+                      style={{ width: "100px", height: "100px" }}
+                      className="object-cover border"
+                    />
+                    <button
+                      className="absolute left-0 top-0 w-5 h-5 bg-red-500 text-white rounded-full"
+                      onClick={() => handleRemovImageUrls(index)}
                     >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                      />
-                    </svg>
-                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold">Click to upload</span> or
-                      drag and drop
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      SVG, PNG, JPG or GIF (MAX. 800x400px)
-                    </p>
+                      ✕
+                    </button>
                   </div>
-                  <input onChange={(e) => handleFileChange(e)} id="dropzone-file" type="file" className="hidden" />
-                </label>
-              </div> */}
+                ))}
+                {imagesFile.length > 0 &&
+                  imagesFile.map((img, index) => (
+                    <div key={index} className="inline-flex relative">
+                      <img
+                        src={URL.createObjectURL(img)}
+                        alt={`Preview ${index + 1}`}
+                        style={{ width: "100px", height: "100px" }}
+                        className="object-cover border"
+                      />
+                      <button
+                        className="absolute left-0 top-0 w-5 h-5 bg-red-500 text-white rounded-full"
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
           <div className="flex justify-end">
             <button
-              onClick={handleAddProduct}
+              onClick={handleUpdateProduct}
               className="flex w-full justify-center items-center border px-2 py-2 bg-black text-white rounded-lg hover:bg-gray-800 "
             >
-              Thêm sản phẩm
+              Sửa sản phẩm
             </button>
           </div>
         </div>

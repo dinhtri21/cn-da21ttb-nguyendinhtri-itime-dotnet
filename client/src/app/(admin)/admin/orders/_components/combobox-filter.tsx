@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,39 +12,42 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
-const frameworks = [
-  {
-    value: "delivered",
-    label: "Giao thành công",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-]
+export type frameworks = {
+  value: string;
+  label: string;
+};
 
-export default function ComboboxFilter() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+interface ComboboxFilterProps {
+  setFilterValue?: React.Dispatch<React.SetStateAction<number[] | null>>;
+  setFilterValueText?: React.Dispatch<React.SetStateAction<string | null>>;
+  frameworks: frameworks[];
+}
+
+export default function ComboboxFilter(props: ComboboxFilterProps) {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
+
+  React.useEffect(() => {
+    if (value && props.setFilterValue) {
+      props.setFilterValue([parseInt(value)]);
+    }
+    if (value === "null" && props.setFilterValue) {
+      props.setFilterValue(null);
+    }
+    if (value && props.setFilterValueText) {
+      props.setFilterValueText(value);
+    }
+    if (value === "null" && props.setFilterValueText) {
+      props.setFilterValueText(null);
+    }
+  }, [value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,27 +56,32 @@ export default function ComboboxFilter() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between text-gray-600"
+          className={`h-9 p-2 flex gap-1 justify-between text-base font-normal  border-gray-300 ${
+            value == "null" || value == "" ? "text-gray-400" : "text-customOrange"
+          }`}
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Lọc trạng thái đơn ..."}
-          <ChevronsUpDown className="opacity-50" />
+          <ChevronsUpDown className="opacity-90 w-4 h-4" />
+          <span>
+            {value
+              ? props.frameworks.find((framework) => framework.value === value)
+                  ?.label
+              : props.frameworks[0].label}
+          </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandInput placeholder="Tim..." className="h-9" />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {props.frameworks.map((framework) => (
                 <CommandItem
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
                   }}
                 >
                   {framework.label}
@@ -90,5 +98,5 @@ export default function ComboboxFilter() {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

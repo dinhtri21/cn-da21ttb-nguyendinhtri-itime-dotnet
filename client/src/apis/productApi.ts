@@ -1,5 +1,5 @@
 import axiosConfig from "@/lib/axiosConfig";
-import { CreateProductReq, Product, ProductsRes } from "@/types/product";
+import { CreateProductReq, Product, ProductsRes, UpdateProductReq } from "@/types/product";
 import { z } from "zod";
 import qs from "qs";
 
@@ -58,15 +58,27 @@ const ProductApi = {
   },
   async deleteProduct(
     id: number,
-    token?: string
+    token: string
   ): Promise<{ message: string }> {
-    // const response = await axiosConfig.delete(`products/${id}`, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
+    const response = await axiosConfig.delete(`products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
 
-    const response = await axiosConfig.delete(`products/${id}`);
+  async updateProduct(
+    form: FormData,
+    productId: number,
+    token: string
+  ): Promise<{ message: string }> {
+    const response = await axiosConfig.put(`products/${productId}`, form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   },
 };

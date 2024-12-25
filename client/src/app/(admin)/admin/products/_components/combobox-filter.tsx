@@ -19,25 +19,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-// const frameworks = [
-//   {
-//     value: "null",
-//     label: "Lọc theo thương hiệu",
-//   },
-//   {
-//     value: "1",
-//     label: "CASIO",
-//   },
-//   {
-//     value: "2",
-//     label: "Omega",
-//   },
-//   {
-//     value: "3",
-//     label: "CITIZEN",
-//   },
-// ];
-
 export type frameworks = {
   value: string;
   label: string;

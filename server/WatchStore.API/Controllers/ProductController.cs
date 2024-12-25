@@ -91,6 +91,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AddProduct([FromForm] CreateProductCommand command)
         {
             try
@@ -112,6 +113,7 @@ namespace WatchStore.API.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
             try
@@ -135,7 +137,8 @@ namespace WatchStore.API.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductCommand command)
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromForm] UpdateProductCommand command)
         {
             try
             {

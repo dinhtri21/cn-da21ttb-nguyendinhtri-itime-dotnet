@@ -26,7 +26,7 @@ namespace WatchStore.API.Controllers
 
         [Authorize(Policy = "AdminPolicy")]
         [HttpGet]
-        public async Task<IActionResult> GetOrders([FromQuery] int? skip, [FromQuery] int? limit)
+        public async Task<IActionResult> GetOrders([FromQuery] int? skip, [FromQuery] int? limit, [FromQuery(Name = "filters")] Dictionary<string, string> filters)
         {
             try
             {
