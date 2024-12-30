@@ -62,25 +62,24 @@ namespace WatchStore.Infrastructure.Repositories
                 query = query.Where(p => materialIds.Contains(p.MaterialId));
             }
 
-            foreach (var filter in filters)
+            if (filters != null)
             {
-                var filterValue = filter.Value;
+                foreach (var filter in filters)
+                {
+                    var filterValue = filter.Value;
 
-                // Kiểm tra xem filter.Value có được bao bởi cặp dấu "" hay không
-                if (filterValue.StartsWith("\"") && filterValue.EndsWith("\""))
-                {
-                    filterValue = filterValue.Trim('"');
-                    query = query.Where($"{filter.Key}.Contains(@0)", filterValue);
-                }
-                else
-                {
-                    // Nếu không phải chuỗi, sử dụng ==
-                    query = query.Where($"{filter.Key} == @0", filterValue);
+                    if (filterValue.StartsWith("\"") && filterValue.EndsWith("\""))
+                    {
+                        filterValue = filterValue.Trim('"');
+                        query = query.Where($"{filter.Key}.Contains(@0)", filterValue);
+                    }
+                    else
+                    {
+                        query = query.Where($"{filter.Key} == @0", filterValue);
+                    }
                 }
             }
 
-
-            // Áp dụng sắp xếp theo sortOrder
             switch (sortOrder)
             {
                 case "price_asc": // Sắp xếp theo giá tăng dần
@@ -99,8 +98,6 @@ namespace WatchStore.Infrastructure.Repositories
                     query = query.OrderBy(p => p.ProductId);
                     break;
             }
-
-
 
             return await query.Skip(skip * limit)
                               .Take(limit)

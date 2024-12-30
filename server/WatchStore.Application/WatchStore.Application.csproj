@@ -28,6 +28,9 @@
 
 	<ItemGroup>
 		<Folder Include="Admins\Commands\UpdateAdmin\" />
+		<Folder Include="Brands\Commands\CreateBrand\" />
+		<Folder Include="Brands\Commands\DeleteBrand\" />
+		<Folder Include="Brands\Commands\UpdateBrand\" />
 		<Folder Include="Carts\Commands\DeleteCart\" />
 		<Folder Include="Carts\Commands\UpdateCart\" />
 		<Folder Include="Carts\Queries\" />

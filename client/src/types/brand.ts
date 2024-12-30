@@ -3,3 +3,10 @@ export type Brand = {
     brandName: string,
     brandDescription: string,
 }
+
+export type BrandResponse = {
+    brands: Brand[],
+    total: number,
+    skip: number,
+    limit: number,
+}

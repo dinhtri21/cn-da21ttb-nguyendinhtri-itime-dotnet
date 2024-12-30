@@ -1,46 +1,15 @@
 "use client";
 import Image from "next/image";
-import {
-  GearIcon,
-  CubeIcon,
-  Cross1Icon,
-  PlusIcon,
-  MinusIcon,
-} from "@radix-ui/react-icons";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import { useState } from "react";
-import { CartItemRes } from "@/validations/cartItem.chema";
-import { Order } from "@/types/order";
-import { RxDotFilled } from "react-icons/rx";
-import { BsThreeDots } from "react-icons/bs";
-import { FcSurvey } from "react-icons/fc";
-import { FcList } from "react-icons/fc";
-import { ClockIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { FcShipped } from "react-icons/fc";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-
-import { BiReceipt } from "react-icons/bi";
-import { TbTruckDelivery } from "react-icons/tb";
-import { CiDeliveryTruck } from "react-icons/ci";
-import { TfiReceipt } from "react-icons/tfi";
-import { CiReceipt } from "react-icons/ci";
 import ComboboxFilter from "./combobox-filter";
 import AlertAddProduct from "./alert-add-product";
-import { Product, UpdateProductReq } from "@/types/product";
+import { Product } from "@/types/product";
 import AlertEditProduct from "./alert-edit-product";
 import {
-  DotsHorizontalIcon,
   TrashIcon,
   Pencil2Icon,
 } from "@radix-ui/react-icons";
-
 import { frameworks } from "./combobox-filter";
-
 import {
   AlertDialog,
   AlertDialogAction,

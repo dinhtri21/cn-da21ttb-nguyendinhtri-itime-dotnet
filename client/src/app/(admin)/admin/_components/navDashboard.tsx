@@ -18,6 +18,9 @@ import {
   Settings,
   ShoppingCart,
   Users2,
+  Watch,
+  Cog,
+  LogOut,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -54,9 +57,7 @@ export default function NavDashboard() {
       Cookies.remove("accessTokenAdmin");
       Cookies.remove("adminId");
       CustomToast.showSuccess("Đăng xuất thành công !");
-      // handleDeleteDataRedux();
       router.push("admin/login");
-      // window.location.href = '/login';
     } catch (error) {
       CustomToast.showError("Đăng xuất thất bại !");
       console.error("Failed to logout:", error);
@@ -125,7 +126,7 @@ export default function NavDashboard() {
             </TooltipTrigger>
             <TooltipContent side="right">Products</TooltipContent>
           </Tooltip>
-          <Tooltip>
+          {/* <Tooltip>
             <TooltipTrigger asChild>
               <Link
                 href="/admin/customers"
@@ -141,6 +142,40 @@ export default function NavDashboard() {
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right">Customers</TooltipContent>
+          </Tooltip> */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href="/admin/brands"
+                className={`${
+                  pathname == "/admin/brands"
+                    ? "bg-slate-500/50 text-dark dark:text-white"
+                    : ""
+                } flex gap-2 px-3 w-full py-2 text-white items-center justify-start rounded-lg transition-colors `}
+              >
+                <Watch className="h-5 w-5" />
+                <span className="">Thương hiệu</span>
+                <span className="sr-only">Thương hiệu</span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">Brand</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href="/admin/materials"
+                className={`${
+                  pathname == "/admin/materials"
+                    ? "bg-slate-500/50 text-dark dark:text-white"
+                    : ""
+                } flex gap-2 px-3 w-full py-2 text-white items-center justify-start rounded-lg transition-colors `}
+              >
+                <Cog className="h-5 w-5" />
+                <span className="">Chất liệu</span>
+                <span className="sr-only">Chất liệu</span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">Materials</TooltipContent>
           </Tooltip>
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 py-4">
@@ -151,7 +186,7 @@ export default function NavDashboard() {
                   <div
                     className={` flex gap-2 px-3 w-full py-2 text-white items-center justify-start rounded-lg transition-colors`}
                   >
-                    <ExitIcon className="h-5 w-5" />
+                    <LogOut className="h-5 w-5" />
                     <span className="">Đăng xuất</span>
                     <span className="sr-only">Đăng xuất</span>
                   </div>

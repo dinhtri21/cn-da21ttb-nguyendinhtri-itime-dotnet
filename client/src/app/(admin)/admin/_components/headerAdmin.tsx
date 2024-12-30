@@ -94,6 +94,26 @@ export default function HeaderAdmin() {
                 </BreadcrumbItem>
               </>
             ) : null}
+             {pathname == "/admin/brands" ? (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="sm:text-lg font-semibold text-gray-700">
+                    Thương hiệu
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </>
+            ) : null}
+             {pathname == "/admin/materials" ? (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="sm:text-lg font-semibold text-gray-700">
+                    Chất liệu
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </>
+            ) : null}
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex gap-2 items-center">

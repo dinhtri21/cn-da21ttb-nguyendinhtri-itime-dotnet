@@ -75,7 +75,7 @@ const PaginationPrevious = ({
   >
     <ChevronLeftIcon className="h-4 w-4" />
     {/* <span>Previous</span> */}
-    <span className="text-gray-700">Trước</span>
+    {/* <span className="text-gray-700">Trước</span> */}
   </PaginationLink>
 )
 PaginationPrevious.displayName = "PaginationPrevious"
@@ -91,7 +91,7 @@ const PaginationNext = ({
     {...props}
   >
     {/* <span>Next</span> */}
-    <span className="text-gray-700">Tiếp</span>
+    {/* <span className="text-gray-700">Tiếp</span> */}
     <ChevronRightIcon className="h-4 w-4" />
   </PaginationLink>
 )

@@ -12,4 +12,12 @@ namespace WatchStore.Application.Common.DTOs
         public string BrandName { get; set; }
         public string BrandDescription { get; set; }
     }
+
+    public class BrandsResponse
+    {
+        public List<BrandDto> Brands { get; set; }
+        public int total { get; set; }
+        public int skip { get; set; }
+        public int limit { get; set; }
+    }
 }
