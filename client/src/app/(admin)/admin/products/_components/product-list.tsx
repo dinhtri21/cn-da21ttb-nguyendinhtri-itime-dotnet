@@ -192,7 +192,7 @@ export default function ProductList(props: DashboardProps) {
           </div>
         </div>
         <AlertAddProduct fetchProducts={props.fetchProducts}>
-          <div className="flex items-center gap-1 border px-3 py-1 hover:bg-slate-800 rounded-lg bg-green-600  border-gray-400 cursor-pointer">
+          <div className="flex items-center gap-1 border px-3 py-1 hover:bg-slate-800 rounded-lg bg-black  border-gray-400 cursor-pointer">
             <Image
               src="/icon/add-round.svg"
               width={16}
@@ -243,15 +243,15 @@ export default function ProductList(props: DashboardProps) {
           ? props.products.map((product, index) => (
               <div
                 key={index}
-                className="grid grid-cols-12 grid-flow-row gap-2 px-3 p-4 border-b border-gray-300 text-black hover:bg-gray-50"
+                className="grid grid-cols-12 grid-flow-row gap-2 p-3 border-b border-gray-300 text-black hover:bg-gray-50"
               >
                 <div className="col-span-1 text-gray-900 font-[400] flex justify-center gap-1 items-center">
                   <Image
                     src={product?.imageUrls[0]}
-                    width={60}
-                    height={60}
+                    width={50}
+                    height={50}
                     alt="pic"
-                    className="border rounded w-[60px] h-[60px] object-cover"
+                    className="border rounded w-[50px] h-[50px] object-cover"
                   />
                 </div>
                 <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">
@@ -294,15 +294,15 @@ export default function ProductList(props: DashboardProps) {
                     fetchProducts={props.fetchProducts}
                     productId={product.productId}
                   >
-                    <div className="bg-sky-500 rounded-md p-1 cursor-pointer">
-                      <Pencil2Icon className="w-5 h-5 text-white" />
+                    <div className="bg-blue-100 rounded-md p-1 cursor-pointer">
+                      <Pencil2Icon className="w-5 h-5 text-blue-400" />
                     </div>
                   </AlertEditProduct>
 
                   <AlertDialog>
                     <AlertDialogTrigger>
-                      <div className="bg-red-500 rounded-md p-1 cursor-pointer">
-                        <TrashIcon className="w-5 h-5 text-white" />
+                      <div className="bg-red-100 rounded-md p-1 cursor-pointer">
+                        <TrashIcon className="w-5 h-5 text-red-400" />
                       </div>
                     </AlertDialogTrigger>
                     <AlertDialogContent>

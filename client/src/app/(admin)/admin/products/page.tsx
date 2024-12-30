@@ -35,7 +35,7 @@ export default function ProductsPage() {
   const fetchProducts = async () => {
     try {
       const skip = parseInt(searchParams.get("skip") || "0");
-      const limit = parseInt(searchParams.get("limit") || "6");
+      const limit = parseInt(searchParams.get("limit") || "8");
       // const limit = 2;
       // const brands = searchParams.get("brands")?.split(",").map(Number);
 

@@ -22,12 +22,50 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { ExitIcon } from "@radix-ui/react-icons";
+import Cookies from "js-cookie";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import CustomToast from "@/components/react-toastify/reactToastify";
+import { useRouter } from "next/navigation";
 
 export default function NavDashboard() {
   const pathname = usePathname();
+  const adminToken = Cookies.get("accessTokenAdmin");
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    if (!adminToken) {
+      CustomToast.showError("Bạn chưa đăng nhập!");
+      return;
+    }
+    try {
+      // const res = await customerApi.LogoutCustomer(token);
+      Cookies.remove("accessTokenAdmin");
+      Cookies.remove("adminId");
+      CustomToast.showSuccess("Đăng xuất thành công !");
+      // handleDeleteDataRedux();
+      router.push("admin/login");
+      // window.location.href = '/login';
+    } catch (error) {
+      CustomToast.showError("Đăng xuất thất bại !");
+      console.error("Failed to logout:", error);
+    }
+  };
+
   return (
     <>
-      <aside className="hidden bg-gray-600 z-50 fixed left-0 top-0 bottom-0  min-h-[calc(100vh-16px)]  flex-col border-1 sm:flex ">
+      <aside className="hidden bg-black z-50 fixed left-0 top-0 bottom-0  min-h-[calc(100vh-16px)]  flex-col border-1 sm:flex ">
         <nav className="flex flex-col items-start gap-4 px-6 py-4">
           <Link
             href="#"
@@ -104,18 +142,37 @@ export default function NavDashboard() {
             </TooltipTrigger>
             <TooltipContent side="right">Customers</TooltipContent>
           </Tooltip>
-         
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 py-4">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <Settings className="h-5 w-5" />
-                <span className="sr-only">Settings</span>
-              </Link>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <div
+                    className={` flex gap-2 px-3 w-full py-2 text-white items-center justify-start rounded-lg transition-colors`}
+                  >
+                    <ExitIcon className="h-5 w-5" />
+                    <span className="">Đăng xuất</span>
+                    <span className="sr-only">Đăng xuất</span>
+                  </div>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Bạn có chắc muốn đăng xuất tài khoản ?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Tài khoản của bạn sẽ được đăng xuất khỏi ITime.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Huỷ</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleLogout}>
+                      Đăng xuất
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </TooltipTrigger>
             <TooltipContent side="right">Settings</TooltipContent>
           </Tooltip>

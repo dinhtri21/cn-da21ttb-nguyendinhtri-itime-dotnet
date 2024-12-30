@@ -36,7 +36,7 @@ export default function OrderPage() {
     try {
       const res = await OrderApi.GetOrders(
         token,
-        parseInt(params.get("limit") || "6"),
+        parseInt(params.get("limit") || "7"),
         parseInt(params.get("skip") || "0"),
         filterStatus || undefined,
         filters || undefined
@@ -92,7 +92,7 @@ export default function OrderPage() {
     <div className="w-full dark:bg-muted/40 relative">
       <div
         className="w-full mx-auto  dark:bg-background
-          relative sm:pl-[220px] sm:pr-6 "
+          relative sm:pl-[220px] sm:pr-6 pb-6"
       >
         <OrderList
           orders={orders}

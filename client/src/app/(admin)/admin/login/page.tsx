@@ -30,6 +30,7 @@ export default function AdminLoginPage() {
       CustomToast.showSuccess("Đăng nhập thành công !");
       router.push("/admin");
     } catch (error) {
+      CustomToast.showError("Đăng nhập thất bại !");
       console.log(error);
     } finally {
       setIsLoading(false);

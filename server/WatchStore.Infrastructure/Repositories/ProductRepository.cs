@@ -69,7 +69,6 @@ namespace WatchStore.Infrastructure.Repositories
                 // Kiểm tra xem filter.Value có được bao bởi cặp dấu "" hay không
                 if (filterValue.StartsWith("\"") && filterValue.EndsWith("\""))
                 {
-                    // Nếu là chuỗi, loại bỏ dấu "" và sử dụng LIKE
                     filterValue = filterValue.Trim('"');
                     query = query.Where($"{filter.Key}.Contains(@0)", filterValue);
                 }

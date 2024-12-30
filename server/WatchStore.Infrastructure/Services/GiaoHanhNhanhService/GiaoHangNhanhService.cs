@@ -13,6 +13,7 @@ using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetProvince;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetWards;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CancelOrder;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CreateOrder;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.GetOrderInfo;
 
@@ -44,6 +45,23 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
             }
 
             var result = JsonConvert.DeserializeObject<CalculateFeeResponse>(await response.Content.ReadAsStringAsync());
+            return result;
+        }
+
+        public async Task<CancelOrderResponse> CancelOrder(CalculateFeeRequest request)
+        {
+            _httpClient.DefaultRequestHeaders.Add("ShopId", _configuration["GHNService:ShopId"]);
+            var json = JsonConvert.SerializeObject(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/shiip/public-api/v2/switch-status/cancel", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error when calling GHN API: {response.StatusCode} - {errorContent}");
+            }
+
+            var result = JsonConvert.DeserializeObject<CancelOrderResponse>(await response.Content.ReadAsStringAsync());
             return result;
         }
 
