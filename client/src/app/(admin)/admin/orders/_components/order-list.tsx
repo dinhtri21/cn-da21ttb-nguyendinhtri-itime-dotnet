@@ -44,6 +44,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import CustomToast from "@/components/react-toastify/reactToastify";
 
 type ShippingStatus =
   | "waiting_to_return"
@@ -409,35 +410,58 @@ export function OrderList(props: DashboardProps) {
                     onClick={handleInnerClick}
                     className="md:col-span-1 flex md:row-span-2  justify-center items-center text-center text-gray-600"
                   >
-                    <AlertDialog>
-                      <AlertDialogTrigger>
-                        <div className="bg-red-100 rounded-md p-1 cursor-pointer text-white">
-                          <TrashIcon className="w-5 h-5 text-red-400" />
-                        </div>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Bạn có thật sự muốn huỷ đơn hàng này ?
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Sau khi huỷ, đơn hàng sẽ không thể khôi phục.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Huỷ</AlertDialogCancel>
-                          <AlertDialogAction>
-                            <button
-                            onClick={() =>
-                              props.deleteOrder(order.orderId)
-                            }
-                            >
-                              Xóa
-                            </button>
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                    {order?.shippingStatus == "ready_to_pick" ||
+                    order?.shippingStatus == "picking" ||
+                    order?.shippingStatus == "money_collect_picking" ? (
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <div className="bg-red-100 rounded-md p-1 cursor-pointer text-white">
+                            <TrashIcon className="w-5 h-5 text-red-400" />
+                          </div>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Bạn có thật sự muốn huỷ đơn hàng này ?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Sau khi huỷ, đơn hàng sẽ không thể khôi phục.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Đóng</AlertDialogCancel>
+                            <AlertDialogAction>
+                              <button
+                                onClick={() => props.deleteOrder(order.orderId)}
+                              >
+                                Huỷ đơn
+                              </button>
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    ) : (
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <div className="bg-red-100 rounded-md p-1 cursor-pointer text-white">
+                            <TrashIcon className="w-5 h-5 text-red-400" />
+                          </div>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Không thể huỷ
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Đơn hàng sau khi bắt đầu vận chuyển không thể huỷ!
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Đóng</AlertDialogCancel>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
                   </div>
                 </div>
               </AlertOrderDetail>

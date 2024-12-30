@@ -17,6 +17,7 @@ namespace WatchStore.Domain.Entities
         // Navigation properties
         public Customer Customer { get; set; }
         public Payment Payment { get; set; }
+        public Shipping Shipping { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
 
         public Order()

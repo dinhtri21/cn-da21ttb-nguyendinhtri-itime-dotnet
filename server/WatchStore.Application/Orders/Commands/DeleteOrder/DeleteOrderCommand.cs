@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WatchStore.Application.Orders.Commands.DeleteOrder
 {
-    public class DeleteOrderCommand : IRequest<bool>
+    public class DeleteOrderCommand : IRequest
     {
         public int OrderId { get; set; }
         public DeleteOrderCommand (int orderId)

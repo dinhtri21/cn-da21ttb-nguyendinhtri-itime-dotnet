@@ -10,6 +10,6 @@ namespace WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CancelOrde
     public class CancelOrderRequest
     {
         [JsonProperty("order_codes")]
-        public string OrderCode { get; set; }
+        public List<string> OrderCode { get; set; }
     }
 }

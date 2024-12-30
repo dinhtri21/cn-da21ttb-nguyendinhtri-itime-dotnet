@@ -23,7 +23,7 @@ namespace WatchStore.Application.Common.Interfaces
         Task<GetServiceResponse> GetServiceAsync(GetServiceRequest request);
         Task<CreateOrderResponse> CreateOrderAsync(CreateOrderRequest request);
         Task<GetOrdeInfoResponse> GetOrderInfoAsync(GetOrderInfoRequest request);
-        Task<CancelOrderResponse> CancelOrder (CalculateFeeRequest request);
+        Task<CancelOrderResponse> CancelOrder (CancelOrderRequest request);
 
     }
 }

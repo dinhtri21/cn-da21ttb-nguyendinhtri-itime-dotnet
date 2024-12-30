@@ -151,11 +151,7 @@ namespace WatchStore.API.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new DeleteOrderCommand(id));
-                if (!result)
-                {
-                    return BadRequest(new { message = "Xóa đơn hàng không thành công!" });
-                }
+                await _mediator.Send(new DeleteOrderCommand(id));
                 return Ok(new { message = $"Xóa đơn hàng Id = {id}  thành công!" });
             }
             catch (UnauthorizedAccessException ex)

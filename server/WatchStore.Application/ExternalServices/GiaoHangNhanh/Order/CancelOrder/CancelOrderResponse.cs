@@ -14,7 +14,7 @@ namespace WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CancelOrde
         [JsonProperty("message")]
         public string Message { get; set; }
         [JsonProperty("data")]
-        public string Data { get; set; }
+        public List<Data> Data { get; set; }
     }
     public class Data
     {

@@ -44,7 +44,7 @@ namespace WatchStore.Infrastructure.Repositories
                 }
             }
 
-            var orders =  await query.Skip(Skip * Limit)
+            var orders = await query.Skip(Skip * Limit)
                                      .Take(Limit)
                                      .ToListAsync();
 
@@ -56,17 +56,14 @@ namespace WatchStore.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DeleteOrderAsync(int orderId)
+        public async Task DeleteOrderAsync(int orderId)
         {
             var order = await _context.Orders
                                       .Include(o => o.OrderDetails)
                                       .FirstOrDefaultAsync(o => o.OrderId == orderId);
 
-            if (order == null) return false;
-
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
-            return true;
         }
 
         public async Task<int> GetTotalOrderCountAsync()
@@ -121,6 +118,15 @@ namespace WatchStore.Infrastructure.Repositories
 
             // Không truyền tháng và năm -> Đếm tất cả các đơn hàng
             return await query.CountAsync();
+        }
+
+        public async Task<Order?> GetOrderByIdAsync(int orderId)
+        {
+            return await _context.Orders
+                               .Include(o => o.OrderDetails)
+                               .Include(o => o.Payment)
+                               .Include(o => o.Shipping)
+                               .FirstOrDefaultAsync(o => o.OrderId == orderId);
         }
     }
 }

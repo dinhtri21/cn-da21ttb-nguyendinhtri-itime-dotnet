@@ -49,6 +49,13 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasForeignKey(o => o.PaymentId)
                    .OnDelete(DeleteBehavior.Restrict)
                    .HasConstraintName("FK_Order_Payment");
+
+            // 1 - 1 : Shipping - Orders
+            builder.HasOne(o => o.Shipping)
+                   .WithOne(s => s.Order)
+                   .HasForeignKey<Shipping>(s => s.OrderId)
+                   .OnDelete(DeleteBehavior.Cascade)
+                   .HasConstraintName("FK_Order_Shipping");
         }
     }
 }

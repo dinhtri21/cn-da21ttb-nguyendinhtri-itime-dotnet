@@ -48,7 +48,7 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
             return result;
         }
 
-        public async Task<CancelOrderResponse> CancelOrder(CalculateFeeRequest request)
+        public async Task<CancelOrderResponse> CancelOrder(CancelOrderRequest request)
         {
             _httpClient.DefaultRequestHeaders.Add("ShopId", _configuration["GHNService:ShopId"]);
             var json = JsonConvert.SerializeObject(request);
@@ -62,6 +62,7 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
             }
 
             var result = JsonConvert.DeserializeObject<CancelOrderResponse>(await response.Content.ReadAsStringAsync());
+            
             return result;
         }
 
