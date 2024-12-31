@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 using WatchStore.API.Configuration.Repository;
 using WatchStore.API.Configuration.HttpClient;
+using WatchStore.API.Configuration.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,10 +49,6 @@ builder.Services.AddRepositories();
 // AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 // HttpClient
 builder.Services.AddGiaoHangNhanhHttpClient(builder.Configuration);
 
@@ -61,12 +58,18 @@ builder.Services.AddJwtAuthentication(builder.Configuration["Jwt:key"]);
 // Authorization
 builder.Services.AddAuthorizationPolicy();
 
+// Swagger
+builder.Services.AddSwaggerDocumentation();
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwaggerDocumentation();
     app.UseSwaggerUI();
 }
 

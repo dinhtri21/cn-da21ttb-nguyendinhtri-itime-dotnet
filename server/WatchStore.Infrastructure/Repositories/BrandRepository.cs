@@ -19,6 +19,14 @@ namespace WatchStore.Infrastructure.Repositories
         {
             _context = context;
         }
+
+        public async Task<Brand?> CreateBrandAsync(Brand brand)
+        {
+            await _context.Brands.AddAsync(brand);
+            await _context.SaveChangesAsync();
+            return brand;
+        }
+
         public async Task<List<Brand>?> GetBrandsAsync(int? skip, int? limit, Dictionary<string, string>? filters)
         {
             var query = _context.Brands.AsQueryable();

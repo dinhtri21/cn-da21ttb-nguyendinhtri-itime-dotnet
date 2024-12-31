@@ -39,8 +39,6 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
                 .WithMessage("Material Id là bắt buộc")
                 .GreaterThan(0)
                 .WithMessage("Material Id phải lớn hơn 0");
-           
-
         }
 
     }

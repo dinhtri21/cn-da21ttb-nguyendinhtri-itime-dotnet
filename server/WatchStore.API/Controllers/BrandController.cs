@@ -1,7 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using WatchStore.Application.Brands.Commands.CreateBrand;
 using WatchStore.Application.Brands.Queries.GetBrands;
 using WatchStore.Application.Common.Interfaces;
 
@@ -29,6 +31,29 @@ namespace WatchStore.API.Controllers
             catch (ValidationException ex)
             {
                 return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> CreateBrand(CreateBrandCommand command)
+        {
+            try
+            {
+                var brand = await _mediator.Send(command);
+                return Ok(brand);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

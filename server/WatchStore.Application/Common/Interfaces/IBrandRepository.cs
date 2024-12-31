@@ -10,5 +10,7 @@ namespace WatchStore.Application.Common.Interfaces
     public interface IBrandRepository
     {
         Task<List<Brand>?> GetBrandsAsync(int? skip, int? limit, Dictionary<string, string>? filters);
+        Task<Brand?> CreateBrandAsync(Brand brand);
+
     }
 }

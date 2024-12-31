@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WatchStore.Application.Brands.Queries.GetBrands;
+using WatchStore.Application.Materials.Queries;
 
 namespace WatchStore.API.Controllers
 {
@@ -22,7 +23,7 @@ namespace WatchStore.API.Controllers
             {
                 int Skip = skip ?? 0;
                 int Limit = limit ?? 9;
-                var Materials = await _mediator.Send(new GetBrandsQuery(Skip, Limit, filters));
+                var Materials = await _mediator.Send(new GetMaterialsQuery(Skip, Limit, filters));
                 return Ok(Materials);
             }
             catch (UnauthorizedAccessException ex)

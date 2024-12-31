@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/select";
 
 export default function BrandPage() {
-  const [brands, setBrands] = useState<Brand[]>([]);
   const [brandResponse, setBrandResponse] = useState<BrandResponse | null>(
     null
   );
