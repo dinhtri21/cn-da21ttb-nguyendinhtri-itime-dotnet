@@ -40,7 +40,7 @@ namespace WatchStore.API.Controllers
 
         [HttpPost]
         [Authorize(Policy = "AdminPolicy")]
-        public async Task<IActionResult> CreateBrand(CreateBrandCommand command)
+        public async Task<IActionResult> CreateBrand([FromForm] CreateBrandCommand command)
         {
             try
             {

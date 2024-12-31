@@ -1,10 +1,12 @@
 import { Brand } from "@/types/brand";
 import { useState } from "react";
 import Image from "next/image";
+import AlertAddBrand from "./alert-add-brand";
 
 interface BrandPageProps {
   brands?: Brand[];
   setFilters: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  fetchBrands: () => void;
 }
 
 export default function BrandList(props: BrandPageProps) {
@@ -57,6 +59,17 @@ export default function BrandList(props: BrandPageProps) {
             />
           </div>
         </div>
+        <AlertAddBrand fetchBrands={props.fetchBrands}>
+          <div className="flex items-center gap-1 border px-3 py-1 hover:bg-slate-800 rounded-lg bg-black  border-gray-400 cursor-pointer">
+            <Image
+              src="/icon/add-round.svg"
+              width={16}
+              height={16}
+              alt="logo"
+            />
+            <span className="text-white">Thêm thương hiệu</span>
+          </div>
+        </AlertAddBrand>
       </div>
       <div className="mt-6 bg-background overflow-hidden min-h-[518px] border-t border-gray-300">
         <div className="hidden md:grid grid-cols-10 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">
@@ -84,7 +97,13 @@ export default function BrandList(props: BrandPageProps) {
                 {brand?.brandId}
               </div>
               <div className="col-span-2 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
-                <span>Ảnh</span>
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_API_URL}${brand?.brandImageUrl}`}
+                  width={60}
+                  height={30}
+                  alt="logo"
+                  className="w-[60px] h-[30px] object-cover rounded-sm"
+                />
               </div>
               <div className="col-span-2 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
                 <span>{brand?.brandName}</span>

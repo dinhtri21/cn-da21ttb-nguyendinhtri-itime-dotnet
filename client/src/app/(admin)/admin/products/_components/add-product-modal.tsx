@@ -1,18 +1,7 @@
-import { Order } from "@/types/order";
-import { OrderDetail } from "@/types/orderDetail";
 import React, { useRef } from "react";
-import { FaPrint, FaDownload, FaEnvelope } from "react-icons/fa";
-import { useReactToPrint } from "react-to-print";
 import Cookies from "js-cookie";
 import ProductApi from "@/apis/productApi";
 import CustomToast from "@/components/react-toastify/reactToastify";
-
-interface Customer {
-  customerId: number | null;
-  fullName: string | null;
-  phoneNumber: string | null;
-  email: string | null;
-}
 
 interface InvoiceProps {
   handleClose: () => void;
@@ -48,14 +37,6 @@ const AddProductModal = (props: InvoiceProps) => {
       !descriptionProduct ||
       images.length === 0
     ) {
-      console.log(
-        nameProduct,
-        priceProduct,
-        quantityProduct,
-        selectBrand,
-        selectMaterial,
-        images
-      );
       CustomToast.showError("Vui lòng điền đầy đủ thông tin sản phẩm");
       return;
     }

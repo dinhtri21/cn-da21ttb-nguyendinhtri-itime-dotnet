@@ -35,6 +35,11 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnType("nvarchar(255)")
                    .HasMaxLength(255);
 
+            builder.Property(b => b.BrandImageUrl)
+                   .HasColumnName("BrandImageUrl")
+                   .HasColumnType("nvarchar(255)")
+                   .HasMaxLength(255);
+
         }
     }
 }

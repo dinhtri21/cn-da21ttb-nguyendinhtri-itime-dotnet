@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,7 @@ namespace WatchStore.Application.Brands.Commands.CreateBrand
     {
         public string BrandName { get; set; }
         public string BrandDescription { get; set; }
-        public CreateBrandCommand( string brandName, string brandDescription)
-        {
-            BrandName = brandName;
-            BrandDescription = brandDescription;
-        }
+        public IFormFile Images { get; set; }
+
     }
 }

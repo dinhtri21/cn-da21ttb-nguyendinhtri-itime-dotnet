@@ -11,6 +11,7 @@ namespace WatchStore.Domain.Entities
         public int BrandId { get; set; }
         public string BrandName { get; set; }
         public string BrandDescription { get; set; }
+        public string BrandImageUrl { get; set; }
 
         // Navigation properties
         public ICollection<Product> Products { get; set; }

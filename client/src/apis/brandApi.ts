@@ -1,5 +1,5 @@
 import axiosConfig from "@/lib/axiosConfig";
-import { BrandResponse } from "@/types/brand";
+import { Brand, BrandResponse } from "@/types/brand";
 import qs from "qs";
 
 const BrandApi = {
@@ -19,6 +19,18 @@ const BrandApi = {
       },
     });
     return res.data;
+  },
+  async createBrand(
+    form: FormData,
+    token: string
+  ): Promise<Brand> {
+    const response = await axiosConfig.post("brands", form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
   },
 };
 

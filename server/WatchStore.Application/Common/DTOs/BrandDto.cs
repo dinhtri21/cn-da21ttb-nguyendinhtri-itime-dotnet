@@ -11,6 +11,7 @@ namespace WatchStore.Application.Common.DTOs
         public int BrandId { get; set; }
         public string BrandName { get; set; }
         public string BrandDescription { get; set; }
+        public string BrandImageUrl { get; set; }
     }
 
     public class BrandsResponseDto

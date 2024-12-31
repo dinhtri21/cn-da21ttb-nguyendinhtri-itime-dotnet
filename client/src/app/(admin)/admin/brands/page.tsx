@@ -26,7 +26,7 @@ export default function BrandPage() {
   );
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(12);
 
   const fetchBrands = async () => {
     try {
@@ -72,7 +72,7 @@ export default function BrandPage() {
         className="w-full mx-auto  dark:bg-background
         relative sm:pl-[220px] sm:pr-6 pb-6"
       >
-        <BrandList brands={brandResponse?.brands} setFilters={setFilters} />
+        <BrandList brands={brandResponse?.brands} setFilters={setFilters} fetchBrands={fetchBrands} />
         {brandResponse && brandResponse?.brands?.length !== 0 && (
           <div className="flex justify-center items-center mt-3">
             <Select
@@ -83,10 +83,10 @@ export default function BrandPage() {
               // defaultValue={`${limit.toString()}`}
             >
               <SelectTrigger className="w-[60px] border border-gray-300">
-                <SelectValue placeholder="1" />
+                <SelectValue placeholder="12" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">1</SelectItem>
+                <SelectItem value="12">12</SelectItem>
                 <SelectItem value="20">20</SelectItem>
                 <SelectItem value="50">50</SelectItem>
               </SelectContent>
