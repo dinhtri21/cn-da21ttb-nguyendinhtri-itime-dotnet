@@ -10,7 +10,7 @@ using WatchStore.Application.Common.Interfaces;
 
 namespace WatchStore.Application.Brands.Queries.GetBrands
 {
-    public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, BrandsResponse>, IApplicationMarker
+    public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, BrandsResponseDto>, IApplicationMarker
 
     {
         private readonly IBrandRepository _brandRepository;
@@ -20,7 +20,7 @@ namespace WatchStore.Application.Brands.Queries.GetBrands
             _brandRepository = brandRepository;
             _mapper = mapper;
         }
-        public async Task<BrandsResponse> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
+        public async Task<BrandsResponseDto> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
         {
             var brands = await _brandRepository.GetBrandsAsync(request.Skip, request.Limit, request.Filters);
             if (brands == null)
@@ -31,7 +31,7 @@ namespace WatchStore.Application.Brands.Queries.GetBrands
             var totalBrands = await _brandRepository.GetBrandsAsync(null, null, null);
             var totalBrandFilters = await _brandRepository.GetBrandsAsync(0, totalBrands.Count(), request.Filters);
 
-            return new BrandsResponse
+            return new BrandsResponseDto
             {
                 Brands = _mapper.Map<List<BrandDto>>(brands),
                 limit = request.Limit,

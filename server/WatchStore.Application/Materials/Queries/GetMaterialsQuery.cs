@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 
-namespace WatchStore.Application.Brands.Queries.GetBrands
+namespace WatchStore.Application.Materials.Queries
 {
-    public class GetBrandsQuery : IRequest<BrandsResponseDto>
+    public class GetMaterialsQuery : IRequest<MaterialResponseDto>
     {
         public int Skip { get; set; }
-        public int Limit { get; set; } 
+        public int Limit { get; set; }
         public Dictionary<string, string>? Filters { get; }
-        public GetBrandsQuery(int skip, int limit, Dictionary<string, string>? filters)
+        public GetMaterialsQuery(int skip, int limit, Dictionary<string, string>? filters)
         {
             Skip = skip;
             Limit = limit;

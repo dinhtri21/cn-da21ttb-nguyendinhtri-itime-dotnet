@@ -2,7 +2,7 @@
 
 namespace WatchStore.API.Configuration.Authorization
 {
-    public static class AuthorizationConfiguration
+    public static class AuthorizationConfig
     {
         public static void AddAuthorizationPolicy(this IServiceCollection services)
         {
