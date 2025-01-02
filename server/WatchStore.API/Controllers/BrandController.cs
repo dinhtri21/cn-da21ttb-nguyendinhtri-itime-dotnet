@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WatchStore.Application.Brands.Commands.CreateBrand;
+using WatchStore.Application.Brands.Commands.DeleteBrand;
+using WatchStore.Application.Brands.Commands.UpdateBrand;
 using WatchStore.Application.Brands.Queries.GetBrands;
 using WatchStore.Application.Common.Interfaces;
 
@@ -44,6 +46,56 @@ namespace WatchStore.API.Controllers
         {
             try
             {
+                var brand = await _mediator.Send(command);
+                return Ok(brand);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> DeleteBrand([FromRoute] int id)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteBrandCommand(id));
+                return Ok();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> UpdateBrand([FromRoute] int id, [FromForm] UpdateBrandCommand command)
+        {
+            try
+            {
+                if (command.BrandId != id)
+                {
+                    return BadRequest("Brand id không khớp");
+                }
                 var brand = await _mediator.Send(command);
                 return Ok(brand);
             }

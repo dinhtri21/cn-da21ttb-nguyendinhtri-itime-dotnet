@@ -27,6 +27,27 @@ namespace WatchStore.Infrastructure.Repositories
             return brand;
         }
 
+        public async Task DeleteBrandAsync(int brandId)
+        {
+            var brand = await _context.Brands.FirstOrDefaultAsync(b => b.BrandId == brandId);
+
+            if (brand == null)
+            {
+                throw new InvalidOperationException("Không tìm thấy thương hiệu.");
+            }
+            if (brand.Products.Any())
+            {
+                throw new InvalidOperationException("Không thể xóa thương hiệu đã có sản phẩm.");
+            }
+            _context.Brands.Remove(brand);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Brand?> GetBrandByIdAsync(int brandId)
+        {
+            return await _context.Brands.FirstOrDefaultAsync(b => b.BrandId == brandId);
+        }
+
         public async Task<List<Brand>?> GetBrandsAsync(int? skip, int? limit, Dictionary<string, string>? filters)
         {
             var query = _context.Brands.AsQueryable();
@@ -58,6 +79,13 @@ namespace WatchStore.Infrastructure.Repositories
 
             return await query.ToListAsync();
 
+        }
+
+        public async Task<Brand?> UpdateBrandAsync(Brand brand)
+        {
+            _context.Brands.Update(brand);
+            await _context.SaveChangesAsync();
+            return brand;
         }
     }
 }
