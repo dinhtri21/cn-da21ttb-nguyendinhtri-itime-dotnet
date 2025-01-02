@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Common.Interfaces;
 
-namespace WatchStore.Application.Materials.Queries
+namespace WatchStore.Application.Materials.Queries.GetMaterials
 {
     public class GetMaterialsQueryHandler : IRequestHandler<GetMaterialsQuery, MaterialResponseDto>, IApplicationMarker
     {

@@ -49,5 +49,42 @@ namespace WatchStore.Infrastructure.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<Material?> CreateMaterialAsync(Material material)
+        {
+            await _context.Materials.AddAsync(material);
+            await _context.SaveChangesAsync();
+            return material;
+        }
+
+        public async Task DeleteMaterialAsync(int materialId)
+        {
+            var material = await _context.Materials.FirstOrDefaultAsync(b => b.MaterialId == materialId);
+
+            if (material == null)
+            {
+                throw new InvalidOperationException("Không tìm thấy chất liệu.");
+            }
+
+            if (material.Products != null && material.Products.Any())
+            {
+                throw new InvalidOperationException("Không thể xóa chất liệu đã có sản phẩm.");
+            }
+
+            _context.Materials.Remove(material);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Material?> GetMaterialByIdAsync(int materialId)
+        {
+            return await _context.Materials.FirstOrDefaultAsync(b => b.MaterialId == materialId);
+        }
+
+        public async Task<Material?> UpdateMaterialAsync(Material material)
+        {
+            _context.Materials.Update(material);
+            await _context.SaveChangesAsync();
+            return material;
+        }
     }
 }

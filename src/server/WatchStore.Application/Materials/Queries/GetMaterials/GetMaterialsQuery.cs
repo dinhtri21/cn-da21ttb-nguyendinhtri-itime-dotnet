@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 
-namespace WatchStore.Application.Materials.Queries
+namespace WatchStore.Application.Materials.Queries.GetMaterials
 {
     public class GetMaterialsQuery : IRequest<MaterialResponseDto>
     {

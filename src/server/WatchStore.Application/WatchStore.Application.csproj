@@ -32,7 +32,6 @@
 		<Folder Include="Carts\Commands\UpdateCart\" />
 		<Folder Include="Carts\Queries\" />
 		<Folder Include="Customers\Commands\DeleteCustomer\" />
-		<Folder Include="Materials\Commands\" />
 		<Folder Include="Orders\Commands\UpdateOrder\" />
 		<Folder Include="Payments\" />
 	</ItemGroup>

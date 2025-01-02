@@ -3,7 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WatchStore.Application.Brands.Queries.GetBrands;
+using WatchStore.Application.Materials.Commands.CreateMaterial;
+using WatchStore.Application.Materials.Commands.DeleteMaterial;
+using WatchStore.Application.Materials.Commands.UpdateMaterial;
 using WatchStore.Application.Materials.Queries;
+using WatchStore.Application.Materials.Queries.GetMaterialById;
+using WatchStore.Application.Materials.Queries.GetMaterials;
 
 namespace WatchStore.API.Controllers
 {
@@ -23,6 +28,38 @@ namespace WatchStore.API.Controllers
             int Limit = limit ?? 9;
             var Materials = await _mediator.Send(new GetMaterialsQuery(Skip, Limit, filters));
             return Ok(Materials);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMaterialById([FromRoute] GetMaterialByIdQuery command)
+        {
+            var material = await _mediator.Send(command);
+            return Ok(material);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMaterial([FromBody] CreateMaterialCommand command)
+        {
+            var material = await _mediator.Send(command);
+            return Ok(material);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMaterial([FromRoute] DeleteMaterialCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMaterial([FromRoute] int id, [FromBody] UpdateMaterialCommand command)
+        {
+            if (command.MaterialId != id)
+            {
+                return BadRequest("Material id không khớp");
+            }
+            await _mediator.Send(command);
+            return Ok();
         }
     }
 }
