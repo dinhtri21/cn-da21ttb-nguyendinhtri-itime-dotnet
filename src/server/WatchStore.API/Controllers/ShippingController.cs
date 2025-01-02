@@ -21,20 +21,8 @@ namespace WatchStore.API.Controllers
         [HttpGet("calculate-fee")]
         public async Task<IActionResult> GetShippingFee([FromQuery]GetCalculateFeeQuery getCalculateFeeQuery)
         {
-            try
-            {
                 var fee = await _mediator.Send(getCalculateFeeQuery);
                 return Ok(fee);
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-           
         }
     }
 }

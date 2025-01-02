@@ -29,52 +29,21 @@ namespace WatchStore.API.Controllers
         public async Task<IActionResult> GetOrders([FromQuery] int? skip, [FromQuery] int? limit, [FromQuery(Name = "filters")] Dictionary<string, string> filters,
             [FromQuery] string? status)
         {
-            try
+            int Skip = skip ?? 0;
+            int Limit = limit ?? 9;
+            var listOrders = await _mediator.Send(new GetOrdersQuery(Skip, Limit, filters, status));
+            if (listOrders.Orders.Count() == 0)
             {
-                int Skip = skip ?? 0;
-                int Limit = limit ?? 9;
-                var listOrders = await _mediator.Send(new GetOrdersQuery(Skip, Limit, filters, status));
-                if (listOrders.Orders.Count() == 0)
-                {
-                    return Ok(new { listOrders.Orders, message = "Đơn hàng trống!" });
-                }
-                return Ok(listOrders);
+                return Ok(new { listOrders.Orders, message = "Đơn hàng trống!" });
             }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(listOrders);
         }
         [Authorize(Policy = "AdminPolicy")]
         [HttpGet("count")]
         public async Task<IActionResult> GetOrdersCount([FromQuery] int? month, [FromQuery] int? year)
         {
-            try
-            {
-                var count = await _mediator.Send(new GetOrdersCountQuery(year, month));
-                return Ok(new { totalCount = count });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var count = await _mediator.Send(new GetOrdersCountQuery(year, month));
+            return Ok(new { totalCount = count });
         }
 
         [Authorize(Policy = "CustomerPolicy")]
@@ -86,30 +55,15 @@ namespace WatchStore.API.Controllers
             {
                 return Forbid("Bạn không có quyền truy cập tài nguyên này!");
             }
-            try
+
+            int Skip = skip ?? 0;
+            int Limit = limit ?? 9;
+            var listOrders = await _mediator.Send(new GetOrdersByCustomerIdQuery(customerId, Skip, Limit));
+            if (listOrders.Orders.Count() == 0)
             {
-                int Skip = skip ?? 0;
-                int Limit = limit ?? 9;
-                var listOrders = await _mediator.Send(new GetOrdersByCustomerIdQuery(customerId, Skip, Limit));
-                if (listOrders.Orders.Count() == 0)
-                {
-                    return Ok(new { listOrders.Orders, message = "Giỏ hàng trống!" });
-                }
-                return Ok(listOrders);
+                return Ok(new { listOrders.Orders, message = "Giỏ hàng trống!" });
             }
-            
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(listOrders);
         }
 
         [Authorize(Policy = "CustomerPolicy")]
@@ -121,27 +75,13 @@ namespace WatchStore.API.Controllers
             {
                 return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
             }
-            try
+
+            var orderId = await _mediator.Send(command);
+            if (orderId == 0)
             {
-                var orderId = await _mediator.Send(command);
-                if (orderId == 0)
-                {
-                    return BadRequest(new { message = "Đặt hàng không thành công!" });
-                }
-                return Ok(new { message = "Đặt hàng thành công!", orderId });
+                return BadRequest(new { message = "Đặt hàng không thành công!" });
             }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(new { message = "Đặt hàng thành công!", orderId });
 
         }
 
@@ -149,23 +89,9 @@ namespace WatchStore.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            try
-            {
-                await _mediator.Send(new DeleteOrderCommand(id));
-                return Ok(new { message = $"Xóa đơn hàng Id = {id}  thành công!" });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            await _mediator.Send(new DeleteOrderCommand(id));
+            return Ok(new { message = $"Xóa đơn hàng Id = {id}  thành công!" });
+
         }
     }
 }

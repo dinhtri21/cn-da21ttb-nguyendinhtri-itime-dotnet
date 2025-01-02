@@ -12,6 +12,7 @@ using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 using WatchStore.API.Configuration.Repository;
 using WatchStore.API.Configuration.HttpClient;
 using WatchStore.API.Configuration.Swagger;
+using WatchStore.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,7 @@ builder.Services.AddSwaggerDocumentation();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -28,152 +28,99 @@ namespace WatchStore.API.Controllers
         [HttpGet("customer/{customer-id}")]
         public async Task<IActionResult> GetCartItems([FromRoute(Name = "customer-id")] int customerId)
         {
-            try
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+
+            if (userId != customerId.ToString())
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+            }
 
-                if (userId != customerId.ToString())
-                {
-                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                }
-
-                var cartItems = await _mediator.Send(new GetCartItemsQuery(customerId));
-                if (cartItems.Count() == 0)
-                {
-                    return Ok(cartItems);
-                }
+            var cartItems = await _mediator.Send(new GetCartItemsQuery(customerId));
+            if (cartItems.Count() == 0)
+            {
                 return Ok(cartItems);
             }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(cartItems);
+
         }
 
         [Authorize(Policy = "CustomerPolicy")]
         [HttpGet("items-count/customer/{customer-id}")]
         public async Task<IActionResult> GetCartItemsCount([FromRoute(Name = "customer-id")] int customerId)
         {
-            try
-            {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
 
-                if (userId != customerId.ToString())
-                {
-                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                }
+            if (userId != customerId.ToString())
+            {
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
+            }
 
-                var cartItemsCount = await _mediator.Send(new GetCartItemsCountQuery(customerId));
-                return Ok(new { cartItemsCount });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var cartItemsCount = await _mediator.Send(new GetCartItemsCountQuery(customerId));
+            return Ok(new { cartItemsCount });
+
         }
 
         [Authorize(Policy = "CustomerPolicy")]
         [HttpPost]
         public async Task<IActionResult> AddProductToCart([FromBody] CreateCartItemCommand command)
         {
-            try
-            {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
 
-                if (userId != command.CustomerId.ToString())
-                {
-                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                }
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
 
-                var cartItem = await _mediator.Send(command);
-                if (cartItem == null)
-                {
-                    return BadRequest(new { message = "Thêm sản phẩm vào giỏ hàng không thành công!" });
-                }
-                return Ok(new { message = $"Thêm sản phẩm vào giỏ hàng thành công", data = cartItem });
-            }
-            catch (ValidationException ex)
+            if (userId != command.CustomerId.ToString())
             {
-                return BadRequest(new { message = ex.Message });
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
             }
-            catch (Exception ex)
+
+            var cartItem = await _mediator.Send(command);
+            if (cartItem == null)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(new { message = "Thêm sản phẩm vào giỏ hàng không thành công!" });
             }
+            return Ok(new { message = $"Thêm sản phẩm vào giỏ hàng thành công", data = cartItem });
+
         }
 
         [Authorize(Policy = "CustomerPolicy")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCartItem(int id)
         {
-            try
-            {
-                //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
 
-                //if (userId != id.ToString())
-                //{
-                //    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                //}
 
-                var result = await _mediator.Send(new DeleteCartItemCommand { CartItemId = id });
-                if (result == false)
-                {
-                    return BadRequest(new { message = "Xóa sản phẩm khỏi giỏ hàng không thành công!" });
-                }
-                return Ok(new { message = $"Xóa sản phẩm khỏi giỏ hàng thành công", id });
-            }
-            catch (ValidationException ex)
+            var result = await _mediator.Send(new DeleteCartItemCommand { CartItemId = id });
+            if (result == false)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = "Xóa sản phẩm khỏi giỏ hàng không thành công!" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(new { message = $"Xóa sản phẩm khỏi giỏ hàng thành công", id });
+
         }
 
         [Authorize(Policy = "CustomerPolicy")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCartItem(int id, [FromBody] UpdateCartItemCommand command)
         {
-            try
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
+
+            if (userId != command.CustomerId.ToString())
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Lấy userId từ token
-
-                if (userId != command.CustomerId.ToString())
-                {
-                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                }
-
-                if (command.CartItemId != id)
-                {
-                    return BadRequest(new { message = "Id không khớp!" });
-                }
-
-                var carItem = await _mediator.Send(command);
-
-                if (carItem == null)
-                {
-                    return BadRequest(new { message = "Cập nhật sản phẩm trong giỏ hàng không thành công!" });
-                }
-                return Ok(new { message = "Cập nhật sản phẩm trong giỏ hàng thành công!", data = carItem });
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
             }
-            catch (ValidationException ex)
+
+            if (command.CartItemId != id)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = "Id không khớp!" });
             }
-            catch (Exception ex)
+
+            var carItem = await _mediator.Send(command);
+
+            if (carItem == null)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(new { message = "Cập nhật sản phẩm trong giỏ hàng không thành công!" });
             }
+            return Ok(new { message = "Cập nhật sản phẩm trong giỏ hàng thành công!", data = carItem });
         }
 
     }

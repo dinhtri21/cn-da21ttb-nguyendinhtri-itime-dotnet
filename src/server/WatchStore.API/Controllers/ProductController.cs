@@ -27,140 +27,81 @@ namespace WatchStore.API.Controllers
         public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds,
             [FromQuery] int? skip, [FromQuery] int? limit, [FromQuery] string? sortOrder, [FromQuery(Name = "filters")] Dictionary<string, string> filters)
         {
-            try
+            int Skip = skip ?? 0;
+            int Limit = limit ?? 9;
+            var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, Skip, Limit, sortOrder, filters));
+            if (productListDto.Products.Count() == 0)
             {
-                int Skip = skip ?? 0;
-                int Limit = limit ?? 9;
-                var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, Skip, Limit, sortOrder, filters));
-                if (productListDto.Products.Count() == 0)
-                {
-                    return Ok(new { productListDto.Products, message = "Giỏ hàng trống!" });
-                }
-                return Ok(productListDto);
+                return Ok(new { productListDto.Products, message = "Giỏ hàng trống!" });
             }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(productListDto);
         }
 
         [HttpGet("count")]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> GetProductsCount([FromQuery] int? month, [FromQuery] int? year)
         {
-            try
-            {
-                var count = await _mediator.Send(new GetProductsCountQuery(month, year));
-                return Ok(new { totalCount = count });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var count = await _mediator.Send(new GetProductsCountQuery(month, year));
+            return Ok(new { totalCount = count });
         }
 
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {
-            try
+
+            var productDto = await _mediator.Send(new GetProductByIdQuery(id));
+            if (productDto == null)
             {
-                var productDto = await _mediator.Send(new GetProductByIdQuery(id));
-                if (productDto == null)
-                {
-                    return NotFound(new { message = "Không tìm thấy sản phẩm!" });
-                }
-                return Ok(productDto);
+                return NotFound(new { message = "Không tìm thấy sản phẩm!" });
             }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(productDto);
+
         }
 
         [HttpPost]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AddProduct([FromForm] CreateProductCommand command)
         {
-            try
+
+            var productId = await _mediator.Send(command);
+            if (productId == 0)
             {
-                var productId = await _mediator.Send(command);
-                if (productId == 0)
-                {
-                    return BadRequest(new { message = "Thêm sản phẩm không thành công!" });
-                }
-                return Ok(new { message = "Thêm sản phẩm thành công!" });
+                return BadRequest(new { message = "Thêm sản phẩm không thành công!" });
             }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(new { message = "Thêm sản phẩm thành công!" });
+
         }
         [HttpDelete("{id}")]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
-            try
-            {
-                var command = new DeleteProductCommand(id);
-                var result = await _mediator.Send(command);
+            var command = new DeleteProductCommand(id);
+            var result = await _mediator.Send(command);
 
-                if (!result)
-                {
-                    return BadRequest(new { message = "Xóa sản phẩm không thành công!" });
-                }
-                return Ok(new { message = "Xóa sản phẩm thành công!" });
-            }
-            catch (ValidationException ex)
+            if (!result)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = "Xóa sản phẩm không thành công!" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
+            return Ok(new { message = "Xóa sản phẩm thành công!" });
+
         }
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> UpdateProduct(int id, [FromForm] UpdateProductCommand command)
         {
-            try
+
+            if (id != command.ProductId)
             {
-                if (id != command.ProductId)
-                {
-                    return BadRequest(new { message = "ProductId không khớp." });
-                }
-                var result = await _mediator.Send(command);
-                if (!result)
-                {
-                    return BadRequest(new { message = "Cập nhật sản phẩm không thành công!" });
-                }
-                return Ok(new { message = "Cập nhật sản phẩm thành công!" });
+                return BadRequest(new { message = "ProductId không khớp." });
             }
-            catch (ValidationException ex)
+            var result = await _mediator.Send(command);
+            if (!result)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = "Cập nhật sản phẩm không thành công!" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(new { message = "Cập nhật sản phẩm thành công!" });
+
         }
     }
 }

@@ -19,23 +19,12 @@ namespace WatchStore.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCart ([FromBody] CreateCartCommand command)
         {
-            try
-            {
                 var cartId = await _mediator.Send(command);
                 if (cartId == 0)
                 {
                     return BadRequest(new { message = "Tạo giỏ hàng không thành công!" });
                 }
                 return Ok(new { message = $"Tạo giỏ hàng mới cho thành công", cartId });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
         }
     }
 }

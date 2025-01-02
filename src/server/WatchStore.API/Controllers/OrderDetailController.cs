@@ -28,30 +28,17 @@ namespace WatchStore.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
-            if (userId == null) {
+            if (userId == null)
+            {
                 return Unauthorized(new { message = "Lỗi xác thực!" });
             }
-            try
+
+            var OrderDetail = await _mediator.Send(new GetOrderDetailByIdQuery(id, Convert.ToInt32(userId)));
+            if (OrderDetail == null)
             {
-                var OrderDetail = await _mediator.Send(new GetOrderDetailByIdQuery(id, Convert.ToInt32(userId)));
-                if (OrderDetail == null)
-                {
-                    return Ok(new { OrderDetail, message = "Không tìm thấy đơn hàng!" });
-                }
-                return Ok(OrderDetail);
+                return Ok(new { OrderDetail, message = "Không tìm thấy đơn hàng!" });
             }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(OrderDetail);
 
         }
         [Authorize(Policy = "CustomerAndAdminPolicy")]
@@ -59,32 +46,12 @@ namespace WatchStore.API.Controllers
 
         public async Task<IActionResult> GetOrderDetailsByOrderId([FromRoute(Name = "order-id")] int id)
         {
-            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (userId == null)
-            //{
-            //    return Unauthorized(new { message = "Lỗi xác thực!" });
-            //}
-            try
+            var OrderDetails = await _mediator.Send(new GetOrderDetailsByOrderIdQuery(id));
+            if (OrderDetails == null)
             {
-                var OrderDetails = await _mediator.Send(new GetOrderDetailsByOrderIdQuery(id));
-                if (OrderDetails == null)
-                {
-                    return Ok(new { OrderDetails, message = "Không tìm thấy đơn hàng!" });
-                }
-                return Ok(OrderDetails);
+                return Ok(new { OrderDetails, message = "Không tìm thấy đơn hàng!" });
             }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(OrderDetails);
         }
 
     }

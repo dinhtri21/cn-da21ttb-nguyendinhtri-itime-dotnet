@@ -22,62 +22,34 @@ namespace WatchStore.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAdmin([FromBody] CreateAdminCommand command)
         {
-            try
-            {
-                var adminId = await _mediator.Send(command);
-                if (adminId == 0)
-                {
-                    return BadRequest(new { message = "Tạo tài khoản admin không thành công!" });
-                }
-                return Ok(new { message = "Tạo tài khoản admin thành công!", adminId });
-            }
 
-            catch (UnauthorizedAccessException ex)
+            var adminId = await _mediator.Send(command);
+            if (adminId == 0)
             {
-                return Unauthorized(ex.Message);
+                return BadRequest(new { message = "Tạo tài khoản admin không thành công!" });
             }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(new { message = "Tạo tài khoản admin thành công!", adminId });
+
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAdmin([FromBody] LoginAdminQuery query)
         {
-            try
-            {
-                var loginData = await _mediator.Send(query);
-                var cookieOptions = new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = false,
-                    Expires = DateTime.UtcNow.AddHours(1),
-                    SameSite = SameSiteMode.None,
-                    MaxAge = TimeSpan.FromHours(1),
 
-                };
-                Response.Cookies.Append("accessToken", loginData.AccessToken, cookieOptions);
+            var loginData = await _mediator.Send(query);
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = false,
+                Expires = DateTime.UtcNow.AddHours(1),
+                SameSite = SameSiteMode.None,
+                MaxAge = TimeSpan.FromHours(1),
 
-                return Ok(loginData);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            };
+            Response.Cookies.Append("accessToken", loginData.AccessToken, cookieOptions);
+
+            return Ok(loginData);
         }
-       
+
     }
 }

@@ -28,88 +28,66 @@ namespace WatchStore.API.Controllers
         [Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> GetCustomerAddressesByCustomerIdAsync([FromRoute(Name = "customer-id")] int customerId)
         {
-            try
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId != customerId.ToString())
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-                if (userId != customerId.ToString())
-                {
-                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                }
-
-                var customerAddresses = await _mediator.Send(new CustomerAddressQuery(customerId));
-
-                if (customerAddresses == null)
-                {
-                    return NotFound(new { message = "Không tìm thấy địa chỉ khách hàng!" });
-                }
-
-                return Ok(customerAddresses);
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
             }
-            catch (Exception ex)
+
+            var customerAddresses = await _mediator.Send(new CustomerAddressQuery(customerId));
+
+            if (customerAddresses == null)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(new { message = "Không tìm thấy địa chỉ khách hàng!" });
             }
+
+            return Ok(customerAddresses);
         }
 
         [HttpGet("provinces")]
         public async Task<IActionResult> GetProvince()
         {
-            try
-            {
-                var provinces = await _mediator.Send(new GetProvinceQuery());
 
-                if (provinces == null)
-                {
-                    return NotFound(new { message = "Không tìm thấy tỉnh nào!" });
-                }
+            var provinces = await _mediator.Send(new GetProvinceQuery());
 
-                return Ok(provinces);
-            }
-            catch (Exception ex)
+            if (provinces == null)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(new { message = "Không tìm thấy tỉnh nào!" });
             }
+
+            return Ok(provinces);
+
         }
 
         [HttpGet("districts")]
         public async Task<IActionResult> GetDistrict([FromQuery] int provinceId)
         {
-            try
-            {
-                var districts = await _mediator.Send(new GetDistrictQuery() { ProvinceID = provinceId});
 
-                if (districts == null)
-                {
-                    return NotFound(new { message = "Không tìm thấy quận/huyện nào!" });
-                }
+            var districts = await _mediator.Send(new GetDistrictQuery() { ProvinceID = provinceId });
 
-                return Ok(districts);
-            }
-            catch (Exception ex)
+            if (districts == null)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(new { message = "Không tìm thấy quận/huyện nào!" });
             }
+
+            return Ok(districts);
+
         }
 
         [HttpGet("wards")]
         public async Task<IActionResult> GetWard([FromQuery] int districtId)
         {
-            try
-            {
-                var wards = await _mediator.Send(new GetWardQuery() { DistrictID = districtId });
 
-                if (wards == null)
-                {
-                    return NotFound(new { message = "Không tìm thấy phường/xã nào!" });
-                }
+            var wards = await _mediator.Send(new GetWardQuery() { DistrictID = districtId });
 
-                return Ok(wards);
-            }
-            catch (Exception ex)
+            if (wards == null)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(new { message = "Không tìm thấy phường/xã nào!" });
             }
+
+            return Ok(wards);
+
         }
 
 
@@ -117,95 +95,67 @@ namespace WatchStore.API.Controllers
         [Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> CreateCustomerAddressAsync([FromBody] CreateCustomerAddressCommand command)
         {
-            try
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId != command.CustomerId.ToString())
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-                if (userId != command.CustomerId.ToString())
-                {
-                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                }
-
-                var result = await _mediator.Send(command);
-
-                if (result == null)
-                {
-                    return BadRequest(new { message = "Thêm địa chỉ khách hàng không thành công!" });
-                }
-
-                return Ok(new { message = "Thêm địa chỉ thành công!", customerAddress = result });
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
             }
-            catch (ValidationException ex)
+
+            var result = await _mediator.Send(command);
+
+            if (result == null)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = "Thêm địa chỉ khách hàng không thành công!" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+
+            return Ok(new { message = "Thêm địa chỉ thành công!", customerAddress = result });
+
         }
 
         [HttpPut("{id}")]
         [Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> UpdateCustomerAddressAsync([FromRoute(Name = "id")] int id, [FromBody] UpdateCustomerAddressCommand command)
         {
-            try
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId != command.CustomerId.ToString())
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-                if (userId != command.CustomerId.ToString())
-                {
-                    return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
-                }
-
-                if (id != command.AddressId)
-                {
-                    return BadRequest(new { message = "Id không khớp!" });
-                }
-
-                var result = await _mediator.Send(command);
-
-                if (result == null)
-                {
-                    return BadRequest(new { message = "Cập nhật địa chỉ khách hàng không thành công!" });
-                }
-
-                return Ok(new { message = "Cập nhật địa chỉ thành công!", customerAddress = result });
+                return Unauthorized(new { message = "Bạn không có quyền truy cập tài nguyên này!" });
             }
-            catch (ValidationException ex)
+
+            if (id != command.AddressId)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = "Id không khớp!" });
             }
-            catch (Exception ex)
+
+            var result = await _mediator.Send(command);
+
+            if (result == null)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(new { message = "Cập nhật địa chỉ khách hàng không thành công!" });
             }
+
+            return Ok(new { message = "Cập nhật địa chỉ thành công!", customerAddress = result });
+
         }
 
         [HttpDelete("{id}")]
         [Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> DeleteCustomerAddressAsync([FromRoute(Name = "id")] int id)
         {
-            try
-            {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var result = await _mediator.Send(new DeleteCustomerAddressCommand(id, int.Parse(userId)));
 
-                if (result == 0)
-                {
-                    return BadRequest(new { message = "Xóa địa chỉ khách hàng không thành công!" });
-                }
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _mediator.Send(new DeleteCustomerAddressCommand(id, int.Parse(userId)));
 
-                return Ok(new { message = "Xoá địa chỉ thành công!", customerAddress = result });
-            }
-            catch (ValidationException ex)
+            if (result == 0)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = "Xóa địa chỉ khách hàng không thành công!" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+
+            return Ok(new { message = "Xoá địa chỉ thành công!", customerAddress = result });
         }
 
     }
