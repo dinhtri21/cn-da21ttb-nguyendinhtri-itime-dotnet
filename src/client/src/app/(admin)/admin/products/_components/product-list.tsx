@@ -177,20 +177,20 @@ export default function ProductList(props: DashboardProps) {
           <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center">
             Ảnh
           </div>
-          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-3 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Tên</span>
             {/* <ClockIcon className="" /> */}
           </div>
-          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Giá</span>
             {/* <ReloadIcon className="" /> */}
           </div>
           <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Số lượng
           </div>
-          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
+          {/* <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Danh mục
-          </div>
+          </div> */}
           <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Thương Hiệu
           </div>
@@ -223,27 +223,25 @@ export default function ProductList(props: DashboardProps) {
                     className="border rounded w-[50px] h-[50px] object-cover"
                   />
                 </div>
-                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">
+                <div className="col-span-3 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">
                   <span>{product.productName}</span>
                   {/* <ClockIcon className="" /> */}
                 </div>
-                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
+                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <span>{product.productPrice.toLocaleString()} đ</span>
                   {/* <ReloadIcon className="" /> */}
                 </div>
                 <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <span>{product.quantityInStock}</span>
                 </div>
-                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
+                {/* <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <div className="flex flex-col gap-1 ">
                     <div className="py-1 px-2 rounded-xl bg-green-100/70 font-[400] border border-green-200 text-green-400">
                       <span>Danh mục A</span>
                     </div>
-                    {/* <div className="py-1 px-2 rounded-xl bg-blue-100/70 text-blue-400">
-                      <span>Danh mục A</span>
-                    </div> */}
+                   
                   </div>
-                </div>
+                </div> */}
                 <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <span>{product.brand.brandName}</span>
                 </div>

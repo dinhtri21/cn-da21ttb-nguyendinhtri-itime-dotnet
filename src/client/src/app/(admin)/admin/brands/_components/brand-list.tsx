@@ -2,11 +2,25 @@ import { Brand } from "@/types/brand";
 import { useState } from "react";
 import Image from "next/image";
 import AlertAddBrand from "./alert-add-brand";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
+import AlertEditBrand from "./alert-edit-brand";
 
 interface BrandPageProps {
   brands?: Brand[];
   setFilters: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   fetchBrands: () => void;
+  deleteBrand: (id: number) => void;
 }
 
 export default function BrandList(props: BrandPageProps) {
@@ -109,10 +123,47 @@ export default function BrandList(props: BrandPageProps) {
                 <span>{brand?.brandName}</span>
               </div>
               <div className="col-span-4 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
-                {brand?.brandDescription}
+                <span className="w-full truncate">
+                  {brand?.brandDescription}
+                </span>
               </div>
               <div className="col-span-1 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
-                Tuỳ chọn
+                <AlertEditBrand
+                  fetchBrands={props.fetchBrands}
+                  brandId={brand.brandId}
+                >
+                  <div className="bg-blue-100 rounded-md p-1 cursor-pointer">
+                    <Pencil2Icon className="w-5 h-5 text-blue-400" />
+                  </div>
+                </AlertEditBrand>
+
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <div className="bg-red-100 rounded-md p-1 cursor-pointer">
+                      <TrashIcon className="w-5 h-5 text-red-400" />
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Bạn có thật sự muốn xóa sản phẩm này?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Sau khi xóa, sản phẩm sẽ không thể khôi phục.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Huỷ</AlertDialogCancel>
+                      <AlertDialogAction>
+                        <button
+                          onClick={() => props.deleteBrand(brand.brandId)}
+                        >
+                          Xóa
+                        </button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           ))}

@@ -7,6 +7,8 @@ import Cookies from "js-cookie";
 import ProductApi from "@/apis/productApi";
 import CustomToast from "@/components/react-toastify/reactToastify";
 import { UpdateProductReq } from "@/types/product";
+import BrandApi from "@/apis/brandApi";
+import { Brand } from "@/types/brand";
 
 interface Customer {
   customerId: number | null;
@@ -31,6 +33,7 @@ const EditProductModal = (props: InvoiceProps) => {
   const [quantityProduct, setQuantityProduct] = React.useState<number>();
   const [descriptionProduct, setDescriptionProduct] = React.useState<string>();
   const [images, setImages] = React.useState<string[]>([]);
+  const [brand, setBrand] = React.useState<Brand[]>([]);
 
   const formData = new FormData();
 
@@ -47,6 +50,15 @@ const EditProductModal = (props: InvoiceProps) => {
       // setProduct(data);
     } catch (error) {
       console.error("Failed to fetch product:", error);
+    }
+  };
+
+  const fetchBrands = async () => {
+    try {
+      const res = await BrandApi.getBrands();
+      setBrand(res.brands);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -117,6 +129,7 @@ const EditProductModal = (props: InvoiceProps) => {
 
   useEffect(() => {
     fetchProductById();
+    fetchBrands();
   }, []);
 
   return (
@@ -156,7 +169,7 @@ const EditProductModal = (props: InvoiceProps) => {
                 htmlFor="name"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Tên 
+                Tên
               </label>
               <input
                 value={nameProduct}
@@ -175,7 +188,7 @@ const EditProductModal = (props: InvoiceProps) => {
                 htmlFor="price"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Giá 
+                Giá
               </label>
               <input
                 value={priceProduct}
@@ -193,7 +206,7 @@ const EditProductModal = (props: InvoiceProps) => {
                 htmlFor="quantity"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Số lượng 
+                Số lượng
               </label>
               <input
                 value={quantityProduct}
@@ -211,26 +224,31 @@ const EditProductModal = (props: InvoiceProps) => {
                 htmlFor="brand"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Thương hiệu 
+                Thương hiệu
               </label>
               <select
                 value={selectBrand}
                 onChange={(e) => setSelectBrand(parseInt(e.target.value))}
                 id="brand"
-                className="font-normal bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="font-normal bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                 focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600
+                  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
                 <option selected={true}>Chọn thương hiệu</option>
-                <option value="1">Casio</option>
-                <option value="2">Omega</option>
-                <option value="3">Citizen</option>
+                {brand?.length > 0 &&
+                  brand.map((item) => (
+                    <option key={item.brandId} value={item.brandId}>
+                      {item.brandName}
+                    </option>
+                  ))}
               </select>
             </div>
-            <div>
+            {/* <div>
               <label
                 htmlFor="category"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Danh mục 
+                Danh mục
               </label>
               <select
                 id="category"
@@ -242,13 +260,13 @@ const EditProductModal = (props: InvoiceProps) => {
                 <option value="GA">Gaming/Console</option>
                 <option value="PH">Phones</option>
               </select>
-            </div>
-            <div className="col-span-2">
+            </div> */}
+            <div >
               <label
                 htmlFor="material"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Chất liệu 
+                Chất liệu
               </label>
               <select
                 value={selectMaterial}
@@ -269,7 +287,7 @@ const EditProductModal = (props: InvoiceProps) => {
                 htmlFor="description"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Mô tả 
+                Mô tả
               </label>
               <textarea
                 value={descriptionProduct}
@@ -285,7 +303,7 @@ const EditProductModal = (props: InvoiceProps) => {
                 htmlFor="pic"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Ảnh 
+                Ảnh
               </label>
               <input
                 // value={images}

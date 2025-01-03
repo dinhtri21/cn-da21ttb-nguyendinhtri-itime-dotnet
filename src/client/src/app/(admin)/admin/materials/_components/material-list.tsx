@@ -1,10 +1,27 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Material } from "@/types/material";
+import AlertAddMaterial from "./alert-add-material";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
+import AlertEditMaterial from "./alert-edit-brand";
 
 interface MaterialPageProps {
   materials?: Material[];
+  fetchMaterials: () => void;
   setFilters: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  deleteMaterial: (id: number) => void;
 }
 
 export default function MaterialList(props: MaterialPageProps) {
@@ -57,37 +74,79 @@ export default function MaterialList(props: MaterialPageProps) {
             />
           </div>
         </div>
+        <AlertAddMaterial fetchMaterials={props.fetchMaterials}>
+          <div className="flex items-center gap-1 border px-3 py-1 hover:bg-slate-800 rounded-lg bg-black  border-gray-400 cursor-pointer">
+            <Image
+              src="/icon/add-round.svg"
+              width={16}
+              height={16}
+              alt="logo"
+            />
+            <span className="text-white">Thêm chất liệu</span>
+          </div>
+        </AlertAddMaterial>
       </div>
       <div className="mt-6 bg-background overflow-hidden min-h-[518px] border-t border-gray-300">
-        <div className="hidden md:grid grid-cols-10 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">
-          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center">
+        <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center">
             Id
           </div>
-          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
-            <span>Ảnh</span>
-          </div>
-          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-8 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Tên</span>
           </div>
-          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             Tuỳ chọn
           </div>
         </div>
         {props?.materials &&
           props?.materials?.length > 0 &&
           props?.materials?.map((material) => (
-            <div className="hidden md:grid grid-cols-10 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">
-              <div className="col-span-1 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center">
+            <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">
+              <div className="col-span-2 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center">
                 {material?.materialId}
               </div>
-              <div className="col-span-2 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
-                <span>Ảnh</span>
-              </div>
-              <div className="col-span-2 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
+              <div className="col-span-8 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
                 <span>{material?.materialName}</span>
               </div>
-              <div className="col-span-1 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
-                Tuỳ chọn
+              <div className="col-span-2 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
+                <AlertEditMaterial
+                  fetchMaterial={props.fetchMaterials}
+                  materialId={material.materialId}
+                >
+                  <div className="bg-blue-100 rounded-md p-1 cursor-pointer">
+                    <Pencil2Icon className="w-5 h-5 text-blue-400" />
+                  </div>
+                </AlertEditMaterial>
+
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <div className="bg-red-100 rounded-md p-1 cursor-pointer">
+                      <TrashIcon className="w-5 h-5 text-red-400" />
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Bạn có thật sự muốn xóa sản phẩm này?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Sau khi xóa, sản phẩm sẽ không thể khôi phục.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Huỷ</AlertDialogCancel>
+                      <AlertDialogAction>
+                        <button
+                          onClick={() =>
+                            props.deleteMaterial(material.materialId)
+                          }
+                        >
+                          Xóa
+                        </button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           ))}

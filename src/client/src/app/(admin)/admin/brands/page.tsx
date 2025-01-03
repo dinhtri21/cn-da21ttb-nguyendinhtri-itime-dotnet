@@ -19,6 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Cookies from "js-cookie";
+import CustomToast from "@/components/react-toastify/reactToastify";
 
 export default function BrandPage() {
   const [brandResponse, setBrandResponse] = useState<BrandResponse | null>(
@@ -27,6 +29,7 @@ export default function BrandPage() {
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(12);
+  const token = Cookies.get("accessTokenAdmin");
 
   const fetchBrands = async () => {
     try {
@@ -34,6 +37,22 @@ export default function BrandPage() {
       setBrandResponse(res);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //// DELETE BRAND
+  const deleteBrand = async (id: number) => {
+    if (!token) {
+      CustomToast.showError("Bạn chưa đăng nhập!");
+      return;
+    }
+    try {
+      await BrandApi.deleteBrand(id, token);
+      CustomToast.showSuccess("Xóa sản phẩm thành công!");
+      fetchBrands();
+    } catch (error: any) {
+      console.error("Failed to delete product:", error.response.data.message);
+      CustomToast.showError(error.response.data.message);
     }
   };
 
@@ -72,7 +91,12 @@ export default function BrandPage() {
         className="w-full mx-auto  dark:bg-background
         relative sm:pl-[220px] sm:pr-6 pb-6"
       >
-        <BrandList brands={brandResponse?.brands} setFilters={setFilters} fetchBrands={fetchBrands} />
+        <BrandList
+          deleteBrand={deleteBrand}
+          brands={brandResponse?.brands}
+          setFilters={setFilters}
+          fetchBrands={fetchBrands}
+        />
         {brandResponse && brandResponse?.brands?.length !== 0 && (
           <div className="flex justify-center items-center mt-3">
             <Select

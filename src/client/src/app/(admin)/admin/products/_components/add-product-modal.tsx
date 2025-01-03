@@ -1,7 +1,11 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Cookies from "js-cookie";
 import ProductApi from "@/apis/productApi";
 import CustomToast from "@/components/react-toastify/reactToastify";
+import { Brand } from "@/types/brand";
+import BrandApi from "@/apis/brandApi";
+import { Material } from "@/types/material";
+import MaterialApi from "@/apis/materialApi";
 
 interface InvoiceProps {
   handleClose: () => void;
@@ -17,8 +21,28 @@ const AddProductModal = (props: InvoiceProps) => {
   const [priceProduct, setPriceProduct] = React.useState<number>();
   const [quantityProduct, setQuantityProduct] = React.useState<number>();
   const [descriptionProduct, setDescriptionProduct] = React.useState<string>();
+  const [brand, setBrand] = React.useState<Brand[]>([]);
+  const [material, setMaterial] = React.useState<Material[]>([]);
 
   const formData = new FormData();
+
+  const fetchBrands = async () => {
+    try {
+      const res = await BrandApi.getBrands();
+      setBrand(res.brands);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchMaterials = async () => {
+    try {
+      const res = await MaterialApi.getMaterials();
+      setMaterial(res.materials);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -64,6 +88,11 @@ const AddProductModal = (props: InvoiceProps) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    fetchBrands();
+    fetchMaterials();
+  }, []);
 
   return (
     <div className="relative px-8 py-6 bg-white shadow-lg sm:rounded-3xl sm:min-w-[600px] min-w-[500px] ">
@@ -162,12 +191,15 @@ const AddProductModal = (props: InvoiceProps) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
                 <option selected={true}>Chọn thương hiệu</option>
-                <option value="1">Casio</option>
-                <option value="2">Omega</option>
-                <option value="3">Citizen</option>
+                {brand?.length > 0 &&
+                  brand.map((item) => (
+                    <option key={item.brandId} value={item.brandId}>
+                      {item.brandName}
+                    </option>
+                  ))}
               </select>
             </div>
-            <div>
+            {/* <div>
               <label
                 htmlFor="category"
                 className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
@@ -184,8 +216,8 @@ const AddProductModal = (props: InvoiceProps) => {
                 <option value="GA">Gaming/Console</option>
                 <option value="PH">Phones</option>
               </select>
-            </div>
-            <div className="col-span-2">
+            </div> */}
+            <div >
               <label
                 htmlFor="material"
                 className="block mb-1 text-sm font-medium text-gray-800 dark:text-white"
@@ -201,7 +233,12 @@ const AddProductModal = (props: InvoiceProps) => {
                   dark:focus:border-primary-500"
               >
                 <option selected={true}>Chọn chất liệu</option>
-                <option value="1">Thép</option>
+                {material?.length > 0 &&
+                  material.map((item) => (
+                    <option key={item.materialId} value={item.materialId}>
+                      {item.materialName}
+                    </option>
+                  ))}
               </select>
             </div>
 

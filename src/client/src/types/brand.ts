@@ -11,3 +11,10 @@ export type BrandResponse = {
     skip: number,
     limit: number,
 }
+
+export type UpdateBrandRequest = {
+    BrandId: number,
+    BrandName: string,
+    BrandDescription: string,
+    BrandImage: File,
+}

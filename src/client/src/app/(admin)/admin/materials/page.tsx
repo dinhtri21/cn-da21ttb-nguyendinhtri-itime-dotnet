@@ -19,13 +19,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import MaterialList from "./_components/material-list";
+import Cookies from "js-cookie";
+import CustomToast from "@/components/react-toastify/reactToastify";
 
 export default function MaterialsPage() {
   const [materialResponse, setMaterialResponse] =
     useState<MaterialResponse | null>(null);
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const token = Cookies.get("accessTokenAdmin");
 
   const fetchMaterials = async () => {
     try {
@@ -39,6 +42,22 @@ export default function MaterialsPage() {
       console.log(error);
     }
   };
+
+    //// DELETE MATERIAL
+    const deleteMaterial = async (id: number) => {
+      if (!token) {
+        CustomToast.showError("Bạn chưa đăng nhập!");
+        return;
+      }
+      try {
+        await MaterialApi.deleteMaterial(id, token);
+        CustomToast.showSuccess("Xóa sản phẩm thành công!");
+        fetchMaterials();
+      } catch (error: any) {
+        console.error("Failed to delete product:", error.response.data.message);
+        CustomToast.showError(error.response.data.message);
+      }
+    };
 
   // Pagination handlers
   const handlePaginationPrevious = () => {
@@ -75,7 +94,12 @@ export default function MaterialsPage() {
         className="w-full mx-auto  dark:bg-background
           relative sm:pl-[220px] sm:pr-6 pb-6"
       >
-        <MaterialList setFilters={setFilters} materials={materialResponse?.materials} />
+        <MaterialList
+          deleteMaterial={deleteMaterial}
+          fetchMaterials={fetchMaterials}
+          setFilters={setFilters}
+          materials={materialResponse?.materials}
+        />
         {materialResponse && materialResponse?.materials?.length !== 0 && (
           <div className="flex justify-center items-center mt-3">
             <Select
@@ -86,10 +110,10 @@ export default function MaterialsPage() {
               // defaultValue={`${limit.toString()}`}
             >
               <SelectTrigger className="w-[60px] border border-gray-300">
-                <SelectValue placeholder="1" />
+                <SelectValue placeholder="10" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">1</SelectItem>
+                <SelectItem value="10">10</SelectItem>
                 <SelectItem value="20">20</SelectItem>
                 <SelectItem value="50">50</SelectItem>
               </SelectContent>

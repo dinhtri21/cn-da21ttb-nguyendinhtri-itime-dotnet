@@ -28,7 +28,7 @@ export default function AddBrandModal(props: InvoiceProps) {
 
   const handleAddBrand = async () => {
     if (!nameBrand || !descriptionBrand || images.length === 0) {
-      CustomToast.showError("Vui lòng điền đầy đủ thông tin sản phẩm");
+      CustomToast.showError("Vui lòng điền đầy đủ thông tin thương hiệu");
       return;
     }
     if (!token) {

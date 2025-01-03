@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -38,6 +39,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> CreateMaterial([FromBody] CreateMaterialCommand command)
         {
             var material = await _mediator.Send(command);
@@ -45,6 +47,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> DeleteMaterial([FromRoute] DeleteMaterialCommand command)
         {
             await _mediator.Send(command);
@@ -52,6 +55,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> UpdateMaterial([FromRoute] int id, [FromBody] UpdateMaterialCommand command)
         {
             if (command.MaterialId != id)

@@ -17,14 +17,14 @@ interface FilterProps {
 const brandIds = [
   { id: 1, name: "Casio" },
   { id: 2, name: "Omega" },
-  { id: 3, name: "Citizen" },
+  { id: 9, name: "Citizen" },
   { id: 4, name: "Rolex" },
 ];
 
 const materialIds = [
-  { id: 1, name: "Vàng" },
+  { id: 1, name: "Thép" },
   { id: 2, name: "Bạch kim" },
-  { id: 3, name: "Thép không gỉ" },
+  { id: 3, name: "Vàng" },
 ];
 
 const colorIds = [
