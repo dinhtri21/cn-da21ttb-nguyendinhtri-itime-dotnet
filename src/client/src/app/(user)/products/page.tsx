@@ -24,6 +24,7 @@ import {
 import Filter from "@/components/filter/filter";
 import { SkeletonCard } from "@/components/ui/skeleton-card";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import RenderPaginationItems from "@/components/paginationItemsCustom/paginationItemsCustom";
 import {
   Select,
@@ -133,7 +134,28 @@ export default function ProductsPage() {
           <Filter updateURLWithFilters={updateURLWithFilters} />
           <div className="col-span-3">
             <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
-              <div className="col-span-2 md:col-span-3 flex justify-end">
+              <div className="col-span-2 md:col-span-3 flex justify-between items-center">
+                <div className="flex items-center gap-2 border border-gray-300 px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer text-gray-700">
+                  <button
+                    // onClick={handleSearch}
+                    className="border-r border-gray-400 pr-2 "
+                  >
+                    <Image
+                      src="/icon/search.svg"
+                      width={16}
+                      height={16}
+                      alt="logo"
+                    />
+                  </button>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    className="outline-none caret-gray-400 text-gray-800"
+                    // value={search}
+                    // onKeyDown={handleKeyDownSearch}
+                    // onChange={(e) => setSearch(e.target.value)}
+                  />
+                </div>
                 <Select onValueChange={(value) => handleSortChange(value)}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Sắp xếp theo:" />

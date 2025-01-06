@@ -63,9 +63,9 @@ export default function ComboboxFilter(props: ComboboxFilterProps) {
           <ChevronsUpDown className="opacity-90 w-4 h-4" />
           <span>
             {value
-              ? props.frameworks.find((framework) => framework.value === value)
+              ? props?.frameworks.find((framework) => framework.value === value)
                   ?.label
-              : props.frameworks[0].label}
+              : props?.frameworks[0]?.label}
           </span>
         </Button>
       </PopoverTrigger>
@@ -73,7 +73,7 @@ export default function ComboboxFilter(props: ComboboxFilterProps) {
         <Command>
           <CommandInput placeholder="Tim..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No data found.</CommandEmpty>
             <CommandGroup>
               {props.frameworks.map((framework) => (
                 <CommandItem

@@ -24,10 +24,8 @@ namespace WatchStore.Infrastructure.Data
         public DbSet<CustomerAddress> CustomerAddresses { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Brand> Brands { get; set; }
-        public DbSet<Category> Categories { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
-        public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -44,11 +42,9 @@ namespace WatchStore.Infrastructure.Data
             // Configure using Fluent API
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
-            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new BrandConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
-            modelBuilder.ApplyConfiguration(new ProductCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());

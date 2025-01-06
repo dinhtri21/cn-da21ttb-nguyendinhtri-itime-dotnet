@@ -15,6 +15,13 @@ import {
 } from "@/components/ui/pagination";
 import CustomToast from "@/components/react-toastify/reactToastify";
 import Cookies from "js-cookie";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ProductsPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -29,19 +36,14 @@ export default function ProductsPage() {
   const [filterMaterial, setFilterMaterial] = useState<number[] | null>(null);
   const [filterSortOrder, setFilterSortOrder] = useState<string | null>(null);
 
+  const [limit, setLimit] = useState(7);
+  const [skip, setSkip] = useState(0);
+
   const token = Cookies.get("accessTokenAdmin");
 
   //// FETCH PRODUCTS
   const fetchProducts = async () => {
     try {
-      const skip = parseInt(searchParams.get("skip") || "0");
-      const limit = parseInt(searchParams.get("limit") || "8");
-      // const limit = 2;
-      // const brands = searchParams.get("brands")?.split(",").map(Number);
-
-      // const materials = searchParams.get("materials")?.split(",").map(Number);
-      // const sortOrder = searchParams.get("sortOrder");
-
       const data = await ProductApi.getProduct(
         skip,
         limit,
@@ -75,60 +77,33 @@ export default function ProductsPage() {
   //// FILTER PRODUCTS
   useEffect(() => {
     fetchProducts();
-  }, [searchParams, filterBrand, filters, filterMaterial, filterSortOrder]);
-
-  //// Function to update URL with filters
-  const updateURLWithFilters = (filters: Record<string, any>) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    params.set("skip", "0"); // Reset 0 nếu có thay đổi filters
-
-    Object.keys(filters).forEach((key: string) => {
-      // Nếu value có giá trị thì set vào URL
-      if (filters[key]) {
-        params.set(key, filters[key]);
-      } else {
-        params.delete(key); // Ngược lại xóa param query đó ra khỏi URL
-      }
-    });
-
-    router.push(`${window.location.pathname}?${params.toString()}`); // => Push URL mới vào URL khi có thay đổi filters
-  };
+  }, [searchParams, filterBrand, filters, filterMaterial, filterSortOrder, limit, skip]);
 
   //// Pagination handlers
   const handlePaginationPrevious = () => {
-    const skip = parseInt(searchParams.get("skip") || "0");
     if (skip > 0) {
-      updateURLWithFilters({ skip: skip - 1 });
+      setSkip(skip - 1);
     }
   };
 
   const handlePaginationNext = () => {
-    const skip = parseInt(searchParams.get("skip") || "0");
-    const totalPages = productsRes
-      ? Math.ceil(productsRes.total / productsRes.limit) - 1
-      : 0;
-    if (skip < totalPages) {
-      updateURLWithFilters({ skip: skip + 1 });
+    if (!productsRes) {
+      return;
+    }
+    if (Math.ceil(productsRes?.total % productsRes?.limit) > skip) {
+      setSkip(skip + 1);
     }
   };
 
   const handlePaginationItem = (page: number) => {
-    updateURLWithFilters({ skip: page });
-  };
-
-  const handleSortChange = (sortOrder: string) => {
-    if (sortOrder === "default") {
-      sortOrder = "";
-    }
-    updateURLWithFilters({ sortOrder }); // Cập nhật sortOrder vào URL
+    setSkip(page);
   };
 
   return (
     <div className="w-full dark:bg-muted/40 relative bg-white">
       <div
         className="w-full mx-auto  dark:bg-background
-            relative  sm:pl-[220px] sm:pr-8 "
+            relative  sm:pl-[220px] sm:pr-8 pb-5"
       >
         {productsRes && (
           <ProductList
@@ -142,27 +117,47 @@ export default function ProductsPage() {
           />
         )}
         {productsRes && productsRes?.products?.length !== 0 && (
-          <div className="col-span-3 mt-3">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem
-                  className="cursor-pointer"
-                  onClick={handlePaginationPrevious}
-                >
-                  <PaginationPrevious />
-                </PaginationItem>
-                <RenderPaginationItems
-                  total={productsRes?.total || 0}
-                  limit={productsRes?.limit ?? 0}
-                  skip={parseInt(searchParams.get("skip") || "0")}
-                  handlePaginationItem={handlePaginationItem}
-                />
+          <div className="flex justify-center items-center mt-3">
+            <Select
+            onValueChange={(value: string) => {
+              setLimit(parseInt(value));
+              setSkip(0);
+            }}
+            defaultValue={`${limit.toString()}`}
+            >
+              <SelectTrigger className="w-[60px] border border-gray-300">
+                <SelectValue placeholder="7" />
+              </SelectTrigger>
+              <SelectContent>
+              <SelectItem value="6">6</SelectItem>
+                <SelectItem value="7">7</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="14">14</SelectItem>
+                <SelectItem value="21">21</SelectItem>
+              </SelectContent>
+            </Select>
+            <div>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem
+                    className="cursor-pointer"
+                    onClick={handlePaginationPrevious}
+                  >
+                    <PaginationPrevious />
+                  </PaginationItem>
+                  <RenderPaginationItems
+                    total={productsRes?.total || 0}
+                    limit={productsRes?.limit ?? 0}
+                    skip={parseInt(searchParams.get("skip") || "0")}
+                    handlePaginationItem={handlePaginationItem}
+                  />
 
-                <PaginationItem className="cursor-pointer">
-                  <PaginationNext onClick={handlePaginationNext} />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+                  <PaginationItem className="cursor-pointer">
+                    <PaginationNext onClick={handlePaginationNext} />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
           </div>
         )}
         <h1></h1>

@@ -36,6 +36,11 @@ namespace WatchStore.Infrastructure.Configurations
                    .HasColumnType("decimal(18,2)")
                    .IsRequired();
 
+            builder.Property(o => o.Status)
+                   .HasColumnName("Status")
+                   .HasMaxLength(50)
+                   .IsRequired();
+
             // 1 - N : Customer - Orders
             builder.HasOne(o => o.Customer)
                    .WithMany(c => c.Orders)

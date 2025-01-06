@@ -11,15 +11,15 @@ namespace WatchStore.Domain.Entities
         public int ShippingId { get; set; }
         public int CarrierId { get; set; } 
         public int OrderId { get; set; } 
-        public string TrackingNumber { get; set; } // Mã theo dõi
+        public string TrackingNumber { get; set; }
         public string ShippingStatus { get; set; } 
         public int ShippingFee { get; set; } 
-        public DateTime EstimatedDelivery { get; set; } // Ngày dự kiến giao hàng
-        public string AddressLine { get; set; } // Địa chỉ giao hàng
+        public DateTime EstimatedDelivery { get; set; } 
+        public string AddressLine { get; set; } 
         public DateTime CreatedAt { get; set; } = DateTime.Now; 
 
         // Navigation properties
-        public Carrier Carrier { get; set; } // Tham chiếu đến Carrier
-        public Order Order { get; set; } // Tham chiếu đến Order
+        public Carrier Carrier { get; set; } 
+        public Order Order { get; set; } 
     }
 }

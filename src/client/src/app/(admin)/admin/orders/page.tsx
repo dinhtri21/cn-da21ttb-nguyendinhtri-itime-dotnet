@@ -14,7 +14,14 @@ import {
   PaginationNext,
 } from "@/components/ui/pagination";
 import { useRouter, useSearchParams } from "next/navigation";
-import { customerApi } from "@/apis/customerApi";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function OrderPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -23,10 +30,10 @@ export default function OrderPage() {
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
   const [filters, setFilters] = useState<Record<string, any>>({});
 
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const [limit, setLimit] = useState(7);
+  const [skip, setSkip] = useState(0);
 
-  const params = new URLSearchParams(searchParams.toString());
+  const searchParams = useSearchParams();
 
   const fetchOrders = async () => {
     if (!token) {
@@ -36,8 +43,8 @@ export default function OrderPage() {
     try {
       const res = await OrderApi.GetOrders(
         token,
-        parseInt(params.get("limit") || "7"),
-        parseInt(params.get("skip") || "0"),
+        limit,
+        skip,
         filterStatus || undefined,
         filters || undefined
       );
@@ -63,30 +70,29 @@ export default function OrderPage() {
     }
   };
 
-  const updateURLWithFilters = (filters: Record<string, any>) => {
-    const params = new URLSearchParams(searchParams.toString());
+  //// Pagination handlers
+  const handlePaginationPrevious = () => {
+    if (skip > 0) {
+      setSkip(skip - 1);
+    }
+  };
 
-    params.set("skip", "5"); // Reset 0 nếu có thay đổi filters
-
-    Object.keys(filters).forEach((key: string) => {
-      // Nếu value có giá trị thì set vào URL
-      if (filters[key]) {
-        params.set(key, filters[key]);
-      } else {
-        params.delete(key); // Ngược lại xóa param query đó ra khỏi URL
-      }
-    });
-
-    router.push(`${window.location.pathname}?${params.toString()}`); // => Push URL mới vào URL khi có thay đổi filters
+  const handlePaginationNext = () => {
+    if (!orderResponse) {
+      return;
+    }
+    if (Math.ceil(orderResponse?.total % orderResponse?.limit) > skip) {
+      setSkip(skip + 1);
+    }
   };
 
   const handlePaginationItem = (page: number) => {
-    updateURLWithFilters({ skip: page });
+    setSkip(page);
   };
 
   useEffect(() => {
     fetchOrders();
-  }, [searchParams, filterStatus, filters]);
+  }, [filterStatus, filters, limit, skip]);
 
   return (
     <div className="w-full dark:bg-muted/40 relative">
@@ -101,29 +107,47 @@ export default function OrderPage() {
           deleteOrder={deleteOrder}
         />
         {orders && orders?.length !== 0 && (
-          <div className="col-span-3 mt-5">
-            <Pagination>
-              <PaginationContent className=" rounded-xl">
-                <PaginationItem
-                  className="cursor-pointer"
-                  // onClick={handlePaginationPrevious}
-                >
-                  <PaginationPrevious />
-                </PaginationItem>
-                <RenderPaginationItems
-                  total={orderResponse?.total || 0}
-                  limit={orderResponse?.limit ?? 0}
-                  skip={parseInt(searchParams.get("skip") || "0")}
-                  handlePaginationItem={handlePaginationItem}
-                />
-
-                <PaginationItem className="cursor-pointer">
-                  <PaginationNext
-                  // onClick={handlePaginationNext}
+          <div className="flex justify-center items-center mt-3">
+            <Select
+              onValueChange={(value: string) => {
+                setLimit(parseInt(value));
+                setSkip(0);
+              }}
+              defaultValue={`${limit.toString()}`}
+            >
+              <SelectTrigger className="w-[60px] border border-gray-300">
+                <SelectValue placeholder="7" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="6">6</SelectItem>
+                <SelectItem value="7">7</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="14">14</SelectItem>
+                <SelectItem value="21">21</SelectItem>
+              </SelectContent>
+            </Select>
+            <div>
+              <Pagination>
+                <PaginationContent className=" rounded-xl">
+                  <PaginationItem
+                    className="cursor-pointer"
+                    onClick={handlePaginationPrevious}
+                  >
+                    <PaginationPrevious />
+                  </PaginationItem>
+                  <RenderPaginationItems
+                    total={orderResponse?.total || 0}
+                    limit={orderResponse?.limit ?? 0}
+                    skip={parseInt(searchParams.get("skip") || "0")}
+                    handlePaginationItem={handlePaginationItem}
                   />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+
+                  <PaginationItem className="cursor-pointer">
+                    <PaginationNext onClick={handlePaginationNext} />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
           </div>
         )}
       </div>

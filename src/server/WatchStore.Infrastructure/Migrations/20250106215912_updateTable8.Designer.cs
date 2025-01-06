@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchStore.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WatchStore.Infrastructure.Data;
 namespace WatchStore.Infrastructure.Migrations
 {
     [DbContext(typeof(WatchStoreDbContext))]
-    partial class WatchStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250106215912_updateTable8")]
+    partial class updateTable8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,6 +198,32 @@ namespace WatchStore.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("CartItem", (string)null);
+                });
+
+            modelBuilder.Entity("WatchStore.Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("CategoryId");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<string>("CategoryDescription")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("CategoryDescription");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("CategoryName");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("WatchStore.Domain.Entities.Customer", b =>
@@ -478,6 +507,32 @@ namespace WatchStore.Infrastructure.Migrations
                     b.ToTable("Product", (string)null);
                 });
 
+            modelBuilder.Entity("WatchStore.Domain.Entities.ProductCategory", b =>
+                {
+                    b.Property<int>("ProductCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ProductCategoryId");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ProductCategoryId"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("CategoryId");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int")
+                        .HasColumnName("ProductId");
+
+                    b.HasKey("ProductCategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductCategory", (string)null);
+                });
+
             modelBuilder.Entity("WatchStore.Domain.Entities.ProductImage", b =>
                 {
                     b.Property<int>("ProductImageId")
@@ -695,6 +750,27 @@ namespace WatchStore.Infrastructure.Migrations
                     b.Navigation("Material");
                 });
 
+            modelBuilder.Entity("WatchStore.Domain.Entities.ProductCategory", b =>
+                {
+                    b.HasOne("WatchStore.Domain.Entities.Category", "Category")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ProductCategory_Category");
+
+                    b.HasOne("WatchStore.Domain.Entities.Product", "Product")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ProductCategory_Product");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("WatchStore.Domain.Entities.ProductImage", b =>
                 {
                     b.HasOne("WatchStore.Domain.Entities.Product", "Product")
@@ -747,6 +823,11 @@ namespace WatchStore.Infrastructure.Migrations
                     b.Navigation("CartItems");
                 });
 
+            modelBuilder.Entity("WatchStore.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("ProductCategories");
+                });
+
             modelBuilder.Entity("WatchStore.Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Carts");
@@ -779,6 +860,8 @@ namespace WatchStore.Infrastructure.Migrations
                     b.Navigation("Carts");
 
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("ProductCategories");
 
                     b.Navigation("ProductImages");
                 });

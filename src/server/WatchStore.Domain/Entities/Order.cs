@@ -12,6 +12,7 @@ namespace WatchStore.Domain.Entities
         public int CustomerId { get; set; }
         public int PaymentId { get; set; }
         public decimal Total { get; set; }
+        public string Status { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         // Navigation properties

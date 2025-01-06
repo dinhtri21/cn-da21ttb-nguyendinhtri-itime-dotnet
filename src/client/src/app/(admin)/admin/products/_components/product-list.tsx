@@ -1,14 +1,11 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ComboboxFilter from "./combobox-filter";
 import AlertAddProduct from "./alert-add-product";
 import { Product } from "@/types/product";
 import AlertEditProduct from "./alert-edit-product";
-import {
-  TrashIcon,
-  Pencil2Icon,
-} from "@radix-ui/react-icons";
+import { TrashIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { frameworks } from "./combobox-filter";
 import {
   AlertDialog,
@@ -21,36 +18,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
-const brands: frameworks[] = [
-  {
-    value: "null",
-    label: "Thương hiệu",
-  },
-  {
-    value: "1",
-    label: "CASIO",
-  },
-  {
-    value: "2",
-    label: "Omega",
-  },
-  {
-    value: "3",
-    label: "CITIZEN",
-  },
-];
-
-const materials: frameworks[] = [
-  {
-    value: "null",
-    label: "Chất liệu",
-  },
-  {
-    value: "1",
-    label: "Thép",
-  },
-];
+import BrandApi from "@/apis/brandApi";
+import MaterialApi from "@/apis/materialApi";
 
 const sortBy: frameworks[] = [
   {
@@ -81,8 +50,48 @@ interface DashboardProps {
 }
 
 export default function ProductList(props: DashboardProps) {
-  const [open, setOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
+  const [brands, setBrands] = useState<frameworks[]>([]);
+  const [materials, setMaterials] = useState<frameworks[]>([]);
+
+  const fetchBrands = async () => {
+    try {
+      const res = await BrandApi.getBrands();
+      const newBrands = await res?.brands.map((brand) => {
+        return {
+          value: brand.brandId.toString(),
+          label: brand.brandName,
+        };
+      });
+      newBrands.unshift({
+        value: "null",
+        label: "Thương hiệu",
+      });
+
+      setBrands(newBrands);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchMaterials = async () => {
+    try {
+      const res = await MaterialApi.getMaterials();
+      const newMaterial = await res?.materials.map((material) => {
+        return {
+          value: material.materialId.toString(),
+          label: material.materialName,
+        };
+      });
+      newMaterial.unshift({
+        value: "null",
+        label: "Chất liệu",
+      });
+      setMaterials(newMaterial);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const formatDate = (dateString: string) => {
     const dateObj = new Date(dateString);
@@ -127,8 +136,13 @@ export default function ProductList(props: DashboardProps) {
     }
   };
 
+  useEffect(() => {
+    fetchBrands();
+    fetchMaterials();
+  }, []);
+
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full mx-auto pb-2">
       <div className="flex justify-between">
         <div className="flex gap-3">
           <ComboboxFilter
@@ -172,7 +186,7 @@ export default function ProductList(props: DashboardProps) {
           </div>
         </AlertAddProduct>
       </div>
-      <div className="mt-6 bg-background overflow-hidden min-h-[518px] border-t border-gray-300">
+      <div className="mt-6 bg-background overflow-hidden min-h-[530px] border-t border-gray-300">
         <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">
           <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center">
             Ảnh
