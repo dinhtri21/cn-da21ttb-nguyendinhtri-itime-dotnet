@@ -24,14 +24,14 @@ export default function AboutPage() {
             2. Hướng dẫn mua hàng online
           </h3>
           <p className="mt-1 leading-7 text-gray-700">
-            Bước 1: Truy cập website SneakerStore
+            Bước 1: Truy cập website iTime
             <br />
-            Bước 2: Tìm kiếm sản phẩm cần mua, chọn size giày, số lượng
+            Bước 2: Tìm kiếm sản phẩm cần mua, số lượng
             <br />
             Bước 3: Đặt hàng <br />– Thêm sản phẩm vào giỏ hàng và nhấn thanh
             toán
             <br />– Điền đầy đủ thông tin mua hàng theo yêu cầu <br />– Nhấn đặt
-            hàng để hoàn tất <br />– Kiểm tra email để xem chi tiết đơn hàng
+            hàng để hoàn tất <br />– Kiểm tra để xem chi tiết đơn hàng
           </p>
         </div>
         <div>
