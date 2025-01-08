@@ -33,9 +33,9 @@ export default function Footer() {
           <div>
             <p className="font-medium uppercase text-white">Liên hệ</p>
             <ul className="text-gray-200 mt-1">
-              <li>Hno: 126 Nguyen Van Thuong, P25, Binh Thanh Ditrict, HCM</li>
+              <li>Hno: 126 Nguyễn Thiện Thành, Phường 5, Trà Vinh, Việt Nam</li>
               <li>+84 0357929230</li>
-              <li> abc@gmail.com</li>
+              <li>tringuyen.21092003@gmail.com</li>
             </ul>
           </div>
         </div>
@@ -44,13 +44,13 @@ export default function Footer() {
             <p className="font-medium uppercase text-white">Hỗ trợ</p>
             <ul className="text-gray-200 mt-1">
               <li>
-                <Link href={"#"}> Hướng dẫn mua hàng</Link>
+                <Link href={"#"}>Hướng dẫn mua hàng</Link>
               </li>
               <li>
-                <Link href={"#"}> Bảo hành đổi và trả</Link>
+                <Link href={"#"}>Bảo hành đổi và trả</Link>
               </li>
               <li>
-                <Link href={"#"}> Hướng dẫn chọn size</Link>
+                <Link href={"#"}>Về chúng tôi</Link>
               </li>
             </ul>
           </div>
@@ -127,10 +127,10 @@ export default function Footer() {
             <AccordionContent>
               <ul>
                 <li>
-                  Hno: 126 Nguyen Van Thuong, P25, Binh Thanh Ditrict, HCM
+                  Hno: 126 Nguyễn Thiện Thành, Phường 5, Trà Vinh, Việt Nam
                 </li>
                 <li>+84 0357929230</li>
-                <li> abc@gmail.com</li>
+                <li>tringuyen.21092003@gmail.com</li>
               </ul>
             </AccordionContent>
           </AccordionItem>
@@ -139,13 +139,13 @@ export default function Footer() {
             <AccordionContent>
               <ul>
                 <li>
-                  <Link href={"#"}> Hướng dẫn mua hàng</Link>
+                  <Link href={"#"}>Hướng dẫn mua hàng</Link>
                 </li>
                 <li>
-                  <Link href={"#"}> Bảo hành đổi và trả</Link>
+                  <Link href={"#"}>Bảo hành đổi và trả</Link>
                 </li>
                 <li>
-                  <Link href={"#"}> Hướng dẫn chọn size</Link>
+                  <Link href={"#"}>Về chúng tôi</Link>
                 </li>
               </ul>
             </AccordionContent>

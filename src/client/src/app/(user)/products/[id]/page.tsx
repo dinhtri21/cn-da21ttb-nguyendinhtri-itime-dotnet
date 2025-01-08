@@ -182,11 +182,14 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                 Thông số:
               </p> */}
               <p className=" text-gray-600 font-normal mt-4">
-                Thương hiệu: {product?.brand?.brandName}
+                Thương hiệu: {product?.brand?.brandName}.
               </p>
               <p className=" text-gray-600 font-normal mt-4">
-                Chất liệu: {product?.material?.materialName}
+                Chất liệu: {product?.material?.materialName}.
               </p>
+              {/* <p className=" text-gray-600 font-normal mt-3">
+                Trình trạng: 28 sản phẩm có sẵn.
+              </p> */}
             </div>
 
             <Button
@@ -202,7 +205,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
             <div className="w-full h-[1px] bg-gray-300 mt-7 mb-6"></div>
             <div>
-              <p>{product?.productDescription}</p>
+              <p className="text-gray-600">{product?.productDescription}</p>
             </div>
           </div>
         </div>

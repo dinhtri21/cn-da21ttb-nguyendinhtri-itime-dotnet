@@ -1,26 +1,15 @@
 "use client";
 import { CheckIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import React, { useState, useEffect } from "react";
-import { Textarea } from "@/components/ui/textarea";
-import { CiLocationOn } from "react-icons/ci";
-import { CiCreditCard2 } from "react-icons/ci";
 import { AlertDialogAddress } from "./alert-dialog-adress";
-import { CiTrash } from "react-icons/ci";
-import { CiDeliveryTruck } from "react-icons/ci";
 import Image from "next/image";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { GiReceiveMoney } from "react-icons/gi";
 import { customerAddressApi } from "@/apis/customerAddressApi";
 import Cookies from "js-cookie";
 import { CustomerAddress } from "@/types/customeraddress";
 import shippingApi from "@/apis/shippingApi";
 import CustomToast from "@/components/react-toastify/reactToastify";
-import { Console, count } from "console";
+import { FaCreditCard } from "react-icons/fa";
 
 interface Customer {
   customerId: number | null;
@@ -163,13 +152,9 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                   {customer.phoneNumber ? customer.phoneNumber : "Chưa có"}
                 </p>
               </div>
-              {/* <span className="text-sm border bg-sky-50/70 border-sky-400 px-2 rounded-xl text-sky-400">
-              Mặc định
-            </span> */}
             </div>
             <div className="flex justify-between items-center gap-1 text-gray-600">
               <p>{customer.email ? customer.email : "Chưa có"}</p>
-              {}
               <AlertDialogAddress
                 customer={customer}
                 customerAddressList={customerAddressList}
@@ -193,7 +178,6 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
 
         <div className="md:mt-5 border-b">
           <h1 className="font-medium uppercase  flex items-center gap-2">
-            {/* <CiCreditCard2 className="w-5 h-5" /> */}
             <span>Phương thức thanh toán</span>
           </h1>
           <div className="flex flex-col rounded-xl">
@@ -229,26 +213,20 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
 
             <label
               className={`flex flex-1 items-center justify-between gap-3 py-3 px-3 rounded-xl cursor-pointer`}
-              onClick={() =>
-                handlePaymentMethodChange({ id: 1, name: "Credit Card" })
-              }
+              // onClick={() =>
+              //   handlePaymentMethodChange({ id: 1, name: "Credit Card" })
+              // }
             >
               <div className="flex gap-2 items-center">
                 <div className="bg-slate-200 rounded-full h-[42px] w-[42px] flex items-center justify-center">
-                  <Image
-                    src="/logo/mb-bank-logo.png"
-                    width={100}
-                    height={72}
-                    className="h-[18px] w-[35px]"
-                    alt="visa"
-                  />
+                  <FaCreditCard className="w-5 h-5 text-gray-400" />
                 </div>
                 <div>
                   <div className="flex gap-1">
-                    <p>Visa 0049023094</p>
+                    <p>Thẻ ngân hàng</p>
                   </div>
                   <div className="text-gray-500">
-                    Lorem ipsum dolor sit, amet{" "}
+                    Tính đăng đang phát triển.
                   </div>
                 </div>
               </div>
@@ -271,15 +249,6 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
             {/* <div className="py-2 px-3 rounded-xl cursor-pointer">Thêm phương thức thanh toán</div> */}
           </div>
         </div>
-        {/* <div className="mt-4">
-          <h1 className="font-medium uppercase mb-2">ĐỊA CHỈ GIAO HÀNG</h1>
-          <Textarea
-            className="h-full"
-            onChange={handleOrderNoteChange}
-            value={orderNote}
-            placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."
-          />
-        </div> */}
         <div className="mt-5">
           <h1 className="font-medium uppercase flex gap-2 items-center">
             {/* <CiDeliveryTruck className="w-5 h-5 " /> */}
@@ -304,7 +273,9 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 </div>
               </div>
             </div>
-            <div className="text-customOrange">{shippingFee.toLocaleString()}đ</div>
+            <div className="text-customOrange">
+              {shippingFee.toLocaleString()}đ
+            </div>
           </div>
         </div>
       </div>

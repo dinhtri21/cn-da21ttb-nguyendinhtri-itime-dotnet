@@ -29,8 +29,9 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { TfiReceipt } from "react-icons/tfi";
 import { CiReceipt } from "react-icons/ci";
-import ComboboxFilter from "./combobox-filter";
+
 import AlertOrderDetail from "./alert-order-detail";
+import ComboboxFilter, { frameworks } from "./combobox-filter";
 
 type ShippingStatus =
   | "waiting_to_return"
@@ -131,6 +132,74 @@ const statusStyles: Record<
   },
 };
 
+const shippingStatusFilter: frameworks[] = [
+  {
+    value: "null",
+    label: "Trạng thái đơn hàng",
+  },
+
+  {
+    value: "ready_to_pick",
+    label: "Chuẩn bị hàng",
+  },
+  {
+    value: "picking",
+    label: "Đang lấy hàng",
+  },
+  {
+    value: "picked",
+    label: "Đã lấy hàng",
+  },
+  {
+    value: "storing",
+    label: "Nhập bưu cục",
+  },
+  {
+    value: "transporting",
+    label: "Đang trung chuyển",
+  },
+  {
+    value: "delivering",
+    label: "Đang giao hàng",
+  },
+  {
+    value: "delivered",
+    label: "Giao hàng thành công",
+  },
+  {
+    value: "delivery_fail",
+    label: "Giao hàng thất bại",
+  },
+  {
+    value: "return_transporting",
+    label: "Đang trung chuyển hoàn hàng",
+  },
+  {
+    value: "return",
+    label: "Chờ xác nhận giao lại",
+  },
+  {
+    value: "returning",
+    label: "Đang hoàn hàng",
+  },
+  {
+    value: "returned",
+    label: "Hoàn hàng thành công",
+  },
+  {
+    value: "return_fail",
+    label: "Hoàn hàng thất bại",
+  },
+  {
+    value: "default",
+    label: "Không xác định",
+  },
+  {
+    value: "waiting_to_return",
+    label: "Chờ xác nhận giao lại",
+  },
+];
+
 export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions.";
 
@@ -171,11 +240,9 @@ export function OrderList(props: DashboardProps) {
   return (
     <div className="w-full max-w-screen-xl mx-auto mt-7 px-4">
       <div className="flex justify-between mt-2 items-center">
-        <h1 className=" text-gray-900 uppercase">
-          Các đơn hàng của bạn
-        </h1>
+        <h1 className=" text-gray-900 uppercase">Các đơn hàng của bạn</h1>
         <div className="flex gap-3">
-          <Tabs defaultValue="confirm">
+          {/* <Tabs defaultValue="confirm">
             <TabsList className=" bg-white p-1">
               <TabsTrigger value="confirm">Chờ xác nhận</TabsTrigger>
               <TabsTrigger value="delivery">Chờ giao hàng</TabsTrigger>
@@ -183,7 +250,11 @@ export function OrderList(props: DashboardProps) {
                 Lịch sử
               </TabsTrigger>
             </TabsList>
-          </Tabs>
+          </Tabs> */}
+          <ComboboxFilter
+            frameworks={shippingStatusFilter}
+            // setFilterValueText={props.setFilterStatus}
+          />
           {/* <ComboboxFilter /> */}
         </div>
       </div>

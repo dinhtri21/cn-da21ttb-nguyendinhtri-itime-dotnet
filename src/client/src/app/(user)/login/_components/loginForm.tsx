@@ -126,12 +126,12 @@ export function LoginForm() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Mật khẩu</Label>
-                  <Link
+                  {/* <Link
                     href="#"
                     className="ml-auto inline-block text-sm underline"
                   >
                     Quên mật khẩu?
-                  </Link>
+                  </Link> */}
                 </div>
                 <Input
                   id="password"
@@ -147,9 +147,9 @@ export function LoginForm() {
                   <p className="text-white ">Đăng nhập</p>
                 )}
               </Button>
-              <Button variant="outline" className="w-full">
+              {/* <Button variant="outline" className="w-full">
                 Login with Google
-              </Button>
+              </Button> */}
             </div>
             <div className="mt-4 text-center text-sm">
               Chưa có tài khoản?{" "}

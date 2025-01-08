@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WatchStore.Application.Common.DTOs;
 
 namespace WatchStore.Application.Products.Commands.CreateProduct
 {
-    public record CreateProductCommand : IRequest<int>
+    public record CreateProductCommand : IRequest<ProductDto>
     {
         public string ProductName { get; set; }
         public decimal ProductPrice { get; set; }

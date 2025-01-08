@@ -116,9 +116,10 @@ export default function HeaderAdmin() {
             ) : null}
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-4 items-center">
           <span className="text-base font-medium text-gray-600">
             {/* {admin ? admin.admin?.adminName : "Admin"} */}
+            Admin
           </span>
           <div className="rounded-full bg-background border border-gray-300 dark:bg-background">
             <img src="/icon/admin-user.svg" alt="Person" width={34} height={34} />
@@ -157,7 +158,7 @@ export default function HeaderAdmin() {
               </div>
             )}
           </div> */}
-          <ModeToggle className={"bg-background"} />
+          {/* <ModeToggle className={"bg-background"} /> */}
         </div>
       </div>
     </div>

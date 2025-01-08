@@ -97,6 +97,7 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                     CustomerId = customer.CustomerId,
                     PaymentId = request.PaymentId,
                     CreatedAt = DateTime.Now,
+                    Status = "Chưa giải quyết",
                     Total = 0,
                 };
 

@@ -9,6 +9,7 @@ using WatchStore.Application.Brands.Commands.UpdateBrand;
 using WatchStore.Application.Brands.Queries.GetBrandById;
 using WatchStore.Application.Brands.Queries.GetBrands;
 using WatchStore.Application.Common.Interfaces;
+using WatchStore.Domain.Entities;
 
 namespace WatchStore.API.Controllers
 {
@@ -42,7 +43,13 @@ namespace WatchStore.API.Controllers
         public async Task<IActionResult> CreateBrand([FromForm] CreateBrandCommand command)
         {
             var brand = await _mediator.Send(command);
-            return Ok(brand);
+            return Ok(
+                 new
+                 {
+                     message = "Thêm thương hiệu thành công!",
+                     data = brand
+                 }
+            );
         }
 
         [HttpDelete("{id}")]
@@ -50,7 +57,12 @@ namespace WatchStore.API.Controllers
         public async Task<IActionResult> DeleteBrand([FromRoute] int id)
         {
             await _mediator.Send(new DeleteBrandCommand(id));
-            return Ok();
+            return Ok(
+                  new
+                  {
+                      message = "Xoá thương hiệu thành công!",
+                  }
+            );
         }
 
         [HttpPut("{id}")]
@@ -62,7 +74,13 @@ namespace WatchStore.API.Controllers
                 return BadRequest("Brand id không khớp");
             }
             var brand = await _mediator.Send(command);
-            return Ok(brand);
+            return Ok(
+                new
+                {
+                    message = "Cập nhật thương hiệu thành công!",
+                    data = brand
+                }
+             );
         }
     }
 }

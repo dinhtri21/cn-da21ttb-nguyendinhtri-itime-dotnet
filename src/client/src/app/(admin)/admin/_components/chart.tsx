@@ -66,8 +66,8 @@ export function Chart() {
     <div className="">
       <Card className="shadow border">
         <CardHeader>
-          <CardTitle>Line Chart - Linear</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+          <CardTitle>Biểu đồ doanh thu</CardTitle>
+          <CardDescription>Tháng 12 / 2024</CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer

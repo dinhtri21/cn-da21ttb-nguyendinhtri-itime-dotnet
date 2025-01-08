@@ -296,9 +296,9 @@ export function SignUpForm() {
             <Button type="submit" className="w-full col-span-2 text-white bg-black">
               Tạo tài khoản
             </Button>
-            <Button variant="outline" className="w-full col-span-2">
+            {/* <Button variant="outline" className="w-full col-span-2">
               Sign up with GitHub
-            </Button>
+            </Button> */}
           </div>
         </form>
         <div className="mt-4 text-center text-sm">

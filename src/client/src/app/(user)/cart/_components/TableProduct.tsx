@@ -180,7 +180,7 @@ export function TableProduct() {
                     className="absolute top-2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800  rounded-full p-[5px]
                hover:bg-slate-300 hover:text-white cursor-pointer dark:hover:bg-slate-300 shadow"
                   >
-                    <Cross1Icon width={14} height={14} />
+                    <Cross1Icon width={14} height={14} className="text-gray-500" />
                   </div>
                   <div className="row-span-2 md:col-span-1 md:row-span-2 overflow-hidden">
                     <Image

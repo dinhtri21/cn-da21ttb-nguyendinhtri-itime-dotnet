@@ -64,12 +64,16 @@ namespace WatchStore.API.Controllers
         public async Task<IActionResult> AddProduct([FromForm] CreateProductCommand command)
         {
 
-            var productId = await _mediator.Send(command);
-            if (productId == 0)
+            var product = await _mediator.Send(command);
+            if (product == null)
             {
                 return BadRequest(new { message = "Thêm sản phẩm không thành công!" });
             }
-            return Ok(new { message = "Thêm sản phẩm thành công!" });
+            return Ok(new
+            {
+                message = "Thêm sản phẩm thành công!",
+                product = product
+            });
 
         }
         [HttpDelete("{id}")]

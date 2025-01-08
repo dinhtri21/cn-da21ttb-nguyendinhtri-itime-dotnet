@@ -121,11 +121,13 @@ export default function ProductsPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
+                <BreadcrumbLink className="text-base" href="/">
+                  Trang chủ
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Sản phẩm</BreadcrumbPage>
+                <BreadcrumbPage className="text-base text-gray-500">Sản phẩm</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -134,11 +136,11 @@ export default function ProductsPage() {
           <Filter updateURLWithFilters={updateURLWithFilters} />
           <div className="col-span-3">
             <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
-              <div className="col-span-2 md:col-span-3 flex justify-between items-center">
+              <div className="col-span-2 md:col-span-3 flex justify-end items-center gap-4">
                 <div className="flex items-center gap-2 border border-gray-300 px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer text-gray-700">
                   <button
                     // onClick={handleSearch}
-                    className="border-r border-gray-400 pr-2 "
+                    className="border-r border-gray-300 pr-2 "
                   >
                     <Image
                       src="/icon/search.svg"
@@ -157,7 +159,7 @@ export default function ProductsPage() {
                   />
                 </div>
                 <Select onValueChange={(value) => handleSortChange(value)}>
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-[180px] border-gray-300 text-gray-600">
                     <SelectValue placeholder="Sắp xếp theo:" />
                   </SelectTrigger>
                   <SelectContent>

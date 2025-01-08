@@ -9,6 +9,14 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 import { MixerVerticalIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface FilterProps {
   updateURLWithFilters: (filters: Record<string, any>) => void;
@@ -19,9 +27,15 @@ const brandIds = [
   { id: 2, name: "Omega" },
   { id: 9, name: "Citizen" },
   { id: 4, name: "Rolex" },
+  { id: 4, name: "Rolex" },
+  { id: 4, name: "Rolex" },
+  { id: 4, name: "Rolex" },
 ];
 
 const materialIds = [
+  { id: 1, name: "Thép" },
+  { id: 2, name: "Bạch kim" },
+  { id: 3, name: "Vàng" },
   { id: 1, name: "Thép" },
   { id: 2, name: "Bạch kim" },
   { id: 3, name: "Vàng" },
@@ -86,16 +100,17 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
   };
 
   return (
-    <div className="absolute md:relative left-4 top-2">
+    <div className="absolute md:relative md:left-0 md:top-0 left-4 top-2 pl-4 pr-4">
       <div className="hidden md:block">
         <div className="mb-4 mt-2 flex items-center gap-2">
           <MixerVerticalIcon width={20} height={20} />
           <span className="uppercase text-lg ">Lọc sản phẩm</span>
         </div>
+
         {/* Brand */}
         <div className="filter-section mb-4">
-          <h3 className="uppercase text-base ">Thương hiệu</h3>
-          {brandIds.map((brand) => (
+          <h3 className="uppercase text-base">Thương hiệu</h3>
+          {brandIds.slice(0, 5).map((brand) => (
             <div key={brand.id}>
               <label className="flex items-center mt-1">
                 <input
@@ -115,11 +130,43 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
               </label>
             </div>
           ))}
+
+          {/* Hiển thị Accordion nếu có nhiều hơn 5 mục */}
+          {brandIds.length > 5 && (
+            <Accordion type="single" collapsible>
+              <AccordionItem value="remaining-brands" className="text-gray-500">
+                <AccordionTrigger>Hiển thị thêm</AccordionTrigger>
+                <AccordionContent>
+                  {brandIds.slice(5).map((brand) => (
+                    <div key={brand.id}>
+                      <label className="flex items-center mt-1">
+                        <input
+                          className="w-4 h-4"
+                          type="checkbox"
+                          checked={selectedBrandIds.includes(brand.id)}
+                          onChange={() =>
+                            toggleSelection(
+                              brand.id,
+                              selectedBrandIds,
+                              setSelectedBrandIds,
+                              handleSelectBrand
+                            )
+                          }
+                        />
+                        <span className="ml-2 text-gray-600">{brand.name}</span>
+                      </label>
+                    </div>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          )}
         </div>
+
         {/* Material */}
         <div className="filter-section mb-4">
-          <h3 className="uppercase text-base ">Chất liệu</h3>
-          {materialIds.map((material) => (
+          <h3 className="uppercase text-base">Chất liệu</h3>
+          {materialIds.slice(0, 5).map((material) => (
             <div key={material.id}>
               <label className="flex items-center mt-1">
                 <input
@@ -139,31 +186,40 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
               </label>
             </div>
           ))}
+
+          {/* Hiển thị Accordion nếu có nhiều hơn 5 mục */}
+          {materialIds.length > 5 && (
+            <Accordion type="single" collapsible>
+              <AccordionItem value="remaining-materials" className="text-gray-500 ">
+                <AccordionTrigger>Hiển thị thêm</AccordionTrigger>
+                <AccordionContent>
+                  {materialIds.slice(5).map((material) => (
+                    <div key={material.id}>
+                      <label className="flex items-center mt-1">
+                        <input
+                          className="w-4 h-4"
+                          type="checkbox"
+                          checked={selectedMaterialIds.includes(material.id)}
+                          onChange={() =>
+                            toggleSelection(
+                              material.id,
+                              selectedMaterialIds,
+                              setSelectedMaterialIds,
+                              handleSelectMaterial
+                            )
+                          }
+                        />
+                        <span className="ml-2 text-gray-600">
+                          {material.name}
+                        </span>
+                      </label>
+                    </div>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          )}
         </div>
-        {/* Color */}
-        {/* <div className="filter-section mb-4">
-          <h3 className="uppercase text-base font-medium">Màu sắc</h3>
-          {colorIds.map((color) => (
-            <div key={color.id}>
-              <label className="flex items-center mt-1">
-                <input
-                  className="w-4 h-4"
-                  type="checkbox"
-                  checked={selectedColorIds.includes(color.id)}
-                  onChange={() =>
-                    toggleSelection(
-                      color.id,
-                      selectedColorIds,
-                      setSelectedColorIds,
-                      
-                    )
-                  }
-                />
-                <span className="ml-2">{color.name}</span>
-              </label>
-            </div>
-          ))}
-        </div> */}
       </div>
       <div className="md:hidden">
         <Sheet>

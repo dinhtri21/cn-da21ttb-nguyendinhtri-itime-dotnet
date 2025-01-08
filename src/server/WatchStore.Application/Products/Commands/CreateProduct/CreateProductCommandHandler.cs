@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using WatchStore.Application.Common.Interfaces;
 using WatchStore.Domain.Entities;
 using Microsoft.AspNetCore.Hosting;
+using WatchStore.Application.Common.DTOs;
 
 namespace WatchStore.Application.Products.Commands.CreateProduct
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>, IApplicationMarker
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ProductDto>, IApplicationMarker
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
@@ -25,7 +26,7 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             if (!await _productRepository.IsBrandExistsAsync(request.BrandId))
             {
@@ -60,7 +61,8 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
             product.ProductImages = imageUrls.Select(url => new ProductImage { ImageUrl = url }).ToList();
 
             await _productRepository.AddProductAsync(product);
-            return product.ProductId;
+            
+            return _mapper.Map<ProductDto>(product);
         }
     }
 }
