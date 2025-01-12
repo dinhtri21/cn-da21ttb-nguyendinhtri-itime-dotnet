@@ -109,7 +109,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
           ToWardCode: selectedAddress.wardId.toString(),
           Height: 10,
           Length: 10,
-          Weight: 2000,
+          Weight: 1000,
           Width: 10,
         },
         token

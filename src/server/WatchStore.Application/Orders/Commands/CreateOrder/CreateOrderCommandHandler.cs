@@ -78,18 +78,18 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                 {
                     service = res.Data[0];
                 }
-                var calculateFeeRequest = new CalculateFeeRequest
-                {
-                    ServiceId = service.ServiceID,
-                    ServiceTypeId = service.ServiceTypeID,
-                    ToDistrictId = customerAddress.DistrictId,
-                    ToWardCode = customerAddress.WardId.ToString(),
-                    Height = 10,
-                    Length = 10,
-                    Weight = 2000,
-                    Width = 10
-                };
-                var calculateFeeResponse = await _ghnService.CalculateFeeAsync(calculateFeeRequest);
+                //var calculateFeeRequest = new CalculateFeeRequest
+                //{
+                //    ServiceId = service.ServiceID,
+                //    ServiceTypeId = service.ServiceTypeID,
+                //    ToDistrictId = customerAddress.DistrictId,
+                //    ToWardCode = customerAddress.WardId.ToString(),
+                //    Height = 10,
+                //    Length = 10,
+                //    Weight = 1000,
+                //    Width = 10
+                //};
+                //var calculateFeeResponse = await _ghnService.CalculateFeeAsync(calculateFeeRequest);
 
                 // Add order
                 var order = new Order
@@ -138,7 +138,7 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                     ToAddress = customerAddress.Province + ", " + customerAddress.District + ", " + customerAddress.Ward,
                     ToWardCode = customerAddress.WardId.ToString(),
                     ToDistrictId = customerAddress.DistrictId,
-                    CodAmount = (int)order.Total + calculateFeeResponse.Data.Total,
+                    CodAmount = (int)order.Total,
                     Weight = 1000,
                     Length = 10,
                     Width = 10,

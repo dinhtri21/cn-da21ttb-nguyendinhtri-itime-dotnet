@@ -27,18 +27,18 @@ const brandIds = [
   { id: 2, name: "Omega" },
   { id: 9, name: "Citizen" },
   { id: 4, name: "Rolex" },
-  { id: 4, name: "Rolex" },
-  { id: 4, name: "Rolex" },
-  { id: 4, name: "Rolex" },
+  { id: 12, name: "Rolex" },
+  { id: 10, name: "Rolex" },
+  { id: 11, name: "Rolex" },
 ];
 
 const materialIds = [
   { id: 1, name: "Thép" },
   { id: 2, name: "Bạch kim" },
   { id: 3, name: "Vàng" },
-  { id: 1, name: "Thép" },
-  { id: 2, name: "Bạch kim" },
-  { id: 3, name: "Vàng" },
+  { id: 12, name: "Thép" },
+  { id: 23, name: "Bạch kim" },
+  { id: 34, name: "Vàng" },
 ];
 
 const colorIds = [

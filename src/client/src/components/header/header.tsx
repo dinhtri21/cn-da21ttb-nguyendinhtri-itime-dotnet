@@ -5,8 +5,6 @@ import {
   ArchiveIcon,
   HamburgerMenuIcon,
   ChevronRightIcon,
-  DividerVerticalIcon,
-  GearIcon,
 } from "@radix-ui/react-icons";
 import Link from "next/link";
 import {
