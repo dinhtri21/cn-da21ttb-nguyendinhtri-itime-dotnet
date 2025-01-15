@@ -28,6 +28,7 @@ namespace WatchStore.Application.Shippings.Queries.GetCalculateFee
             var res = await _ghnService.GetServiceAsync(new GetServiceRequest() { ShopID = 1 , FromDistrict = 1560, ToDistrict = request.ToDistrictId });
 
             var service = res.Data.FirstOrDefault(x => x.ShortName == "Hàng nhẹ");
+
             if (service == null)
             {
                 service = res.Data[0];
@@ -43,6 +44,18 @@ namespace WatchStore.Application.Shippings.Queries.GetCalculateFee
                 Length = request.Length,
                 Weight = request.Weight,
                 Width = request.Width,
+                Items = new Items[]
+                {
+                    new Items
+                    {
+                        name = "item",
+                        quantity = 1,
+                        height = 10,
+                        weight = 10,
+                        length = 10,
+                        width = 10
+                    }
+                }
             };
 
             var calculateFeeResponse = await _ghnService.CalculateFeeAsync(calculateFeeRequest);

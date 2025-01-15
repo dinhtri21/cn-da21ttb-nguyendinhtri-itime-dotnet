@@ -48,7 +48,7 @@ namespace WatchStore.API.Controllers
 
         [Authorize(Policy = "CustomerPolicy")]
         [HttpGet("customer/{customer-id}")]
-        public async Task<IActionResult> GetOrdersByCustomer([FromQuery] int? skip, [FromQuery] int? limit, [FromRoute(Name = "customer-id")] int customerId)
+        public async Task<IActionResult> GetOrdersByCustomer([FromQuery] int? skip, [FromQuery] int? limit, [FromRoute(Name = "customer-id")] int customerId, [FromQuery] string? status)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId != customerId.ToString())
@@ -58,7 +58,7 @@ namespace WatchStore.API.Controllers
 
             int Skip = skip ?? 0;
             int Limit = limit ?? 9;
-            var listOrders = await _mediator.Send(new GetOrdersByCustomerIdQuery(customerId, Skip, Limit));
+            var listOrders = await _mediator.Send(new GetOrdersByCustomerIdQuery(customerId, Skip, Limit, status));
             if (listOrders.Orders.Count() == 0)
             {
                 return Ok(new { listOrders.Orders, message = "Giỏ hàng trống!" });

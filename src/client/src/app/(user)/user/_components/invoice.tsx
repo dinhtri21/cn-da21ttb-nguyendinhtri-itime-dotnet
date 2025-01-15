@@ -129,7 +129,7 @@ const Invoice = (props: InvoiceProps) => {
               Phí vận chuyển: {props.order.shippingFee.toLocaleString()} ₫
             </p>
             <p className="text-lg font-semibold text-gray-700">
-              Tổng cộng: {props.order.total.toLocaleString()} ₫
+              Tổng cộng: {(props.order.total + props.order.shippingFee).toLocaleString()} ₫
             </p>
           </div>
         </div>

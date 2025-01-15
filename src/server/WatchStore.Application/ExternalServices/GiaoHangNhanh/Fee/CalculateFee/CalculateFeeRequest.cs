@@ -33,5 +33,24 @@ namespace WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee
         [JsonProperty("width")]
         public int Width { get; set; }
 
+        [JsonProperty("items")]
+        public Items[] Items { get; set; }
+
+    }
+
+    public class Items
+    {
+        [JsonProperty("name")]
+        public string name { get; set; }
+        [JsonProperty("quantity")]
+        public int quantity { get; set; }
+        [JsonProperty("height")]
+        public int height { get; set; }
+        [JsonProperty("weight")]
+        public int weight { get; set; }
+        [JsonProperty("length")]
+        public int length { get; set; }
+        [JsonProperty("width")]
+        public int width { get; set; }
     }
 }

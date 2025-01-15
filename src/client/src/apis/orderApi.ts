@@ -16,12 +16,14 @@ const OrderApi = {
     token: string,
     customerId: number,
     limit?: number,
-    skip?: number
+    skip?: number,
+    status?: string,
   ): Promise<OrderResponse> {
     const res = await axiosConfig.get(`/orders/customer/${customerId}`, {
       params: {
         limit: limit,
         skip: skip,
+        status: status,
       },
       headers: {
         Authorization: `Bearer ${token}`,

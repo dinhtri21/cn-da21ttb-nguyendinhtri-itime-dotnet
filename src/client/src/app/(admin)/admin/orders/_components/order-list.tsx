@@ -28,7 +28,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-
 type ShippingStatus =
   | "waiting_to_return"
   | "ready_to_pick"
@@ -379,7 +378,7 @@ export function OrderList(props: DashboardProps) {
                     </div>
                   </div>
                   <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center text-gray-600">
-                    {order.total.toLocaleString()} đ
+                    {(order.total + order.shippingFee).toLocaleString()} đ
                   </div>
                   <div className="md:col-span-1 md:row-span-2 flex  justify-center items-center ">
                     <div className="flex flex-col items-center">
@@ -432,9 +431,7 @@ export function OrderList(props: DashboardProps) {
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Không thể huỷ
-                            </AlertDialogTitle>
+                            <AlertDialogTitle>Không thể huỷ</AlertDialogTitle>
                             <AlertDialogDescription>
                               Đơn hàng sau khi bắt đầu vận chuyển không thể huỷ!
                             </AlertDialogDescription>

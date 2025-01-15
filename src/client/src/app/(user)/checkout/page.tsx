@@ -96,7 +96,11 @@ export default function CheckOutPage() {
       } else {
         CustomToast.showError("Vui lòng đăng nhập để tạo đơn hàng!");
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
+      if (error.response?.data) {
+        CustomToast.showError(error.response.data.message);
+      }
       CustomToast.showError("Tạo đơn hàng thất bại!");
       console.error("Tạo Order thất bại:", error);
     } finally {

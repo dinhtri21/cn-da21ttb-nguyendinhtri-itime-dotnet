@@ -71,6 +71,16 @@ namespace WatchStore.Application.Orders.Commands.CreateOrder
                     throw new ValidationException($"PaymentId {request.PaymentId} không tồn tại.");
                 }
 
+                // Check quantity in stock
+                foreach (var item in request.OrderDetails)
+                {
+                    var product = await _productRepository.GetProductByIdAsync(item.ProductId);
+                    if (product.QuantityInStock < item.Quantity)
+                    {
+                        throw new ValidationException($"Số lượng sản phẩm {product.ProductName} không đủ.");
+                    }
+                }
+
                 // GHN fee
                 var res = await _ghnService.GetServiceAsync(new GetServiceRequest() { ShopID = 1, FromDistrict = 1560, ToDistrict = customerAddress.DistrictId });
                 var service = res.Data.FirstOrDefault(x => x.ShortName == "Hàng nhẹ");

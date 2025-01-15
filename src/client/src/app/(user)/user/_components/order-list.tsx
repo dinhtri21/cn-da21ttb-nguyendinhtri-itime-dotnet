@@ -333,7 +333,7 @@ export function OrderList(props: DashboardProps) {
                     </div>
                   </div>
                   <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center text-customOrange">
-                    {order.total.toLocaleString()} đ
+                    {(order.total + order.shippingFee).toLocaleString()} đ
                   </div>
                   <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
                     <div className="flex flex-col items-center">

@@ -13,11 +13,13 @@ namespace WatchStore.Application.Orders.Queries.GetOrdersByCustomerId
         public int CustomerId { get; set; }
         public int Skip { get; set; }
         public int Limit { get; set; }
-        public GetOrdersByCustomerIdQuery(int customerId, int skip, int limit)
+        public string? Status { get; set; }
+        public GetOrdersByCustomerIdQuery(int customerId, int skip, int limit, string? status)
         {
             Skip = skip;
             Limit = limit;
             CustomerId = customerId;
+            Status = status;
         }
     }
 }

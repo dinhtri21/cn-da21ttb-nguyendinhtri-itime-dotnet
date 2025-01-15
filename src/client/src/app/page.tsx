@@ -13,7 +13,6 @@ export default function Home() {
       <FeaturedBrands />
       <FeaturedProducts title="Sản phẩm nổi bật" />
       <FeaturedProducts title="Sản phẩm nổi bật" />
-     
     </div>
   );
 }

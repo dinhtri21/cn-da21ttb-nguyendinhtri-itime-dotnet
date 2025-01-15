@@ -56,6 +56,14 @@ namespace WatchStore.Application.Orders.Queries.GetOrdersByCustomerId
                     ShippingFee = shipping.ShippingFee,
                     AddressLine = shipping.AddressLine
                 });
+
+                // Lọc theo status nếu có
+                if (request.Status != null)
+                {
+                    orderListDto.Orders = orderListDto.Orders.Where(o => o.ShippingStatus == request.Status).ToList();
+                    orderListDto.Total = orderListDto.Orders.Count();
+                    orderListDto.Orders = orderListDto.Orders.Skip(request.Skip * request.Limit).Take(request.Limit).ToList();
+                }
             }
 
             return orderListDto;
