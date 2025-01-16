@@ -107,12 +107,14 @@ export default function BrandPage() {
               // defaultValue={`${limit.toString()}`}
             >
               <SelectTrigger className="w-[60px] border border-gray-300">
-                <SelectValue placeholder="12" />
+                <SelectValue placeholder="6" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="12">12</SelectItem>
-                <SelectItem value="20">20</SelectItem>
-                <SelectItem value="50">50</SelectItem>
+                <SelectItem value="6">6</SelectItem>
+                <SelectItem value="7">7</SelectItem>
+                <SelectItem value="8">8</SelectItem>
+                <SelectItem value="8">10</SelectItem>
+                <SelectItem value="8">20</SelectItem>
               </SelectContent>
             </Select>
             <div>

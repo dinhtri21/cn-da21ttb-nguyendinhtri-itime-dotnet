@@ -111,7 +111,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> AdminLogin([FromBody] LoginCustomerQuery query)
+        public async Task<IActionResult> Login([FromBody] LoginCustomerQuery query)
         {
             var loginData = await _mediator.Send(query);
             var cookieOptions = new CookieOptions
@@ -121,7 +121,6 @@ namespace WatchStore.API.Controllers
                 Expires = DateTime.UtcNow.AddHours(1),
                 SameSite = SameSiteMode.None,
                 MaxAge = TimeSpan.FromHours(1),
-
             };
             Response.Cookies.Append("accessToken", loginData.Token, cookieOptions);
 

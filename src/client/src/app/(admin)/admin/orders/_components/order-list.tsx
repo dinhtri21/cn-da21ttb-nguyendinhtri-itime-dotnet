@@ -63,7 +63,7 @@ const statusStyles: Record<
   picked: {
     textColor: "text-violet-600",
     bgColor: "bg-violet-100",
-    content: "Đang lấy hàng",
+    content: "Đã lấy hàng",
   },
   storing: {
     textColor: "text-violet-600",
@@ -339,7 +339,7 @@ export function OrderList(props: DashboardProps) {
                 <div
                   key={index}
                   className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-3 border-b border-gray-300 relative bg-background
-                hover:bg-gray-100 cursor-pointer"
+                hover:bg-gray-100 cursor-pointer min-h-[73px] "
                 >
                   <div className="row-span-2 md:col-span-1 md:row-span-2 flex md:justify-center items-center overflow-hidden">
                     <div className="flex flex-col text-gray-700 font-[400]">

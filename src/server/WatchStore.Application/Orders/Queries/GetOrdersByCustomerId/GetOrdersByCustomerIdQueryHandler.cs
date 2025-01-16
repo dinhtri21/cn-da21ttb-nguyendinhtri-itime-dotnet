@@ -42,6 +42,14 @@ namespace WatchStore.Application.Orders.Queries.GetOrdersByCustomerId
             {
                 var shipping = await _shippingRepository.GetShippingByOrderIdAsync(order.OrderId);
                 var orderInfoGHN = await _giaoHanhNhanhService.GetOrderInfoAsync(new GetOrderInfoRequest { OrderCode = shipping.TrackingNumber });
+
+                // Cập nhật trạng thái shipping
+                if (shipping.ShippingStatus != orderInfoGHN.Data.Status)
+                {
+                    shipping.ShippingStatus = orderInfoGHN.Data.Status;
+                    await _shippingRepository.UpdateShippingAsync(shipping);
+                }
+
                 orderListDto.Orders.Add(new OrderShippingDto
                 {
                     OrderId = order.OrderId,

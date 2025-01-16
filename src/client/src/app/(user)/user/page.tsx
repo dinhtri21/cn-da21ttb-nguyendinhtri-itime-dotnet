@@ -37,6 +37,7 @@ export default function UserPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
+  const [filterStatus, setFilterStatus] = useState<string | null>(null);
 
   const params = new URLSearchParams(searchParams.toString());
 
@@ -47,7 +48,8 @@ export default function UserPage() {
           token,
           customer.customerId,
           parseInt(params.get("limit") || "5"),
-          parseInt(params.get("skip") || "0")
+          parseInt(params.get("skip") || "0"),
+          filterStatus || undefined
         );
         setOrders(data.orders);
         setOrderResponse(data);
@@ -82,7 +84,7 @@ export default function UserPage() {
 
   useEffect(() => {
     fetchOrders();
-  }, [customer, searchParams]);
+  }, [customer, searchParams, filterStatus]);
 
   return (
     <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-7 pb-12 mt-[73px]">
@@ -101,7 +103,7 @@ export default function UserPage() {
       </div>
       
       <InfoCustomer />
-      <OrderList orders={orders} />
+      <OrderList orders={orders}  setFilterStatus={setFilterStatus}/>
       {orders && orders?.length !== 0 && (
         <div className="col-span-3 mt-5">
           <Pagination>

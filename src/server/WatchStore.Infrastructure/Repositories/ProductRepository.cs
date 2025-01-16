@@ -46,13 +46,15 @@ namespace WatchStore.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip, int limit, string sortOrder, Dictionary<string, string> filters)
+        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip,
+            int limit, string sortOrder, Dictionary<string, string> filters, string search)
         {
             var query = _context.Products.Include(p => p.ProductImages)
                                          .Include(p => p.Brand)
                                          .Include(p => p.Material)
                                          .AsQueryable();
 
+            // Lọc theo brand và material 
             if (brandIds != null && brandIds.Any())
             {
                 query = query.Where(p => brandIds.Contains(p.BrandId));
@@ -63,6 +65,7 @@ namespace WatchStore.Infrastructure.Repositories
                 query = query.Where(p => materialIds.Contains(p.MaterialId));
             }
 
+            // Lọc theo từng trường 
             if (filters != null)
             {
                 foreach (var filter in filters)
@@ -81,6 +84,18 @@ namespace WatchStore.Infrastructure.Repositories
                 }
             }
 
+            // Tìm kiếm theo từ khóa
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                query = query.Where(p =>
+                    p.ProductName.ToLower().Contains(search) ||
+                    p.ProductDescription.ToLower().Contains(search) ||
+                    p.Brand.BrandName.ToLower().Contains(search) ||
+                    p.Material.MaterialName.ToLower().Contains(search));
+            }
+
+            // Sắp xếp
             switch (sortOrder)
             {
                 case "price_asc": // Sắp xếp theo giá tăng dần
@@ -89,12 +104,12 @@ namespace WatchStore.Infrastructure.Repositories
                 case "price_desc": // Sắp xếp theo giá giảm dần
                     query = query.OrderByDescending(p => p.ProductPrice);
                     break;
-                //case "date_asc": // Sắp xếp theo ngày tạo cũ nhất
-                //    query = query.OrderBy(p => p.CreatedDate);
-                //    break;
-                //case "date_desc": // Sắp xếp theo ngày tạo mới nhất
-                //    query = query.OrderByDescending(p => p.CreatedDate);
-                //    break;
+                case "date_asc": // Sắp xếp theo ngày tạo cũ nhất
+                    query = query.OrderBy(p => p.CreatedAt);
+                    break;
+                case "date_desc": // Sắp xếp theo ngày tạo mới nhất
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
                 default: // Nếu không có sortOrder, mặc định không sắp xếp
                     query = query.OrderBy(p => p.ProductId);
                     break;

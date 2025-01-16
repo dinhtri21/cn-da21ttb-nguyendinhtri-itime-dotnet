@@ -91,7 +91,7 @@ export default function ProductList(props: DashboardProps) {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const formatDate = (dateString: string) => {
     const dateObj = new Date(dateString);
@@ -189,9 +189,12 @@ export default function ProductList(props: DashboardProps) {
       <div className="mt-6 bg-background overflow-hidden min-h-[530px] border-t border-gray-300">
         <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">
           <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center">
-            Ảnh
+            ID
           </div>
-          <div className="col-span-3 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
+          <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-start gap-1 items-center pl-2">
+             Ảnh
+          </div>
+          <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Tên</span>
             {/* <ClockIcon className="" /> */}
           </div>
@@ -228,7 +231,10 @@ export default function ProductList(props: DashboardProps) {
                 key={index}
                 className="grid grid-cols-12 grid-flow-row gap-2 p-3 border-b border-gray-300 text-black hover:bg-gray-50"
               >
-                <div className="col-span-1 text-gray-900 font-[400] flex justify-center gap-1 items-center">
+                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center">
+                  <span >{product.productId}</span>
+                </div>
+                <div className="col-span-1 text-gray-900 font-[400] flex justify-start gap-1 items-center">
                   <Image
                     src={product?.imageUrls[0]}
                     width={50}
@@ -237,7 +243,7 @@ export default function ProductList(props: DashboardProps) {
                     className="border rounded w-[50px] h-[50px] object-cover"
                   />
                 </div>
-                <div className="col-span-3 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">
+                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">
                   <span>{product.productName}</span>
                   {/* <ClockIcon className="" /> */}
                 </div>

@@ -1,7 +1,15 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import {
   Card,
@@ -20,54 +28,88 @@ import {
 
 export const description = "A linear line chart";
 
-const chartData = [
-  { day: "1", desktop: 24 },
-  { day: "2", desktop: 13 },
-  { day: "3", desktop: 98 },
-  { day: "4", desktop: 39 },
-  { day: "5", desktop: 48 },
-  { day: "6", desktop: 38 },
-  { day: "7", desktop: 24 },
-  { day: "8", desktop: 13 },
-  { day: "9", desktop: 98 },
-  { day: "10", desktop: 39 },
-  { day: "11", desktop: 200 },
-  { day: "12", desktop: 38 },
-  { day: "13", desktop: 24 },
-  { day: "14", desktop: 13 },
-  { day: "15", desktop: 98 },
-  { day: "16", desktop: 39 },
-  { day: "17", desktop: 48 },
-  { day: "18", desktop: 38 },
-  { day: "19", desktop: 232 },
-  { day: "20", desktop: 13 },
-  { day: "21", desktop: 98 },
-  { day: "22", desktop: 100 },
-  { day: "23", desktop: 48 },
-  { day: "24", desktop: 38 },
-  { day: "25", desktop: 230 },
-  { day: "26", desktop: 13 },
-  { day: "27", desktop: 98 },
-  { day: "28", desktop: 39 },
-  { day: "29", desktop: 48 },
-  { day: "30", desktop: 40 },
-  { day: "31", desktop: 24 },
-];
+interface ChartData {
+  day: string;
+  name: number;
+}
 
 const chartConfig = {
-  desktop: {
-    label: "Doanh thu",
+  name: {
+    label: " ",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
-export function Chart() {
+interface ChartProps {
+  setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedMonth: React.Dispatch<React.SetStateAction<number>>;
+  selectedYear: number;
+  selectedMonth: number;
+  chartData: ChartData[];
+}
+
+export function Chart(props: ChartProps) {
   return (
     <div className="">
       <Card className="shadow border">
-        <CardHeader>
-          <CardTitle>Biểu đồ doanh thu</CardTitle>
-          <CardDescription>Tháng 12 / 2024</CardDescription>
+        <CardHeader className="flex flex-row justify-between items-center relative">
+          <div>
+            <CardTitle>Biểu đồ doanh thu</CardTitle>
+            {props.selectedMonth !== 0 && props.selectedYear && (
+              <CardDescription>
+                Tháng {props.selectedMonth} / {props.selectedYear}
+              </CardDescription>
+            )}
+
+            {props.selectedMonth == 0 && props.selectedYear && (
+              <CardDescription>Năm {props.selectedYear}</CardDescription>
+            )}
+          </div>
+          <div className="flex gap-3  absolute right-[-12px] top-[-7px] rounded-bl-xl rounded-br-xl pr-3 pl-3 pb-3 border-b  border-l bg-white">
+            <Select
+              onValueChange={(value: string) => {
+                props.setSelectedMonth(parseInt(value));
+              }}
+              defaultValue={props.selectedMonth.toString()}
+            >
+              <SelectTrigger className="w-[110px] border border-gray-300">
+                <SelectValue placeholder={props.selectedMonth.toString()} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0">....</SelectItem>
+                <SelectItem value="1">Tháng 1</SelectItem>
+                <SelectItem value="2">Tháng 2</SelectItem>
+                <SelectItem value="3">Tháng 3</SelectItem>
+                <SelectItem value="4">Tháng 4</SelectItem>
+                <SelectItem value="5">Tháng 5</SelectItem>
+                <SelectItem value="6">Tháng 6</SelectItem>
+                <SelectItem value="7">Tháng 7</SelectItem>
+                <SelectItem value="8">Tháng 8</SelectItem>
+                <SelectItem value="9">Tháng 9</SelectItem>
+                <SelectItem value="10">Tháng 10</SelectItem>
+                <SelectItem value="11">Tháng 11</SelectItem>
+                <SelectItem value="12">Tháng 12</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* Year */}
+            <Select
+              onValueChange={(value: string) => {
+                props.setSelectedYear(parseInt(value));
+              }}
+              defaultValue={props.selectedYear.toString()}
+            >
+              <SelectTrigger className="w-[110px] border border-gray-300">
+                <SelectValue placeholder={props.selectedYear.toString()} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="2023">Năm 2023</SelectItem>
+                <SelectItem value="2024">Năm 2024</SelectItem>
+                <SelectItem value="2025">Năm 2025</SelectItem>
+                <SelectItem value="2026">Năm 2026</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
         <CardContent>
           <ChartContainer
@@ -76,7 +118,7 @@ export function Chart() {
           >
             <LineChart
               accessibilityLayer
-              data={chartData}
+              data={props.chartData}
               margin={{
                 left: 12,
                 right: 12,
@@ -90,16 +132,18 @@ export function Chart() {
                 tickMargin={8}
                 tickFormatter={(value) => value.slice(0, 3)}
               />
+              <YAxis />
               <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
+               {/* <Legend  /> */}
               <Line
-                dataKey="desktop"
+                dataKey="name"
                 type="linear"
-                stroke="var(--color-desktop)"
+                stroke="var(--color-name)"
                 strokeWidth={2}
-                dot={false}
+                dot={true}
               />
             </LineChart>
           </ChartContainer>

@@ -68,7 +68,7 @@ const statusStyles: Record<
   picked: {
     textColor: "text-violet-700",
     bgColor: "bg-violet-100",
-    content: "Đang lấy hàng",
+    content: "Đã lấy hàng",
   },
   storing: {
     textColor: "text-violet-700",
@@ -205,6 +205,7 @@ export const description =
 
 interface DashboardProps {
   orders: Order[];
+  setFilterStatus: React.Dispatch<React.SetStateAction<string | null>>;
 }
 export function OrderList(props: DashboardProps) {
   // Hàm định dạng ngày
@@ -253,6 +254,7 @@ export function OrderList(props: DashboardProps) {
           </Tabs> */}
           <ComboboxFilter
             frameworks={shippingStatusFilter}
+            setFilterValueText={props.setFilterStatus}
             // setFilterValueText={props.setFilterStatus}
           />
           {/* <ComboboxFilter /> */}

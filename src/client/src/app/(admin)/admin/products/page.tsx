@@ -77,7 +77,15 @@ export default function ProductsPage() {
   //// FILTER PRODUCTS
   useEffect(() => {
     fetchProducts();
-  }, [searchParams, filterBrand, filters, filterMaterial, filterSortOrder, limit, skip]);
+  }, [
+    searchParams,
+    filterBrand,
+    filters,
+    filterMaterial,
+    filterSortOrder,
+    limit,
+    skip,
+  ]);
 
   //// Pagination handlers
   const handlePaginationPrevious = () => {
@@ -119,21 +127,21 @@ export default function ProductsPage() {
         {productsRes && productsRes?.products?.length !== 0 && (
           <div className="flex justify-center items-center mt-3">
             <Select
-            onValueChange={(value: string) => {
-              setLimit(parseInt(value));
-              setSkip(0);
-            }}
-            defaultValue={`${limit.toString()}`}
+              onValueChange={(value: string) => {
+                setLimit(parseInt(value));
+                setSkip(0);
+              }}
+              defaultValue={`${limit.toString()}`}
             >
               <SelectTrigger className="w-[60px] border border-gray-300">
-                <SelectValue placeholder="7" />
+                <SelectValue placeholder="6" />
               </SelectTrigger>
               <SelectContent>
-              <SelectItem value="6">6</SelectItem>
+                <SelectItem value="6">6</SelectItem>
                 <SelectItem value="7">7</SelectItem>
+                <SelectItem value="8">8</SelectItem>
                 <SelectItem value="10">10</SelectItem>
-                <SelectItem value="14">14</SelectItem>
-                <SelectItem value="21">21</SelectItem>
+                <SelectItem value="20">20</SelectItem>
               </SelectContent>
             </Select>
             <div>

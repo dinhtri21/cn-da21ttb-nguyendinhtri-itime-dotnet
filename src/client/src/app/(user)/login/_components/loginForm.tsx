@@ -69,8 +69,12 @@ export function LoginForm() {
         dispatch(setOverlayStatus(false));
       }, 1000);
       return () => clearTimeout(delayTimeout);
-    } catch (error) {
-      customToast.showError("Đăng nhập thất bại !");
+    } catch (error: any) {
+      if (error?.status == 400) {
+        customToast.showError("Email hoặc mật khẩu không đúng!");
+      } else {
+        customToast.showError("Đăng nhập thất bại !");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -140,9 +144,16 @@ export function LoginForm() {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full bg-black hover:bg-gray-800 hover:text-gray-300">
+              <Button
+                type="submit"
+                className="w-full bg-black hover:bg-gray-800 hover:text-gray-300"
+              >
                 {isLoading ? (
-                  <SymbolIcon className="animate-spin text-gray-300" width={20} height={20} />
+                  <SymbolIcon
+                    className="animate-spin text-gray-300"
+                    width={20}
+                    height={20}
+                  />
                 ) : (
                   <p className="text-white ">Đăng nhập</p>
                 )}

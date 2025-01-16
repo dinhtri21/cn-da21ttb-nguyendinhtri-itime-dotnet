@@ -38,24 +38,37 @@ export default function ProductsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   //// FETCH PRODUCTS
   const fetchProducts = async () => {
     try {
       const skip = parseInt(searchParams.get("skip") || "0");
       const limit = parseInt(searchParams.get("limit") || "6");
-      // const limit = 2;
       const brands = searchParams.get("brands")?.split(",").map(Number);
       const materials = searchParams.get("materials")?.split(",").map(Number);
       const sortOrder = searchParams.get("sortOrder");
+      const search = searchParams.get("search");
+      // const filters: Record<string, string> = {};
+      // searchParams.forEach((value, key) => {
+      //   const match = key.match(/^filters\[(.+)]$/);
+      //   if (match) {
+      //     const filterKey = match[1];
+      //     filters[filterKey] = `"${value}"`;
+      //   }
+      // });
 
+      // Call API with filters
       const data = await ProductApi.getProduct(
         skip,
         limit,
         brands,
         materials,
-        sortOrder || undefined
+        sortOrder || undefined,
+        undefined,
+        search || undefined
       );
+
       setProductsRes(data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -114,6 +127,21 @@ export default function ProductsPage() {
     updateURLWithFilters({ sortOrder }); // Cập nhật sortOrder vào URL
   };
 
+  //// Handle search input
+  const handleSearch = () => {
+    if (searchValue) {
+      updateURLWithFilters({ search: searchValue });
+    } else {
+      updateURLWithFilters({ search: "" });
+    }
+  };
+
+  const handleKeyDownSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="w-full dark:bg-muted/40">
       <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-6 pb-10 px-4 mt-[73px]">
@@ -127,7 +155,9 @@ export default function ProductsPage() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-base text-gray-500">Sản phẩm</BreadcrumbPage>
+                <BreadcrumbPage className="text-base text-gray-500">
+                  Sản phẩm
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -153,9 +183,9 @@ export default function ProductsPage() {
                     type="text"
                     placeholder="Tìm kiếm"
                     className="outline-none caret-gray-400 text-gray-800"
-                    // value={search}
-                    // onKeyDown={handleKeyDownSearch}
-                    // onChange={(e) => setSearch(e.target.value)}
+                    value={searchValue}
+                    onKeyDown={handleKeyDownSearch}
+                    onChange={(e) => setSearchValue(e.target.value)}
                   />
                 </div>
                 <Select onValueChange={(value) => handleSortChange(value)}>
@@ -185,6 +215,47 @@ export default function ProductsPage() {
               )}
             </div>
             {productsRes && productsRes?.products?.length !== 0 && (
+              <div className="flex justify-center items-center mt-3">
+                <Select
+                  onValueChange={(value: string) => {
+                    updateURLWithFilters({ limit: value });
+                  }}
+                  defaultValue={`6`}
+                >
+                  <SelectTrigger className="w-[60px] border border-gray-300">
+                    <SelectValue placeholder="7" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="6">6</SelectItem>
+                    <SelectItem value="9">9</SelectItem>
+                    <SelectItem value="12">12</SelectItem>
+                  </SelectContent>
+                </Select>
+                <div>
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem
+                        className="cursor-pointer"
+                        onClick={handlePaginationPrevious}
+                      >
+                        <PaginationPrevious />
+                      </PaginationItem>
+                      <RenderPaginationItems
+                        total={productsRes?.total || 0}
+                        limit={productsRes?.limit ?? 0}
+                        skip={parseInt(searchParams.get("skip") || "0")}
+                        handlePaginationItem={handlePaginationItem}
+                      />
+
+                      <PaginationItem className="cursor-pointer">
+                        <PaginationNext onClick={handlePaginationNext} />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              </div>
+            )}
+            {/* {productsRes && productsRes?.products?.length !== 0 && (
               <div className="col-span-3 mt-4">
                 <Pagination>
                   <PaginationContent>
@@ -207,7 +278,7 @@ export default function ProductsPage() {
                   </PaginationContent>
                 </Pagination>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

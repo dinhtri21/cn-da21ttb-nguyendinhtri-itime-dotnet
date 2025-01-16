@@ -20,7 +20,7 @@ namespace WatchStore.Infrastructure.Repositories
 
         public async Task<Shipping> CreateShippingAsync(Shipping shipping)
         {
-           var result = await _context.Shippings.AddAsync(shipping);
+            var result = await _context.Shippings.AddAsync(shipping);
             await _context.SaveChangesAsync();
 
             return result.Entity;
@@ -30,6 +30,12 @@ namespace WatchStore.Infrastructure.Repositories
         {
             var shipping = await _context.Shippings.Where(s => s.OrderId == orderId).FirstOrDefaultAsync();
             return shipping;
+        }
+
+        public async Task UpdateShippingAsync(Shipping shipping)
+        {
+            _context.Shippings.Update(shipping);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -25,11 +25,11 @@ namespace WatchStore.API.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> GetProducts([FromQuery] List<int> brandIds, [FromQuery] List<int> materialIds,
-            [FromQuery] int? skip, [FromQuery] int? limit, [FromQuery] string? sortOrder, [FromQuery(Name = "filters")] Dictionary<string, string> filters)
+            [FromQuery] int? skip, [FromQuery] int? limit, [FromQuery] string? sortOrder, [FromQuery(Name = "filters")] Dictionary<string, string>? filters, [FromQuery] string? search)
         {
             int Skip = skip ?? 0;
             int Limit = limit ?? 9;
-            var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, Skip, Limit, sortOrder, filters));
+            var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, Skip, Limit, sortOrder, filters, search));
             if (productListDto.Products.Count() == 0)
             {
                 return Ok(new { productListDto.Products, message = "Giỏ hàng trống!" });

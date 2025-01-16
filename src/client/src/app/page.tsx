@@ -11,7 +11,7 @@ export default function Home() {
     <div className="pb-4 mt-[80px] min-h-[calc(100vh-315px)]">
       <Slider />
       <FeaturedBrands />
-      <FeaturedProducts title="Sản phẩm nổi bật" />
+      <FeaturedProducts title="Sản phẩm mới" />
       <FeaturedProducts title="Sản phẩm nổi bật" />
     </div>
   );

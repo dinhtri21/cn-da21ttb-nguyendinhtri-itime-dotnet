@@ -5,8 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, CreditCard, DollarSign, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { StatisticOrderRevenuesRes } from "@/types/statistics";
 
-export default function Analytics() {
+interface AnalyticsProps {
+  selectedYear: number;
+  selectedMonth: number;
+  orderRevenuesRes: StatisticOrderRevenuesRes | null;
+}
+
+export default function Analytics(props: AnalyticsProps) {
   const [customersCount, setCustomersCount] = useState<number>(0);
   const [ordersCount, setOrdersCount] = useState<number>(0);
   const [productsCount, setProductsCount] = useState<number>(0);
@@ -63,14 +70,49 @@ export default function Analytics() {
       <Card x-chunk="dashboard-01-chunk-0" className="border">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="font-medium text-gray-700">
-            Tổng danh thu
+            Doanh thu
           </CardTitle>
           {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
           <img src="/icon/money.svg" alt="Dollar Sign" width={24} height={24} />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">4.231.890đ</div>
-          <p className="text-xs text-muted-foreground">tháng 12</p>
+          <div className="text-2xl font-bold">
+            {props?.orderRevenuesRes?.totalRevenue &&
+              props.orderRevenuesRes?.totalRevenue.toLocaleString()}{" "}
+            đ
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {props.selectedMonth !== 0 &&
+              props.selectedYear &&
+              "Tháng " + props.selectedMonth + " / " + props.selectedYear}
+
+            {props.selectedMonth == 0 &&
+              props.selectedYear &&
+              "Năm " + props.selectedYear}
+          </p>
+        </CardContent>
+      </Card>
+      <Card x-chunk="dashboard-01-chunk-2" className="border ">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium  text-gray-700">
+            Đơn hàng
+          </CardTitle>
+          {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
+          <img src="/icon/cart.svg" alt="Dollar Sign" width={24} height={24} />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">
+            {props?.orderRevenuesRes?.totalCount &&
+              props.orderRevenuesRes?.totalCount}
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {props.selectedMonth !== 0 &&
+              props.selectedYear &&
+              "Tháng " + props.selectedMonth + " / " + props.selectedYear}
+            {props.selectedMonth == 0 &&
+              props.selectedYear &&
+              "Năm " + props.selectedYear}
+          </p>
         </CardContent>
       </Card>
       <Card x-chunk="dashboard-01-chunk-1" className="border ">
@@ -87,23 +129,11 @@ export default function Analytics() {
           />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+{customersCount}</div>
-          <p className="text-xs text-muted-foreground">tháng 12</p>
+          <div className="text-2xl font-bold">{customersCount}</div>
+          <p className="text-xs text-muted-foreground">trên hệ thống</p>
         </CardContent>
       </Card>
-      <Card x-chunk="dashboard-01-chunk-2" className="border ">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium  text-gray-700">
-            Đơn hàng
-          </CardTitle>
-          {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
-          <img src="/icon/cart.svg" alt="Dollar Sign" width={24} height={24} />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">+{ordersCount}</div>
-          <p className="text-xs text-muted-foreground">tháng 12</p>
-        </CardContent>
-      </Card>
+
       <Card x-chunk="dashboard-01-chunk-3" className="border ">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium  text-gray-700">
@@ -118,8 +148,8 @@ export default function Analytics() {
           />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+{productsCount}</div>
-          <p className="text-xs text-muted-foreground">tháng 12</p>
+          <div className="text-2xl font-bold">{productsCount}</div>
+          <p className="text-xs text-muted-foreground">đang kinh doanh</p>
         </CardContent>
       </Card>
     </div>

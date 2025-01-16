@@ -14,9 +14,10 @@ namespace WatchStore.Application.Products.Queries.GetProducts
         public List<int> MaterialIds { get; set; }
         public int Skip { get; set; }
         public int Limit { get; set; } // Default page size
-        public string SortOrder { get; set; }
-        public Dictionary<string, string> Filters { get; }
-        public GetProductsQuery(List<int> brandIds, List<int> materialIds,int skip, int limit, string sortOrder, Dictionary<string, string> filters)
+        public string? SortOrder { get; set; }
+        public Dictionary<string, string>? Filters { get; }
+        public string? Search { get; set; }
+        public GetProductsQuery(List<int> brandIds, List<int> materialIds,int skip, int limit, string? sortOrder, Dictionary<string, string>? filters, string? search)
         {
             BrandIds = brandIds;
             MaterialIds = materialIds;
@@ -24,6 +25,7 @@ namespace WatchStore.Application.Products.Queries.GetProducts
             Limit = limit;
             SortOrder = sortOrder;
             Filters = filters;
+            Search = search;
         }
     }
 }

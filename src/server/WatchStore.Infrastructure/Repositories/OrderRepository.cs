@@ -120,6 +120,36 @@ namespace WatchStore.Infrastructure.Repositories
             return await query.CountAsync();
         }
 
+        public async Task<List<Order>> GetOrdersByMonthAndYearAsync(int? month, int? year)
+        {
+            // Nếu chỉ truyền vào tháng mà không có năm -> báo lỗi
+            if (month.HasValue && !year.HasValue)
+            {
+                throw new ArgumentException("Vui lòng cung cấp cả năm nếu lọc theo tháng.");
+            }
+
+            var query = _context.Orders
+                                .Include(o => o.Payment)
+                                .Include(o => o.Shipping)
+                                .OrderByDescending(o => o.CreatedAt)
+                                .AsQueryable();
+
+            // Lọc theo năm nếu có
+            if (year.HasValue)
+            {
+                query = query.Where(o => o.CreatedAt.Year == year.Value);
+            }
+
+            // Lọc theo tháng nếu có
+            if (month.HasValue)
+            {
+                query = query.Where(o => o.CreatedAt.Month == month.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
+
         public async Task<Order?> GetOrderByIdAsync(int orderId)
         {
             return await _context.Orders

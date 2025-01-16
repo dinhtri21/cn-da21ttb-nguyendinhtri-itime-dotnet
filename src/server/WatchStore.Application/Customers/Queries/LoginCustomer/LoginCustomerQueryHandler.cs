@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -31,12 +33,12 @@ namespace WatchStore.Application.Customers.Queries.LoginCustomer
 
             if (customer == null)
             {
-                throw new Exception("Email hoặc mật khẩu không đúng");
+                throw new ValidationException("Email hoặc mật khẩu không đúng");
             }
 
             if (!BCrypt.Net.BCrypt.Verify(request.Password, customer.Password))
             {
-                throw new Exception("Email hoặc mật khẩu không đúng");
+                throw new ValidationException("Email hoặc mật khẩu không đúng");
             }
 
             //Create Token
