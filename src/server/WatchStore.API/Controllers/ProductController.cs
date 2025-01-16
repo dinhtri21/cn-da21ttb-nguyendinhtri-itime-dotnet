@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Products.Commands.CreateProduct;
 using WatchStore.Application.Products.Commands.DeleteProduct;
+using WatchStore.Application.Products.Commands.ImportExcelProduct;
 using WatchStore.Application.Products.Commands.UpdateProduct;
 using WatchStore.Application.Products.Queries.GetProductById;
 using WatchStore.Application.Products.Queries.GetProducts;
@@ -73,6 +74,24 @@ namespace WatchStore.API.Controllers
             {
                 message = "Thêm sản phẩm thành công!",
                 product = product
+            });
+
+        }
+
+        [HttpPost("import")]
+        //[Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> ImportExcelProduct([FromForm] ImportExcelProductCommand command)
+        {
+
+            await _mediator.Send(command);
+            //if (product == null)
+            //{
+            //    return BadRequest(new { message = "Thêm sản phẩm không thành công!" });
+            //}
+            return Ok(new
+            {
+                message = "Thêm sản phẩm thành công!",
+                //product = product
             });
 
         }

@@ -13,11 +13,17 @@ namespace WatchStore.Application.Orders.Commands.DeleteOrder
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IGiaoHanhNhanhService _giaoHanhNhanhService;
-        public DeleteOrderCommandHandler(IOrderRepository orderRepository, IGiaoHanhNhanhService giaoHanhNhanhService)
+        private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IProductRepository _productRepository;
+        public DeleteOrderCommandHandler(IOrderRepository orderRepository, IGiaoHanhNhanhService giaoHanhNhanhService, 
+            IOrderDetailRepository orderDetailRepository, IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
             _giaoHanhNhanhService = giaoHanhNhanhService;
+            _orderDetailRepository = orderDetailRepository;
+            _productRepository = productRepository;
         }
+   
 
         public async Task Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
@@ -31,6 +37,16 @@ namespace WatchStore.Application.Orders.Commands.DeleteOrder
             {
                 var cancelOrderRequest = new CancelOrderRequest { OrderCode = new List<string> { order.Shipping.TrackingNumber } };
                 await _giaoHanhNhanhService.CancelOrder(cancelOrderRequest);
+            }
+
+            // update quantity of product
+            var orderDetails = await _orderDetailRepository.GetOrderDetailsByOrderIdAsync(request.OrderId);
+
+            foreach (var orderDetail in orderDetails)
+            {
+                var product = await _productRepository.GetProductByIdAsync(orderDetail.ProductId);
+                product.QuantityInStock += orderDetail.Quantity;
+                await _productRepository.UpdateProductAsync(product);
             }
 
             await _orderRepository.DeleteOrderAsync(request.OrderId);

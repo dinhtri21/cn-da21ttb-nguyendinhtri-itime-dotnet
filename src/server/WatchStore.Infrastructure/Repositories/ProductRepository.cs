@@ -20,9 +20,15 @@ namespace WatchStore.Infrastructure.Repositories
         }
         public async Task<Product> AddProductAsync(Product product)
         {
-            _context.Products.Add(product);
+            _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return product;
+        }
+        public async Task<List<Product>> AddListProductsAsync(List<Product> products)
+        {
+            await _context.Products.AddRangeAsync(products); 
+            await _context.SaveChangesAsync();
+            return products; 
         }
 
         public async Task<bool> DeleteProductAsync(int productId)

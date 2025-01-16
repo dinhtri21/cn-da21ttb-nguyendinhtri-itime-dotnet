@@ -156,7 +156,7 @@ export default function ProductsPage() {
                   <RenderPaginationItems
                     total={productsRes?.total || 0}
                     limit={productsRes?.limit ?? 0}
-                    skip={parseInt(searchParams.get("skip") || "0")}
+                    skip={productsRes?.skip ?? 0}
                     handlePaginationItem={handlePaginationItem}
                   />
 

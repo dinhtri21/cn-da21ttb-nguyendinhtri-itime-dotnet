@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import BrandApi from "@/apis/brandApi";
 import MaterialApi from "@/apis/materialApi";
+import AlertViewProduct from "./alert-view-product";
 
 const sortBy: frameworks[] = [
   {
@@ -91,6 +92,10 @@ export default function ProductList(props: DashboardProps) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleInnerClick = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Ngăn sự kiện lan ra ngoài
   };
 
   const formatDate = (dateString: string) => {
@@ -192,7 +197,7 @@ export default function ProductList(props: DashboardProps) {
             ID
           </div>
           <div className="col-span-1 text-gray-600 font-medium text-sm flex justify-start gap-1 items-center pl-2">
-             Ảnh
+            Ảnh
           </div>
           <div className="col-span-2 text-gray-600 font-medium text-sm flex justify-center gap-1 items-center ">
             <span>Tên</span>
@@ -227,34 +232,39 @@ export default function ProductList(props: DashboardProps) {
         </div>
         {props.products?.length > 0
           ? props.products.map((product, index) => (
-              <div
+              <AlertViewProduct
                 key={index}
-                className="grid grid-cols-12 grid-flow-row gap-2 p-3 border-b border-gray-300 text-black hover:bg-gray-50"
+                fetchProducts={props.fetchProducts}
+                productId={product.productId}
               >
-                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center">
-                  <span >{product.productId}</span>
-                </div>
-                <div className="col-span-1 text-gray-900 font-[400] flex justify-start gap-1 items-center">
-                  <Image
-                    src={product?.imageUrls[0]}
-                    width={50}
-                    height={50}
-                    alt="pic"
-                    className="border rounded w-[50px] h-[50px] object-cover"
-                  />
-                </div>
-                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">
-                  <span>{product.productName}</span>
-                  {/* <ClockIcon className="" /> */}
-                </div>
-                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
-                  <span>{product.productPrice.toLocaleString()} đ</span>
-                  {/* <ReloadIcon className="" /> */}
-                </div>
-                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
-                  <span>{product.quantityInStock}</span>
-                </div>
-                {/* <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
+                <div
+                  key={index}
+                  className="grid grid-cols-12 grid-flow-row gap-2 cursor-pointer p-3 border-b border-gray-300 text-black hover:bg-gray-50"
+                >
+                  <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center">
+                    <span>{product.productId}</span>
+                  </div>
+                  <div className="col-span-1 text-gray-900 font-[400] flex justify-start gap-1 items-center">
+                    <Image
+                      src={product?.imageUrls[0]}
+                      width={50}
+                      height={50}
+                      alt="pic"
+                      className="border rounded w-[50px] h-[50px] object-cover"
+                    />
+                  </div>
+                  <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-start gap-1 items-center ">
+                    <span>{product.productName}</span>
+                    {/* <ClockIcon className="" /> */}
+                  </div>
+                  <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
+                    <span>{product.productPrice.toLocaleString()} đ</span>
+                    {/* <ReloadIcon className="" /> */}
+                  </div>
+                  <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
+                    <span>{product.quantityInStock}</span>
+                  </div>
+                  {/* <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
                   <div className="flex flex-col gap-1 ">
                     <div className="py-1 px-2 rounded-xl bg-green-100/70 font-[400] border border-green-200 text-green-400">
                       <span>Danh mục A</span>
@@ -262,61 +272,64 @@ export default function ProductList(props: DashboardProps) {
                    
                   </div>
                 </div> */}
-                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
-                  <span>{product.brand.brandName}</span>
-                </div>
-                <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
-                  <span>{product.material.materialName}</span>
-                </div>
-                <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
-                  <span className="line-clamp-2">
-                    {product.productDescription}
-                  </span>
-                </div>
-                <div className="col-span-1 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
-                  {/* <div className="cursor-pointer">
+                  <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
+                    <span>{product.brand.brandName}</span>
+                  </div>
+                  <div className="col-span-1 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
+                    <span>{product.material.materialName}</span>
+                  </div>
+                  <div className="col-span-2 text-gray-900 font-[400]  text-sm flex justify-center gap-1 items-center ">
+                    <span className="line-clamp-2">
+                      {product.productDescription}
+                    </span>
+                  </div>
+                  <div className="col-span-1 text-gray-900 font-medium text-sm flex justify-center gap-1 items-center ">
+                    {/* <div className="cursor-pointer">
                     <DotsHorizontalIcon className="text-gray-900 font-[400]  w-5 h-5" />
                   </div> */}
-                  <AlertEditProduct
-                    fetchProducts={props.fetchProducts}
-                    productId={product.productId}
-                  >
-                    <div className="bg-blue-100 rounded-md p-1 cursor-pointer">
-                      <Pencil2Icon className="w-5 h-5 text-blue-400" />
-                    </div>
-                  </AlertEditProduct>
+                    <div className="flex gap-2" onClick={handleInnerClick}>
+                      <AlertEditProduct
+                        fetchProducts={props.fetchProducts}
+                        productId={product.productId}
+                      >
+                        <div className="bg-blue-100 rounded-md p-1 cursor-pointer">
+                          <Pencil2Icon className="w-5 h-5 text-blue-400" />
+                        </div>
+                      </AlertEditProduct>
 
-                  <AlertDialog>
-                    <AlertDialogTrigger>
-                      <div className="bg-red-100 rounded-md p-1 cursor-pointer">
-                        <TrashIcon className="w-5 h-5 text-red-400" />
-                      </div>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Bạn có thật sự muốn xóa sản phẩm này?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Sau khi xóa, sản phẩm sẽ không thể khôi phục.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Huỷ</AlertDialogCancel>
-                        <AlertDialogAction>
-                          <button
-                            onClick={() =>
-                              props.deleteProduct(product.productId)
-                            }
-                          >
-                            Xóa
-                          </button>
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <div className="bg-red-100 rounded-md p-1 cursor-pointer">
+                            <TrashIcon className="w-5 h-5 text-red-400" />
+                          </div>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Bạn có thật sự muốn xóa sản phẩm này?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Sau khi xóa, sản phẩm sẽ không thể khôi phục.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Huỷ</AlertDialogCancel>
+                            <AlertDialogAction>
+                              <button
+                                onClick={() =>
+                                  props.deleteProduct(product.productId)
+                                }
+                              >
+                                Xóa
+                              </button>
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </AlertViewProduct>
             ))
           : null}
       </div>

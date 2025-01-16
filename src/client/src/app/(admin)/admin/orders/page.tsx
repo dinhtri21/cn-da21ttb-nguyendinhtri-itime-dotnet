@@ -107,7 +107,7 @@ export default function OrderPage() {
           deleteOrder={deleteOrder}
         />
         {orders && orders?.length !== 0 && (
-          <div className="flex justify-center items-center mt-3">
+          <div className="flex justify-center items-center mt-5">
             <Select
               onValueChange={(value: string) => {
                 setLimit(parseInt(value));
@@ -138,7 +138,7 @@ export default function OrderPage() {
                   <RenderPaginationItems
                     total={orderResponse?.total || 0}
                     limit={orderResponse?.limit ?? 0}
-                    skip={parseInt(searchParams.get("skip") || "0")}
+                    skip={orderResponse?.skip ?? 0}
                     handlePaginationItem={handlePaginationItem}
                   />
 
