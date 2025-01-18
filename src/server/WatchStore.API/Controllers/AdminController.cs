@@ -41,9 +41,9 @@ namespace WatchStore.API.Controllers
             {
                 HttpOnly = true,
                 Secure = false,
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(7),
                 SameSite = SameSiteMode.None,
-                MaxAge = TimeSpan.FromHours(1),
+                MaxAge = TimeSpan.FromHours(7),
 
             };
             Response.Cookies.Append("accessToken", loginData.AccessToken, cookieOptions);

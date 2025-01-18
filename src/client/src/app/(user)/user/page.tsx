@@ -1,18 +1,17 @@
 "use client";
-import { OrderList } from "@/app/(user)/user/_components/order-list";
-import InfoCustomer from "./_components/info-customer";
-import { RootState } from "@/redux/store/store";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import OrderApi from "@/apis/orderApi";
 import { Order, OrderResponse } from "@/types/order";
-import { useSearchParams, useRouter } from "next/navigation";
+import { RootState } from "@/redux/store/store";
+import InfoCustomer from "./_components/info-customer";
+import { OrderList } from "@/app/(user)/user/_components/order-list";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
@@ -25,30 +24,35 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { useDispatch } from "react-redux";
-import { set } from "date-fns";
-import { setOverlayStatus } from "@/redux/slices/overlayStatusSilde";
 
-export default function UserPage() {
+export default function UserPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <UserPage />
+    </Suspense>
+  );
+}
+
+function UserPage() {
   const customer = useSelector((state: RootState) => state.user);
   const token = Cookies.get("token");
+  const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [orderResponse, setOrderResponse] = useState<OrderResponse>();
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const searchParams = useSearchParams();
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
-
-  const params = new URLSearchParams(searchParams.toString());
 
   const fetchOrders = async () => {
     try {
       if (customer.customerId && token) {
+        const params = new URLSearchParams(window.location.search);
+        const limit = parseInt(params.get("limit") || "5");
+        const skip = parseInt(params.get("skip") || "0");
+
         const data = await OrderApi.GetOrdersByCustomerId(
           token,
           customer.customerId,
-          parseInt(params.get("limit") || "5"),
-          parseInt(params.get("skip") || "0"),
+          limit,
+          skip,
           filterStatus || undefined
         );
         setOrders(data.orders);
@@ -62,29 +66,27 @@ export default function UserPage() {
   };
 
   const updateURLWithFilters = (filters: Record<string, any>) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(window.location.search);
 
-    params.set("skip", "5"); // Reset 0 nếu có thay đổi filters
-
-    Object.keys(filters).forEach((key: string) => {
-      // Nếu value có giá trị thì set vào URL
+    Object.keys(filters).forEach((key) => {
       if (filters[key]) {
         params.set(key, filters[key]);
       } else {
-        params.delete(key); // Ngược lại xóa param query đó ra khỏi URL
+        params.delete(key);
       }
     });
 
-    router.push(`${window.location.pathname}?${params.toString()}`); // => Push URL mới vào URL khi có thay đổi filters
+    router.push(`?${params.toString()}`);
   };
 
   const handlePaginationItem = (page: number) => {
-    updateURLWithFilters({ skip: page });
+    const newSkip = page * (orderResponse?.limit ?? 5);
+    updateURLWithFilters({ skip: newSkip.toString() });
   };
 
   useEffect(() => {
     fetchOrders();
-  }, [customer, searchParams, filterStatus]);
+  }, [customer, filterStatus]);
 
   return (
     <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-7 pb-12 mt-[73px]">
@@ -101,30 +103,23 @@ export default function UserPage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      
       <InfoCustomer />
-      <OrderList orders={orders}  setFilterStatus={setFilterStatus}/>
+      <OrderList orders={orders} setFilterStatus={setFilterStatus} />
       {orders && orders?.length !== 0 && (
         <div className="col-span-3 mt-5">
           <Pagination>
-            <PaginationContent className=" rounded-xl">
-              <PaginationItem
-                className="cursor-pointer"
-                // onClick={handlePaginationPrevious}
-              >
+            <PaginationContent className="rounded-xl">
+              <PaginationItem>
                 <PaginationPrevious />
               </PaginationItem>
               <RenderPaginationItems
                 total={orderResponse?.total || 0}
                 limit={orderResponse?.limit ?? 0}
-                skip={parseInt(searchParams.get("skip") || "0")}
+                skip={parseInt(new URLSearchParams(window.location.search).get("skip") || "0")}
                 handlePaginationItem={handlePaginationItem}
               />
-
-              <PaginationItem className="cursor-pointer">
-                <PaginationNext
-                // onClick={handlePaginationNext}
-                />
+              <PaginationItem>
+                <PaginationNext />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

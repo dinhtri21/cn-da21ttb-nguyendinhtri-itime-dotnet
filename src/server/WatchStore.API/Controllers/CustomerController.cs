@@ -118,9 +118,9 @@ namespace WatchStore.API.Controllers
             {
                 HttpOnly = true,
                 Secure = false,
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(12),
                 SameSite = SameSiteMode.None,
-                MaxAge = TimeSpan.FromHours(1),
+                MaxAge = TimeSpan.FromHours(12),
             };
             Response.Cookies.Append("accessToken", loginData.Token, cookieOptions);
 

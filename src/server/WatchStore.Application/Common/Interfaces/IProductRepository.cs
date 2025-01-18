@@ -19,5 +19,8 @@ namespace WatchStore.Application.Common.Interfaces
                                                     Dictionary<string, string> filters, string search);
         Task<int> GetTotalProductCountAsync(List<int>? brandIds = null, List<int>? materialIds = null, int? month = null, int? year = null);
         Task<Product> GetProductByIdAsync(int productId);
+        Task<Product?> GetProductByNameAsync(string productName);
+        Task<IEnumerable<Product>?> GetAllProductsAsync();
+        Task<List<Product>> GetRandomProductsAsync(int limit);
     }
 }

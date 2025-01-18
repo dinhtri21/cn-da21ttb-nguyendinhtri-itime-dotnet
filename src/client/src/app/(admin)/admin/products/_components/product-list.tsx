@@ -21,6 +21,10 @@ import {
 import BrandApi from "@/apis/brandApi";
 import MaterialApi from "@/apis/materialApi";
 import AlertViewProduct from "./alert-view-product";
+import AlertImportExcel from "./alert-import-excel";
+import ProductApi from "@/apis/productApi";
+import Cookies from "js-cookie";
+import CustomToast from "@/components/react-toastify/reactToastify";
 
 const sortBy: frameworks[] = [
   {
@@ -54,6 +58,7 @@ export default function ProductList(props: DashboardProps) {
   const [search, setSearch] = useState<string>("");
   const [brands, setBrands] = useState<frameworks[]>([]);
   const [materials, setMaterials] = useState<frameworks[]>([]);
+  const token = Cookies.get("accessTokenAdmin");
 
   const fetchBrands = async () => {
     try {
@@ -141,6 +146,29 @@ export default function ProductList(props: DashboardProps) {
     }
   };
 
+  const handleExortExcel = async () => {
+    if (!token) {
+      CustomToast.showError("Vui lòng đăng nhập");
+      return;
+    }
+    try {
+      const res = await ProductApi.exportExcel(token);
+      const blob = new Blob([res], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "DanhSachSanPhamItime.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      CustomToast.showError("Xuất excel thất bại");
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchBrands();
     fetchMaterials();
@@ -179,17 +207,33 @@ export default function ProductList(props: DashboardProps) {
             />
           </div>
         </div>
-        <AlertAddProduct fetchProducts={props.fetchProducts}>
-          <div className="flex items-center gap-1 border px-3 py-1 hover:bg-slate-800 rounded-lg bg-black  border-gray-400 cursor-pointer">
-            <Image
-              src="/icon/add-round.svg"
-              width={16}
-              height={16}
-              alt="logo"
-            />
-            <span className="text-white">Thêm sản phẩm</span>
+        <div className="flex gap-3">
+          <div
+            onClick={handleExortExcel}
+            className="flex items-center gap-1 border px-3 py-1 hover:bg-[#2a976019] rounded-lg   border-[#20744a] cursor-pointer"
+          >
+            <Image src="/icon/excel.svg" width={16} height={16} alt="logo" />
+            <span className="text-[#20744a]">Xuất excel</span>
           </div>
-        </AlertAddProduct>
+          <AlertImportExcel fetchProducts={props.fetchProducts}>
+            <div className="flex items-center gap-1 border px-3 py-1 hover:bg-[#2a976018] rounded-lg   border-[#20744a] cursor-pointer">
+              <Image src="/icon/excel.svg" width={16} height={16} alt="logo" />
+              <span className="text-[#20744a]">Nhập excel</span>
+            </div>
+          </AlertImportExcel>
+          <div className="w-[1px] h-full bg-gray-300"></div>
+          <AlertAddProduct fetchProducts={props.fetchProducts}>
+            <div className="flex items-center gap-1 border px-3 py-1 hover:bg-gray-600 rounded-lg bg-black  border-gray-200 cursor-pointer">
+              <Image
+                src="/icon/add-round.svg"
+                width={16}
+                height={16}
+                alt="logo"
+              />
+              <span className="text-white">Thêm sản phẩm</span>
+            </div>
+          </AlertAddProduct>
+        </div>
       </div>
       <div className="mt-6 bg-background overflow-hidden min-h-[530px] border-t border-gray-300">
         <div className="hidden md:grid grid-cols-12 grid-flow-row rounded gap-2 px-3 p-4 border-b border-gray-300 ">

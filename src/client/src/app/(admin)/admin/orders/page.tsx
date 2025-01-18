@@ -13,7 +13,6 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from "@/components/ui/pagination";
-import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   Select,
@@ -32,8 +31,6 @@ export default function OrderPage() {
 
   const [limit, setLimit] = useState(7);
   const [skip, setSkip] = useState(0);
-
-  const searchParams = useSearchParams();
 
   const fetchOrders = async () => {
     if (!token) {

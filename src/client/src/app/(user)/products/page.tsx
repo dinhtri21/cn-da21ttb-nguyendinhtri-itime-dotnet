@@ -1,7 +1,7 @@
 "use client";
 
 import ProductApi from "@/apis/productApi";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ProductItem from "@/components/productItem/page";
 import { ProductsRes } from "@/validations/product.schema";
 import {
@@ -34,7 +34,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function ProductsPage() {
+export default function ProductPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductsPage />
+    </Suspense>
+  );
+}
+ function ProductsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);

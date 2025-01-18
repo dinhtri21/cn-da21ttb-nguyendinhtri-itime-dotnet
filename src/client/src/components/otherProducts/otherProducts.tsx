@@ -6,18 +6,19 @@ import ProductItem from "@/components/productItem/page";
 import { Button } from "@/components/ui/button";
 import { ProductsRes } from "@/validations/product.schema";
 import { SkeletonCard } from "../ui/skeleton-card";
+import { Product } from "@/types/product";
 
 interface FeaturedProductsProps {
   title: string;
 }
 
 export default function OtherProducts({ title }: FeaturedProductsProps) {
-  const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
+  const [productsRes, setProductsRes] = useState<Product[] | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await ProductApi.getProduct(0, 4);
+        const data = await ProductApi.getRandomProducts(4);
         setProductsRes(data);
       } catch (error) {
         console.error("Failed to fetch products:", error);
@@ -28,12 +29,10 @@ export default function OtherProducts({ title }: FeaturedProductsProps) {
   return (
     <div className="w-full">
       <div className="container max-w-screen-xl mx-auto py-10 mt-4 md:px-4">
-        <h1 className="mb-4 uppercase text-lg">
-          {title}
-        </h1>
+        <h1 className="mb-4 uppercase text-lg">{title}</h1>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-          {productsRes?.products ? (
-            productsRes.products.map((product: any, index: number) => (
+          {productsRes && productsRes.length > 0 ? (
+            productsRes.map((product: any, index: number) => (
               <ProductItem key={index} product={product} />
             ))
           ) : (

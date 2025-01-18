@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
@@ -16,18 +17,23 @@ namespace WatchStore.Application.Products.Commands.ImportExcelProduct
     {
         private readonly IProductRepository _productRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IBaseRepository _baseRepository;
 
-        public ImportExcelProductCommandHandler(IProductRepository productRepository, IWebHostEnvironment webHostEnvironment)
+        public ImportExcelProductCommandHandler(IProductRepository productRepository, IWebHostEnvironment webHostEnvironment, IBaseRepository baseRepository)
         {
             _productRepository = productRepository;
             _webHostEnvironment = webHostEnvironment;
+            _baseRepository = baseRepository;
         }
         public async Task Handle(ImportExcelProductCommand request, CancellationToken cancellationToken)
         {
+            // Begin transaction
+            await _baseRepository.BeginTransactionAsync();
+
 
             if (request.File == null || request.File.Length == 0)
             {
-                throw new KeyNotFoundException("File not found");
+                throw new KeyNotFoundException("Không tìm thấy file");
             }
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -39,6 +45,26 @@ namespace WatchStore.Application.Products.Commands.ImportExcelProduct
 
             for (int i = 2; i <= rows; i++) // Bỏ qua dòng tiêu đề
             {
+                // Tạo đối tượng Product và thêm vào danh sách
+                var product = new Product
+                {
+                    ProductName = worksheet.Cells[i, 1].Value.ToString().Trim(),
+                    ProductPrice = decimal.Parse(worksheet.Cells[i, 2].Value.ToString().Trim()),
+                    ProductDescription = worksheet.Cells[i, 3].Value.ToString().Trim(),
+                    QuantityInStock = int.Parse(worksheet.Cells[i, 4].Value.ToString().Trim()),
+                    BrandId = int.Parse(worksheet.Cells[i, 5].Value.ToString().Trim()),
+                    MaterialId = int.Parse(worksheet.Cells[i, 6].Value.ToString().Trim())
+                };
+
+                // Kiểm tra sản phẩm đã tồn tại chưa
+                var existingProduct = await _productRepository.GetProductByNameAsync(product.ProductName);
+                if (existingProduct != null)
+                {
+                    await _baseRepository.RollbackTransactionAsync();
+                    throw new ValidationException($"Sản phẩm {product.ProductName} đã tồn tại!");
+                }
+
+                /// Tải ảnh từ URL
 
                 var imageUrls = new List<string>();
 
@@ -84,17 +110,6 @@ namespace WatchStore.Application.Products.Commands.ImportExcelProduct
                 }
 
 
-                // Tạo đối tượng Product và thêm vào danh sách
-                var product = new Product
-                {
-                    ProductName = worksheet.Cells[i, 1].Value.ToString().Trim(),
-                    ProductPrice = decimal.Parse(worksheet.Cells[i, 2].Value.ToString().Trim()),
-                    ProductDescription = worksheet.Cells[i, 3].Value.ToString().Trim(),
-                    QuantityInStock = int.Parse(worksheet.Cells[i, 4].Value.ToString().Trim()),
-                    BrandId = int.Parse(worksheet.Cells[i, 5].Value.ToString().Trim()),
-                    MaterialId = int.Parse(worksheet.Cells[i, 6].Value.ToString().Trim())
-                };
-
                 // Thêm danh sách hình ảnh vào sản phẩm nếu có
                 if (imageUrls.Count > 0)
                 {
@@ -106,7 +121,10 @@ namespace WatchStore.Application.Products.Commands.ImportExcelProduct
 
             }
             var products = await _productRepository.AddListProductsAsync(listProduct);
+            await _baseRepository.CommitTransactionAsync();
+
 
         }
     }
 }
+

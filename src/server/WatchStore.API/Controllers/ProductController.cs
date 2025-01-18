@@ -8,9 +8,11 @@ using WatchStore.Application.Products.Commands.CreateProduct;
 using WatchStore.Application.Products.Commands.DeleteProduct;
 using WatchStore.Application.Products.Commands.ImportExcelProduct;
 using WatchStore.Application.Products.Commands.UpdateProduct;
+using WatchStore.Application.Products.Queries.GetExcelProductsFile;
 using WatchStore.Application.Products.Queries.GetProductById;
 using WatchStore.Application.Products.Queries.GetProducts;
 using WatchStore.Application.Products.Queries.GetProductsCount;
+using WatchStore.Application.Products.Queries.GetRandomProducts;
 
 namespace WatchStore.API.Controllers
 {
@@ -46,6 +48,17 @@ namespace WatchStore.API.Controllers
             return Ok(new { totalCount = count });
         }
 
+        [HttpGet("random")]
+        public async Task<IActionResult> GetRandomProducts([FromQuery] int limit)
+        {
+            var products = await _mediator.Send(new GetRandomProductsQuery(limit));
+            if (products.Count() == 0)
+            {
+                return Ok(new { products, message = "Không có sản phẩm nào!" });
+            }
+            return Ok(products);
+        }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
@@ -79,7 +92,7 @@ namespace WatchStore.API.Controllers
         }
 
         [HttpPost("import")]
-        //[Authorize(Policy = "AdminPolicy")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> ImportExcelProduct([FromForm] ImportExcelProductCommand command)
         {
 
@@ -125,6 +138,13 @@ namespace WatchStore.API.Controllers
             }
             return Ok(new { message = "Cập nhật sản phẩm thành công!" });
 
+        }
+
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportProductsWithImages()
+        {
+            var result = await _mediator.Send(new GetExcelProductsFileQuery());
+            return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachSanPhamWatchStore.xlsx");
         }
     }
 }

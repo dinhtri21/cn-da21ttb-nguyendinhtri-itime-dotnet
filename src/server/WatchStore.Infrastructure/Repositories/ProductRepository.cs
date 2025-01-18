@@ -52,6 +52,14 @@ namespace WatchStore.Infrastructure.Repositories
             return true;
         }
 
+        public async Task<IEnumerable<Product>?> GetAllProductsAsync()
+        {
+            return await _context.Products.Include(p => p.ProductImages)
+                                          .Include(p => p.Brand)
+                                          .Include(p => p.Material)
+                                          .ToListAsync();
+        }
+
         public async Task<IEnumerable<Product>> GetProductsAsync(List<int> brandIds, List<int> materialIds, int skip,
             int limit, string sortOrder, Dictionary<string, string> filters, string search)
         {
@@ -168,6 +176,17 @@ namespace WatchStore.Infrastructure.Repositories
             return product;
         }
 
+        public async Task<List<Product>> GetRandomProductsAsync(int limit)
+        {
+            return await _context.Products
+                 .FromSqlRaw("SELECT * FROM product ORDER BY RAND() LIMIT {0}", limit)
+                .Include(p => p.ProductImages)
+                .Include(p => p.Brand)
+                .Include(p => p.Material)
+                .Take(limit)                 
+                .ToListAsync();              
+        }
+
         public async Task<bool> UpdateProductAsync(Product product)
         {
             _context.Products.Update(product);
@@ -185,6 +204,9 @@ namespace WatchStore.Infrastructure.Repositories
             return await _context.Materials.AnyAsync(m => m.MaterialId == materialId);
         }
 
-
+        public async Task<Product?> GetProductByNameAsync(string productName)
+        {
+            return await _context.Products.FirstOrDefaultAsync(p => p.ProductName == productName);
+        }
     }
 }

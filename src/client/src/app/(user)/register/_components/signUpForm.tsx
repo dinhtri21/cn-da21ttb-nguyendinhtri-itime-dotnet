@@ -73,7 +73,6 @@ export function SignUpForm() {
       phoneNumber: data.phoneNumber,
       email: data.email,
       password: data.password,
-      address: `${data.province}, ${data.district}, ${data.ward}`,
     };
 
     try {
@@ -130,18 +129,6 @@ export function SignUpForm() {
     setSelectedWard("");
   }, [selectedDistrict, districts]);
 
-  const handleProvinceChange = (value: string) => {
-    setSelectedProvince(value);
-    setValue("province", value);
-  };
-  const handleDistrictChange = (value: string) => {
-    setSelectedDistrict(value);
-    setValue("district", value);
-  };
-  const handleWardChange = (value: string) => {
-    setSelectedWard(value);
-    setValue("ward", value);
-  };
 
   return (
     <Card className="mx-auto max-w-lg">

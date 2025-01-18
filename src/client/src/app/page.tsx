@@ -5,6 +5,7 @@ import FeaturedBrands from "@/components/featuredBrands/featuredBrands";
 import Image from "next/image";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import RandomProducts from "@/components/randomProducts/featuredProducts";
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
       <Slider />
       <FeaturedBrands />
       <FeaturedProducts title="Sản phẩm mới" />
-      <FeaturedProducts title="Sản phẩm nổi bật" />
+      <RandomProducts title="Một số sản phẩm khác" />
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default function BrandPage() {
   );
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(12);
+  const [limit, setLimit] = useState(6);
   const token = Cookies.get("accessTokenAdmin");
 
   const fetchBrands = async () => {

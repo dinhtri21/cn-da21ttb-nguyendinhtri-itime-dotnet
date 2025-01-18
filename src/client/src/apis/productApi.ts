@@ -1,5 +1,10 @@
 import axiosConfig from "@/lib/axiosConfig";
-import { CreateProductReq, Product, ProductsRes, UpdateProductReq } from "@/types/product";
+import {
+  CreateProductReq,
+  Product,
+  ProductsRes,
+  UpdateProductReq,
+} from "@/types/product";
 import { z } from "zod";
 import qs from "qs";
 
@@ -29,6 +34,14 @@ const ProductApi = {
     });
     return response.data;
   },
+  async getRandomProducts(limit: number): Promise<Product[]> {
+    const response = await axiosConfig.get("products/random", {
+      params: {
+        limit: limit,
+      },
+    });
+    return response.data;
+  },
   async createProduct(
     form: FormData,
     token: string
@@ -38,6 +51,27 @@ const ProductApi = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
+    });
+    return response.data;
+  },
+  async importExcel(
+    form: FormData,
+    token: string
+  ): Promise<{ message: string }> {
+    const response = await axiosConfig.post("products/import", form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  },
+  async exportExcel(token: string): Promise<any> {
+    const response = await axiosConfig.get("products/export", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "arraybuffer",
     });
     return response.data;
   },
@@ -58,10 +92,7 @@ const ProductApi = {
     });
     return response.data;
   },
-  async deleteProduct(
-    id: number,
-    token: string
-  ): Promise<{ message: string }> {
+  async deleteProduct(id: number, token: string): Promise<{ message: string }> {
     const response = await axiosConfig.delete(`products/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,

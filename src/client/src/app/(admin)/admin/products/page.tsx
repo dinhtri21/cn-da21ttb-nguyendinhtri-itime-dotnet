@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ProductList from "./_components/product-list";
-import { Order } from "@/types/order";
 import { Product, ProductsRes, UpdateProductReq } from "@/types/product";
-import { useRouter, useSearchParams } from "next/navigation";
 import ProductApi from "@/apis/productApi";
 import RenderPaginationItems from "@/components/paginationItemsCustom/paginationItemsCustom";
 import {
@@ -24,11 +22,6 @@ import {
 } from "@/components/ui/select";
 
 export default function ProductsPage() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
 
   const [filters, setFilters] = useState<Record<string, any>>({});
@@ -78,7 +71,6 @@ export default function ProductsPage() {
   useEffect(() => {
     fetchProducts();
   }, [
-    searchParams,
     filterBrand,
     filters,
     filterMaterial,
