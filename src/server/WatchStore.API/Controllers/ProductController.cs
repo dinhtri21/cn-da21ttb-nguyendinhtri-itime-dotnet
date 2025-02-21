@@ -35,7 +35,7 @@ namespace WatchStore.API.Controllers
             var productListDto = await _mediator.Send(new GetProductsQuery(brandIds, materialIds, Skip, Limit, sortOrder, filters, search));
             if (productListDto.Products.Count() == 0)
             {
-                return Ok(new { productListDto.Products, message = "Giỏ hàng trống!" });
+                return Ok(new { productListDto.Products, message = "Không tìm thấy sản phẩm nào" });
             }
             return Ok(productListDto);
         }
