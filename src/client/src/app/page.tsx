@@ -2,9 +2,6 @@ import FeaturedProducts from "@/components/featuredProducts/featuredProducts";
 import Slider from "@/components/slider/slider";
 import FeaturedBrands from "@/components/featuredBrands/featuredBrands";
 
-import Image from "next/image";
-
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import RandomProducts from "@/components/randomProducts/featuredProducts";
 
 export default function Home() {
