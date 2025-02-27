@@ -26,6 +26,11 @@ namespace WatchStore.Application.Products.Queries.GetProductById
         {
             var baseUrl = _configuration["BaseUrl"];
             var product = await _productRepository.GetProductByIdAsync(request.ProductId);
+
+            if (product == null)
+            {
+                return null;
+            }   
             var productDto = _mapper.Map<ProductDto>(product);
 
             var updatedImageUrls = productDto.ImageUrls.ToList();

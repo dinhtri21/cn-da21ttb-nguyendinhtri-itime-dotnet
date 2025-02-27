@@ -63,7 +63,6 @@ namespace WatchStore.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {
-
             var productDto = await _mediator.Send(new GetProductByIdQuery(id));
             if (productDto == null)
             {

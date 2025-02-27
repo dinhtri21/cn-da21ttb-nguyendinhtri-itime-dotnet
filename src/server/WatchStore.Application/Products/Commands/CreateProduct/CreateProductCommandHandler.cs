@@ -18,12 +18,16 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IBrandRepository _brandRepository;
+        private readonly IMaterialRepository _materialRepository;
 
-        public CreateProductCommandHandler(IProductRepository productRepository, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public CreateProductCommandHandler(IProductRepository productRepository, IMapper mapper, IWebHostEnvironment webHostEnvironment, IBrandRepository brandRepository, IMaterialRepository materialRepository)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
+            _brandRepository = brandRepository;
+            _materialRepository = materialRepository;
         }
 
         public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -61,6 +65,9 @@ namespace WatchStore.Application.Products.Commands.CreateProduct
             product.ProductImages = imageUrls.Select(url => new ProductImage { ImageUrl = url }).ToList();
 
             await _productRepository.AddProductAsync(product);
+
+            product.Brand = await _brandRepository.GetBrandByIdAsync(request.BrandId);
+            product.Material = await _materialRepository.GetMaterialByIdAsync(request.MaterialId);
             
             return _mapper.Map<ProductDto>(product);
         }

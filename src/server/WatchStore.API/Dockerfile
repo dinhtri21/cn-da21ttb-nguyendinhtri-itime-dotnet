@@ -1,25 +1,32 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
+﻿# 🏗️ Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["WatchStore.API/WatchStore.API.csproj", "WatchStore.API/"]
-RUN dotnet restore "./WatchStore.API/WatchStore.API.csproj"
-COPY . .
-WORKDIR "/src/WatchStore.API"
-RUN dotnet build "./WatchStore.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./WatchStore.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Copy toàn bộ source code vào container
+COPY . ./
+
+# Restore dependencies
+RUN dotnet restore WatchStore.API/WatchStore.API.csproj
+
+# Build ứng dụng
+RUN dotnet publish WatchStore.API/WatchStore.API.csproj -c Release -o /out
+
+# 🚀 Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+
+# Copy file đã build từ build stage
+COPY --from=build /out ./
+
+# 🔐 Tạo thư mục lưu Data Protection Keys và gán quyền
+RUN mkdir -p /root/.aspnet/DataProtection-Keys
+VOLUME ["/root/.aspnet/DataProtection-Keys"]
+
+# ⚡ Đặt biến môi trường để ứng dụng lắng nghe đúng cổng 5288
+ENV ASPNETCORE_URLS=http://+:5288
+
+# Expose đúng cổng
+EXPOSE 5288
+
+# Chạy ứng dụng
 ENTRYPOINT ["dotnet", "WatchStore.API.dll"]

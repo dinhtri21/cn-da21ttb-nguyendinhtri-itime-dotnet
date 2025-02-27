@@ -26,15 +26,17 @@ builder.Services.AddDbContext<WatchStoreDbContext>(options =>
     new MySqlServerVersion(new Version(8, 0, 28))));
 
 // CORS
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        builder =>
+        policy =>
         {
-            builder.WithOrigins("http://localhost:3000")
-                   .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
+            policy.WithOrigins(allowedOrigins ?? new string[] { })
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials();
         });
 });
 
