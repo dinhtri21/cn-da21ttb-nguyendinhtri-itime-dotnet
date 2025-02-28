@@ -20,13 +20,19 @@ interface Customer {
 
 type PaymentMethod =
   | {
-      id: 1;
-      name: "Credit Card";
-    }
+    id: 1;
+    name: "Credit Card";
+  }
   | {
-      id: 2;
-      name: "COD";
-    };
+    id: 2;
+    name: "COD";
+  };
+
+type LeadTime = {
+  leadtime: number;
+  fromEstimateDate: string;
+  toEstimateDate: string;
+};
 
 interface CheckoutInfoProps {
   countCartItems: number;
@@ -41,6 +47,8 @@ interface CheckoutInfoProps {
   setSelectedAddress: React.Dispatch<
     React.SetStateAction<CustomerAddress | null>
   >;
+  leadTime: LeadTime | null;
+  setLeadTime: React.Dispatch<React.SetStateAction<LeadTime | null>>;
 }
 
 const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
@@ -54,6 +62,8 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
   setShippingFee,
   selectedAddress,
   setSelectedAddress,
+  leadTime,
+  setLeadTime,
 }) => {
   //
   const [customerAddressList, setCustomerAddressList] = useState<
@@ -115,9 +125,20 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
         token
       );
       setShippingFee(res.total);
+      setLeadTime({
+        leadtime: res.leadtime,
+        fromEstimateDate: res.fromEstimateDate,
+        toEstimateDate: res.toEstimateDate,
+      });
+
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("vi-VN"); // Định dạng ngày theo tiếng Việt
   };
 
   useEffect(() => {
@@ -195,27 +216,25 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 </div>
               </div>
               <div
-                className={`${
-                  selectedPaymentMethod.name == "COD"
+                className={`${selectedPaymentMethod.name == "COD"
                     ? "border-green-300 bg-green-100 "
                     : "border-gray-300"
-                } w-5 h-5 rounded-full  border flex items-center justify-center`}
+                  } w-5 h-5 rounded-full  border flex items-center justify-center`}
               >
                 <CheckIcon
-                  className={`${
-                    selectedPaymentMethod.name == "COD"
+                  className={`${selectedPaymentMethod.name == "COD"
                       ? "block text-green-400"
                       : "hidden"
-                  } -translate-x-[0px] w-4 h-4`}
+                    } -translate-x-[0px] w-4 h-4`}
                 />
               </div>
             </label>
 
             <label
               className={`flex flex-1 items-center justify-between gap-3 py-3 px-3 rounded-xl cursor-pointer`}
-              // onClick={() =>
-              //   handlePaymentMethodChange({ id: 1, name: "Credit Card" })
-              // }
+            // onClick={() =>
+            //   handlePaymentMethodChange({ id: 1, name: "Credit Card" })
+            // }
             >
               <div className="flex gap-2 items-center">
                 <div className="bg-slate-200 rounded-full h-[42px] w-[42px] flex items-center justify-center">
@@ -231,18 +250,16 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 </div>
               </div>
               <div
-                className={`${
-                  selectedPaymentMethod.name == "Credit Card"
+                className={`${selectedPaymentMethod.name == "Credit Card"
                     ? "border-green-300 bg-green-100 "
                     : "border-gray-300"
-                } w-5 h-5 rounded-full border flex items-center justify-center`}
+                  } w-5 h-5 rounded-full border flex items-center justify-center`}
               >
                 <CheckIcon
-                  className={`${
-                    selectedPaymentMethod.name == "Credit Card"
+                  className={`${selectedPaymentMethod.name == "Credit Card"
                       ? "block text-green-400"
                       : "hidden"
-                  } -translate-x-[0px] w-4 h-4`}
+                    } -translate-x-[0px] w-4 h-4`}
                 />
               </div>
             </label>
@@ -269,7 +286,9 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 </div>
                 <div className="flex gap-1 text-gray-500">
                   <p>Nhận hàng vào ngày </p>
-                  <p>Thứ 2, 20/09/2021</p>
+                  <p>{leadTime?.fromEstimateDate ? formatDate(leadTime.fromEstimateDate) : "..."}</p>
+                  <p>đến </p>
+                  {leadTime?.toEstimateDate ? formatDate(leadTime.toEstimateDate) : "..."}
                 </div>
               </div>
             </div>

@@ -102,8 +102,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="py-8 max-w-screen-xl mx-auto border-gray-500 border-t-[0.5px] col-span-12 font-normal text-sm text-center text-gray-200">
-        <p>@20234 ITIME. All rights reserved.</p>
+      <div className="hidden md:flex justify-center py-8 max-w-screen-xl mx-auto border-gray-500 border-t-[0.5px] col-span-12 font-normal text-sm text-center text-gray-200">
+        <p>@2024 ITIME. All rights reserved.</p>
       </div>
       {/*  */}
       <div className="md:hidden grid container mx-auto max-w-screen-xl py-10 px-4">
@@ -111,11 +111,11 @@ export default function Footer() {
           <Image
             className=""
             alt="Next.js Streaming"
-            src={"/logo/logo-light.svg"}
-            width={100}
-            height={100}
+            src={"/logo/logo-light2.svg"}
+            width={80}
+            height={80}
           />
-          <div className="pr-5 line-clamp-3 overflow-hidden mt-2">
+          <div className=" line-clamp-3 overflow-hidden mt-2 text-gray-300">
             Chào mừng đến với iTime – thiên đường của những chiếc đồng hồ tinh
             tế và sang trọng. Khám phá iTime để trải nghiệm vẻ đẹp của thời gian
             một cách hoàn hảo nhất.
@@ -123,9 +123,9 @@ export default function Footer() {
         </div>
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
-            <AccordionTrigger>Liên hệ</AccordionTrigger>
+            <AccordionTrigger className="text-gray-200">Liên hệ</AccordionTrigger>
             <AccordionContent>
-              <ul>
+              <ul className="text-gray-200">
                 <li>
                   Hno: 126 Nguyễn Thiện Thành, Phường 5, Trà Vinh, Việt Nam
                 </li>
@@ -135,40 +135,40 @@ export default function Footer() {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>Hỗ trợ</AccordionTrigger>
+            <AccordionTrigger className="text-gray-200">Hỗ trợ</AccordionTrigger>
             <AccordionContent>
               <ul>
                 <li>
-                  <Link href={"#"}>Hướng dẫn mua hàng</Link>
+                  <Link className="text-gray-200" href={"#"}>Hướng dẫn mua hàng</Link>
                 </li>
                 <li>
-                  <Link href={"#"}>Bảo hành đổi và trả</Link>
+                  <Link className="text-gray-200" href={"#"}>Bảo hành đổi và trả</Link>
                 </li>
                 <li>
-                  <Link href={"#"}>Về chúng tôi</Link>
+                  <Link className="text-gray-200" href={"#"}>Về chúng tôi</Link>
                 </li>
               </ul>
             </AccordionContent>
           </AccordionItem>
           <div>
             <AccordionItem value="item-3">
-              <AccordionTrigger>Theo dõi</AccordionTrigger>
+              <AccordionTrigger className="text-gray-200">Theo dõi</AccordionTrigger>
               <AccordionContent>
                 <ul>
                   <li>
-                    <Link className="flex items-center gap-1" href={"#"}>
+                    <Link className="flex items-center gap-1 text-gray-200" href={"#"}>
                       <PiFacebookLogoLight />
                       <span>Facebook</span>
                     </Link>
                   </li>
                   <li>
-                    <Link className="flex items-center gap-1" href={"#"}>
+                    <Link className="flex items-center gap-1 text-gray-200" href={"#"}>
                       <PiInstagramLogoLight />
                       <span>Intagram</span>
                     </Link>
                   </li>
                   <li>
-                    <Link className="flex items-center gap-1" href={"#"}>
+                    <Link className="flex items-center gap-1 text-gray-200" href={"#"}>
                       <PiYoutubeLogoLight />
                       <span>Youtube</span>
                     </Link>
@@ -178,7 +178,7 @@ export default function Footer() {
             </AccordionItem>
           </div>
         </Accordion>
-        <div className="font-normal text-sm text-center text-gray-500 mt-5">
+        <div className="text-gray-200 font-normal text-sm text-center mt-6">
           <p>@20234 ITIME. All rights reserved.</p>
         </div>
       </div>

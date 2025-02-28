@@ -102,21 +102,17 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
   return (
     <div className="w-full dark:bg-muted/40">
-      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-8 pb-10 px-4 mt-[73px]">
-        <div className="px-4">
+      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-3 md:pt-8 pb-4 md:pb-10 px-4 mt-[73px]">
+        <div className="px-2 md:px-4">
           <Breadcrumb>
             <BreadcrumbList>
-              {/* <BreadcrumbItem>
-                <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
-              </BreadcrumbItem> */}
-              {/* <BreadcrumbSeparator /> */}
-              <BreadcrumbItem className="text-base">
+              <BreadcrumbItem className="text-sm md:text-base">
                 <BreadcrumbLink href="/products">Sản phẩm</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem className="text-base">
                 <BreadcrumbPage>
-                  <div className="line-clamp-1 overflow-hidden text-gray-500">
+                  <div className="line-clamp-1 overflow-hidden text-sm md:text-base text-gray-500">
                     {product?.productName}
                   </div>
                 </BreadcrumbPage>
@@ -125,7 +121,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           </Breadcrumb>
         </div>
         {/*  */}
-        <div className="mx-auto px-4 max-w-screen-xl grid grid-cols-1 md:grid-cols-7 gap-3 md:gap-10 mt-4">
+        <div className="mx-auto md:px-4 max-w-screen-xl grid grid-cols-1 md:grid-cols-7 gap-3 md:gap-10 mt-4">
           <div className="md:col-span-3 p-4 bg-background rounded-xl">
             <Carousel>
               <CarouselContent>
@@ -147,17 +143,17 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               <CarouselNext />
             </Carousel>
           </div>
-          <div className="md:col-span-4 py-6 px-8 bg-background rounded-xl border bg-gray-100">
+          <div className="md:col-span-4 py-4 md:py-6 px-5 md:px-8 bg-background rounded-xl border bg-gray-100">
             <h1 className="text-xl md:text-xl ">
               {product?.productName}
             </h1>
-            <div className="flex items-center mt-4 gap-2">
-              <p className=" font-normal text-gray-600">Giá: </p>
+            <div className="flex items-center mt-2 md:mt-4 gap-2">
+              <p className="font-normal text-gray-600">Giá: </p>
               <span className="text-lg md:text-xl  text-customOrange">
                 {product?.productPrice.toLocaleString()}₫
               </span>
             </div>
-            <div className="flex items-center mt-4 gap-2">
+            <div className="flex items-center mt-2 md:mt-4 gap-2">
               <p className=" font-normal text-gray-600">Số lượng: </p>
               <div className="ml-2 flex items-center gap-2 border  rounded-sm">
                 <div
@@ -177,14 +173,14 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                 </div>
               </div>
             </div>
-            <div className="mt-4">
+            <div className="md:mt-4">
               {/* <p className="text-base md:text-xl font-normal">
                 Thông số:
               </p> */}
-              <p className=" text-gray-600 font-normal mt-4">
+              <p className=" text-gray-600 font-normal mt-2 md:mt-4">
                 Thương hiệu: {product?.brand?.brandName}.
               </p>
-              <p className=" text-gray-600 font-normal mt-4">
+              <p className=" text-gray-600 font-normal mt-2 md:mt-4">
                 Chất liệu: {product?.material?.materialName}.
               </p>
               {/* <p className=" text-gray-600 font-normal mt-3">
@@ -194,7 +190,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
             <Button
               onClick={handleAddToCart}
-              className="mt-6 w-[250px]  py-5 rounded-xl flex items-center justify-center gap-1 text-sm md:text-sm font-semibold
+              className="mt-4 md:mt-6 w-full md:w-[250px]  py-5 rounded-xl flex items-center justify-center gap-1 text-sm md:text-sm font-semibold
              uppercase cursor-pointer  hover:bg-gray-600 border bg-black"
             >
               <p className="text-white">Thêm vào giỏ hàng</p>
@@ -203,9 +199,9 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               {/* <MdAddCircleOutline className="w-5 h-5 text-white" /> */}
             </Button>
 
-            <div className="w-full h-[1px] bg-gray-300 mt-7 mb-6"></div>
+            <div className="w-full h-[1px] bg-gray-300 mt-5 md:mt-7 mb-3 md:mb-6"></div>
             <div>
-              <p className="text-gray-600">{product?.productDescription}</p>
+              <p className="text-gray-600 text-sm md:text-base">{product?.productDescription}</p>
             </div>
           </div>
         </div>

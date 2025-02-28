@@ -32,6 +32,12 @@ type PaymentMethod =
       name: "COD";
     };
 
+type LeadTime = {
+  leadtime: number;
+  fromEstimateDate: string;
+  toEstimateDate: string;
+}
+
 export default function CheckOutPage() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<PaymentMethod>({ id: 2, name: "COD" });
@@ -40,6 +46,8 @@ export default function CheckOutPage() {
     useState<CustomerAddress | null>(null);
 
   const [shippingFee, setShippingFee] = useState<number>(0);
+  const [leadTime, setLeadTime] = useState<LeadTime | null>(null);
+
   const customer = useSelector((state: RootState) => state.user);
   const token = Cookies.get("token");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -140,6 +148,8 @@ export default function CheckOutPage() {
             setShippingFee={setShippingFee}
             selectedAddress={selectedAddress}
             setSelectedAddress={setSelectedAddress}
+            leadTime={leadTime}
+            setLeadTime={setLeadTime}
           />
           <CheckoutProducts
             handleCreateOrder={handleCreateOrder}

@@ -131,7 +131,7 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
   }, []);
 
   return (
-    <div className="absolute md:relative md:left-0 md:top-0 left-4 top-2 pl-4 pr-4">
+    <div className="absolute md:relative md:left-0 md:top-0  right-4 top-2 pl-4 pr-4">
       <div className="hidden md:block">
         <div className="mb-4 mt-2 flex items-center gap-2">
           <MixerVerticalIcon width={20} height={20} />

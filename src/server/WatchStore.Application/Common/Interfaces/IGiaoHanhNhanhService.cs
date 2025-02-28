@@ -7,6 +7,7 @@ using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetDistrict;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetProvince;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetWards;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetLeadTime;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CancelOrder;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CreateOrder;
@@ -24,6 +25,7 @@ namespace WatchStore.Application.Common.Interfaces
         Task<CreateOrderResponse> CreateOrderAsync(CreateOrderRequest request);
         Task<GetOrdeInfoResponse> GetOrderInfoAsync(GetOrderInfoRequest request);
         Task<CancelOrderResponse> CancelOrder (CancelOrderRequest request);
+        Task<GetLeadTimeReponse> GetLeadTimeAsync(GetLeadTimeRequest request);
 
     }
 }

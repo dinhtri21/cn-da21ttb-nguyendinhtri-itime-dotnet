@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WatchStore.Application.Common.DTOs;
 using WatchStore.Application.Common.Interfaces;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetLeadTime;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 
 namespace WatchStore.Application.Shippings.Queries.GetCalculateFee
@@ -57,10 +58,40 @@ namespace WatchStore.Application.Shippings.Queries.GetCalculateFee
                     }
                 }
             };
-
             var calculateFeeResponse = await _ghnService.CalculateFeeAsync(calculateFeeRequest);
-            return _mapper.Map<GHNCalculateFeeDto>(calculateFeeResponse);
 
+            var leadTimeResponse = await _ghnService.GetLeadTimeAsync(new GetLeadTimeRequest
+            {
+                ToDistrict = request.ToDistrictId,
+                ToDistrictId = request.ToDistrictId,
+                ToWardCode = request.ToWardCode,
+                Height = request.Height,
+                Length = request.Length,
+                Weight = request.Weight,
+                Width = request.Width,
+                ServiceId = service.ServiceID,
+                Items = new ItemsLeadTime[]
+                {
+                    new ItemsLeadTime
+                    {
+                        name = "item",
+                        quantity = 1,
+                        height = 10,
+                        weight = 10,
+                        length = 10,
+                        width = 10
+                    }
+                },
+                Source = "5sao"
+            });
+
+            var result = new GHNCalculateFeeDto();
+            result.Total= calculateFeeResponse.Data.Total;
+            result.Leadtime = leadTimeResponse.Data.LeadTime;
+            result.FromEstimateDate = leadTimeResponse.Data.LeadTimeOrder.FromEstimateDate;
+            result.ToEstimateDate = leadTimeResponse.Data.LeadTimeOrder.ToEstimateDate;
+
+            return result;
         }
     }
 }

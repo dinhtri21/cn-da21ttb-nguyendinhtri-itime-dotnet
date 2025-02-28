@@ -81,11 +81,20 @@ export default function Header() {
           </Link>
           <Link href="/">
             <Image
-              className="block dark:hidden"
+              className="hidden md:block dark:hidden"
               alt="Next.js Streaming"
               src={"/logo/logo-dark2.svg"}
               width={90}
               height={100}
+            />
+          </Link>
+          <Link href="/">
+            <Image
+              className="block md:hidden dark:hidden ml-3"
+              alt="Next.js Streaming"
+              src={"/logo/logo-dark2.svg"}
+              width={70}
+              height={80}
             />
           </Link>
         </div>

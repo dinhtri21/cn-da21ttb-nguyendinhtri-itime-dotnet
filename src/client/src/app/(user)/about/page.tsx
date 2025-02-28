@@ -1,15 +1,15 @@
 export default function AboutPage() {
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-10 mt-[73px] pt-8 py-14 min-h-[calc(100vh-304px)]">
+    <div className="w-full max-w-screen-xl mx-auto px-4 md:px-10 mt-[73px] pt-4 md:pt-8 py-14 min-h-[calc(100vh-304px)]">
       <div className="flex justify-center">
-        <h1 className="uppercase  text-lg ">
+        <h1 className="uppercase text-base md:text-lg">
           Giới thiệu và hướng dẫn
         </h1>
       </div>
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-6 mt-3 md:mt-4">
         <div className="md:col-span-2">
-          <h3 className="uppercase text-lg ">1. Về chúng tôi</h3>
-          <p className="text-justify mt-1 leading-7 text-gray-700">
+          <h3 className="uppercase text-base md:text-lg">1. Về chúng tôi</h3>
+          <p className="text-justify text-sm md:text-base mt-1 leading-7 text-gray-700">
             iTime, ra đời năm 2023, tự hào là địa chỉ uy tín trong lĩnh vực bán
             lẻ đồng hồ chính hãng tại Việt Nam. Với sứ mệnh kết nối những người
             đam mê đồng hồ với thế giới phong cách và sự tinh tế, iTime mang đến
@@ -20,10 +20,10 @@ export default function AboutPage() {
           </p>
         </div>
         <div>
-          <h3 className="uppercase text-lg ">
+          <h3 className="uppercase text-base md:text-lg">
             2. Hướng dẫn mua hàng online
           </h3>
-          <p className="mt-1 leading-7 text-gray-700">
+          <p className="mt-1 leading-7 text-gray-700 text-sm">
             Bước 1: Truy cập website iTime
             <br />
             Bước 2: Tìm kiếm sản phẩm cần mua, số lượng
@@ -35,10 +35,10 @@ export default function AboutPage() {
           </p>
         </div>
         <div>
-          <h3 className="uppercase text-lg ">
+          <h3 className="uppercase text-base md:text-lg">
             3. Bảo hành đổi và trả
           </h3>
-          <p className="mt-1 leading-7 text-gray-700">
+          <p className="mt-1 leading-7 text-gray-700 text-sm">
             - Quý khách có thể đổi nếu size không vừa hoặc sản phẩm không đúng
             sau khi nhận hàng.
             <br />
@@ -50,10 +50,10 @@ export default function AboutPage() {
           </p>
         </div>
         <div>
-          <h3 className="uppercase text-lg ">
+          <h3 className="uppercase text-base md:text-lg">
             4. Thông tin liên hệ
           </h3> 
-          <p className="mt-1 text-gray-700 leading-7">
+          <p className="mt-1 text-gray-700 leading-7 text-sm">
             - Địa chỉ: 126 Nguyễn Thiện Thành, Phường 5, Trà Vinh
             <br /> - Hotline: 0357550228
             <br /> - Email: tringuyen.21092003@gmail.com

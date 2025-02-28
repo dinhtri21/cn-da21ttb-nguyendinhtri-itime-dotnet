@@ -6,7 +6,7 @@ const shippingApi = {
   async GetCalculateFee(
     data: ShippingCalculateFeeReQuest,
     token: string
-  ): Promise<{ total: number }> {
+  ): Promise<{ total: number, leadtime: number , fromEstimateDate: string, toEstimateDate: string }> {
     const res = await axiosConfig.get(`/shippings/calculate-fee`, {
       headers: {
         Authorization: `Bearer ${token}`,

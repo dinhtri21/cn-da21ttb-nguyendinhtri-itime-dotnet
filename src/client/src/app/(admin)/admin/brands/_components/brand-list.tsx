@@ -112,7 +112,7 @@ export default function BrandList(props: BrandPageProps) {
               </div>
               <div className="col-span-2 text-gray-900 justify-center font-[400]  text-sm flex gap-1 items-center ">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL}${brand?.brandImageUrl}`}
+                  src={`${process.env.API_URL}${brand?.brandImageUrl}`}
                   width={60}
                   height={30}
                   alt="logo"

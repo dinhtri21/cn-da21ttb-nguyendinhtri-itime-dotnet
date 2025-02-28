@@ -41,7 +41,7 @@ export default function ProductPageWrapper() {
     </Suspense>
   );
 }
- function ProductsPage() {
+function ProductsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [productsRes, setProductsRes] = useState<ProductsRes | null>(null);
@@ -151,7 +151,7 @@ export default function ProductPageWrapper() {
 
   return (
     <div className="w-full dark:bg-muted/40">
-      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-6 pb-10 px-4 mt-[73px]">
+      <div className="min-h-[calc(100vh-300px)] max-w-screen-xl mx-auto pt-3 md:pt-6 pb-10 px-4 mt-[73px]">
         <div className="px-4">
           <Breadcrumb>
             <BreadcrumbList>
@@ -169,11 +169,11 @@ export default function ProductPageWrapper() {
             </BreadcrumbList>
           </Breadcrumb>
         </div>
-        <div className="mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-2 relative">
+        <div className="mx-auto mt-4 md:mt-0 max-w-screen-xl grid grid-cols-1 md:grid-cols-4 px-2 relative">
           <Filter updateURLWithFilters={updateURLWithFilters} />
           <div className="col-span-3">
             <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
-              <div className="col-span-2 md:col-span-3 flex justify-end items-center gap-4">
+              <div className="col-span-2 md:col-span-3 flex flex-col-reverse md:flex-row md:justify-end md:items-center gap-4">
                 <div className="flex items-center gap-2 border border-gray-300 px-3 py-1 hover:bg-slate-50 rounded-lg bg-white cursor-pointer text-gray-700">
                   <button
                     // onClick={handleSearch}

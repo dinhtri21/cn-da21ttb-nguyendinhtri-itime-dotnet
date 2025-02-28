@@ -12,6 +12,7 @@ using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetDistrict;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetProvince;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Address.GetWards;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.CalculateFee;
+using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetLeadTime;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Fee.GetService;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CancelOrder;
 using WatchStore.Application.ExternalServices.GiaoHangNhanh.Order.CreateOrder;
@@ -106,6 +107,22 @@ namespace WatchStore.Infrastructure.Services.GiaoHanhNhanhService
             }
 
             var result = JsonConvert.DeserializeObject<GetDistrictResponse>(await response.Content.ReadAsStringAsync());
+            return result;
+        }
+
+        public async Task<GetLeadTimeReponse> GetLeadTimeAsync(GetLeadTimeRequest request)
+        {
+            var json = JsonConvert.SerializeObject(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/shiip/public-api/v2/shipping-order/leadtime", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error when calling GetOrderFnfo GHN API: {response.StatusCode} - {errorContent}");
+            }
+
+            var result = JsonConvert.DeserializeObject<GetLeadTimeReponse>(await response.Content.ReadAsStringAsync());
             return result;
         }
 

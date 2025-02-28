@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosInstance } from "axios";
 
 const axiosConfig = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api/`,
+  baseURL: `${process.env.API_URL}/api/`,
   headers: {
     "Content-Type": "application/json",
     // Thêm các header khác nếu cần
