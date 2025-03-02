@@ -26,19 +26,8 @@ namespace WatchStore.Application.Products.Queries.GetRandomProducts
         public async Task<List<ProductDto>> Handle(GetRandomProductsQuery request, CancellationToken cancellationToken)
         {
             var products = await _productRepository.GetRandomProductsAsync(request.Limit);
-
-            // Thêm base URL vào ImageUrl
-            var baseUrl = _configuration["BaseUrl"];
             var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products).ToList();
-            foreach (var productDto in productDtos)
-            {
-                var updatedImageUrls = productDto.ImageUrls.ToList();
-                for (int i = 0; i < updatedImageUrls.Count; i++)
-                {
-                    updatedImageUrls[i] = $"{baseUrl}{updatedImageUrls[i]}";
-                }
-                productDto.ImageUrls = updatedImageUrls;
-            }
+          
             return productDtos;
         }
     }

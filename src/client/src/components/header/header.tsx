@@ -36,7 +36,7 @@ export default function Header() {
 
   return (
     <header className="w-full border-b-[0.8px] mx-auto fixed z-40 bg-background top-0 ">
-      <div className="container mx-auto max-w-screen-xl flex justify-between items-center p-4 ">
+      <div className="container mx-auto max-w-screen-xl flex justify-between items-center p-4">
         <div className="logo bg-background flex">
           {/* Reponsive nav */}
           <Sheet>

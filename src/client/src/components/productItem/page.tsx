@@ -14,7 +14,7 @@ export default function ProductItem({ product }: ProductItemProps) {
       <div className="aspect-square">
         {product.imageUrls.length > 0 ? (
           <img
-            src={product.imageUrls[0]}
+            src={`${process.env.API_URL}${product.imageUrls[0]}`}
             alt={product.productName}
             className="w-full h-full object-cover rounded-lg"
           />

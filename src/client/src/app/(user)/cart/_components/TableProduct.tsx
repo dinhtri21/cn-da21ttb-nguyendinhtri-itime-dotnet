@@ -129,7 +129,7 @@ export function TableProduct() {
 
   return (
     <div className="grid grid-cols-10 gap-10 mt-6 min-h-[calc(100vh-370px)]">
-     
+
       <div className="col-span-10 md:col-span-7 gap-1 border rounded-xl">
         <div className="rounded-xl bg-background min-h-[400px] ">
           <div className="hidden md:grid grid-cols-12 grid-flow-row rounded-t-xl  gap-2 p-3 border-b bg-gray-100">
@@ -171,59 +171,59 @@ export function TableProduct() {
 
           {cartItems?.length > 0
             ? cartItems.map((cartItem, index) => (
+              <div
+                key={index}
+                className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:p-3 border-b mt-[2px] relative"
+              >
                 <div
-                  key={index}
-                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:p-3 border-b mt-[2px] relative"
-                >
-                  <div
-                    onClick={() => handleDeleteCartItem(cartItem)}
-                    className="absolute top-2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800  rounded-full p-[5px]
+                  onClick={() => handleDeleteCartItem(cartItem)}
+                  className="absolute top-2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800  rounded-full p-[5px]
                hover:bg-slate-300 hover:text-white cursor-pointer dark:hover:bg-slate-300 shadow"
+                >
+                  <Cross1Icon width={14} height={14} className="text-gray-500" />
+                </div>
+                <div className="row-span-2 md:col-span-1 md:row-span-2 overflow-hidden">
+                  <Image
+                    src={
+                      `${process.env.API_URL}${cartItem.product.imageUrls[0]}` ||
+                      "https://dummyimage.com/100x100"
+                    }
+                    width={100}
+                    height={100}
+                    className="object-cover rounded-xl"
+                    alt="Pic"
+                  />
+                </div>
+                <div className="md:col-span-4 md:row-span-2 flex md:justify-center items-center ">
+                  <span className="line-clamp-1 md:line-clamp-2  text-gray-600">
+                    {cartItem.product.productName}
+                  </span>
+                </div>
+                <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center text-customOrange">
+                  {cartItem.product.productPrice.toLocaleString()} ₫
+                </div>
+                <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
+                  <div
+                    onClick={() => handlerDecreaseQuantity(cartItem)}
+                    className="h-7 w-7 shadow flex justify-center items-center rounded-l border-gray-200  hover:bg-gray-300  hover:text-white cursor-pointer dark:hover:bg-slate-800"
                   >
-                    <Cross1Icon width={14} height={14} className="text-gray-500" />
+                    <MinusIcon className="text-gray-600" />
                   </div>
-                  <div className="row-span-2 md:col-span-1 md:row-span-2 overflow-hidden">
-                    <Image
-                      src={
-                        cartItem.product.imageUrls[0] ||
-                        "https://dummyimage.com/100x100"
-                      }
-                      width={100}
-                      height={100}
-                      className="object-cover rounded-xl"
-                      alt="Pic"
-                    />
-                  </div>
-                  <div className="md:col-span-4 md:row-span-2 flex md:justify-center items-center ">
-                    <span className="line-clamp-1 md:line-clamp-2  text-gray-600">
-                      {cartItem.product.productName}
-                    </span>
-                  </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center text-customOrange">
-                    {cartItem.product.productPrice.toLocaleString()} ₫
-                  </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
-                    <div
-                      onClick={() => handlerDecreaseQuantity(cartItem)}
-                      className="h-7 w-7 shadow flex justify-center items-center rounded-l border-gray-200  hover:bg-gray-300  hover:text-white cursor-pointer dark:hover:bg-slate-800"
-                    >
-                      <MinusIcon className="text-gray-600" />
-                    </div>
-                    <span className="h-7 w-7 shadow flex justify-center cursor-pointer items-center px-2  border-gray-200  text-gray-600">
-                      {cartItem.quantity}
-                    </span>
-                    <div
-                      onClick={() => handlerIncreaseQuantity(cartItem)}
-                      className="h-7 w-7 shadow flex justify-center  items-center rounded-r border-gray-200  hover:bg-gray-300 hover:text-white cursor-pointer dark:hover:bg-slate-800"
-                    >
-                      <PlusIcon className="text-gray-600"/>
-                    </div>
-                  </div>
-                  <div className="md:col-span-3 flex md:row-span-2 text-customOrange justify-center items-center">
-                    {cartItem.unitPrice.toLocaleString()} ₫
+                  <span className="h-7 w-7 shadow flex justify-center cursor-pointer items-center px-2  border-gray-200  text-gray-600">
+                    {cartItem.quantity}
+                  </span>
+                  <div
+                    onClick={() => handlerIncreaseQuantity(cartItem)}
+                    className="h-7 w-7 shadow flex justify-center  items-center rounded-r border-gray-200  hover:bg-gray-300 hover:text-white cursor-pointer dark:hover:bg-slate-800"
+                  >
+                    <PlusIcon className="text-gray-600" />
                   </div>
                 </div>
-              ))
+                <div className="md:col-span-3 flex md:row-span-2 text-customOrange justify-center items-center">
+                  {cartItem.unitPrice.toLocaleString()} ₫
+                </div>
+              </div>
+            ))
             : null}
         </div>
       </div>

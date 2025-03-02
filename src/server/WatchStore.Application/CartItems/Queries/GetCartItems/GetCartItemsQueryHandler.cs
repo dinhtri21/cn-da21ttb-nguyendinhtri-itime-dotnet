@@ -35,16 +35,9 @@ namespace WatchStore.Application.CartItems.Queries.GetCartItems
                 cart = await _cartRepository.GetCartByIdCutomerAsync(request.CustomerId);
                 return new List<CartItemDto>();
            }
-
             var cartItems = await _cartItemRepository.GetCartItemByCartIdAsync(cart.CartId);
            
             var cartItemDtos = _mapper.Map<List<CartItemDto>>(cartItems);
-
-            foreach (var cartItemDto in cartItemDtos)
-            {
-                cartItemDto.Product.ImageUrls = cartItemDto.Product.ImageUrls.Select(x => $"{baseUrl}{x}").ToList();
-            }
-
             return cartItemDtos;
         }
     }

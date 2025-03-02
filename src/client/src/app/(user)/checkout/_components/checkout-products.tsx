@@ -47,37 +47,37 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
         <div className="flex flex-col gap-5 mt-5 px-2">
           {props.cartItems.length > 0
             ? props.cartItems.map((cartItem, index) => (
-                <div key={index} className="flex gap-4 justify-between ">
-                  <div>
-                    <Image
-                      src={
-                        cartItem.product.imageUrls[0] ||
-                        "https://dummyimage.com/100x100"
-                      }
-                      width={50}
-                      height={50}
-                      className="object-cover rounded-xl border"
-                      alt="Pic"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-start flex-1">
-                    <span className="line-clamp-1">
-                      {cartItem.product.productName}
-                    </span>
-                    <span className="">
-                      <span className="text-customOrange">
-                        {cartItem.product.productPrice.toLocaleString()} ₫
-                      </span>
-                      <span> x {cartItem.quantity}</span>
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-customOrange">
-                      {cartItem.unitPrice.toLocaleString()} ₫
-                    </span>
-                  </div>
+              <div key={index} className="flex gap-4 justify-between ">
+                <div>
+                  <Image
+                    src={
+                      `${process.env.API_URL}${cartItem.product.imageUrls[0]}` ||
+                      "https://dummyimage.com/100x100"
+                    }
+                    width={50}
+                    height={50}
+                    className="object-cover rounded-xl border"
+                    alt="Pic"
+                  />
                 </div>
-              ))
+                <div className="flex flex-col justify-start flex-1">
+                  <span className="line-clamp-1">
+                    {cartItem.product.productName}
+                  </span>
+                  <span className="">
+                    <span className="text-customOrange">
+                      {cartItem.product.productPrice.toLocaleString()} ₫
+                    </span>
+                    <span> x {cartItem.quantity}</span>
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-customOrange">
+                    {cartItem.unitPrice.toLocaleString()} ₫
+                  </span>
+                </div>
+              </div>
+            ))
             : null}
           {props.cartItems.length === 0 && (
             <div className="flex flex-col items-center justify-center">
@@ -115,11 +115,10 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
           onClick={!props.loading ? props.handleCreateOrder : undefined} // Vô hiệu hóa onClick khi loading là true
           className={`mt-5 w-full px-4 py-2 rounded-md text-center text-sm md:text-base font-medium
              uppercase cursor-pointer bg-black text-white dark:bg-slate-200 dark:text-black
-             ${
-               props.loading
-                 ? "pointer-events-none bg-gray-400"
-                 : "hover:bg-slate-600"
-             } 
+             ${props.loading
+              ? "pointer-events-none bg-gray-400"
+              : "hover:bg-slate-600"
+            } 
              flex justify-center
              `}
         >

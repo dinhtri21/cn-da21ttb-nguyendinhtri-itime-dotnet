@@ -30,20 +30,10 @@ namespace WatchStore.Application.Products.Queries.GetProducts
             int totalProduct = await _productRepository.GetTotalProductCountAsync();
             var ProductsToCount = await _productRepository.GetProductsAsync(request.BrandIds, request.MaterialIds, 0, totalProduct, request.SortOrder, request.Filters, request.Search);
             int totalCount = ProductsToCount.Count();
-            //int totalCount = await _productRepository.GetTotalProductCountAsync(request.BrandIds, request.MaterialIds);
 
             // Thêm base URL vào ImageUrl
             var baseUrl = _configuration["BaseUrl"];
             var productDtos = _mapper.Map<IEnumerable<ProductDto>>(Products).ToList();
-            foreach (var productDto in productDtos)
-            {
-                var updatedImageUrls = productDto.ImageUrls.ToList();
-                for (int i = 0; i < updatedImageUrls.Count; i++)
-                {
-                    updatedImageUrls[i] = $"{baseUrl}{updatedImageUrls[i]}";
-                }
-                productDto.ImageUrls = updatedImageUrls;
-            }
 
             return new ProductListDto
             {

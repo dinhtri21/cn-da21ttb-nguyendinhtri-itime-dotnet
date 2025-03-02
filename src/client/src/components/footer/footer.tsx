@@ -14,7 +14,7 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <div className="w-full bg-black text-gray-700 dark:bg-black">
-      <div className="hidden container mx-auto max-w-screen-xl md:grid grid-cols-2 md:grid-cols-5 gap-3 py-10 px-4">
+      <div className="hidden container mx-auto max-w-screen-xl md:grid grid-cols-2 md:grid-cols-5 gap-3 py-10">
         <div className="col-span-2">
           <Image
             className=""
@@ -106,7 +106,7 @@ export default function Footer() {
         <p>@2024 ITIME. All rights reserved.</p>
       </div>
       {/*  */}
-      <div className="md:hidden grid container mx-auto max-w-screen-xl py-10 px-4">
+      <div className="md:hidden grid container mx-auto max-w-screen-xl py-10 px-6">
         <div className="">
           <Image
             className=""
