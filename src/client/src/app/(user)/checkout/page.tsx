@@ -121,9 +121,9 @@ export default function CheckOutPage() {
   }, [customer]);
 
   return (
-    <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-6 pb-10 mt-[73px]">
+    <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-3 md:pt-6 pb-10 mt-[73px]">
       <div className="w-full max-w-screen-xl mx-auto px-4">
-        <div className="pb-4">
+        <div className="md:pb-4">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>

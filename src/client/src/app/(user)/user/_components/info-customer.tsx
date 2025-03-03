@@ -77,10 +77,9 @@ export default function InfoCustomer() {
         <h1 className="uppercase">
           Thông tin khách hàng
         </h1>
-      <div className="flex items-center justify-between  px-3 py-3 shadow border border-gray-200 rounded-xl bg-white mt-4">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between gap-2 px-3 py-3 shadow border border-gray-200 rounded-xl bg-white mt-2 md:mt-4">
+        <div className="flex items-center gap-2 md:gap-3">
           <div className="border rounded-full  shadow">
-            {/* <PiUserThin className="w-[40px] h-[40px] text-gray-500" /> */}
             <img
               src="/icon/customer2.svg"
               alt="user"
@@ -88,12 +87,12 @@ export default function InfoCustomer() {
             />
           </div>
           <div>
-            <h2 className="  dark:text-white text-customOrange">
+            <h2 className=" dark:text-white text-customOrange">
               {user && user.fullName}
             </h2>
             {/* <p>{user && user.email}</p> */}
-            <div className="text-gray-500 dark:text-white text-sm flex items-center gap-2">
-              <div className="flex gap-1 items-center ">
+            <div className="text-gray-500 dark:text-white text-sm flex items-center gap-1 md:gap-2">
+              <div className="flex gap-1 items-center">
                 <MdOutlineMailOutline />
                 <p>{user && user.email}</p>
               </div>
@@ -131,7 +130,7 @@ export default function InfoCustomer() {
             </AlertDialogContent>
           </AlertDialog>
 
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="secondary"
@@ -150,9 +149,8 @@ export default function InfoCustomer() {
               </DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>{/* Đăng xuất */}</DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
       </div>
     </div>

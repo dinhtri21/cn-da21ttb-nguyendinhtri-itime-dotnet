@@ -263,13 +263,13 @@ export default function Filter({ updateURLWithFilters }: FilterProps) {
         <Sheet>
           <SheetTrigger>
             <div className="flex items-center gap-1">
-              <MixerVerticalIcon width={16} height={16} />
-              <span>Bộ lọc</span>
+              <MixerVerticalIcon width={16} height={16} className="text-gray-600" />
+              <span className="text-gray-600">Bộ lọc</span>
             </div>
           </SheetTrigger>
           <SheetContent className="w-[250px] sm:w-[540px]">
             <SheetHeader>
-              <SheetTitle>BỘ LỌC SẢN PHẨM</SheetTitle>
+              <SheetTitle className="mb-3">BỘ LỌC SẢN PHẨM</SheetTitle>
             </SheetHeader>
             <SheetDescription></SheetDescription>
             {/* Brand */}

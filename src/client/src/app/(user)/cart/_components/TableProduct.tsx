@@ -128,9 +128,9 @@ export function TableProduct() {
   }, [cartItems]);
 
   return (
-    <div className="grid grid-cols-10 gap-10 mt-6 min-h-[calc(100vh-370px)]">
+    <div className="grid md:grid-cols-10 gap-10 mt-4 md:mt-6 min-h-[calc(100vh-370px)]">
 
-      <div className="col-span-10 md:col-span-7 gap-1 border rounded-xl">
+      <div className=" md:col-span-7 gap-1 border rounded-xl">
         <div className="rounded-xl bg-background min-h-[400px] ">
           <div className="hidden md:grid grid-cols-12 grid-flow-row rounded-t-xl  gap-2 p-3 border-b bg-gray-100">
             <div className="col-span-1 flex text-gray-600 text-sm justify-center">
@@ -173,11 +173,11 @@ export function TableProduct() {
             ? cartItems.map((cartItem, index) => (
               <div
                 key={index}
-                className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:p-3 border-b mt-[2px] relative"
+                className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 pt-2 md:pt-3 md:py-3 mx-3 md:px-1 md:p-3 border-b mt-[2px] relative"
               >
                 <div
                   onClick={() => handleDeleteCartItem(cartItem)}
-                  className="absolute top-2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800  rounded-full p-[5px]
+                  className="absolute top--2 left-0 md:top-[50%] md:translate-y-[-50%] md:left-[96%] dark:bg-slate-800  rounded-full p-[5px]
                hover:bg-slate-300 hover:text-white cursor-pointer dark:hover:bg-slate-300 shadow"
                 >
                   <Cross1Icon width={14} height={14} className="text-gray-500" />
@@ -190,12 +190,12 @@ export function TableProduct() {
                     }
                     width={100}
                     height={100}
-                    className="object-cover rounded-xl"
+                    className="object-cover rounded-xl "
                     alt="Pic"
                   />
                 </div>
                 <div className="md:col-span-4 md:row-span-2 flex md:justify-center items-center ">
-                  <span className="line-clamp-1 md:line-clamp-2  text-gray-600">
+                  <span className="line-clamp-2 md:line-clamp-2  text-gray-600">
                     {cartItem.product.productName}
                   </span>
                 </div>
@@ -227,7 +227,7 @@ export function TableProduct() {
             : null}
         </div>
       </div>
-      <div className="col-span-10 md:col-span-3 bg-white">
+      <div className=" md:col-span-3 bg-white">
         <div className=" dark:bg-slate-800  px-3 py-4 md:px-7 flex flex-col gap-3 border border-gray-200/70 rounded-xl shadow">
           <h2 className="uppercase md:text-center text">
             Thông tin giỏ hàng

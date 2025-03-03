@@ -156,13 +156,13 @@ function ProductsPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink className="text-base" href="/">
+                <BreadcrumbLink className="text-sm md:text-base" href="/">
                   Trang chủ
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-base text-gray-500">
+                <BreadcrumbPage className="text-sm md:text-base text-gray-500">
                   Sản phẩm
                 </BreadcrumbPage>
               </BreadcrumbItem>

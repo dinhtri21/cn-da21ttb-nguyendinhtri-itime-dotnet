@@ -10,7 +10,7 @@ export default function Home() {
       <Slider />
       <FeaturedBrands />
       <FeaturedProducts title="Sản phẩm mới" />
-      <RandomProducts title="Một số sản phẩm khác" />
+      <RandomProducts title="Sản phẩm khác" />
     </div>
   );
 }

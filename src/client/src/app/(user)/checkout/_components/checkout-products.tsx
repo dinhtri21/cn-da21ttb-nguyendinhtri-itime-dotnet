@@ -39,12 +39,12 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
 
   return (
     <div className="w-full md:w-[40%] ">
-      <div className="border p-6 rounded-xl bg-background shadow">
+      <div className="border p-4 md:p-6 rounded-xl bg-background shadow">
         <div className="border-b pb-4 flex items-center gap-2 ">
           <BsBox2 />
-          <h1 className="font-medium uppercase ">Đơn hàng của bạn</h1>
+          <h1 className="font-medium uppercase text-sm md:text-base">Đơn hàng của bạn</h1>
         </div>
-        <div className="flex flex-col gap-5 mt-5 px-2">
+        <div className="flex flex-col gap-2 md:gap-5 mt-3 md:mt-5 px-2">
           {props.cartItems.length > 0
             ? props.cartItems.map((cartItem, index) => (
               <div key={index} className="flex gap-4 justify-between ">
@@ -56,23 +56,23 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
                     }
                     width={50}
                     height={50}
-                    className="object-cover rounded-xl border"
+                    className="object-cover rounded-xl border h-[40px] w-[40px] md:h-[50px] md:w-[50px]"
                     alt="Pic"
                   />
                 </div>
                 <div className="flex flex-col justify-start flex-1">
-                  <span className="line-clamp-1">
+                  <span className="line-clamp-1 text-sm md:text-base">
                     {cartItem.product.productName}
                   </span>
                   <span className="">
-                    <span className="text-customOrange">
+                    <span className="text-customOrange text-sm md:text-base">
                       {cartItem.product.productPrice.toLocaleString()} ₫
                     </span>
-                    <span> x {cartItem.quantity}</span>
+                    <span className="text-sm md:text-base"> x {cartItem.quantity}</span>
                   </span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-customOrange">
+                  <span className="text-customOrange text-sm md:text-base">
                     {cartItem.unitPrice.toLocaleString()} ₫
                   </span>
                 </div>
@@ -95,19 +95,19 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
             </div>
           )}
         </div>
-        <div className="flex justify-between px-2 py-4 mt-6 border-t">
-          <span className="text-gray-500">Tạm tính</span>
-          <span className="text-gray-500">{tempTotal.toLocaleString()} ₫</span>
+        <div className="flex justify-between px-2 py-2 md:py-4 mt-3 md:mt-6 border-t">
+          <span className="text-gray-500 text-sm md:text-base">Tạm tính</span>
+          <span className="text-gray-500 text-sm md:text-base">{tempTotal.toLocaleString()} ₫</span>
         </div>
         <div className="flex justify-between px-2 py-2">
-          <span className="text-gray-500">Phí vận chuyển</span>
-          <span className="text-gray-500">
+          <span className="text-gray-500 text-sm md:text-base">Phí vận chuyển</span>
+          <span className="text-gray-500 text-sm md:text-base">
             {props.shippingFee.toLocaleString()} ₫
           </span>
         </div>
-        <div className="flex justify-between border px-2 py-3 mt-2 rounded">
-          <span className="font-medium">Tổng cộng</span>
-          <span className="font-medium text-red-500">
+        <div className="flex justify-between border px-2 py-3 mt-1 md:mt-2 rounded">
+          <span className="font-medium text-sm md:text-base">Tổng cộng</span>
+          <span className="font-medium text-red-500 text-sm md:text-base">
             {(tempTotal + props.shippingFee).toLocaleString()} ₫
           </span>
         </div>

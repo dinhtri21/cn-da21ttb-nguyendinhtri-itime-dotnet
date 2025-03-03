@@ -48,7 +48,7 @@ export default function FilterResponsive() {
         <SheetTrigger>
           <div className="flex items-center gap-1">
             <MixerVerticalIcon width={16} height={16} />
-            <span>Bộ lọc</span>
+            <span className="">Bộ lọc</span>
           </div>
         </SheetTrigger>
         <SheetContent>

@@ -28,9 +28,9 @@ export default function RandomProducts({ title }: RandomProductsProps) {
   }, []);
   return (
     <div className="w-full">
-      <div className="container max-w-screen-xl mx-auto pb-10 px-4">
-        <h1 className="text-center mb-1 uppercase text-lg md:text-xl">{title}</h1>
-        <p className="text-center mb-4 text-gray-500">
+      <div className="container max-w-screen-xl mx-auto mt-4 md:mt-0 pb-10 px-4">
+        <h1 className="text-center mb-1 uppercase text-base md:text-xl">{title}</h1>
+        <p className="text-center mb-4 text-gray-500 text-sm mb:text-base">
           Một số sản phẩm đến từ ITime.
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">

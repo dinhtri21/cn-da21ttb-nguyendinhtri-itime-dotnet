@@ -125,7 +125,7 @@ export default function Footer() {
           <AccordionItem value="item-1">
             <AccordionTrigger className="text-gray-200">Liên hệ</AccordionTrigger>
             <AccordionContent>
-              <ul className="text-gray-200">
+              <ul className="text-gray-200 text-sm">
                 <li>
                   Hno: 126 Nguyễn Thiện Thành, Phường 5, Trà Vinh, Việt Nam
                 </li>
@@ -137,15 +137,15 @@ export default function Footer() {
           <AccordionItem value="item-2">
             <AccordionTrigger className="text-gray-200">Hỗ trợ</AccordionTrigger>
             <AccordionContent>
-              <ul>
+              <ul className="text-sm">
                 <li>
-                  <Link className="text-gray-200" href={"#"}>Hướng dẫn mua hàng</Link>
+                  <Link className="text-gray-200" href={"#"}>- Hướng dẫn mua hàng</Link>
                 </li>
                 <li>
-                  <Link className="text-gray-200" href={"#"}>Bảo hành đổi và trả</Link>
+                  <Link className="text-gray-200" href={"#"}>- Bảo hành đổi và trả</Link>
                 </li>
                 <li>
-                  <Link className="text-gray-200" href={"#"}>Về chúng tôi</Link>
+                  <Link className="text-gray-200" href={"#"}>- Về chúng tôi</Link>
                 </li>
               </ul>
             </AccordionContent>
@@ -154,7 +154,7 @@ export default function Footer() {
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-gray-200">Theo dõi</AccordionTrigger>
               <AccordionContent>
-                <ul>
+                <ul className="text-sm">
                   <li>
                     <Link className="flex items-center gap-1 text-gray-200" href={"#"}>
                       <PiFacebookLogoLight />

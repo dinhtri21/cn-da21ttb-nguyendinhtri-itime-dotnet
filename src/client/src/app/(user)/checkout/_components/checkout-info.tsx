@@ -156,26 +156,28 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
 
   return (
     <div className="w-full md:w-[60%]">
-      <div className=" bg-background pt-5 py-6  rounded-xl ">
+      <div className=" bg-background md:pt-5 md:py-6 py-3 rounded-xl ">
         <div className="border-b">
-          <h1 className="font-medium uppercase flex gap-2 items-center">
+          <h1 className=" text-sm md:text-base font-medium uppercase flex gap-2 items-center">
             {/* <CiLocationOn className="w-5 h-5 " /> */}
             <span>Địa chỉ nhận hàng</span>
           </h1>
           <div className="gap-1 py-3 px-4 rounded-xl">
             <div className="flex gap-1 justify-between items-start">
               <div className="flex gap-1 text-gray-700">
-                <p className="text-gray-700">
+                <p className="text-gray-700 text-sm md:text-base">
                   {customer.fullName ? customer.fullName : "Chưa có"}
                 </p>
-                |{" "}
-                <p className="text-gray-700">
+                <p className="text-sm md:text-base">
+                  |
+                </p>
+                <p className="text-gray-700 text-sm md:text-base">
                   {customer.phoneNumber ? customer.phoneNumber : "Chưa có"}
                 </p>
               </div>
             </div>
             <div className="flex justify-between items-center gap-1 text-gray-600">
-              <p>{customer.email ? customer.email : "Chưa có"}</p>
+              <p className="text-sm md:text-base">{customer.email ? customer.email : "Chưa có"}</p>
               <AlertDialogAddress
                 customer={customer}
                 customerAddressList={customerAddressList}
@@ -185,7 +187,7 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
             </div>
             <div className="flex justify-between items-center ">
               {customerAddressList.length > 0 ? (
-                <p>
+                <p className="text-sm md:text-base">
                   {selectedAddress?.province},{""} {selectedAddress?.district},{" "}
                   {""}
                   {selectedAddress?.ward}
@@ -197,68 +199,68 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
           </div>
         </div>
 
-        <div className="md:mt-5 border-b">
-          <h1 className="font-medium uppercase  flex items-center gap-2">
+        <div className="mt-3 md:mt-5 border-b">
+          <h1 className="text-sm md:text-base font-medium uppercase  flex items-center gap-2">
             <span>Phương thức thanh toán</span>
           </h1>
-          <div className="flex flex-col rounded-xl">
+          <div className="flex flex-col rounded-xl py-3 md:py-0">
             <label
-              className={`flex flex-1 items-center justify-between gap-3 py-3 px-3 rounded-xl cursor-pointer`}
+              className={`flex flex-1 items-center justify-between gap-3 py-1 md:py-3 px-3 rounded-xl cursor-pointer`}
               onClick={() => handlePaymentMethodChange({ id: 2, name: "COD" })}
             >
               <div className="flex gap-2 items-center">
-                <div className="bg-slate-200 rounded-full h-[42px] w-[42px] flex items-center justify-center">
-                  <GiReceiveMoney className="w-6 h-6 text-gray-400" />
+                <div className="bg-slate-200 rounded-full h-[36px] w-[36px] md:h-[42px] md:w-[42px] flex items-center justify-center">
+                  <GiReceiveMoney className="w-4 h-4 md:w-6 md:h-6 text-gray-400" />
                 </div>
                 <div>
-                  <p>COD</p>
-                  <div className="text-gray-500">Thanh toán khi nhận hàng.</div>
+                  <p className="text-sm md:text-base">COD</p>
+                  <div className="text-gray-500 text-sm md:text-base">Thanh toán khi nhận hàng.</div>
                 </div>
               </div>
               <div
                 className={`${selectedPaymentMethod.name == "COD"
-                    ? "border-green-300 bg-green-100 "
-                    : "border-gray-300"
+                  ? "border-green-300 bg-green-100 "
+                  : "border-gray-300"
                   } w-5 h-5 rounded-full  border flex items-center justify-center`}
               >
                 <CheckIcon
                   className={`${selectedPaymentMethod.name == "COD"
-                      ? "block text-green-400"
-                      : "hidden"
+                    ? "block text-green-400"
+                    : "hidden"
                     } -translate-x-[0px] w-4 h-4`}
                 />
               </div>
             </label>
 
             <label
-              className={`flex flex-1 items-center justify-between gap-3 py-3 px-3 rounded-xl cursor-pointer`}
+              className={`flex flex-1 items-center justify-between gap-3 py-1 md:py-3 px-3 rounded-xl cursor-pointer`}
             // onClick={() =>
             //   handlePaymentMethodChange({ id: 1, name: "Credit Card" })
             // }
             >
               <div className="flex gap-2 items-center">
-                <div className="bg-slate-200 rounded-full h-[42px] w-[42px] flex items-center justify-center">
-                  <FaCreditCard className="w-5 h-5 text-gray-400" />
+                <div className="bg-slate-200 rounded-full  h-[36px] w-[36px] md:h-[42px] md:w-[42px] flex items-center justify-center">
+                  <FaCreditCard className="w-4 h-4 md:w-6 md:h-6 text-gray-400" />
                 </div>
                 <div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 text-sm md:text-base">
                     <p>Thẻ ngân hàng</p>
                   </div>
-                  <div className="text-gray-500">
+                  <div className="text-gray-500 text-sm md:text-base">
                     Tính đăng đang phát triển.
                   </div>
                 </div>
               </div>
               <div
                 className={`${selectedPaymentMethod.name == "Credit Card"
-                    ? "border-green-300 bg-green-100 "
-                    : "border-gray-300"
+                  ? "border-green-300 bg-green-100 "
+                  : "border-gray-300"
                   } w-5 h-5 rounded-full border flex items-center justify-center`}
               >
                 <CheckIcon
                   className={`${selectedPaymentMethod.name == "Credit Card"
-                      ? "block text-green-400"
-                      : "hidden"
+                    ? "block text-green-400"
+                    : "hidden"
                     } -translate-x-[0px] w-4 h-4`}
                 />
               </div>
@@ -266,8 +268,8 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
             {/* <div className="py-2 px-3 rounded-xl cursor-pointer">Thêm phương thức thanh toán</div> */}
           </div>
         </div>
-        <div className="mt-5">
-          <h1 className="font-medium uppercase flex gap-2 items-center">
+        <div className="mt-3 md:mt-5">
+          <h1 className="text-sm md:text-base font-medium uppercase flex gap-2 items-center">
             {/* <CiDeliveryTruck className="w-5 h-5 " /> */}
             <span>Phương thức vận chuyển</span>
           </h1>
@@ -277,22 +279,24 @@ const CheckoutInfo: React.FC<CheckoutInfoProps> = ({
                 src="/logo/ghn-logo.jpg"
                 width={42}
                 height={42}
-                className="rounded-full h-[42px] w-[42px] opacity-90"
+                className="rounded-full h-[36px] w-[36px] md:h-[42px] md:w-[42px] opacity-90"
                 alt="ghtk"
               />
               <div>
                 <div className="flex gap-2 text-gray-600">
-                  <p>Giao hàng nhanh</p>
+                  <p className="text-gray-900 text-sm md:text-base">Giao hàng nhanh</p>
                 </div>
                 <div className="flex gap-1 text-gray-500">
-                  <p>Nhận hàng vào ngày </p>
-                  <p>{leadTime?.fromEstimateDate ? formatDate(leadTime.fromEstimateDate) : "..."}</p>
-                  <p>đến </p>
-                  {leadTime?.toEstimateDate ? formatDate(leadTime.toEstimateDate) : "..."}
+                  <p className="hidden md:flex">Nhận hàng vào ngày </p>
+                  <p className="text-sm md:text-base">{leadTime?.fromEstimateDate ? formatDate(leadTime.fromEstimateDate) : "..."}</p>
+                  <p className="text-sm md:text-base">đến </p>
+                  <p className="text-sm md:text-base">
+                    {leadTime?.toEstimateDate ? formatDate(leadTime.toEstimateDate) : "..."}
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="text-customOrange">
+            <div className="text-customOrange text-sm md:text-base">
               {shippingFee.toLocaleString()}đ
             </div>
           </div>

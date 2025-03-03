@@ -89,16 +89,16 @@ function UserPage() {
   }, [customer, filterStatus]);
 
   return (
-    <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-7 pb-12 mt-[73px]">
+    <div className="dark:bg-muted/40 min-h-[calc(100vh-300px)] pt-4 md:pt-7 pb-12 mt-[73px]">
       <div className="w-full max-w-screen-xl mx-auto px-4 pb-4">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="text-base">
-              <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
+              <BreadcrumbLink className="text-sm md:text-base" href="/">Trang chủ</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage className="text-base text-gray-500">Người dùng</BreadcrumbPage>
+              <BreadcrumbPage className="text-sm md:text-base text-gray-500">Người dùng</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

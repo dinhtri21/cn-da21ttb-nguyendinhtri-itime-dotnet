@@ -100,45 +100,41 @@ export default function Header() {
         </div>
         <nav className="hidden md:flex justify-center space-x-3 md:space-x-4 font-[450] uppercase text-base">
           <Link
-            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${
-              pathname === "/" ? "text-slate-400" : ""
-            }`}
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${pathname === "/" ? "text-slate-400" : ""
+              }`}
             href="/"
           >
             <span>Trang chủ</span>
             <div
-              className={`${
-                pathname === "/" ? "block" : "hidden"
-              } w-[100px] left-[12px] top-[54px] h-[2px] bg-customOrange absolute`}
+              className={`${pathname === "/" ? "block" : "hidden"
+                } w-[100px] left-[12px] top-[54px] h-[2px] bg-customOrange absolute`}
             ></div>
           </Link>
           <Link
-            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${
-              pathname.startsWith("/products") ? "text-slate-400" : "text-slate-700"
-            }`}
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${pathname.startsWith("/products") ? "text-slate-400" : "text-slate-700"
+              }`}
             href="/products"
           >
             <span>Sản phẩm</span>
             <div
-              className={`${
-                pathname.startsWith("/products") ? "block" : "hidden"
-              } w-[88px] left-[13px] top-[54px] h-[2px] bg-customOrange absolute`}
+              className={`${pathname.startsWith("/products") ? "block" : "hidden"
+                } w-[88px] left-[13px] top-[54px] h-[2px] bg-customOrange absolute`}
             ></div>
           </Link>
           <Link
-            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${
-              pathname.startsWith("/about") ? "text-slate-400" : "text-slate-700"
-            }`}
+            className={`py-2 px-1 md:px-4 hover:text-slate-400 relative ${pathname.startsWith("/about") ? "text-slate-400" : "text-slate-700"
+              }`}
             href="/about"
           >
             <span>Giới thiệu</span>
             <div
-              className={`${
-                pathname.startsWith("/about") ? "block" : "hidden"
-              } w-[90px] left-[12px] top-[54px] h-[2px] bg-customOrange absolute`}
+              className={`${pathname.startsWith("/about") ? "block" : "hidden"
+                } w-[90px] left-[12px] top-[54px] h-[2px] bg-customOrange absolute`}
             ></div>
           </Link>
         </nav>
+
+        {/* mobile */}
         <div className="user-actions flex justify-end items-center gap-5">
           <div className="md:hidden flex">
             <DropdownMenu>
@@ -153,37 +149,52 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <Link
-                    className={`${
-                      pathname.startsWith("/register") ? "text-slate-400" : ""
-                    }
+                {
+                  user.fullName ? (
+                    <DropdownMenuItem>
+                      <Link
+                        className={`${pathname.startsWith("/user") ? "text-slate-400" : ""
+                          }
                      hover:text-slate-400`}
-                    href={`/register`}
-                  >
-                    Đăng ký
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link
-                    className={`${
-                      pathname.startsWith("/login") ? "text-slate-400" : ""
-                    } hover:text-slate-400`}
-                    href={`/login`}
-                  >
-                    Đăng nhập
-                  </Link>
-                </DropdownMenuItem>
+                        href={`/user`}
+                      >
+                        {user.fullName}
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : (
+                    <>
+                      <DropdownMenuItem>
+                        <Link
+                          className={`${pathname.startsWith("/register") ? "text-slate-400" : ""
+                            }
+                     hover:text-slate-400`}
+                          href={`/register`}
+                        >
+                          Đăng ký
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link
+                          className={`${pathname.startsWith("/login") ? "text-slate-400" : ""
+                            } hover:text-slate-400`}
+                          href={`/login`}
+                        >
+                          Đăng nhập
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )
+                }
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
 
+          {/* pc */}
           <div className="hidden md:flex gap-2">
             {user.fullName ? (
               <Link
-                className={`${
-                  pathname.startsWith("/user") ? "text-slate-400" : ""
-                }
+                className={`${pathname.startsWith("/user") ? "text-slate-400" : ""
+                  }
                    hover:text-slate-400 flex gap-2 items-center`}
                 href={`/user`}
               >
@@ -193,18 +204,16 @@ export default function Header() {
             ) : (
               <div className="flex gap-2 items-center">
                 <Link
-                  className={`${
-                    pathname.startsWith("/register") ? "text-slate-400" : "text-customOrange"
-                  } hover:text-slate-400`}
+                  className={`${pathname.startsWith("/register") ? "text-slate-400" : "text-customOrange"
+                    } hover:text-slate-400`}
                   href={`/register`}
                 >
                   Đăng ký
                 </Link>
                 <div className="w-[1px] h-[20px] bg-customOrange"></div>
                 <Link
-                  className={`${
-                    pathname.startsWith("/login") ? "text-customOrange" : "text-customOrange"
-                  } hover:text-slate-400`}
+                  className={`${pathname.startsWith("/login") ? "text-customOrange" : "text-customOrange"
+                    } hover:text-slate-400`}
                   href={`/login`}
                 >
                   Đăng nhập
@@ -212,10 +221,10 @@ export default function Header() {
               </div>
             )}
           </div>
+
           <Link
-            className={`hover:text-slate-400 ${
-              pathname.startsWith("/cart") ? "text-slate-400" : ""
-            } relative`}
+            className={`hover:text-slate-400 ${pathname.startsWith("/cart") ? "text-slate-400" : ""
+              } relative`}
             href="/cart"
           >
             <ArchiveIcon width={20} height={20} />

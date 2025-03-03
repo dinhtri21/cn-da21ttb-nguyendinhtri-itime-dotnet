@@ -239,9 +239,9 @@ export function OrderList(props: DashboardProps) {
   };
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto mt-7 px-4">
+    <div className="w-full max-w-screen-xl mx-auto mt-4 md:mt-7 px-4">
       <div className="flex justify-between mt-2 items-center">
-        <h1 className=" text-gray-900 uppercase">Các đơn hàng của bạn</h1>
+        <h1 className=" text-gray-900 uppercase">Đơn hàng của bạn</h1>
         <div className="flex gap-3">
           {/* <Tabs defaultValue="confirm">
             <TabsList className=" bg-white p-1">
@@ -260,8 +260,8 @@ export function OrderList(props: DashboardProps) {
           {/* <ComboboxFilter /> */}
         </div>
       </div>
-      <div className=" mt-4 bg-background overflow-hidden min-h-[462px] border  rounded-xl ">
-        <div className="hidden md:grid grid-cols-12 grid-flow-row  gap-2 px-3 p-4  shadow text-black bg-gray-100">
+      <div className=" mt-4 bg-background min-w-[100%] min-h-[462px] border  rounded-xl ">
+        <div className="hidden md:grid md:grid-cols-12   gap-2 px-3 p-4  shadow text-black bg-gray-100">
           <div className="col-span-1 text-gray-600 text-sm  flex  justify-center">
             ID
           </div>
@@ -295,25 +295,24 @@ export function OrderList(props: DashboardProps) {
               >
                 <div
                   key={index}
-                  className="grid grid-rows-2 md:grid-cols-12 grid-flow-col md:grid-flow-row gap-2 py-3 px-1 md:px-3 md:py-4  shadow mt-[2px] relative bg-background
-                 cursor-pointer hover:bg-gray-100"
+                  className="md:grid md:grid-cols-12 gap-2 py-3 px-1 md:px-3 md:py-4  shadow mt-[2px] relative bg-background
+                 cursor-pointer hover:bg-gray-100 "
                 >
-                  <div className="row-span-2 md:col-span-1 md:row-span-2 flex md:justify-center items-center overflow-hidden">
+                  <div className="col-span-1 flex justify-center items-center overflow-hidden min-w-[90px]">
                     <div className="flex flex-col text-gray-800 font-[400]">
-                      <span>{order.orderId}</span>
+                      <span>#{order.orderId}</span>
                     </div>
                   </div>
-                  <div className="md:col-span-2 md:row-span-2 flex md:justify-center items-center ">
+                  <div className="col-span-2 flex justify-center items-center min-w-0">
                     <span className="line-clamp-1 md:line-clamp-2 text-gray-800 font-[400]">
                       <span className="line-clamp-1 md:line-clamp-2 text-gray-800 font-[400]">
-                        {/* {formatDate(order.estimatedDeliveryTime)} */}
                         {order.estimatedDeliveryTime
                           ? order.estimatedDeliveryTime.slice(0, 10)
                           : ""}
                       </span>
                     </span>
                   </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  md:justify-center items-center">
+                  <div className="col-span-2 flex justify-center items-center min-w-0">
                     <div
                       className={`${
                         statusStyles[
@@ -331,13 +330,12 @@ export function OrderList(props: DashboardProps) {
                           order.shippingStatus as keyof typeof statusStyles
                         ]?.content || statusStyles.default.content}
                       </span>
-                      {/* {statusTranslations[order.shippingStatus as ShippingStatus] || statusTranslations.default} */}
                     </div>
                   </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center text-customOrange">
+                  <div className="col-span-2  flex  justify-center items-center text-customOrange min-w-0">
                     {(order.total + order.shippingFee).toLocaleString()} đ
                   </div>
-                  <div className="md:col-span-2 md:row-span-2 flex  justify-center items-center ">
+                  <div className="col-span-2  flex  justify-center items-center ">
                     <div className="flex flex-col items-center">
                       <span className="text-sm text-gray-800 font-[400]">
                         COD
@@ -347,7 +345,7 @@ export function OrderList(props: DashboardProps) {
                       </span>
                     </div>
                   </div>
-                  <div className="md:col-span-3 flex md:row-span-2  justify-center items-center text-center text-gray-800">
+                  <div className="col-span-3 flex  justify-center items-center text-center text-gray-800 min-w-0">
                     {order.addressLine}
                   </div>
                 </div>
