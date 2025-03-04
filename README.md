@@ -1,3 +1,7 @@
+<img src="./thesis/img/iTime.png" alt="iTime" style="display: block; margin: auto; max-width: 80%; height: auto;">
+
+
+
 ## Đề tài: Xây dựng website bán đồng hồ bằng ASP.NET Core API và Next.js
 - Sinh viên thực hiện: Nguyễn Đình Trí
 - Giáo viên hướng dẫn: Nguyễn Bảo Ân
