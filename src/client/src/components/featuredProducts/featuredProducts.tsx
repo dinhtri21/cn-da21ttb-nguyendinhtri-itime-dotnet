@@ -31,7 +31,7 @@ export default function FeaturedProducts({ title }: FeaturedProductsProps) {
         <h1 className="text-center mb-1 uppercase text-base md:text-xl">
           {title}
         </h1>
-        <p className="text-center text-sm mb:text-base mb-4 text-gray-500">
+        <p className="text-center text-sm md:text-base mb-4 text-gray-500">
           Một số sản phẩm mới đến từ ITime.
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">

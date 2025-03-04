@@ -49,10 +49,9 @@ export default function CheckoutProducts(props: CheckoutProductsProps) {
             ? props.cartItems.map((cartItem, index) => (
               <div key={index} className="flex gap-4 justify-between ">
                 <div>
-                  <Image
+                  <img
                     src={
-                      `${process.env.API_URL}${cartItem.product.imageUrls[0]}` ||
-                      "https://dummyimage.com/100x100"
+                      `${process.env.API_URL}${cartItem.product.imageUrls[0]}`
                     }
                     width={50}
                     height={50}

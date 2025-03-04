@@ -183,10 +183,9 @@ export function TableProduct() {
                   <Cross1Icon width={14} height={14} className="text-gray-500" />
                 </div>
                 <div className="row-span-2 md:col-span-1 md:row-span-2 overflow-hidden">
-                  <Image
+                  <img
                     src={
-                      `${process.env.API_URL}${cartItem.product.imageUrls[0]}` ||
-                      "https://dummyimage.com/100x100"
+                      `${process.env.API_URL}${cartItem.product.imageUrls[0]}`
                     }
                     width={100}
                     height={100}

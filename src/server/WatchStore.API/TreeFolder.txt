@@ -59,3 +59,5 @@ dotnet ef database update --project WatchStore.Infrastructure --startup-project 
     + Staff
 - Customer
 - Guest
+
+docker build -t watchstore-api -f WatchStore.API/Dockerfile .

@@ -289,7 +289,7 @@ export default function ProductList(props: DashboardProps) {
                     <span>{product.productId}</span>
                   </div>
                   <div className="col-span-1 text-gray-900 font-[400] flex justify-start gap-1 items-center">
-                    <Image
+                    <img
                       src={`${process.env.API_URL}${product.imageUrls[0]}`}
                       width={50}
                       height={50}
